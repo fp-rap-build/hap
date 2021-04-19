@@ -1,0 +1,65 @@
+@import '../global.css';
+
+.header {
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  background-image: linear-gradient(to right bottom, #8d4982, #8d4982bb),
+    url('../../assets/rentdue.png');
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+
+.contentContainer {
+  margin-top: 3rem;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header * {
+  color: white;
+}
+
+.header p {
+  width: 60%;
+}
+
+.link {
+  color: var(--color-secondary-blue);
+}
+
+@media (max-width: 1200px) {
+  .header p {
+    width: 80%;
+  }
+}
+
+@media (max-width: 992px) {
+  .header {
+    font-size: 1.3rem;
+  }
+
+  .header p {
+    width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 738px) {
+  h1 {
+    font-size: 2rem;
+  }
+}

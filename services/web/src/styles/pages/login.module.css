@@ -1,0 +1,30 @@
+.container {
+  margin-top: 8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.fields {
+  display: grid;
+  grid-gap: 2rem;
+  width: 40%;
+}
+
+.loginButton {
+  width: 100%;
+}
+
+@media (max-width: 930px) {
+  .fields {
+    width: 50%;
+  }
+}
+
+@media (max-width: 630px) {
+  .fields {
+    width: 90%;
+    grid-gap: 1.5rem;
+  }
+}

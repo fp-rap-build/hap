@@ -1,0 +1,46 @@
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.documents {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  width: 100%;
+  gap: 7px;
+}
+
+.document {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.checklistsContainer {
+  padding: 0.5rem;
+  display: flex;
+}
+
+.checklist {
+  width: 50%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+@media (max-width: 620px) {
+  .checklistsContainer {
+    flex-flow: column nowrap;
+  }
+
+  .checklist {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+}

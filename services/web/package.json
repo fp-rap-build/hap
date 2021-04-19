@@ -1,0 +1,109 @@
+{
+  "name": "labs-spa-starter",
+  "version": "0.1.0",
+  "private": false,
+  "license": "MIT",
+  "repository": "github:Lambda-School-Labs/labs-spa-starter",
+  "dependencies": {
+    "@ant-design/icons": "^4.5.0",
+    "@craco/craco": "^5.9.0",
+    "@material-table/core": "^2.3.29",
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "@okta/okta-react": "^3.0.10",
+    "@okta/okta-signin-widget": "^4.5.2",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^14.14.33",
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.2",
+    "antd": "^4.13.1",
+    "axios": "^0.21.1",
+    "craco-less": "^1.17.1",
+    "emailjs-com": "^2.6.4",
+    "eslint": "^7.21.0",
+    "faker": "^5.4.0",
+    "install": "^0.13.0",
+    "material-table": "^1.69.1",
+    "npm": "^6.14.11",
+    "plotly.js": "^1.58.4",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "react-ga": "^3.3.0",
+    "react-modal": "^3.12.1",
+    "react-pdf": "^5.2.0",
+    "react-plotly.js": "^2.5.1",
+    "react-redux": "^7.2.2",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^4.0.3",
+    "react-zendesk": "^0.1.10",
+    "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^5.2.1",
+    "typescript": "^4.2.3"
+  },
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test --env=jest-environment-jsdom-sixteen",
+    "eject": "react-scripts eject",
+    "prettier": "prettier --write \"**/*.+(js|jsx|json|css|md)\"",
+    "coverage": "npm test -- --coverage --watchAll=false",
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
+    "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,css,scss}'",
+    "storybook": "start-storybook",
+    "deploy-storybook": "storybook-to-ghpages"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier-eslint --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/src/stories/",
+      "<rootDir>/node_modules/"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^10.4.9",
+    "@testing-library/user-event": "^7.2.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "husky": "^4.3.8",
+    "jest-canvas-mock": "^2.3.1",
+    "jest-environment-jsdom-sixteen": "^1.0.3",
+    "jest-prop-type-error": "^1.1.0",
+    "kleur": "^4.1.4",
+    "lint-staged": "^10.5.4",
+    "prettier-eslint-cli": "^5.0.1",
+    "prompts": "^2.4.0",
+    "yaml": "^1.10.0"
+  }
+}

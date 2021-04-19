@@ -1,0 +1,16 @@
+@import '../global.css';
+
+.btn {
+  display: inline-block;
+  border-radius: 3px;
+  padding: 0.5rem;
+  margin: 0.5rem 1rem;
+  background-color: var(--color-secondary-dark-blue);
+  color: white;
+  border: 2px solid var(--color-secondary-dark-blue);
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: FEC357;
+}

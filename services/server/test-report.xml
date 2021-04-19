@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecutions version="1">
+  <file path="/home/chris/Documents/code/Rap_Project/back-end/__tests__/routes/profiles.test.js">
+  </file>
+  <file path="/home/chris/Documents/code/Rap_Project/back-end/__tests__/routes/index.test.js">
+    <testCase name="index router endpoints GET / should return json with api:up" duration="18"/>
+    <testCase name="index router endpoints GET / should return 404 for /ping" duration="3"/>
+  </file>
+</testExecutions>
