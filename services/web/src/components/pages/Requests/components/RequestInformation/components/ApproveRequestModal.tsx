@@ -37,6 +37,10 @@ export default function ApproveRequestModal({
     try {
       await axiosWithAuth().post(`/requests/${request.id}/payments`, payment);
 
+      await axiosWithAuth().put(`/requests/${request.id}`, {
+        requestStatus: 'approved',
+      });
+
       const newBudget = selectedProgram.budget - amountToSend;
 
       setRequest(prevState => {
