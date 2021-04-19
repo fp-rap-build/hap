@@ -51,7 +51,7 @@ const JudgeDropdown = ({ handleReviewSubmit }) => {
         onClick={() => handleReviewSubmit(status)}
         overlay={menu}
       >
-        {status === 'approved' ? 'approve' : 'deny'}
+        {status === 'approved' ? 'Approve' : 'Deny'}
       </Dropdown.Button>
     </Space>
   );
