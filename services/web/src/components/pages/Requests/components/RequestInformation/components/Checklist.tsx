@@ -62,7 +62,7 @@ const PostApprovalChecklist = ({ request, handleCheckboxChange }) => {
         name="checkRequested"
         onChange={handleCheckboxChange}
       >
-        Request for check sent
+        Request for check sent to accounting
       </Checkbox>
       <Checkbox
         checked={request.checkSent}
@@ -70,7 +70,7 @@ const PostApprovalChecklist = ({ request, handleCheckboxChange }) => {
         onChange={handleCheckboxChange}
         style={marginFix}
       >
-        Check sent to applicant
+        Check sent to Landlord
       </Checkbox>
       <Checkbox
         checked={request.checkReceived}
@@ -78,7 +78,7 @@ const PostApprovalChecklist = ({ request, handleCheckboxChange }) => {
         onChange={handleCheckboxChange}
         style={marginFix}
       >
-        Check received/ cashed by applicant
+        Check received/ cashed by Landlord
       </Checkbox>
     </div>
   );
