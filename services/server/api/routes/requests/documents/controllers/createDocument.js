@@ -28,6 +28,8 @@ const createDocument = async (req, res) => {
       let documents = await Documents.save(formattedDocuments);
 
       res.status(200).json({ documents });
+
+      console.log(documents);
     } catch (error) {
       console.log(error);
       res
