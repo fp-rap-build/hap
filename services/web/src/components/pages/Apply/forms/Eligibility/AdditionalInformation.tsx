@@ -78,14 +78,17 @@ export default function AdditionalInformation({
             name="covidFH"
             onChange={handleCheckBoxChange}
           >
-            Have been impacted by Covid.
+            Household has qualified for unemployment or reduction of household income, or incurred additional costs, 
+            or experienced financial hardship due directly or indirectly to coronavirus outbreak
+            AND 
+            Household can demonstrate a risk of experiencing homelessness, or housing instability which may include past due utility or rent notice or eviction notice.
           </Checkbox>
         </Form.Item>
         <Divider orientation="left">
           <Text strong>Release Consent</Text>
         </Divider>
         <Checkbox name="consent" onChange={() => setFormConsent(!formConsent)}>
-          No Warranty/ Release of information consent placeholder{' '}
+          Checking eligibility does not gaurantee assistance, and the services available on the next page do not come with any warranty{' '}
         </Checkbox>
       </Card>
     </div>
