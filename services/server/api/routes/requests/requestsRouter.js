@@ -13,7 +13,7 @@ const { validateRequestId } = require('./documents/validators');
 // Controllers
 const { getAllDocuments, createDocument } = require('./documents/controllers');
 
-const { sendPayment } = require('./payments/controllers')
+const { sendPayment } = require('./payments/controllers');
 
 const { createAddress, updateAddress } = require('./address/controllers');
 const { test } = require('../../../config/knexfile');
@@ -125,9 +125,9 @@ router.put('/:id', requestStatusChange, async (req, res) => {
 //   }
 // });
 
-router.delete('/', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.params;
     await Requests.remove(id);
     res
       .status(200)
@@ -146,6 +146,6 @@ router
   .post(createDocument)
   .get(getAllDocuments);
 
-router.route('/:id/payments').all(validateRequestId).post(sendPayment)
+router.route('/:id/payments').all(validateRequestId).post(sendPayment);
 
 module.exports = router;

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+import { useSelector } from 'react-redux';
+
 import { useHistory } from 'react-router-dom';
 
 import MaterialTable from '@material-table/core';
@@ -10,9 +12,11 @@ import { tableIcons } from '../../../../utils/tableIcons';
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
 import GavelIcon from '@material-ui/icons/Gavel';
+import { message } from 'antd';
 
 export default function RequestsTable() {
   const history = useHistory();
+  const currentUser = useSelector(state => state.user.currentUser);
   // const [isOpen, setIsOpen] = useState(false);
   // const [requestBeingReviewed, setRequestBeingReviewed] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
@@ -66,6 +70,22 @@ export default function RequestsTable() {
         options={{
           // Allows users to export the data as a CSV file
           exportButton: true,
+        }}
+        editable={{
+          isDeleteHidden: () => currentUser.role !== 'admin',
+          onRowDelete: oldData =>
+            new Promise((resolve, reject) => {
+              axiosWithAuth()
+                .delete(`/requests/${oldData.id}`)
+                .then(() => {
+                  setState({
+                    ...state,
+                    data: state.data.filter(row => row.id !== oldData.id),
+                  });
+                })
+                .catch(err => message.error('Unable to delete request'))
+                .finally(() => resolve());
+            }),
         }}
         actions={[
           {
