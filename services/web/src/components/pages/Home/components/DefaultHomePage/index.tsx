@@ -21,8 +21,7 @@ export default function Index() {
         style={{ color: '#FFFFFF' }}
       >
         {' '}
-        Hi {currentUser.firstName}, Welcome to the Family Promise Rental
-        Assistance Program
+        Hi {currentUser.firstName}, Welcome to the Housing Assistance Portal - Powered by Family Promise of Spokane.
       </Typography.Title>
 
       <div className={styles.container}>

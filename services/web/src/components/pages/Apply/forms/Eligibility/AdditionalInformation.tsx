@@ -88,7 +88,7 @@ export default function AdditionalInformation({
           <Text strong>Use of this site requires accepting the following terms:</Text>
         </Divider>
         <Checkbox name="consent" onChange={() => setFormConsent(!formConsent)}>
-          Checking eligibility does not gaurantee assistance, and the services available on the next page do not come with any warranty{' '}
+          Checking eligibility does not guarantee assistance, and the services available on the next page do not come with any warranty{' '}
         </Checkbox>
       </Card>
     </div>
