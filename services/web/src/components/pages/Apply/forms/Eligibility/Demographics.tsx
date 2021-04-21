@@ -11,7 +11,7 @@ export default function Demographics({
 }) {
   const introMessage = {
     tenant:
-      'Please place a checkmark next to all of the groups below that are true for you and/or somebody in your household:',
+      'Please place a checkmark next to all of the groups below that are true for you and/or somebody in your household. (Optional/Not used for determining eligibility: for general demographic data collection purposes only)',
     landlord:
       'Please place a checkmark next to all of the groups below that are true for your tenant:',
   };
