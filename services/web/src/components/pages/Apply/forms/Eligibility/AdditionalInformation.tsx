@@ -85,7 +85,7 @@ export default function AdditionalInformation({
           </Checkbox>
         </Form.Item>
         <Divider orientation="left">
-          <Text strong>Release Consent</Text>
+          <Text strong>Use of this site requires accepting the following terms:</Text>
         </Divider>
         <Checkbox name="consent" onChange={() => setFormConsent(!formConsent)}>
           Checking eligibility does not gaurantee assistance, and the services available on the next page do not come with any warranty{' '}
