@@ -113,18 +113,6 @@ router.put('/:id', requestStatusChange, async (req, res) => {
   }
 });
 
-// router.put('/:id', async (req, res) => {
-//   const { id } = req.params;
-//   const update = req.body;
-//   try {
-//     await Requests.update(id, update);
-//     res.status(200);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ message: 'Internal server error' });
-//   }
-// });
-
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
