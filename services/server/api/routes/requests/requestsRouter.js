@@ -116,7 +116,10 @@ router.put('/:id', requestStatusChange, async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
+
+    await Requests.removeAllCommentsByRequestId(id)
     await Requests.remove(id);
+
     res
       .status(200)
       .json({ message: `Requests with id: ${id} succesfully deleted` });
