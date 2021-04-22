@@ -13,7 +13,7 @@ const { validateRequestId } = require('./documents/validators');
 // Controllers
 const { getAllDocuments, createDocument } = require('./documents/controllers');
 
-const { sendPayment } = require('./payments/controllers')
+const { sendPayment } = require('./payments/controllers');
 
 const { createAddress, updateAddress } = require('./address/controllers');
 const { test } = require('../../../config/knexfile');
@@ -113,22 +113,13 @@ router.put('/:id', requestStatusChange, async (req, res) => {
   }
 });
 
-// router.put('/:id', async (req, res) => {
-//   const { id } = req.params;
-//   const update = req.body;
-//   try {
-//     await Requests.update(id, update);
-//     res.status(200);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ message: 'Internal server error' });
-//   }
-// });
-
-router.delete('/', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.params;
+
+    await Requests.removeAllCommentsByRequestId(id)
     await Requests.remove(id);
+
     res
       .status(200)
       .json({ message: `Requests with id: ${id} succesfully deleted` });
@@ -146,6 +137,6 @@ router
   .post(createDocument)
   .get(getAllDocuments);
 
-router.route('/:id/payments').all(validateRequestId).post(sendPayment)
+router.route('/:id/payments').all(validateRequestId).post(sendPayment);
 
 module.exports = router;

@@ -14,6 +14,9 @@ const create = (request) => {
 
 const remove = async (id) => await db('requests').where({ id }).del();
 
+const removeAllCommentsByRequestId = async (requestId) =>
+  db('comments').where({ requestId }).del();
+
 const update = (id, request) => {
   return db('requests').where({ id }).first().update(request).returning('*');
 };
@@ -110,6 +113,7 @@ module.exports = {
   findBy,
   create,
   remove,
+  removeAllCommentsByRequestId,
   update,
   findAllActive,
   findForTable,
