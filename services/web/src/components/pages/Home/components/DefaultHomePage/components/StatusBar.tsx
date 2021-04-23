@@ -37,7 +37,7 @@ const StatusBar = ({ request }) => {
     } else if (status === 'denied') {
       return 'Denied - Check e-mail for next steps';
     } else {
-      return 'Pending review from Approval Team';
+      return 'Pending review from Housing Assistance Team';
     }
   };
 
@@ -56,12 +56,12 @@ const StatusBar = ({ request }) => {
           icon={<FileDoneOutlined />}
           className={styles.completed}
           title="Received"
-          description="Your application has been received by our Approval Team."
+          description="Your application has been received by our Housing Assistance Team."
         />
         <Step
           icon={<FolderOpenOutlined />}
           title="In Review"
-          description="Your application is being reviewed by our Approval Team"
+          description="Your application is being reviewed by the Housing Assistance Team"
         />
         <Step
           icon={<AuditOutlined />}
