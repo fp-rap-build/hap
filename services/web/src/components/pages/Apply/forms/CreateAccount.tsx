@@ -10,7 +10,7 @@ export default function CreateAccount({ formValues, setFormValues }) {
   const errorMessage = useSelector(state => state.user.errorMessage);
   return (
     <div>
-      <Card title={<Title level={4}>Sign Up - Family Promise Account</Title>}>
+      <Card title={<Title level={4}>Sign Up - Housing Assistance Portal Account</Title>}>
         <Text type="secondary">
           We will send you an email once your request has been reviewed! You can
           also login to check your status.
@@ -73,6 +73,22 @@ export default function CreateAccount({ formValues, setFormValues }) {
             value={formValues.email}
           />
         </Form.Item>
+        <Form.Item
+        initialValue={formValues.phoneNumber}
+        label="Phone number"
+        name="phoneNumber"
+        rules={[
+          {
+            type: 'string',
+            required: true,
+            message: 'Please enter a phone number',
+          },
+        ]}
+      >
+        <Input placeholder="(111)-111-1111" name="phoneNumber" />
+      </Form.Item>
+
+       
         <Form.Item
           hasFeedback
           initialValue={formValues.password}
