@@ -36,6 +36,7 @@ const INITIAL_VALUES_DEV = {
   firstName: faker.name.firstName(),
   lastName: faker.name.lastName(),
   email: faker.internet.email(),
+  phoneNumber: faker.phone.phoneNumber(),
   password: 'testpassword',
   confirmPassword: 'testpassword',
   address: '1211 test St',
