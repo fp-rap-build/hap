@@ -114,27 +114,7 @@ const ProgramSelection = ({ formValues }) => {
         </Row>
         <Divider />
 
-        <Row>
-          <Col span={15}>
-            <Paragraph strong={availablePrograms.CC}>
-              {' '}
-              Catholic Charites Rental Assistance{' '}
-            </Paragraph>
-          </Col>
-          <Col span={1} />
-          <Col span={8}>
-            <Button
-              href={CC}
-              target="_blank"
-              type="primary"
-              size="medium"
-              disabled={!availablePrograms.CC}
-            >
-              {availablePrograms.CC ? 'Apply Now!' : 'Not Available'}
-            </Button>
-          </Col>
-        </Row>
-        <Divider />
+     
         <Row>
           <Col span={15}>
             <Paragraph strong={availablePrograms.FP}>
