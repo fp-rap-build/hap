@@ -27,7 +27,7 @@ export default function index({ children }) {
     <div>
       <Navbar />
       <main>{children}</main>
-      <Zendesk zendeskKey={process.env.REACT_APP_ZENDESK_KEY} {...setting} />
+      
     </div>
   );
 }
