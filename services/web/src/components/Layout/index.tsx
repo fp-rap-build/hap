@@ -27,7 +27,12 @@ export default function index({ children }) {
     <div>
       <Navbar />
       <main>{children}</main>
-      
+      <div>
+              <a href="http://www.familypromiseofspokane.org/">
+                Powered by Family Promise of Spokane
+              </a>
+              
+            </div>
     </div>
   );
 }
