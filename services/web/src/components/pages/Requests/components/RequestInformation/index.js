@@ -11,6 +11,7 @@ import {
   Footer,
   TopActions,
   CommentsContainer,
+  Contact,
 } from './components';
 
 import { Card, Input, message, Modal } from 'antd';
@@ -20,6 +21,10 @@ const tabListNoTitle = [
   {
     key: 'basic',
     tab: 'Basic',
+  },
+  {
+    key: 'contact',
+    tab: 'Contact',
   },
   {
     key: 'documents',
@@ -171,7 +176,7 @@ export default function Index({
         tabList={tabListNoTitle}
         onTabChange={onTabChange}
         activeTabKey={tab}
-        style={{ minHeight: '400px', width: '100%' }}
+        style={{ minHeight: '450px', width: '100%' }}
         extra={[<TopActions handleReviewSubmit={props.handleReviewSubmit} />]}
       >
         <Content
@@ -192,6 +197,8 @@ const renderContent = props => {
   switch (props.tab) {
     case 'basic':
       return <Basic request={props.request} />;
+    case 'contact':
+      return <Contact request={props.request} />;
     case 'checklist':
       return (
         <Checklist

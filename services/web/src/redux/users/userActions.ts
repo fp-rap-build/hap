@@ -78,12 +78,26 @@ export const logIn = (user, history) => async dispatch => {
 };
 
 export const registerAndApply = (requestValues, history) => async dispatch => {
+  let tenantEmail, tenantNumber, landlordEmail, landlordNumber;
+
   // Trim whitespace off strings
   for (let key in requestValues) {
     let value = requestValues[key];
     if (typeof value === 'string') {
       requestValues[key] = requestValues[key].trim();
     }
+  }
+
+  if (requestValues.role === 'tenant') {
+    tenantEmail = requestValues.email;
+    tenantNumber = requestValues.phoneNumber;
+    landlordEmail = requestValues.landlordEmail;
+    landlordNumber = requestValues.landlordNumber;
+  } else {
+    landlordEmail = requestValues.email;
+    landlordNumber = requestValues.phoneNumber;
+    tenantEmail = requestValues.tenantEmail;
+    tenantNumber = requestValues.tenantNumber;
   }
 
   // Values directly attached to their account
@@ -110,6 +124,10 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
     white: requestValues.white,
     native: requestValues.native,
     demoNotSay: requestValues.demoNotSay,
+    tenantEmail,
+    tenantNumber,
+    landlordEmail,
+    landlordNumber,
     address: {
       address: requestValues.address,
       addressLine2: requestValues.addressLine2,
@@ -134,7 +152,6 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
 
     // Submit a request
     await axiosWithAuth().post('/requests', request);
-
     // Redirect to the homepage
     history.push('/');
   } catch (error) {

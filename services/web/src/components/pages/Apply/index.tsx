@@ -135,6 +135,8 @@ export default function Index() {
       dispatch(clearErrorMessage());
     }
 
+    console.log(formValues);
+
     setFormValues({
       ...formValues,
       [e.target.name]: e.target.value,
