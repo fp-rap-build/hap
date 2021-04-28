@@ -57,9 +57,9 @@ const TenantInfoForm = ({ formValues }) => {
       </Form.Item>
 
       <Form.Item
-        initialValue={formValues.tenantPhoneNumber}
+        initialValue={formValues.tenantNumber}
         label="Phone number"
-        name="tenantPhoneNumber"
+        name="tenantNumber"
         rules={[
           {
             type: 'string',
@@ -68,7 +68,7 @@ const TenantInfoForm = ({ formValues }) => {
           },
         ]}
       >
-        <Input placeholder="(111)-111-1111" name="tenantPhoneNumber" />
+        <Input placeholder="(111)-111-1111" name="tenantNumber" />
       </Form.Item>
     </Card>
   );
@@ -81,24 +81,6 @@ const LandlordInfoForm = ({ formValues }) => {
         This will help us contact your landlord once you've been approved for
         Rental Assistance
       </Text>
-      <Form.Item
-        initialValue={formValues.landlordName}
-        label="Name"
-        name="landlordName"
-        rules={[
-          {
-            type: 'string',
-            required: true,
-            message: "Please enter your Land Lord's name",
-          },
-        ]}
-      >
-        <Input
-          name="landlordName"
-          placeholder="Bruce Wayne"
-          value={formValues.landlordName}
-        />
-      </Form.Item>
 
       <Form.Item
         initialValue={formValues.landlordEmail}
@@ -120,9 +102,9 @@ const LandlordInfoForm = ({ formValues }) => {
       </Form.Item>
 
       <Form.Item
-        initialValue={formValues.landlordPhoneNumber}
+        initialValue={formValues.landlordNumber}
         label="Phone number"
-        name="landlordPhoneNumber"
+        name="landlordNumber"
         rules={[
           {
             type: 'string',
@@ -131,7 +113,7 @@ const LandlordInfoForm = ({ formValues }) => {
           },
         ]}
       >
-        <Input placeholder="(111)-111-1111" name="landlordPhoneNumber" />
+        <Input placeholder="(111)-111-1111" name="landlordNumber" />
       </Form.Item>
     </Card>
   );

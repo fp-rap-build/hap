@@ -7,6 +7,12 @@
   gap: 1rem;
 }
 
+.contact {
+  display: flex;
+  width: 40%;
+  justify-content: space-between;
+}
+
 .documents {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -34,9 +40,27 @@
   align-items: flex-start;
 }
 
+
+@media (max-width: 1000px) {
+  .contact {
+    width: 50%;
+  }
+}
+
+@media (max-width: 800px) {
+  .contact {
+    width: 70%;
+  }
+}
+
+
 @media (max-width: 620px) {
   .checklistsContainer {
     flex-flow: column nowrap;
+  }
+
+  .contact {
+    width: 100%;
   }
 
   .checklist {
