@@ -98,7 +98,8 @@ export default function Index({
 
     let completedChecklist = isChecklistCompleted(preChecklistValues);
 
-    if (!completedChecklist) return pleaseFinishChecklistModal();
+    if (!completedChecklist && status !== 'denied')
+      return pleaseFinishChecklistModal();
 
     const handleDenial = async () => {
       console.log(request);
