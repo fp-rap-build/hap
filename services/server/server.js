@@ -26,7 +26,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('postRequest', ({ orgId, request }) => {
-    console.log(orgId, request)
     io.to(orgId).emit('notification', 'A new request has been submitted');
     io.to(orgId).emit('newRequest', request);
   });
