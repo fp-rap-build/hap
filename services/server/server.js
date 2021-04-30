@@ -9,7 +9,11 @@ const server = http.createServer(app);
 
 const io = require('socket.io')(server, {
   cors: {
-    origin: ['http://localhost:3000', 'http://192.168.1.9:3000'],
+    origin: [
+      'http://localhost:3000',
+      'http://192.168.1.9:3000',
+      'https://hapdev.vercel.app/admin',
+    ],
     methods: ['GET', 'POST'],
     allowedHeaders: ['my-custom-header'],
     credentials: true,
