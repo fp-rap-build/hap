@@ -156,7 +156,15 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
     dispatch(setCurrentUser(currentUser));
 
     // Submit a request
-    await axiosWithAuth().post('/requests', request);
+    let newRequest = await axiosWithAuth()
+      .post('/requests', request)
+      .then(res => res.data);
+
+    socket.emit('postRequest', {
+      orgId: newRequest.orgId,
+      request: newRequest,
+    });
+
     // Redirect to the homepage
     history.push('/');
   } catch (error) {

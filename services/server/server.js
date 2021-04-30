@@ -18,7 +18,6 @@ const io = require('socket.io')(server, {
 
 io.on('connection', (socket) => {
   socket.on('joinOrganization', (orgId) => {
-    console.log('someone joined');
     socket.join(orgId);
   });
 
@@ -26,8 +25,10 @@ io.on('connection', (socket) => {
     io.to(orgId).emit('notification', message);
   });
 
-  socket.on('message', () => {
-    
+  socket.on('postRequest', ({ orgId, request }) => {
+    console.log(orgId, request)
+    io.to(orgId).emit('notification', 'A new request has been submitted');
+    io.to(orgId).emit('newRequest', request);
   });
 });
 

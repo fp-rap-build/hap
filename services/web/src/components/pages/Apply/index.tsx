@@ -126,7 +126,7 @@ export default function Index() {
 
   const goBackwards = () => setStep(step - 1);
 
-  const [formValues, setFormValues] = useState(INITIAL_VALUES_PROD);
+  const [formValues, setFormValues] = useState(INITIAL_VALUES_DEV);
   const [formConsent, setFormConsent] = useState(false);
 
   const handleChange = e => {
@@ -134,8 +134,6 @@ export default function Index() {
     if (errorMessage) {
       dispatch(clearErrorMessage());
     }
-
-    console.log(formValues);
 
     setFormValues({
       ...formValues,

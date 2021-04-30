@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
 
     const newRequest = await Requests.create(request);
 
-    res.status(200).json(newRequest);
+    res.status(200).json(newRequest[0]);
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ message: 'Internal server error' });
@@ -73,7 +73,6 @@ router.get('/active', async (req, res) => {
 //Endpoint tailored for req table
 //Updates to shape data should be done in model @ 'findForTable'
 router.get('/table', async (req, res) => {
-
   try {
     const resRequests = await Requests.findForTable();
     res.status(200).json(resRequests);

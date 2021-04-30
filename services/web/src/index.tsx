@@ -56,7 +56,6 @@ function RAP() {
 
   useEffect(() => {
     socket.on('notification', message => {
-      alert(message);
       showNotification(message);
     });
   }, []);
