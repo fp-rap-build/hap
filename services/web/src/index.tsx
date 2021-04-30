@@ -1,5 +1,5 @@
 import 'antd/dist/antd.less';
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import ReactGA from 'react-ga';
 import { Provider } from 'react-redux';
@@ -20,6 +20,10 @@ import store from './redux/store';
 import './styles/global.css';
 import PrivateRoute from './utils/auth/PrivateRoute';
 
+import socket from './config/socket';
+
+import { notification } from 'antd';
+
 const TRACKING_ID = 'G-ZDW3ENHWE7'; // YOUR_OWN_TRACKING_ID
 ReactGA.initialize(TRACKING_ID);
 
@@ -37,6 +41,25 @@ ReactDOM.render(
 function RAP() {
   // The reason to declare App this way is so that we can use any helper functions we'd need for business logic, in our case auth.
   // React Router has a nifty useHistory hook we can use at this level to ensure we have security around our routes.
+
+  const showNotification = options => {
+    new Notification(options);
+  };
+
+  useEffect(() => {
+    if (!('Notification' in window)) {
+      console.log('This browser does not support desktop notification');
+    } else {
+      Notification.requestPermission();
+    }
+  }, []);
+
+  useEffect(() => {
+    socket.on('notification', message => {
+      alert(message);
+      showNotification(message);
+    });
+  }, []);
 
   return (
     <Layout>

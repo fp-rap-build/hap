@@ -18,6 +18,8 @@ const { sendPayment } = require('./payments/controllers');
 const { createAddress, updateAddress } = require('./address/controllers');
 const { test } = require('../../../config/knexfile');
 
+const io = require('../../../server');
+
 const router = express.Router();
 
 router.post('/', async (req, res) => {
@@ -49,6 +51,7 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const allRequests = await Requests.findAll(req.user);
+
     res.status(200).json({ requests: allRequests });
   } catch (error) {
     console.log(error);
@@ -70,6 +73,7 @@ router.get('/active', async (req, res) => {
 //Endpoint tailored for req table
 //Updates to shape data should be done in model @ 'findForTable'
 router.get('/table', async (req, res) => {
+
   try {
     const resRequests = await Requests.findForTable();
     res.status(200).json(resRequests);
@@ -117,7 +121,7 @@ router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    await Requests.removeAllCommentsByRequestId(id)
+    await Requests.removeAllCommentsByRequestId(id);
     await Requests.remove(id);
 
     res

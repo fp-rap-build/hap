@@ -18,6 +18,7 @@ const findRequestsByUserId = (userId) =>
       'r.pmApproval',
       'r.bookKeeperApproval',
       'r.headAcctApproval',
+      'r.orgId',
       'r.adminApproval',
       'a.address',
       'a.zipCode',

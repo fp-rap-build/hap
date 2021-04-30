@@ -1,4 +1,5 @@
 import { axiosWithAuth } from '../../api/axiosWithAuth';
+import socket from '../../config/socket';
 import { setLoading } from '../global/globalActions';
 
 export const setCurrentUser = currentUser => {
@@ -20,6 +21,10 @@ export const fetchCurrentUser = () => async dispatch => {
     let res = await axiosWithAuth().get('/users/me');
 
     let currentUser = res.data.user;
+
+    if (currentUser.organizationId) {
+      socket.emit('joinOrganization', currentUser.organizationId);
+    }
 
     dispatch({ type: 'SET_CURRENT_USER', payload: currentUser });
   } catch (error) {

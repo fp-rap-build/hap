@@ -64,6 +64,7 @@ const findForTable = () => {
       'r.verifiedDocuments',
       'r.foodWrkr',
       'r.unEmp90',
+      'r.orgId',
       'a.address',
       'a.zipCode',
       'a.cityName',

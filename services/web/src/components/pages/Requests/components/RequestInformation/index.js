@@ -17,6 +17,8 @@ import {
 import { Card, Input, message, Modal } from 'antd';
 import { axiosWithAuth } from '../../../../../api/axiosWithAuth';
 
+import socket from '../../../../../config/socket';
+
 const tabListNoTitle = [
   {
     key: 'basic',
@@ -88,24 +90,28 @@ export default function Index({
   };
 
   const handleReviewSubmit = status => {
-    const alreadyReviewed =
-      request.requestStatus === 'approved' ||
-      request.requestStatus === 'denied';
+    // const alreadyReviewed =
+    //   request.requestStatus === 'approved' ||
+    //   request.requestStatus === 'denied';
 
-    if (alreadyReviewed) {
-      return message.error('This request has already been reviewed');
-    }
+    // if (alreadyReviewed) {
+    //   return message.error('This request has already been reviewed');
+    // }
 
     let completedChecklist = isChecklistCompleted(preChecklistValues);
 
     if (!completedChecklist) return pleaseFinishChecklistModal();
 
     const handleDenial = async () => {
-      console.log(request);
       try {
         await axiosWithAuth().put(`/requests/${request.id}`, {
           requestStatus: status,
           email: request.email,
+        });
+
+        socket.emit('requestChange', {
+          orgId: request.orgId,
+          message: 'A request has been denied',
         });
 
         setRequest({ ...request, requestStatus: status });
