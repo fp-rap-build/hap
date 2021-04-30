@@ -12,7 +12,7 @@ const io = require('socket.io')(server, {
     origin: [
       'http://localhost:3000',
       'http://192.168.1.9:3000',
-      'https://hapdev.vercel.app/admin',
+      'https://hapdev.vercel.app',
     ],
     methods: ['GET', 'POST'],
     allowedHeaders: ['my-custom-header'],
