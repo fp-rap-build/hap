@@ -32,6 +32,8 @@ const commentsRouter = require('./routes/comments/commentsRouter');
 const documentsRouter = require('./routes/documents');
 const analyticsRouter = require('./routes/analytics/analytics.router');
 const programsRouter = require('./routes/programs');
+const subscriptionsRouter = require('./routes/subscriptions')
+
 
 const app = express();
 
@@ -70,6 +72,7 @@ app.use('/requests', authRequired, requestsRouter);
 app.use('/comments', authRequired, commentsRouter);
 app.use('/documents', authRequired, documentsRouter);
 app.use('/analytics', authRequired, analyticsRouter);
+app.use('/subscriptions', subscriptionsRouter)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
