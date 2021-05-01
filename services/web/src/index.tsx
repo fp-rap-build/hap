@@ -43,7 +43,10 @@ function RAP() {
   // React Router has a nifty useHistory hook we can use at this level to ensure we have security around our routes.
 
   const showNotification = options => {
-    new Notification(options);
+    if (Notification.permission === 'granted') {
+      return new Notification(options);
+    }
+    notification.info({ message: options });
   };
 
   useEffect(() => {
