@@ -26,6 +26,10 @@ export const fetchCurrentUser = () => async dispatch => {
       socket.emit('joinOrganization', currentUser.organizationId);
     }
 
+    currentUser.subscriptions.forEach(sub => {
+      socket.emit('joinRequestNotifications', sub.requestId);
+    });
+
     dispatch({ type: 'SET_CURRENT_USER', payload: currentUser });
   } catch (error) {
     alert('error');

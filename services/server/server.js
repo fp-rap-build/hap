@@ -3,6 +3,7 @@ const app = require('./api/app.js');
 const cors = require('cors');
 const http = require('http');
 const socketIo = require('socket.io');
+const { request } = require('express');
 const port = process.env.PORT || 8000;
 
 const server = http.createServer(app);
@@ -25,8 +26,12 @@ io.on('connection', (socket) => {
     socket.join(orgId);
   });
 
-  socket.on('requestChange', ({ orgId, message }) => {
-    io.to(orgId).emit('notification', message);
+  socket.on('joinRequestNotifications', (requestId) => {
+    socket.join(requestId);
+  });
+
+  socket.on('requestChange', ({ requestId, message }) => {
+    io.to(requestId).emit('notification', message);
   });
 
   socket.on('postRequest', ({ orgId, request }) => {
