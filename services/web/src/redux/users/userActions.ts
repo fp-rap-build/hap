@@ -18,9 +18,9 @@ export const fetchCurrentUser = () => async dispatch => {
   dispatch(setLoading(true));
 
   try {
-    let res = await axiosWithAuth().get('/users/me');
-
-    let currentUser = res.data.user;
+    let currentUser = await axiosWithAuth()
+      .get('/users/me')
+      .then(res => res.data.user);
 
     if (currentUser.organizationId) {
       socket.emit('joinOrganization', currentUser.organizationId);

@@ -8,10 +8,13 @@ exports.getCurrentUser = async (req, res) => {
   try {
     let requests = await Users.findRequestsByUserId(user.id);
 
+    let subscriptions = await Users.findSubscriptionsById(user.id);
+
     let organization = await Orgs.findById(user.organizationId);
 
     user['requests'] = requests;
     user['organization'] = organization;
+    user['subscriptions'] = subscriptions;
 
     res.status(200).json({
       user,
@@ -57,13 +60,12 @@ exports.deleteCurrentUser = async (req, res, next) => {
 };
 
 exports.getAllSubscriptions = async (req, res, next) => {
-
-  const { id } = req.user
+  const { id } = req.user;
   try {
-    let subscriptions = await Users.findSubscriptionsById(id)
+    let subscriptions = await Users.findSubscriptionsById(id);
 
-    res.status(200).json({ subscriptions })
+    res.status(200).json({ subscriptions });
   } catch (error) {
-    res.status(500).json({ message: "Unable to get subscriptions by user id" })
+    res.status(500).json({ message: 'Unable to get subscriptions by user id' });
   }
 };
