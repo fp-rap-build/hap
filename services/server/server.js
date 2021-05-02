@@ -3,7 +3,9 @@ const app = require('./api/app.js');
 const cors = require('cors');
 const http = require('http');
 const socketIo = require('socket.io');
+const genRoom = require('./generators/genRoom');
 const { request } = require('express');
+const { createBrotliCompress } = require('zlib');
 const port = process.env.PORT || 8000;
 
 const server = http.createServer(app);
@@ -23,20 +25,29 @@ const io = require('socket.io')(server, {
 
 io.on('connection', (socket) => {
   socket.on('joinOrganization', (orgId) => {
-    socket.join(orgId);
+    console.log(genRoom.org(orgId));
+    socket.join(genRoom.org(orgId));
   });
 
-  socket.on('joinRequestNotifications', (requestId) => {
-    socket.join(requestId);
+  socket.on('joinRequest', (requestId) => {
+    console.log(requestId);
+    console.log(genRoom.request(requestId));
+    socket.join(genRoom.request(requestId));
+  });
+
+  socket.on('leaveRequest', (requestId) => {
+    socket.leave(genRoom.request(requestId));
   });
 
   socket.on('requestChange', ({ requestId, message }) => {
-    io.to(requestId).emit('notification', message);
+    io.to(genRoom.request(requestId)).emit('notification', message);
   });
 
   socket.on('postRequest', ({ orgId, request }) => {
-    io.to(orgId).emit('notification', 'A new request has been submitted');
-    io.to(orgId).emit('newRequest', request);
+    io.to(genRoom.org(orgId)).emit(
+      'notification',
+      'A new request has been submitted'
+    );
   });
 });
 
