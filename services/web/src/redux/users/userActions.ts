@@ -181,3 +181,11 @@ export const setCurrentUserStatic = (user, history) => {
   history.push('/');
   return { type: 'SET_CURRENT_USER', payload: user };
 };
+
+export const addSubscription = subscription => {
+  return { type: 'ADD_SUBSCRIPTION', payload: subscription };
+};
+
+export const deleteSubscription = subscriptionId => {
+  return { type: 'DELETE_SUBSCRIPTION', payload: subscriptionId };
+};
