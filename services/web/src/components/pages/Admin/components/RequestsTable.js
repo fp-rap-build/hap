@@ -12,7 +12,9 @@ import { tableIcons } from '../../../../utils/tableIcons';
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
 import GavelIcon from '@material-ui/icons/Gavel';
-import { message } from 'antd';
+import MailIcon from '@material-ui/icons/Mail';
+
+import { message, Modal } from 'antd';
 
 export default function RequestsTable() {
   const history = useHistory();
@@ -97,6 +99,14 @@ export default function RequestsTable() {
               history.push(`/requests/${rowData.id}`);
             },
           },
+          {
+            icon: MailIcon,
+            tooltip: 'Subscribe',
+            onClick: async (event, rowData) => {
+              // Update the users request to be in review
+              subscribeToRequest(rowData.id);
+            },
+          },
         ]}
         icons={tableIcons}
         title="Requests for Rental Assistance"
@@ -106,3 +116,12 @@ export default function RequestsTable() {
     </div>
   );
 }
+
+const subscribeToRequest = async requestId => {
+  try {
+    await axiosWithAuth().post('/subscriptions', { requestId });
+    message.success('successfully subscribed to request');
+  } catch (error) {
+    message.error('Unable to subscribe to request');
+  }
+};
