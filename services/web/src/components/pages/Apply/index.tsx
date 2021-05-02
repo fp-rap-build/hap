@@ -48,6 +48,7 @@ const INITIAL_VALUES_DEV = {
   familySize: 4,
   beds: 4,
   monthlyIncome: 1000,
+  monthlyRent: 500,
   tenantName: 'tenant',
   tenantEmail: 'tenant@gmail.com',
   tenantPhoneNumber: '111-222-3333',
