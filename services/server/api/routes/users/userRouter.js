@@ -17,6 +17,8 @@ const {
   updateCurrentUser,
   deleteCurrentUser,
   getUserAddressById,
+
+  getAllSubscriptions,
 } = require('./controllers');
 
 // Global middleware
@@ -30,6 +32,8 @@ router
   .get(getCurrentUser)
   .put(updateCurrentUser)
   .delete(deleteCurrentUser);
+
+router.route('/me/subscriptions').get(getAllSubscriptions);
 
 router
   .route('/:id')

@@ -55,3 +55,15 @@ exports.deleteCurrentUser = async (req, res, next) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+exports.getAllSubscriptions = async (req, res, next) => {
+
+  const { id } = req.user
+  try {
+    let subscriptions = await Users.findSubscriptionsById(id)
+
+    res.status(200).json({ subscriptions })
+  } catch (error) {
+    res.status(500).json({ message: "Unable to get subscriptions by user id" })
+  }
+};

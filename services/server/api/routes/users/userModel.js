@@ -51,6 +51,8 @@ const findOrCreateAddress = async (user) => {
   }
 };
 
+const findSubscriptionsById = (userId) => db('subscriptions').where({ userId });
+
 const updateAddressById = async (addressId, payload) =>
   await db('addresses').where({ id: addressId }).update(payload).returning('*');
 
@@ -107,4 +109,5 @@ module.exports = {
   updateAddressById,
   nameFromId,
   findRequestsByUserId,
+  findSubscriptionsById
 };
