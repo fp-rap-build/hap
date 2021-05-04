@@ -35,7 +35,7 @@ export default function Footer({ request }) {
       />
       <Statistic
       title="Completed by Advocate?"
-      value={request.advocaten? 'Yes' : 'No'}
+      value={request.advocate ? 'Yes' : 'No'}
       
       />
     </div>
