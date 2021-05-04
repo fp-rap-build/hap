@@ -19,6 +19,9 @@ export default function Basic({ request, column = 2 }) {
       <Descriptions.Item label="Unemployed for 90 days">
         {request.unEmp90 ? 'Yes' : 'No'}
       </Descriptions.Item>
+      <Descriptions.Item label="Advocate?">
+        {request.advocate ? 'Yes' : 'No'}
+      </Descriptions.Item>
     </Descriptions>
   );
 }
