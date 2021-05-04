@@ -1,9 +1,15 @@
 import 'antd/dist/antd.less';
 import React, { useEffect } from 'react';
+
 import ReactDOM from 'react-dom';
 import ReactGA from 'react-ga';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useHistory,
+} from 'react-router-dom';
 import Layout from './components/Layout';
 import Admin from './components/pages/Admin';
 import Apply from './components/pages/Apply';
@@ -22,7 +28,7 @@ import PrivateRoute from './utils/auth/PrivateRoute';
 
 import socket from './config/socket';
 
-import { notification } from 'antd';
+import { Button, notification } from 'antd';
 
 const TRACKING_ID = 'G-ZDW3ENHWE7'; // YOUR_OWN_TRACKING_ID
 ReactGA.initialize(TRACKING_ID);
@@ -42,13 +48,24 @@ function RAP() {
   // The reason to declare App this way is so that we can use any helper functions we'd need for business logic, in our case auth.
   // React Router has a nifty useHistory hook we can use at this level to ensure we have security around our routes.
 
+  const history = useHistory();
+
   const showNotification = options => {
-    notification.info({ message: options });
+    const redirectToRequest = requestId =>
+      history.push(`/requests/${requestId}`);
+
+    const btn = (
+      <Button onClick={() => redirectToRequest(options.requestId)}>
+        View Request
+      </Button>
+    );
+
+    notification.info({ message: options.message, btn });
   };
 
   useEffect(() => {
-    socket.on('notification', message => {
-      showNotification(message);
+    socket.on('requestChange', options => {
+      showNotification(options);
     });
   }, []);
 
