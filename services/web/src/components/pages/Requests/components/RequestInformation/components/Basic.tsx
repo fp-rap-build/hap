@@ -14,10 +14,10 @@ export default function Basic({ request, column = 2 }) {
       <Descriptions.Item label="Organization">none</Descriptions.Item>
       <Descriptions.Item label="Address">{request.address}</Descriptions.Item>
       <Descriptions.Item label="Food Worker">
-        {request.foodWrkr ? 'yes' : 'no'}
+        {request.foodWrkr ? 'Yes' : 'No'}
       </Descriptions.Item>
       <Descriptions.Item label="Unemployed for 90 days">
-        {request.unEmp90 ? 'yes' : 'no'}
+        {request.unEmp90 ? 'Yes' : 'No'}
       </Descriptions.Item>
     </Descriptions>
   );

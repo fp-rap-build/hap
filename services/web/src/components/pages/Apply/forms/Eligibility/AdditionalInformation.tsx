@@ -84,6 +84,17 @@ export default function AdditionalInformation({
             Household can demonstrate a risk of experiencing homelessness, or housing instability which may include past due utility or rent notice or eviction notice.
           </Checkbox>
         </Form.Item>
+
+        <Form.Item>
+          <Checkbox
+            checked={formValues.advocate}
+            name="advocate"
+            onChange={handleCheckBoxChange}
+          >
+            An Advocate is assisting in the completion of this request?
+          </Checkbox>
+        </Form.Item>
+
         <Divider orientation="left">
           <Text strong>Use of this site requires accepting the following terms:</Text>
         </Divider>
