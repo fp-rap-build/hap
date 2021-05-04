@@ -16,7 +16,7 @@ export default function Actions({ openAddProgramModal }) {
   return (
     <div className={styles.actions}>
       <Button onClick={goBackToOrgs} size="large">
-        Return to dash
+        Return To Dash
       </Button>
       <Button
         onClick={openAddProgramModal}
