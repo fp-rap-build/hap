@@ -30,8 +30,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('joinRequest', (requestId) => {
-    console.log(requestId);
-    console.log(genRoom.request(requestId));
     socket.join(genRoom.request(requestId));
   });
 
@@ -40,6 +38,8 @@ io.on('connection', (socket) => {
   });
 
   socket.on('requestChange', ({ requestId, message }) => {
+    console.log(requestId);
+    console.log(message)
     io.to(genRoom.request(requestId)).emit('notification', message);
   });
 
