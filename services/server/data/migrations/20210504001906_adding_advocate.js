@@ -1,6 +1,6 @@
 exports.up = function (knex) {
     return knex.schema.table('requests', (tbl) => {
-        tbl.boolean('advocate').defaultTo(false);
+        tbl.boolean('advocate')
     });
   };
   
