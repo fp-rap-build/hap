@@ -21,6 +21,7 @@ import {
   addSubscription,
   deleteSubscription,
 } from '../../../../redux/users/userActions';
+import socket from '../../../../config/socket';
 
 export default function RequestsTable() {
   const history = useHistory();
@@ -147,6 +148,7 @@ export default function RequestsTable() {
                             message.error('Unable to unsubscribe from request')
                           );
 
+                        socket.emit('leaveRequest', rowData.id);
                         dispatch(deleteSubscription(subscription.id));
                       },
                     });
@@ -179,6 +181,7 @@ export default function RequestsTable() {
 
 const subscribeToRequest = async (requestId, setData, dispatch) => {
   try {
+    // Update table
     setData(prevState =>
       prevState.map(request => {
         if (requestId === request.id) {
@@ -188,10 +191,15 @@ const subscribeToRequest = async (requestId, setData, dispatch) => {
       })
     );
 
+    // Persist new subscription
     let subscription = await axiosWithAuth()
       .post('/subscriptions', { requestId })
       .then(res => res.data.subscription);
 
+    // Join request to receive notifications
+    socket.emit('joinRequest', requestId);
+
+    // Lastly, update current users state
     dispatch(addSubscription(subscription));
   } catch (error) {
     console.log(error.response);
