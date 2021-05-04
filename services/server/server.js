@@ -4,8 +4,9 @@ const cors = require('cors');
 const http = require('http');
 const socketIo = require('socket.io');
 const genRoom = require('./generators/genRoom');
-const { request } = require('express');
-const { createBrotliCompress } = require('zlib');
+
+const db = require('./data/db-config');
+
 const port = process.env.PORT || 8000;
 
 const server = http.createServer(app);
@@ -38,13 +39,17 @@ io.on('connection', (socket) => {
     socket.leave(genRoom.request(requestId));
   });
 
-  socket.on('requestChange', ({ requestId, message }) => {
+  socket.on('requestChange', async ({ requestId, message }) => {
     const payload = {
       message,
       requestId,
     };
 
-    io.to(genRoom.request(requestId)).emit('requestChange', payload);
+    let notification = await db('rnotifications')
+      .insert(payload)
+      .returning('*');
+
+    io.to(genRoom.request(requestId)).emit('requestChange', notification[0]);
   });
 
   socket.on('postRequest', ({ orgId, request }) => {
