@@ -45,11 +45,20 @@ io.on('connection', (socket) => {
       requestId,
     };
 
-    let notification = await db('rnotifications')
-      .insert(payload)
-      .returning('*');
+    let subscribedUsers = await db('subscriptions as s')
+      .join('users as u', 's.userId', '=', 'u.id')
+      .where('s.requestId', '=', requestId)
+      .select('s.userId');
 
-    io.to(genRoom.request(requestId)).emit('requestChange', notification[0]);
+    let notifications = subscribedUsers.map((row) => {
+      row['requestId'] = requestId;
+      row['message'] = message;
+      return row;
+    });
+
+    await db('userNotifications').insert(notifications);
+
+    io.to(genRoom.request(requestId)).emit('requestChange', payload);
   });
 
   socket.on('postRequest', ({ orgId, request }) => {

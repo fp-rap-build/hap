@@ -112,7 +112,7 @@ export default function Index({
 
         socket.emit('requestChange', {
           requestId: request.id,
-          message: 'A request has been denied',
+          message: `${request.firstName}'s request has been denied`,
         });
 
         setRequest({ ...request, requestStatus: status });

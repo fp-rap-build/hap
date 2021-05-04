@@ -38,7 +38,7 @@ router
 
 router
   .route('/:id/programs')
-  .all(restrictTo('admin', 'programManager'), validateOrgId)
+  .all(restrictTo('admin', 'orgAdmin', 'programManager'), validateOrgId)
   .get(getAllProgramsByOrganizationId)
   .post(createProgram);
 
