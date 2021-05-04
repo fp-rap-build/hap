@@ -30,6 +30,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('joinRequest', (requestId) => {
+    console.log(genRoom.request(requestId))
     socket.join(genRoom.request(requestId));
   });
 
