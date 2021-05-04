@@ -8,31 +8,20 @@ export default function Footer({ request }) {
         display: 'flex',
         width: 'max-content',
         justifyContent: 'flex-end',
-        gap: '1rem',
+        gap: '2.5rem',
         position: 'absolute',
         bottom: 0,
       }}
     >
-      <Statistic
-        title="Status"
-        value={request.requestStatus}
-        style={{
-          marginRight: 32,
-        }}
-      />
+      <Statistic title="Status" value={request.requestStatus} />
 
-      <Statistic
-        title="Residents"
-        value={request.familySize}
-        style={{
-          marginRight: 32,
-        }}
-      />
+      <Statistic title="Residents" value={request.familySize} />
       <Statistic
         title="Monthly Income"
         prefix="$"
         value={request.monthlyIncome}
       />
+      <Statistic title="Monthly Rent" prefix="$" value={request.monthlyRent} />
       <Statistic
         title="Amount Requested"
         prefix="$"

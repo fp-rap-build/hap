@@ -71,14 +71,13 @@ export default function HouseHoldInformation({ formValues, role }) {
         >
           <Input name="monthlyIncome" style={{ width: '100%' }} />
         </Form.Item>
-
         <Form.Item
           hasFeedback
-          name="rent"
-          initialValue={formValues.rent}
+          name="monthlyRent"
+          initialValue={formValues.monthlyRent}
           label={
             formValues.role === 'landlord'
-              ? 'Tenants Monthly Rent Amount'
+              ? 'Tenants Monthly Rent'
               : 'Monthly Rent'
           }
           rules={[
@@ -92,7 +91,7 @@ export default function HouseHoldInformation({ formValues, role }) {
             },
           ]}
         >
-          <Input name="rent" style={{ width: '100%' }} />
+          <Input name="monthlyRent" style={{ width: '100%' }} />
         </Form.Item>
 
         <Form.Item
