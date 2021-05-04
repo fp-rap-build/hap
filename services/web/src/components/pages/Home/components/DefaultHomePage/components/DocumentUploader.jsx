@@ -25,7 +25,7 @@ const DocumentUploader = ({ request }) => {
       const { status } = info.file;
       if (status === 'done') {
         socket.emit('requestChange', {
-          orgId: request.orgId,
+          requestId: request.id,
           message: `${currentUser.firstName} submitted a new document`,
         });
         message.success(`${info.file.name} file uploaded successfully.`);

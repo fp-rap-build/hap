@@ -44,10 +44,8 @@ export default function ApproveRequestModal({
 
       const newBudget = selectedProgram.budget - amountToSend;
 
-      console.log(request);
-
       socket.emit('requestChange', {
-        orgId: request.orgId,
+        requestId: 3,
         message: 'A request has been approved!',
       });
 

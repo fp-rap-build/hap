@@ -111,7 +111,7 @@ export default function Index({
         });
 
         socket.emit('requestChange', {
-          orgId: request.orgId,
+          requestId: request.id,
           message: 'A request has been denied',
         });
 

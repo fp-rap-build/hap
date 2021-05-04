@@ -43,19 +43,8 @@ function RAP() {
   // React Router has a nifty useHistory hook we can use at this level to ensure we have security around our routes.
 
   const showNotification = options => {
-    if (Notification.permission === 'granted') {
-      return new Notification(options);
-    }
     notification.info({ message: options });
   };
-
-  useEffect(() => {
-    if (!('Notification' in window)) {
-      console.log('This browser does not support desktop notification');
-    } else {
-      Notification.requestPermission();
-    }
-  }, []);
 
   useEffect(() => {
     socket.on('notification', message => {
