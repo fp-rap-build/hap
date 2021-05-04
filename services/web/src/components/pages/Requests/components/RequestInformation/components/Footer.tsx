@@ -33,6 +33,11 @@ export default function Footer({ request }) {
         prefix="$"
         value={request.amountRequested}
       />
+      <Statistic
+      title="Completed by Advocate?"
+      value={request.advocaten? 'Yes' : 'No'}
+      
+      />
     </div>
   );
 }
