@@ -69,13 +69,7 @@ export default function RequestsTable() {
         return request;
       });
 
-      let sortedRequests = requests.filter(req => {
-        if (req.isSubscribed) return req;
-      });
-
-      requests.forEach(req => {
-        if (!req.isSubscribed) sortedRequests.push(req);
-      });
+      let sortedRequests = sortRequestsBySubscriptions(requests);
 
       setData(sortedRequests);
     } catch (error) {
@@ -223,4 +217,19 @@ const formatSubscriptions = subscriptions => {
   });
 
   return result;
+};
+
+const sortRequestsBySubscriptions = requests => {
+  let subscribed = [];
+  let unsubscribed = [];
+
+  requests.forEach(req => {
+    if (req.isSubscribed) {
+      subscribed.push(req);
+    } else {
+      unsubscribed.push(req);
+    }
+  });
+
+  return [...subscribed, ...unsubscribed];
 };
