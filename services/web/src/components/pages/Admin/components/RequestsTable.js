@@ -69,7 +69,15 @@ export default function RequestsTable() {
         return request;
       });
 
-      setData(requests);
+      let sortedRequests = requests.filter(req => {
+        if (req.isSubscribed) return req;
+      });
+
+      requests.forEach(req => {
+        if (!req.isSubscribed) sortedRequests.push(req);
+      });
+
+      setData(sortedRequests);
     } catch (error) {
       console.error(error.response);
       alert('error');
