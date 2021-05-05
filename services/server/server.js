@@ -56,6 +56,8 @@ io.on('connection', (socket) => {
       return row;
     });
 
+    console.log(notifications)
+
     await db('userNotifications').insert(notifications);
 
     io.to(genRoom.request(requestId)).emit('requestChange', payload);

@@ -2,14 +2,18 @@ import React from 'react';
 
 import { useParams } from 'react-router-dom';
 
+import { useSelector } from 'react-redux';
+
 import { Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
+import socket from '../../../../../../config/socket';
 
 const { Dragger } = Upload;
 
 const DocumentUploader = ({ request, setDocuments }) => {
   const token = localStorage.getItem('token');
+  const currentUser = useSelector(state => state.user.currentUser);
   const { id } = useParams();
 
   const props = {
@@ -25,7 +29,10 @@ const DocumentUploader = ({ request, setDocuments }) => {
 
       if (status === 'done') {
         getAllDocuments(id, setDocuments);
-
+        socket.emit('requestChange', {
+          requestId: request.id,
+          message: `${currentUser.firstName} submitted a new document`,
+        });
         message.success(`${info.file.name} file uploaded successfully.`);
       } else if (status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
