@@ -94,6 +94,9 @@ const nameFromId = (id) => {
     .first();
 };
 
+const findNotificationsById = (userId) =>
+  db('userNotifications').where({ userId });
+
 module.exports = {
   findAll,
   findBy,
@@ -109,5 +112,6 @@ module.exports = {
   updateAddressById,
   nameFromId,
   findRequestsByUserId,
-  findSubscriptionsById
+  findSubscriptionsById,
+  findNotificationsById,
 };

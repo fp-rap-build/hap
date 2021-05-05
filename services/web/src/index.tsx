@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 
 import ReactDOM from 'react-dom';
 import ReactGA from 'react-ga';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import {
   BrowserRouter as Router,
   Route,
@@ -49,6 +49,8 @@ function RAP() {
   // React Router has a nifty useHistory hook we can use at this level to ensure we have security around our routes.
 
   const history = useHistory();
+
+  const { isLoggedIn } = useSelector(state => state.user);
 
   const showNotification = options => {
     const redirectToRequest = requestId =>

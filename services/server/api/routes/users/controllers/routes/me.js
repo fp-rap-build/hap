@@ -69,3 +69,16 @@ exports.getAllSubscriptions = async (req, res, next) => {
     res.status(500).json({ message: 'Unable to get subscriptions by user id' });
   }
 };
+
+exports.getAllNotifications = async (req, res, next) => {
+  const { id } = req.user;
+
+  try {
+    let notifications = await Users.findNotificationsById(id);
+
+    res.status(200).json({ notifications })
+
+  } catch (error) {
+    res.status(500).json({ message: 'Unable to fetch notifications for user' });
+  }
+};
