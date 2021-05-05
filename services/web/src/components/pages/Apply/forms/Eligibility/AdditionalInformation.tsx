@@ -91,7 +91,7 @@ export default function AdditionalInformation({
             name="advocate"
             onChange={handleCheckBoxChange}
           >
-            An Advocate is assisting in the completion of this request?
+            Check this box if you are an Advocate completing this request on the bahalf of somebody else.
           </Checkbox>
         </Form.Item>
 
