@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
 
 import { Button, Card } from 'antd';
 
 import styles from '../../../../styles/pages/admin.module.css';
+import { readAllNotifications } from '../../../../redux/notifications/notificationActions';
 
 export default function Notifications() {
   const { notifications } = useSelector(state => state.notifications);
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(readAllNotifications());
+  }, []);
 
   return (
     <div className={styles.notifications}>

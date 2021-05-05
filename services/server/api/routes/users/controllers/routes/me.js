@@ -76,9 +76,20 @@ exports.getAllNotifications = async (req, res, next) => {
   try {
     let notifications = await Users.findNotificationsById(id);
 
-    res.status(200).json({ notifications })
-
+    res.status(200).json({ notifications });
   } catch (error) {
     res.status(500).json({ message: 'Unable to fetch notifications for user' });
+  }
+};
+
+exports.readAllNotifications = async (req, res, next) => {
+  const { id } = req.user;
+
+  try {
+    let notifications = await Users.readAllNotifications(id);
+    res.status(200).json({ notifications });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Unable to read Notifications' });
   }
 };

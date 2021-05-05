@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 
 import ReactDOM from 'react-dom';
 import ReactGA from 'react-ga';
-import { Provider, useSelector } from 'react-redux';
+import { Provider, useSelector, useDispatch } from 'react-redux';
 import {
   BrowserRouter as Router,
   Route,
@@ -29,6 +29,7 @@ import PrivateRoute from './utils/auth/PrivateRoute';
 import socket from './config/socket';
 
 import { Button, notification } from 'antd';
+import { fetchNotifications } from './redux/notifications/notificationActions';
 
 const TRACKING_ID = 'G-ZDW3ENHWE7'; // YOUR_OWN_TRACKING_ID
 ReactGA.initialize(TRACKING_ID);
@@ -49,6 +50,7 @@ function RAP() {
   // React Router has a nifty useHistory hook we can use at this level to ensure we have security around our routes.
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const { isLoggedIn } = useSelector(state => state.user);
 
@@ -68,6 +70,7 @@ function RAP() {
   useEffect(() => {
     socket.on('requestChange', options => {
       showNotification(options);
+      dispatch(fetchNotifications());
     });
   }, []);
 
