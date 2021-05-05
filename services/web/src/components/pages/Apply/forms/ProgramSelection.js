@@ -24,7 +24,7 @@ const ProgramSelection = ({ formValues }) => {
     unEmp90,
     foodWrkr,
     minorGuest,
-    rent,
+    monthlyRent,
     owed,
     amountRequested,
     covidFH,
@@ -43,7 +43,7 @@ const ProgramSelection = ({ formValues }) => {
   const checkPrograms = async () => {
     // convert bools to '0' or '1'
 
-    const queryString = `?zipcode=${zipCode}&cityName=${cityName}&family_size=${familySize}&totalChildren=${totalChildren}&income=${monthlyIncome}&rent=${rent}&owed=${owed}&amountRequested=${amountRequested}&unEmp90=${unEmp90}&foodWrkr=${foodWrkr}&minorGuest=${minorGuest}&covidFH=${covidFH}`;
+    const queryString = `?zipCode=${zipCode}&cityName=${cityName}&familySize=${familySize}&totalChildren=${totalChildren}&monthlyIncome=${monthlyIncome}&monthlyRent=${monthlyRent}&owed=${owed}&amountRequested=${amountRequested}&unEmp90=${unEmp90}&foodWrkr=${foodWrkr}&minorGuest=${minorGuest}&covidFH=${covidFH}`;
     const callURL = dsBaseUrl + queryString;
     setLoadStatus(true);
     try {
