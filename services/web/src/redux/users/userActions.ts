@@ -46,7 +46,7 @@ export const logOut = (history, orgId, subscriptions) => dispatch => {
   socket.emit('leaveOrganization', { orgId });
 
   subscriptions.forEach(sub => {
-    socket.emit('leaveRequest', { requestId: sub.requestId });
+    socket.emit('leaveRequest', sub.requestId);
   });
 
   // Logout

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { useSelector } from 'react-redux';
+
 import { isChecklistCompleted } from './utils';
 
 import ApproveRequestModal from './components/ApproveRequestModal';
@@ -48,6 +50,8 @@ export default function Index({
   programs,
   setPrograms,
 }) {
+  const currentUser = useSelector(state => state.user.currentUser);
+
   const [loading, setLoading] = useState(false);
   //eslint-disable-next-line
   const [tab, setTab] = useState('basic');
@@ -140,6 +144,12 @@ export default function Index({
     try {
       await axiosWithAuth().put(`/requests/${request.id}`, {
         [name]: checked,
+      });
+
+      // Send notification
+      socket.emit('requestChange', {
+        requestId: request.id,
+        message: `${currentUser.firstName} made an update to the checklist`,
       });
     } catch (error) {
       message.error(
