@@ -23,6 +23,9 @@ const Dash = () => {
 
   const currentUser = useSelector(state => state.user.currentUser);
 
+  const notifications = useSelector(state => state.notifications.notifications);
+
+  console.log(notifications);
   const [activeComponent, setActiveComponent] = useState({
     current: 'requests',
   });
@@ -52,8 +55,10 @@ const Dash = () => {
             activeComponent={activeComponent}
             handleClick={handleClick}
           />
+
           <Badge
             onClick={() => setActiveComponent({ current: 'notifications' })}
+            count={notifications.filter(notif => notif.read === false).length}
           >
             <NotificationsIcon style={{ color: 'white', cursor: 'pointer' }} />
           </Badge>

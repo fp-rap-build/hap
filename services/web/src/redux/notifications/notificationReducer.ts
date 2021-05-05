@@ -5,7 +5,7 @@ const INITIAL_STATE = {
 const notificationReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case 'SET_NOTIFICATIONS':
-      return { ...state, notifcations: action.payload };
+      return { ...state, notifications: action.payload };
     default:
       return state;
   }
