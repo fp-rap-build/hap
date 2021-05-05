@@ -43,6 +43,14 @@
   min-height: 200px;
 }
 
+.notifications {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
 .icons {
   width: 100%;
   display: flex;
