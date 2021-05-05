@@ -56,18 +56,32 @@ io.on('connection', (socket) => {
       return row;
     });
 
-    console.log(notifications)
+    console.log(notifications);
 
     await db('userNotifications').insert(notifications);
 
     io.to(genRoom.request(requestId)).emit('requestChange', payload);
   });
 
-  socket.on('postRequest', ({ orgId, request }) => {
-    io.to(genRoom.org(orgId)).emit(
-      'notification',
-      'A new request has been submitted'
-    );
+  socket.on('postRequest', async ({ orgId, requestId, message }) => {
+    const payload = {
+      requestId,
+      message,
+    };
+
+    let allUsersInOrg = await db('users')
+      .where({ organizationId: orgId })
+      .select('id as userId');
+
+    let notifications = allUsersInOrg.map((row) => {
+      row['requestId'] = requestId;
+      row['message'] = message;
+      return row;
+    });
+
+    await db('userNotifications').insert(notifications);
+
+    io.to(genRoom.org(orgId)).emit('requestChange', payload);
   });
 });
 

@@ -19,10 +19,10 @@ exports.up = function (knex) {
 
     tbl.string('message').notNullable();
 
-    tbl.date('createdAt').defaultTo(knex.fn.now());
+    tbl.datetime('createdAt').defaultTo(knex.fn.now());
   });
 };
 
 exports.down = function (knex) {
-  return knex.schema.dropTable('rnotifications');
+  return knex.schema.dropTable('userNotifications');
 };

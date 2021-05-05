@@ -10,7 +10,7 @@ import styles from '../../../../styles/pages/admin.module.css';
 import { readAllNotifications } from '../../../../redux/notifications/notificationActions';
 
 export default function Notifications() {
-  const { notifications } = useSelector(state => state.notifications);
+  let { notifications } = useSelector(state => state.notifications);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const RenderNotifications = ({ notifications }) => {
   const history = useHistory();
   return (
     <>
-      {notifications.reverse().map(notif => {
+      {notifications.map(notif => {
         return (
           <Card style={{ width: '40%' }}>
             <h1>{notif.message}</h1>

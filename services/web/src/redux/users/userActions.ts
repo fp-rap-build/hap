@@ -168,7 +168,8 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
 
     socket.emit('postRequest', {
       orgId: newRequest.orgId,
-      request: newRequest,
+      requestId: newRequest.id,
+      message: 'A new request was submitted',
     });
 
     // Redirect to the homepage

@@ -25,7 +25,7 @@ const Dash = () => {
 
   const notifications = useSelector(state => state.notifications.notifications);
 
-  const unread = notifications.filter(notif => notif.read === false).length;
+  const unseen = notifications.filter(notif => notif.seen === false).length;
 
   const [activeComponent, setActiveComponent] = useState({
     current: 'requests',
@@ -59,7 +59,7 @@ const Dash = () => {
 
           <Badge
             onClick={() => setActiveComponent({ current: 'notifications' })}
-            count={unread}
+            count={unseen}
           >
             <NotificationsIcon style={{ color: 'white', cursor: 'pointer' }} />
           </Badge>
