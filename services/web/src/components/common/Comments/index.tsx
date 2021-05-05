@@ -9,18 +9,17 @@ import CreateComment from './components/CreateComment';
 import NoComment from './components/NoComment';
 
 import { Button } from 'antd';
+import socket from '../../../config/socket';
 
-const Comments = ({ request, category }) => {
+const Comments = ({ request, comments, setComments, category }) => {
   const requestId = request.id;
-  const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState({ text: '' });
 
   const currentUser = useSelector(state => state.user.currentUser);
 
   useEffect(() => {
-    fetchComments(requestId, category, setComments);
-    //eslint-disable-next-line
-  }, []);
+    console.log(comments);
+  }, [comments]);
 
   const addComment = async e => {
     e.stopPropagation();
@@ -32,9 +31,10 @@ const Comments = ({ request, category }) => {
       category: category,
     };
 
+    socket.emit('comment', commentToPOST);
+
     try {
       await axiosWithAuth().post('/comments', commentToPOST);
-      fetchComments(requestId, category, setComments);
       setNewComment({ text: '' });
     } catch (error) {
       console.error(error);

@@ -113,6 +113,8 @@ const findById = (id) => {
     .where('r.id', '=', id);
 };
 
+const findAllComments = (requestId) => db('comments').where({ requestId });
+
 module.exports = {
   findAll,
   findBy,
@@ -123,4 +125,5 @@ module.exports = {
   findAllActive,
   findForTable,
   findById,
+  findAllComments,
 };

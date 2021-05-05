@@ -39,6 +39,20 @@ io.on('connection', (socket) => {
     socket.leave(genRoom.request(requestId));
   });
 
+  socket.on('joinChat', (requestId) => {
+    console.log(genRoom.chat(requestId));
+    socket.join(genRoom.chat(requestId));
+  });
+
+  socket.on('leaveChat', (requestId) => {
+    socket.leave(genRoom.chat(requestId));
+  });
+
+  socket.on('comment', (comment) => {
+    const { requestId } = comment;
+    io.to(genRoom.chat(requestId)).emit('comment', comment);
+  });
+
   socket.on('requestChange', async ({ requestId, message }) => {
     const payload = {
       message,

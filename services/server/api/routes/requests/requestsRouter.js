@@ -16,9 +16,8 @@ const { getAllDocuments, createDocument } = require('./documents/controllers');
 const { sendPayment } = require('./payments/controllers');
 
 const { createAddress, updateAddress } = require('./address/controllers');
-const { test } = require('../../../config/knexfile');
 
-const io = require('../../../server');
+const { getAllComments } = require('./comments');
 
 const router = express.Router();
 
@@ -141,5 +140,7 @@ router
   .get(getAllDocuments);
 
 router.route('/:id/payments').all(validateRequestId).post(sendPayment);
+
+router.route('/:id/comments').all(validateRequestId).get(getAllComments);
 
 module.exports = router;
