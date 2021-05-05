@@ -6,6 +6,8 @@ import Navbar from './components/Navbar';
 
 import Zendesk from 'react-zendesk';
 
+var y = 1;
+
 const setting = {
   color: {
     theme: '#004477',
@@ -27,7 +29,7 @@ export default function index({ children }) {
     <div>
       <Navbar />
       <main>{children}</main>
-      <div>
+            <div>
               <a href="http://www.familypromiseofspokane.org/">
                 Powered by Family Promise of Spokane
               </a>
