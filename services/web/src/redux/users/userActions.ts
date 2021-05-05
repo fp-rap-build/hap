@@ -38,17 +38,21 @@ export const fetchCurrentUser = () => async dispatch => {
   }
 };
 
-export const logOut = history => dispatch => {
+export const logOut = (history, orgId, subscriptions) => dispatch => {
   // Remove token from localStorage
-
   localStorage.removeItem('token');
 
-  // Logout
+  // Leave rooms
+  socket.emit('leaveOrganization', { orgId });
 
+  subscriptions.forEach(sub => {
+    socket.emit('leaveRequest', { requestId: sub.requestId });
+  });
+
+  // Logout
   dispatch({ type: 'LOG_OUT' });
 
   // Redirect to landing page
-
   history.push('/landing');
 };
 

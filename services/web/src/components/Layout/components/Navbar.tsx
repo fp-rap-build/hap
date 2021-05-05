@@ -17,12 +17,16 @@ function Navbar() {
 
   const isLoggedIn = useSelector(state => state.user.isLoggedIn);
 
+  const currentUser = useSelector(state => state.user.currentUser);
+
   const redirectToHome = () => {
     history.push('/');
   };
 
   const handleLogout = () => {
-    dispatch(logOut(history));
+    dispatch(
+      logOut(history, currentUser.organizationId, currentUser.subscriptions)
+    );
   };
 
   return (
