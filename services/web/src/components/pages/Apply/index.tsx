@@ -96,6 +96,7 @@ const INITIAL_VALUES_PROD = {
   owed: null,
   amountRequested: null,
   rent: null,
+  monthlyRent: null,
   advocate: false,
   totalChildren: null,
   unEmp90: false,
