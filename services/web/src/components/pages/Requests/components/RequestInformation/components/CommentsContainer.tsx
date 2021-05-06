@@ -19,7 +19,10 @@ const CommentsContainer = ({ request }) => {
   useEffect(() => {
     socket.emit('joinChat', request.id);
 
-    socket.on('comment', comment => {});
+    socket.on('comment', comment => {
+      console.log(comments);
+      console.log(comment);
+    });
 
     return () => {
       socket.emit('leaveChat', request.id);

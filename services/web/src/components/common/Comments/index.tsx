@@ -14,11 +14,16 @@ import socket from '../../../config/socket';
 const Comments = ({ request, comments, setComments, category }) => {
   const requestId = request.id;
   const [newComment, setNewComment] = useState({ text: '' });
+  const [filteredComments, setFilteredComments] = useState([]);
 
   const currentUser = useSelector(state => state.user.currentUser);
 
   useEffect(() => {
-    console.log(comments);
+    let filter = comments.filter(comment => {
+      if (comment.category === category) return comment;
+    });
+
+    setFilteredComments(filter);
   }, [comments]);
 
   const addComment = async e => {
@@ -43,8 +48,10 @@ const Comments = ({ request, comments, setComments, category }) => {
 
   return (
     <div>
-      {comments ? (
-        comments.map(comm => <RenderComment comm={comm} />)
+      {filteredComments ? (
+        filteredComments.map(comm => (
+          <RenderComment key={comm.id} comm={comm} />
+        ))
       ) : (
         <NoComment />
       )}

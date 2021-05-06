@@ -126,7 +126,8 @@ const findAllComments = (requestId) =>
       'c.comment',
       'c.category',
       'c.createdAt'
-    );
+    )
+    .orderBy('c.createdAt', 'asc');
 
 module.exports = {
   findAll,
