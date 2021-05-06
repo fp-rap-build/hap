@@ -11,31 +11,40 @@ export default function Index() {
 
   const [errorMessage, setErrorMessage] = useState('');
 
+  const [finished, setFinished] = useState(false);
+
   const history = useHistory();
 
   const onFinish = async (values: any) => {
     const { email } = values;
 
-    setLoading(true);
+    setIsLoading(true);
     try {
-      let res = await axiosWithAuth().post('/auth/forgotPassword', { email });
+      await axiosWithAuth().post('/auth/forgotPassword', { email });
+
+      setFinished(true);
     } catch (error) {
       const { status } = error.response;
-
-      console.log(status);
-      console.log();
 
       if (status === 404) {
         setErrorMessage(error.response.data.message);
       }
+
+      if (status === 500) {
+        setErrorMessage('Internal server error');
+      }
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
   const clearErrors = () => {
     setErrorMessage('');
   };
+
+  if (finished) {
+    return <FinishedMessage />;
+  }
 
   return (
     <div>
@@ -84,3 +93,17 @@ export default function Index() {
     </div>
   );
 }
+
+const FinishedMessage = () => (
+  <div
+    style={{
+      width: '100%',
+      height: '60vh',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}
+  >
+    <h1>Please check your email for the reset link</h1>
+  </div>
+);
