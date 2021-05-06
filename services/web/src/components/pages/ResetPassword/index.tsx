@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory, Link, useParams } from 'react-router-dom';
 import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import styles from '../../../styles/pages/login.module.css';
 import { setLoading } from '../../../redux/global/globalActions';
 import { axiosWithAuth } from '../../../api/axiosWithAuth';
+import LoadingComponent from '../../common/LoadingComponent';
 
 export default function Index() {
   const { resetToken } = useParams();
@@ -15,7 +16,13 @@ export default function Index() {
 
   const [finished, setFinished] = useState(false);
 
+  const [invalidToken, setInvalidToken] = useState(false);
+
   const history = useHistory();
+
+  useEffect(() => {
+    validateResetToken(resetToken, setInvalidToken);
+  }, []);
 
   const onFinish = async (values: any) => {
     const { password, confirmPassword } = values;
@@ -52,6 +59,14 @@ export default function Index() {
 
   if (finished) {
     return <FinishedMessage />;
+  }
+
+  if (invalidToken) {
+    return <h1>Your token is invalid</h1>;
+  }
+
+  if (isLoading) {
+    return <LoadingComponent />;
   }
 
   return (
@@ -119,3 +134,12 @@ const FinishedMessage = () => (
     <Link to="/login">Back to Login</Link>
   </div>
 );
+
+const validateResetToken = async (resetToken, setInvalidToken) => {
+  try {
+    await axiosWithAuth().post(`/validate/${resetToken}`);
+    setInvalidToken(false);
+  } catch (error) {
+    setInvalidToken(true);
+  }
+};
