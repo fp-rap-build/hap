@@ -8,7 +8,7 @@ import { Divider, Typography, Button, Row, Col, Spin, Card } from 'antd';
 
 // urls
 
-import { SNAP_ERA, SNAP_ERAP, CC } from '../../../../utils/data/urls';
+import { SNAP_ERA, SNAP_ERAP, VLP_EDP } from '../../../../utils/data/urls';
 
 const { Paragraph, Title } = Typography;
 
@@ -24,7 +24,7 @@ const ProgramSelection = ({ formValues }) => {
     unEmp90,
     foodWrkr,
     minorGuest,
-    rent,
+    monthlyRent,
     owed,
     amountRequested,
     covidFH,
@@ -43,7 +43,7 @@ const ProgramSelection = ({ formValues }) => {
   const checkPrograms = async () => {
     // convert bools to '0' or '1'
 
-    const queryString = `?zipcode=${zipCode}&cityName=${cityName}&family_size=${familySize}&totalChildren=${totalChildren}&income=${monthlyIncome}&rent=${rent}&owed=${owed}&amountRequested=${amountRequested}&unEmp90=${unEmp90}&foodWrkr=${foodWrkr}&minorGuest=${minorGuest}&covidFH=${covidFH}`;
+    const queryString = `?zipCode=${zipCode}&cityName=${cityName}&familySize=${familySize}&totalChildren=${totalChildren}&monthlyIncome=${monthlyIncome}&monthlyRent=${monthlyRent}&owed=${owed}&amountRequested=${amountRequested}&unEmp90=${unEmp90}&foodWrkr=${foodWrkr}&minorGuest=${minorGuest}&covidFH=${covidFH}`;
     const callURL = dsBaseUrl + queryString;
     setLoadStatus(true);
     try {
@@ -74,7 +74,7 @@ const ProgramSelection = ({ formValues }) => {
           <Col span={15}>
             <Paragraph strong={availablePrograms.SNAP_ERA}>
               {' '}
-              Spokane Neighborhood Action Partners (SNAP) ERA Program{' '}
+              Spokane Neighborhood Action Partners (SNAP) : ERA Program{' '}
             </Paragraph>
           </Col>
           <Col span={1} />
@@ -86,7 +86,7 @@ const ProgramSelection = ({ formValues }) => {
               size="medium"
               disabled={!availablePrograms.SNAP_ERA}
             >
-              {availablePrograms.SNAP_ERA ? 'Apply Now!' : 'Not Available'}
+              {availablePrograms.SNAP_ERA ? 'More Info' : 'Not Available'}
             </Button>
           </Col>
         </Row>
@@ -96,7 +96,7 @@ const ProgramSelection = ({ formValues }) => {
           <Col span={15}>
             <Paragraph strong={availablePrograms.SNAP_ERAP}>
               {' '}
-              Spokane Neighborhood Action Partners (SNAP) ERAP Program{' '}
+              Spokane Neighborhood Action Partners (SNAP) : ERAP Program{' '}
             </Paragraph>
           </Col>
           <Col span={1} />
@@ -108,7 +108,7 @@ const ProgramSelection = ({ formValues }) => {
               size="medium"
               disabled={!availablePrograms.SNAP_ERAP}
             >
-              {availablePrograms.SNAP_ERAP ? 'Apply Now!' : 'Not Available'}
+              {availablePrograms.SNAP_ERAP ? 'More Info' : 'Not Available'}
             </Button>
           </Col>
         </Row>
@@ -119,7 +119,7 @@ const ProgramSelection = ({ formValues }) => {
           <Col span={15}>
             <Paragraph strong={availablePrograms.FP}>
               {' '}
-              Family Promise of Spokane Rental Assistance{' '}
+              Family Promise of Spokane : Housing Assistance{' '}
             </Paragraph>
           </Col>
           <Col span={1} />
@@ -134,6 +134,28 @@ const ProgramSelection = ({ formValues }) => {
             </Button>
           </Col>
         </Row>
+<Divider />
+        <Row>
+          <Col span={15}>
+            <Paragraph strong={availablePrograms.VLP_EDP}>
+              {' '}
+              Volunteer Lawyers Program : Eviction Defense Project{' '}
+            </Paragraph>
+          </Col>
+          <Col span={1} />
+          <Col span={8}>
+            <Button
+              href={VLP_EDP}
+              target="_blank"
+              type="primary"
+              size="medium"
+              disabled={!availablePrograms.VLP_EDP}
+            >
+              {availablePrograms.VLP_EDP ? 'More Info' : 'Not Available'}
+            </Button>
+          </Col>
+        </Row>
+
       </Card>
     </Spin>
   );
