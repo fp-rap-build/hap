@@ -50,7 +50,19 @@ io.on('connection', (socket) => {
   });
 
   socket.on('comment', (comment) => {
-    const { requestId } = comment;
+    const { requestId, firstName } = comment;
+
+    const recentComments = {};
+
+    recentComments[requestId] = new Date();
+
+    console.log(recentComments);
+
+    io.to(genRoom.request(requestId)).emit('requestChange', {
+      message: `${firstName} recently left a comment`,
+      requestId,
+    });
+
     io.to(genRoom.chat(requestId)).emit('comment', comment);
   });
 

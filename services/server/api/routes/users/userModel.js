@@ -29,8 +29,12 @@ const findRequestsByUserId = (userId) =>
 
 const findById = async (id) => db('users').where({ id }).first('*');
 
-const findByIdAndUpdate = async (id, payload) =>
-  await db('users').where({ id }).update(payload).returning('*');
+const findByIdAndUpdate = async (id, payload) => {
+  if (payload['password']) {
+    payload['password'] = await bcrypt.hash(user['password'], 12);
+  }
+  return await db('users').where({ id }).update(payload).returning('*');
+};
 
 const findByIdAndDelete = async (id) => await db('users').where({ id }).del();
 
