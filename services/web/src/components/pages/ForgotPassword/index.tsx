@@ -1,28 +1,40 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { clearErrorMessage, logIn } from '../../../redux/users/userActions';
 import styles from '../../../styles/pages/login.module.css';
+import { setLoading } from '../../../redux/global/globalActions';
+import { axiosWithAuth } from '../../../api/axiosWithAuth';
 
 export default function Index() {
-  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const isLoading = useSelector(state => state.global.isLoading);
-
-  const errorMessage = useSelector(state => state.user.errorMessage);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const history = useHistory();
 
   const onFinish = async (values: any) => {
-    dispatch(logIn(values, history));
+    const { email } = values;
+
+    setLoading(true);
+    try {
+      let res = await axiosWithAuth().post('/auth/forgotPassword', { email });
+    } catch (error) {
+      const { status } = error.response;
+
+      console.log(status);
+      console.log();
+
+      if (status === 404) {
+        setErrorMessage(error.response.data.message);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const clearErrors = () => {
-    if (errorMessage) {
-      dispatch(clearErrorMessage());
-    }
+    setErrorMessage('');
   };
 
   return (
