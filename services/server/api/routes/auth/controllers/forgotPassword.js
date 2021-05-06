@@ -1,9 +1,28 @@
-const forgotPassword = async (req,res,next) => {
-    try {
-        res.send('working')
-    } catch (error) {
-        
-    }
-}
+const User = require('../../users/userModel');
 
-module.exports = forgotPassword
+const { sendResetPasswordLink } = require('../../../utils/sendGrid/messages');
+
+const forgotPassword = async (req, res, next) => {
+  try {
+    let user = await User.findBy({ email: req.body.email });
+
+    if (user.length === 0) {
+      return res
+        .status(404)
+        .json({ message: 'User with that email does not exist' });
+    }
+
+    let userId = user[0].id;
+    let userEmail = user[0].email;
+
+    let passwordResetToken = await User.createPasswordResetToken(userId);
+
+    await sendResetPasswordLink(userEmail);
+
+    res.status(200).json({ passwordResetToken });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+module.exports = forgotPassword;
