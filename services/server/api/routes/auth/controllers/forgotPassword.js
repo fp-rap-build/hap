@@ -17,12 +17,26 @@ const forgotPassword = async (req, res, next) => {
 
     let passwordResetToken = await User.createPasswordResetToken(userId);
 
-    await sendResetPasswordLink(userEmail);
+    let resetUrl = generateResetUrl(passwordResetToken);
 
-    res.status(200).json({ passwordResetToken });
+    await sendResetPasswordLink(userEmail, resetUrl);
+
+    res.status(200).json({ message: 'Token sent to email!' });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: 'Internal server error' });
   }
+};
+
+const generateResetUrl = (resetToken) => {
+  let url;
+  if (process.env.NODE_ENV === 'producation') {
+    url = `https://hap.solutions/reset/${resetToken}`;
+  } else {
+    url = `http://localhost:3000/reset/${resetToken}`;
+  }
+
+  return url;
 };
 
 module.exports = forgotPassword;

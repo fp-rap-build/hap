@@ -12,7 +12,7 @@ router.post('/login', validateLogin, loginUser);
 router.post('/register', validateRegistration, registerUser);
 
 router.post('/forgotPassword', forgotPassword)
-router.post('/resetPassword', forgotPassword)
+router.post('/resetPassword/:resetToken', resetPassword)
 
 
 module.exports = router;
