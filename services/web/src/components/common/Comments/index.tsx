@@ -36,8 +36,16 @@ const Comments = ({ request, comments, setComments, category }) => {
       category: category,
     };
 
-    setComments([...comments, commentToPOST]);
+    const socketPayload = {
+      requestId,
+      authorId: currentUser.id,
+      firstName: currentUser.firstName,
+      lastName: currentUser.lastName,
+      comment: newComment.text,
+      category,
+    };
 
+    socket.emit('comment', socketPayload);
     try {
       await axiosWithAuth().post('/comments', commentToPOST);
       setNewComment({ text: '' });

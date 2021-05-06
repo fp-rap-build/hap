@@ -20,8 +20,9 @@ const CommentsContainer = ({ request }) => {
     socket.emit('joinChat', request.id);
 
     socket.on('comment', comment => {
-      console.log(comments);
-      console.log(comment);
+      setComments(prevState => {
+        return [...prevState, comment];
+      });
     });
 
     return () => {

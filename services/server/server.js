@@ -40,11 +40,12 @@ io.on('connection', (socket) => {
   });
 
   socket.on('joinChat', (requestId) => {
-    console.log(genRoom.chat(requestId));
+    console.log(genRoom.chat(requestId), 'joined');
     socket.join(genRoom.chat(requestId));
   });
 
   socket.on('leaveChat', (requestId) => {
+    console.log(genRoom.chat(requestId), 'left');
     socket.leave(genRoom.chat(requestId));
   });
 
