@@ -31,7 +31,7 @@ const DocumentUploader = ({ request, setDocuments }) => {
         getAllDocuments(id, setDocuments);
         socket.emit('requestChange', {
           requestId: request.id,
-          message: `${currentUser.firstName} submitted a new document`,
+          message: `${currentUser.firstName} submitted a new document to ${request.firstName}'s request`,
         });
         message.success(`${info.file.name} file uploaded successfully.`);
       } else if (status === 'error') {

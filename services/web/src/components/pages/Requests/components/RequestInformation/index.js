@@ -149,7 +149,7 @@ export default function Index({
       // Send notification
       socket.emit('requestChange', {
         requestId: request.id,
-        message: `${currentUser.firstName} made an update to the checklist`,
+        message: `${currentUser.firstName} made an update to ${request.firstName}'s checklist`,
       });
     } catch (error) {
       message.error(
