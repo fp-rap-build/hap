@@ -36,7 +36,7 @@ const Comments = ({ request, comments, setComments, category }) => {
       category: category,
     };
 
-    socket.emit('comment', commentToPOST);
+    setComments([...comments, commentToPOST]);
 
     try {
       await axiosWithAuth().post('/comments', commentToPOST);
