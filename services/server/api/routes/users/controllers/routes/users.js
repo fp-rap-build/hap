@@ -47,7 +47,6 @@ exports.getUserById = (req, res) => {
 };
 
 exports.updateUserById = async (req, res) => {
-  console.log('what');
   const payload = req.body;
   const { id } = req.params;
 
