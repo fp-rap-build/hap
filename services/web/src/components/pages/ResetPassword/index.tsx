@@ -87,9 +87,8 @@ export default function Index() {
             rules={[
               { required: true, message: 'Please input your new password' },
             ]}
-            label="Please enter your new password"
           >
-            <Input.Password placeholder="Password" size="large" />
+            <Input.Password placeholder="New Password" size="large" />
           </Form.Item>
 
           <Form.Item
@@ -97,7 +96,6 @@ export default function Index() {
             rules={[
               { required: true, message: 'Please confirm your password' },
             ]}
-            label="Confirm password"
           >
             <Input.Password placeholder="Confirm Password" size="large" />
           </Form.Item>

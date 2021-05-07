@@ -63,10 +63,10 @@ export default function Index() {
         layout="vertical"
       >
         <div className={styles.fields}>
+          <h2>Forgot password? Enter your email address below</h2>
           <Form.Item
             name="email"
             rules={[{ required: true, message: 'Please input your Email' }]}
-            label="Please enter your email address"
           >
             <Input
               prefix={<UserOutlined className="site-form-item-icon" />}
@@ -77,7 +77,7 @@ export default function Index() {
           </Form.Item>
 
           <Link className="login-form-forgot" to="/login">
-            Back to login
+            Back to Login
           </Link>
 
           {/* Submit */}
