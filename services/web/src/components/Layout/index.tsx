@@ -4,16 +4,14 @@ import React from 'react';
 
 import Navbar from './components/Navbar';
 
+import Watermark from './components/Watermark';
+
 export default function index({ children }) {
   return (
     <div>
       <Navbar />
       <main>{children}</main>
-      <div>
-        <a href="http://www.familypromiseofspokane.org/">
-          Powered by Family Promise of Spokane
-        </a>
-      </div>
+      <Watermark />
     </div>
   );
 }

@@ -21,3 +21,11 @@ export const readAllNotifications = () => async dispatch => {
     console.log('Unable to read all notifications');
   }
 };
+
+export const openPanal = () => {
+  return { type: 'OPEN_PANAL' };
+};
+
+export const closePanal = () => {
+  return { type: 'CLOSE_PANAL' };
+};

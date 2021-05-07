@@ -18,8 +18,8 @@ const TenantInfoForm = ({ formValues }) => {
   return (
     <Card title={<Title level={4}>Tenant Information</Title>}>
       <Text type="secondary">
-        This will help us contact your tenant once you've been approved for
-        Rental Assistance
+        This will help us contact your tenant; a step required to complete your
+        request for Rental Assistance.
       </Text>
       <Divider dashed />
       <Form.Item
@@ -78,10 +78,12 @@ const LandlordInfoForm = ({ formValues }) => {
   return (
     <Card title={<Title level={4}>Landlord Information</Title>}>
       <Text type="secondary">
-        This will help us contact your landlord once you've been approved for
-        Rental Assistance
+        This will help us contact your landlord. We must verify information with
+        your landlord to approve any requests. Providing false or incorrect
+        information here may greatly increase the time and work needed to
+        approve your request.
       </Text>
-
+      <Divider />
       <Form.Item
         initialValue={formValues.landlordEmail}
         label="Email"

@@ -1,5 +1,6 @@
 const INITIAL_STATE = {
   notifications: [],
+  isPanalOpen: false,
 };
 
 const notificationReducer = (state = INITIAL_STATE, action) => {
@@ -14,6 +15,10 @@ const notificationReducer = (state = INITIAL_STATE, action) => {
           return notif;
         }),
       };
+    case 'OPEN_PANAL':
+      return { ...state, isPanalOpen: true };
+    case 'CLOSE_PANAL':
+      return { ...state, isPanalOpen: false };
     default:
       return state;
   }
