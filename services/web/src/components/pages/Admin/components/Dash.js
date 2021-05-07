@@ -56,13 +56,6 @@ const Dash = () => {
             activeComponent={activeComponent}
             handleClick={handleClick}
           />
-
-          <Badge
-            onClick={() => setActiveComponent({ current: 'notifications' })}
-            count={unseen}
-          >
-            <NotificationsIcon style={{ color: 'white', cursor: 'pointer' }} />
-          </Badge>
         </div>
       </Header>
       <Content className={styles.dashboard}>

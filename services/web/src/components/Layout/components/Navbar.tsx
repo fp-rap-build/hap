@@ -8,6 +8,11 @@ import logo from '../../../assets/logo.png';
 
 import { logOut } from '../../../redux/users/userActions';
 
+import { Badge, Avatar, Menu, Dropdown } from 'antd';
+
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import { UserOutlined, DownOutlined } from '@ant-design/icons';
+
 import styles from '../../../styles/Layout/navbar.module.css';
 
 function Navbar() {
@@ -29,13 +34,32 @@ function Navbar() {
     );
   };
 
+  const menu = (
+    <Menu>
+      <Menu.Item danger onClick={handleLogout}>
+        Logout
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <div className={styles.container}>
       <nav className={styles.nav}>
         <img alt="Family promise logo" onClick={redirectToHome} src={logo} />
-        <ul className={styles.navActions}>
-          {isLoggedIn && <li onClick={handleLogout}>Logout</li>}
-        </ul>
+        <div className={styles.navItems}>
+          {isLoggedIn && (
+            <>
+              <Dropdown overlay={menu}>
+                <Avatar size={35} icon={<UserOutlined />} />
+              </Dropdown>
+              <Badge count={2}>
+                <NotificationsIcon
+                  style={{ color: 'black', cursor: 'pointer' }}
+                />
+              </Badge>
+            </>
+          )}
+        </div>
       </nav>
     </div>
   );
