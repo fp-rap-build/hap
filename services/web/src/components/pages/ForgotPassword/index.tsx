@@ -5,6 +5,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import styles from '../../../styles/pages/login.module.css';
 import { setLoading } from '../../../redux/global/globalActions';
 import { axiosWithAuth } from '../../../api/axiosWithAuth';
+import passwordStyles from '../../../styles/pages/password.module.css';
 
 export default function Index() {
   const [isLoading, setIsLoading] = useState(false);
@@ -24,6 +25,10 @@ export default function Index() {
 
       setFinished(true);
     } catch (error) {
+      if (!error.response) {
+        setErrorMessage('Internal server error');
+      }
+
       const { status } = error.response;
 
       if (status === 404) {
@@ -95,15 +100,7 @@ export default function Index() {
 }
 
 const FinishedMessage = () => (
-  <div
-    style={{
-      width: '100%',
-      height: '60vh',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}
-  >
+  <div className={passwordStyles.container}>
     <h1>Please check your email for the reset link</h1>
   </div>
 );

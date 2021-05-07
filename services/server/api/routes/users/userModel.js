@@ -104,7 +104,7 @@ const createPasswordResetToken = async (id) => {
     .update(resetToken)
     .digest('hex');
 
-  let expiresIn = Date.now() + 10 * 60 * 1000;
+  let expiresIn = Date.now() + 20 * 60 * 1000;
 
   await db('users').where({ id }).update({
     passwordResetToken: hashedResetToken,
@@ -129,5 +129,5 @@ module.exports = {
   updateAddressById,
   nameFromId,
   findRequestsByUserId,
-  createPasswordResetToken
+  createPasswordResetToken,
 };

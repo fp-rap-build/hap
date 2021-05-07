@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useHistory, Link, useParams } from 'react-router-dom';
 import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import styles from '../../../styles/pages/login.module.css';
 import { setLoading } from '../../../redux/global/globalActions';
 import { axiosWithAuth } from '../../../api/axiosWithAuth';
 import LoadingComponent from '../../common/LoadingComponent';
+
+import styles from '../../../styles/pages/login.module.css';
+
+import passwordStyles from '../../../styles/pages/password.module.css';
 
 export default function Index() {
   const { resetToken } = useParams();
@@ -21,7 +24,7 @@ export default function Index() {
   const history = useHistory();
 
   useEffect(() => {
-    validateResetToken(resetToken, setInvalidToken);
+    validateResetToken(resetToken, setInvalidToken, setIsLoading);
   }, []);
 
   const onFinish = async (values: any) => {
@@ -62,7 +65,7 @@ export default function Index() {
   }
 
   if (invalidToken) {
-    return <h1>Your token is invalid</h1>;
+    return <InvalidTokenMessage />;
   }
 
   if (isLoading) {
@@ -121,25 +124,31 @@ export default function Index() {
 }
 
 const FinishedMessage = () => (
-  <div
-    style={{
-      width: '100%',
-      height: '60vh',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}
-  >
+  <div className={passwordStyles.container}>
     <h1>Your password has been reset</h1>
     <Link to="/login">Back to Login</Link>
   </div>
 );
 
-const validateResetToken = async (resetToken, setInvalidToken) => {
+const InvalidTokenMessage = () => (
+  <div className={passwordStyles.container}>
+    <h1>Your reset token is invalid or expired </h1>
+    <Link to="/login">Back to Login</Link>
+  </div>
+);
+
+const validateResetToken = async (
+  resetToken,
+  setInvalidToken,
+  setIsLoading
+) => {
+  setIsLoading(true);
   try {
-    await axiosWithAuth().post(`/validate/${resetToken}`);
+    await axiosWithAuth().post(`/auth/validate/${resetToken}`);
     setInvalidToken(false);
   } catch (error) {
     setInvalidToken(true);
+  } finally {
+    setIsLoading(false);
   }
 };
