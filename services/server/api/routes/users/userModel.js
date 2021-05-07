@@ -1,6 +1,6 @@
 const db = require('../../../data/db-config');
 const bcrypt = require('bcryptjs');
-
+const crypto = require('crypto');
 const findAll = async (query = {}) => await db('users');
 
 const findBy = async (filter) => await db('users').where(filter);
@@ -106,6 +106,24 @@ const readAllNotifications = (userId) =>
     .where({ userId })
     .update({ seen: true })
     .returning('*');
+    
+const createPasswordResetToken = async (id) => {
+  let resetToken = crypto.randomBytes(32).toString('hex');
+
+  let hashedResetToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+
+  let expiresIn = Date.now() + 20 * 60 * 1000;
+
+  await db('users').where({ id }).update({
+    passwordResetToken: hashedResetToken,
+    passwordResetExpires: expiresIn,
+  });
+
+  return resetToken;
+};
 
 module.exports = {
   findAll,
@@ -125,4 +143,5 @@ module.exports = {
   findSubscriptionsById,
   findNotificationsById,
   readAllNotifications,
+  createPasswordResetToken,
 };
