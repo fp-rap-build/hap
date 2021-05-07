@@ -13,6 +13,8 @@ import { Badge, Avatar, Menu, Dropdown } from 'antd';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { UserOutlined, DownOutlined } from '@ant-design/icons';
 
+import { openPanal } from '../../../redux/notifications/notificationActions';
+
 import styles from '../../../styles/Layout/navbar.module.css';
 
 function Navbar() {
@@ -34,6 +36,8 @@ function Navbar() {
     );
   };
 
+  const openNotificationsPanal = () => dispatch(openPanal());
+
   const menu = (
     <Menu>
       <Menu.Item danger onClick={handleLogout}>
@@ -54,6 +58,7 @@ function Navbar() {
               </Dropdown>
               <Badge count={2}>
                 <NotificationsIcon
+                  onClick={openNotificationsPanal}
                   style={{ color: 'black', cursor: 'pointer' }}
                 />
               </Badge>

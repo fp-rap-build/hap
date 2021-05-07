@@ -1,0 +1,17 @@
+.container {
+  width: 30%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  background-color: rgb(255, 255, 255);
+  height: 100vh;
+}
+
+.closePanal {
+  position: absolute;
+  z-index: 11;
+  right: 5%;
+  top: 3%;
+  cursor: pointer;
+}
