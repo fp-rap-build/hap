@@ -37,7 +37,7 @@ export default function HouseHoldInformation({ formValues, role }) {
           rules={[
             {
               required: true,
-              pattern: RegExp(/^([1-9][0-9]?)\s*$/),
+              pattern: RegExp(/^([0-9][0-9]?)\s*$/),
               message: 'Invalid number of children',
             },
           ]}
