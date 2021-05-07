@@ -30,7 +30,7 @@ const forgotPassword = async (req, res, next) => {
 
 const generateResetUrl = (resetToken) => {
   let url;
-  if (process.env.NODE_ENV === 'producation') {
+  if (process.env.NODE_ENV === 'production') {
     url = `https://hap.solutions/reset/${resetToken}`;
   } else {
     url = `http://localhost:3000/reset/${resetToken}`;
