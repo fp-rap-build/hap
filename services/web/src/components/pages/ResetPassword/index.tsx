@@ -27,9 +27,7 @@ export default function Index() {
     validateResetToken(resetToken, setInvalidToken, setIsLoading);
   }, []);
 
-  const onFinish = async (values: any) => {
-    const { password, confirmPassword } = values;
-
+  const changePassword = async ({ password, confirmPassword }) => {
     if (password !== confirmPassword) {
       return setErrorMessage('Passwords do not match');
     }
@@ -78,7 +76,7 @@ export default function Index() {
         name="normal_login"
         className={styles.container}
         initialValues={{ remember: true }}
-        onFinish={onFinish}
+        onFinish={changePassword}
         // Remove error messages after the user types
         onChange={clearErrors}
         layout="vertical"
