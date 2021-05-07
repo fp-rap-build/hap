@@ -19,4 +19,21 @@ const requestStatusChange = (requestStatus, emailAddress) => {
     });
 };
 
-module.exports = { requestStatusChange };
+const sendResetPasswordLink = (emailAddress, resetURL) => {
+  const msg = {
+    to: emailAddress,
+    from: 'admin@familypromiseofspokane.org',
+    subject: 'Password reset',
+    html: `<p>Click here to reset your password <a href="${resetURL}">${resetURL}</a></p>`,
+  };
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log('Email sent');
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+module.exports = { requestStatusChange, sendResetPasswordLink };

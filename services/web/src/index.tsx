@@ -10,6 +10,9 @@ import Apply from './components/pages/Apply';
 import { HomePage } from './components/pages/Home';
 import LandingPage from './components/pages/Landing';
 import LoginPage from './components/pages/Login';
+import ForgotPassword from './components/pages/ForgotPassword';
+import ResetPassword from './components/pages/ResetPassword';
+
 import { NotFoundPage } from './components/pages/NotFound';
 import ProgramManager from './components/pages/ProgramManager';
 
@@ -43,7 +46,12 @@ function RAP() {
       <Switch>
         <Route path="/landing" component={LandingPage} />
         <Route path="/login" component={LoginPage} />
+        <Route path="/forgot" exact component={ForgotPassword} />
+
+        <Route path="/reset/:resetToken" exact component={ResetPassword} />
+
         <Route path="/apply" exact component={Apply} />
+
         {/* Any routes you need secured by role should be registered as PrivateRoutes */}
         <PrivateRoute exact path="/" component={HomePage} />
         <PrivateRoute path="/requests/:id" component={Requests} />
