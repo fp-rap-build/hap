@@ -20,6 +20,8 @@ export default function Footer({ request }) {
       <Statistic title="Status" value={request.requestStatus} />
 
       <Statistic title="Residents" value={request.familySize} />
+      <Statistic title="Number of Children" value={request.totalChildren} />
+ 
       <Statistic
         title="Monthly Income"
         prefix="$"
