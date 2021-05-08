@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
+
+import { motion, AnimatePresence } from 'framer-motion';
 
 import { closePanal } from '../../../../redux/notifications/notificationActions';
 
 import { useHistory } from 'react-router-dom';
 
-import { Button, Card } from 'antd';
-
 import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
 
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import RenderNotifications from './components/RenderNotifications';
 
 import styles from '../../../../styles/Layout/notificationspanal.module.css';
 
@@ -23,39 +23,40 @@ export default function Index() {
 
   const close = () => dispatch(closePanal());
 
+  const handleClickAway = () => {
+    close();
+  };
+
   return (
-    <div className={`${styles.container} ${isPanalOpen ? styles.isOpen : ''}`}>
+    <AnimatePresence>
+      {isPanalOpen && (
+        <motion.div
+          className={styles.container}
+          initial={{ x: '+100%', opacity: 0 }}
+          animate={{ x: '-2%', opacity: 1 }}
+          exit={{ x: '+100%', opacity: 0 }}
+          transition={{ type: 'tween' }}
+        >
+          <Panal
+            isPanalOpen={isPanalOpen}
+            notifications={notifications}
+            close={close}
+          />
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+const Panal = ({ isPanalOpen, notifications, close }) => {
+  return (
+    <>
       <div className={styles.closePanal} onClick={close}>
         <KeyboardReturnIcon />
       </div>
       <div className={styles.notifications}>
         <RenderNotifications notifications={notifications} />
       </div>
-    </div>
-  );
-}
-
-const RenderNotifications = ({ notifications }) => {
-  const history = useHistory();
-
-  return notifications.map(({ message, requestId }) => (
-    <Notification message={message} requestId={requestId} history={history} />
-  ));
-};
-
-const Notification = ({ message, requestId, history }) => {
-  return (
-    <Card>
-      <div className={styles.deleteNotification}>
-        <HighlightOffIcon style={{ fontSize: '17px' }} />
-      </div>
-      <h3>{message}</h3>
-      <Button
-        type="primary"
-        onClick={() => history.push(`/requests/${requestId}`)}
-      >
-        View Request
-      </Button>
-    </Card>
+    </>
   );
 };

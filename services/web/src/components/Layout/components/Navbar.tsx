@@ -11,6 +11,7 @@ import { logOut } from '../../../redux/users/userActions';
 import { Badge, Avatar, Menu, Dropdown } from 'antd';
 
 import NotificationsIcon from '@material-ui/icons/Notifications';
+
 import { UserOutlined, DownOutlined } from '@ant-design/icons';
 
 import { openPanal } from '../../../redux/notifications/notificationActions';

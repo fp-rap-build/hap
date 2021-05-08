@@ -5,9 +5,6 @@
   right: 0.2%;
   z-index: 10;
   background-color: rgba(0, 0, 0, 0);
-  transform: translateX(+100%);
-  transition: all 0.3s ease;
-  opacity: 0;
   overflow: visible;
 }
 
@@ -21,15 +18,9 @@
 
 .deleteNotification {
   position: absolute;
-  z-index: 10;
   left: 0;
   top: 0;
-  overflow: visible;
-}
-
-.isOpen {
-  transform: translateX(0);
-  opacity: 1;
+  cursor: pointer;
 }
 
 .notifications {
