@@ -32,4 +32,10 @@ export const closePanal = () => {
 
 export const deleteNotification = notifId => async dispatch => {
   dispatch({ type: 'DELETE_NOTIFICATION', payload: { id: notifId } });
+
+  try {
+    await axiosWithAuth().delete(`/notifications/${notifId}`);
+  } catch (error) {
+    alert('Unable to delete notification');
+  }
 };

@@ -11,6 +11,7 @@ import RenderNotifications from './components/RenderNotifications';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 import styles from '../../../../styles/Layout/notificationspanal.module.css';
+import { notification } from 'antd';
 
 export default function Index() {
   const dispatch = useDispatch();
@@ -26,6 +27,8 @@ export default function Index() {
 
     close();
   };
+
+  if (notifications.length === 0) return <></>;
 
   return (
     <AnimatePresence>
