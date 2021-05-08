@@ -83,7 +83,7 @@ io.on('connection', (socket) => {
 
     let notifications = subscribedUsers.map((row) => {
       row['requestId'] = requestId;
-      row['message'] = notificationMessage;
+      row['message'] = message;
       return row;
     });
 
