@@ -12,6 +12,8 @@ import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
 
 import RenderNotifications from './components/RenderNotifications';
 
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+
 import styles from '../../../../styles/Layout/notificationspanal.module.css';
 
 export default function Index() {
@@ -24,27 +26,34 @@ export default function Index() {
   const close = () => dispatch(closePanal());
 
   const handleClickAway = () => {
+    if (!isPanalOpen) return;
     close();
   };
 
   return (
-    <AnimatePresence>
-      {isPanalOpen && (
-        <motion.div
-          className={styles.container}
-          initial={{ x: '+100%', opacity: 0 }}
-          animate={{ x: '-2%', opacity: 1 }}
-          exit={{ x: '+100%', opacity: 0 }}
-          transition={{ type: 'tween' }}
-        >
-          <Panal
-            isPanalOpen={isPanalOpen}
-            notifications={notifications}
-            close={close}
-          />
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <div>
+      <AnimatePresence>
+        {isPanalOpen && (
+          <motion.div
+            className={styles.container}
+            initial={{ x: '+100%', opacity: 0 }}
+            animate={{ x: '-2%', opacity: 1 }}
+            exit={{ x: '+100%', opacity: 0 }}
+            transition={{ type: 'tween' }}
+          >
+            <ClickAwayListener onClickAway={handleClickAway}>
+              <div>
+                <Panal
+                  isPanalOpen={isPanalOpen}
+                  notifications={notifications}
+                  close={close}
+                />
+              </div>
+            </ClickAwayListener>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 
