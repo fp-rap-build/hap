@@ -2,10 +2,12 @@
   width: 30%;
   position: fixed;
   top: 0;
-  right: 0;
+  right: 0.2%;
   z-index: 10;
-  background-color: rgb(255, 255, 255);
-  height: 100vh;
+  background-color: rgba(0, 0, 0, 0);
+  transform: translateX(+100%);
+  transition: all 0.5s ease;
+  opacity: 0;
 }
 
 .closePanal {
@@ -14,4 +16,16 @@
   right: 5%;
   top: 3%;
   cursor: pointer;
+}
+
+.isOpen {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.notifications {
+  display: grid;
+  gap: 0.2rem;
+  height: 100vh;
+  overflow-y: scroll;
 }

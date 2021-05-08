@@ -19,14 +19,14 @@ export default function Index() {
 
   const close = () => dispatch(closePanal());
 
-  if (!isPanalOpen) return <></>;
-
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${isPanalOpen ? styles.isOpen : ''}`}>
       <div className={styles.closePanal} onClick={close}>
         X
       </div>
-      <RenderNotifications notifications={notifications} />
+      <div className={styles.notifications}>
+        <RenderNotifications notifications={notifications} />
+      </div>
     </div>
   );
 }
