@@ -1,13 +1,14 @@
 .container {
   width: 30%;
   position: fixed;
-  top: 0;
+  top: 0.4%;
   right: 0.2%;
   z-index: 10;
   background-color: rgba(0, 0, 0, 0);
   transform: translateX(+100%);
-  transition: all 0.5s ease;
+  transition: all 0.3s ease;
   opacity: 0;
+  overflow: visible;
 }
 
 .closePanal {
@@ -16,6 +17,14 @@
   right: 5%;
   top: 3%;
   cursor: pointer;
+}
+
+.deleteNotification {
+  position: absolute;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  overflow: visible;
 }
 
 .isOpen {
