@@ -17,6 +17,7 @@ const io = require('socket.io')(server, {
       'http://localhost:3000',
       'http://192.168.1.9:3000',
       'https://hapdev.vercel.app',
+      'https://hap.solutions',
     ],
     methods: ['GET', 'POST'],
     allowedHeaders: ['my-custom-header'],
@@ -45,15 +46,26 @@ io.on('connection', (socket) => {
     socket.leave(genRoom.chat(requestId));
   });
 
-  socket.on('comment', (comment) => {
+  socket.on('comment', async (comment) => {
     const { requestId, firstName } = comment;
 
-    const recentComments = {};
+    let message = `${firstName} left a comment`;
 
-    recentComments[requestId] = new Date();
+    let subscribedUsers = await db('subscriptions as s')
+      .join('users as u', 's.userId', '=', 'u.id')
+      .where('s.requestId', '=', requestId)
+      .select('s.userId');
+
+    let notifications = subscribedUsers.map((row) => {
+      row['requestId'] = requestId;
+      row['message'] = message;
+      return row;
+    });
+
+    await db('userNotifications').insert(notifications);
 
     io.to(genRoom.request(requestId)).emit('requestChange', {
-      message: `${firstName} recently left a comment`,
+      message,
       requestId,
     });
 
