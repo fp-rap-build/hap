@@ -29,3 +29,7 @@ export const openPanal = () => {
 export const closePanal = () => {
   return { type: 'CLOSE_PANAL' };
 };
+
+export const deleteNotification = notifId => async dispatch => {
+  dispatch({ type: 'DELETE_NOTIFICATION', payload: { id: notifId } });
+};

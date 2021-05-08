@@ -7,7 +7,13 @@ import Notification from './Notifications';
 export default function RenderNotifications({ notifications }) {
   const history = useHistory();
 
-  return notifications.map(({ message, requestId }) => (
-    <Notification message={message} requestId={requestId} history={history} />
+  return notifications.map(({ id, message, requestId }) => (
+    <Notification
+      key={id}
+      id={id}
+      message={message}
+      requestId={requestId}
+      history={history}
+    />
   ));
 }

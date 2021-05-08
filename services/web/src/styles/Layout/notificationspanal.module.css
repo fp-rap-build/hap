@@ -24,7 +24,8 @@
 }
 
 .notifications {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 0.2rem;
   height: 100vh;
   overflow-y: scroll;
