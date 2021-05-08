@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import { axiosWithAuth } from '../../api/axiosWithAuth';
 
 export const fetchNotifications = () => async dispatch => {
@@ -36,6 +37,16 @@ export const deleteNotification = notifId => async dispatch => {
   try {
     await axiosWithAuth().delete(`/notifications/${notifId}`);
   } catch (error) {
-    alert('Unable to delete notification');
+    message.error('Unable to delete notification');
+  }
+};
+
+export const readNotification = notifId => async dispatch => {
+  dispatch({ type: 'READ_NOTIFICATION', payload: { id: notifId } });
+
+  try {
+    await axiosWithAuth().post(`/notifications/${notifId}/seen`);
+  } catch (error) {
+    console.error('error!');
   }
 };

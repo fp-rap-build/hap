@@ -12,6 +12,22 @@ const deleteNotification = async (req, res, next) => {
   }
 };
 
+const viewNotification = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    let notification = await Notification.findByIdAndUpdate(id, {
+      seen: true,
+    });
+
+    res.status(200).json({ notification: notification[0] });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Unable to view notification' });
+  }
+};
+
 module.exports = {
   deleteNotification,
+  viewNotification,
 };

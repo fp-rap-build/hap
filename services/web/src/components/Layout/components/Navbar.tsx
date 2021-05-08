@@ -8,7 +8,7 @@ import logo from '../../../assets/logo.png';
 
 import { logOut } from '../../../redux/users/userActions';
 
-import { Badge, Avatar, Menu, Dropdown } from 'antd';
+import { Badge, Avatar, Menu, Dropdown, notification } from 'antd';
 
 import NotificationsIcon from '@material-ui/icons/Notifications';
 
@@ -27,6 +27,8 @@ function Navbar() {
 
   const currentUser = useSelector(state => state.user.currentUser);
 
+  const { notifications } = useSelector(state => state.notifications);
+
   const redirectToHome = () => {
     history.push('/');
   };
@@ -38,6 +40,10 @@ function Navbar() {
   };
 
   const openNotificationsPanal = () => dispatch(openPanal());
+
+  const unseen = notifications.filter(notif => {
+    if (!notif.seen) return notif;
+  }).length;
 
   const menu = (
     <Menu>
@@ -57,7 +63,7 @@ function Navbar() {
               <Dropdown overlay={menu}>
                 <Avatar size={35} icon={<UserOutlined />} />
               </Dropdown>
-              <Badge count={2}>
+              <Badge count={unseen}>
                 <NotificationsIcon
                   onClick={openNotificationsPanal}
                   style={{ color: 'black', cursor: 'pointer' }}

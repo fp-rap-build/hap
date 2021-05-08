@@ -15,6 +15,17 @@ const notificationReducer = (state = INITIAL_STATE, action) => {
           return notif;
         }),
       };
+    case 'READ_NOTIFICATION':
+      return {
+        ...state,
+        notifications: state.notifications.map(notif => {
+          if (notif.id === action.payload.id) {
+            notif.seen = true;
+          }
+
+          return notif;
+        }),
+      };
     case 'DELETE_NOTIFICATION':
       return {
         ...state,

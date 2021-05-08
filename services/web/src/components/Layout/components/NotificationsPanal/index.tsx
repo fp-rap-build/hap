@@ -22,12 +22,6 @@ export default function Index() {
 
   const close = () => dispatch(closePanal());
 
-  const handleClickAway = () => {
-    if (!isPanalOpen) return;
-
-    close();
-  };
-
   if (notifications.length === 0) return <></>;
 
   return (
@@ -40,15 +34,11 @@ export default function Index() {
           exit={{ x: '+100%', opacity: 0 }}
           transition={{ type: 'tween' }}
         >
-          <ClickAwayListener onClickAway={handleClickAway}>
-            <div>
-              <Panal
-                isPanalOpen={isPanalOpen}
-                notifications={notifications}
-                close={close}
-              />
-            </div>
-          </ClickAwayListener>
+          <Panal
+            isPanalOpen={isPanalOpen}
+            notifications={notifications}
+            close={close}
+          />
         </motion.div>
       )}
     </AnimatePresence>
@@ -57,13 +47,15 @@ export default function Index() {
 
 const Panal = ({ isPanalOpen, notifications, close }) => {
   return (
-    <div>
-      <div className={styles.closePanal} onClick={close}>
-        <KeyboardReturnIcon />
+    <ClickAwayListener onClickAway={close}>
+      <div>
+        <div className={styles.closePanal} onClick={close}>
+          <KeyboardReturnIcon />
+        </div>
+        <div className={styles.notifications}>
+          <RenderNotifications notifications={notifications} />
+        </div>
       </div>
-      <div className={styles.notifications}>
-        <RenderNotifications notifications={notifications} />
-      </div>
-    </div>
+    </ClickAwayListener>
   );
 };

@@ -6,13 +6,20 @@ import { Button, Card } from 'antd';
 
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
-import { deleteNotification } from '../../../../../redux/notifications/notificationActions';
-
-import { motion, AnimatePresence } from 'framer-motion';
+import {
+  deleteNotification,
+  readNotification,
+} from '../../../../../redux/notifications/notificationActions';
 
 import styles from '../../../../../styles/Layout/notificationspanal.module.css';
 
-export default function Notification({ message, id, requestId, history }) {
+export default function Notification({
+  message,
+  seen,
+  id,
+  requestId,
+  history,
+}) {
   const dispatch = useDispatch();
 
   const [isDeleteVisible, setIsDeleteVisible] = useState(false);
@@ -23,14 +30,17 @@ export default function Notification({ message, id, requestId, history }) {
 
   const handleDelete = () => dispatch(deleteNotification(id));
 
+  const handleClick = () => {
+    dispatch(readNotification(id));
+
+    history.push(`/requests/${requestId}`);
+  };
+
   return (
     <Card onMouseOver={showDelete} onMouseLeave={hideDelete}>
       <RenderDelete onClick={handleDelete} isDeleteVisible={isDeleteVisible} />
       <h3>{message}</h3>
-      <Button
-        type="primary"
-        onClick={() => history.push(`/requests/${requestId}`)}
-      >
+      <Button type={seen ? 'ghost' : 'primary'} onClick={handleClick}>
         View Request
       </Button>
     </Card>

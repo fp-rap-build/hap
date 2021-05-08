@@ -26,12 +26,10 @@ const io = require('socket.io')(server, {
 
 io.on('connection', (socket) => {
   socket.on('joinOrganization', (orgId) => {
-    console.log(genRoom.org(orgId));
     socket.join(genRoom.org(orgId));
   });
 
   socket.on('joinRequest', (requestId) => {
-    console.log(genRoom.request(requestId));
     socket.join(genRoom.request(requestId));
   });
 
@@ -40,12 +38,10 @@ io.on('connection', (socket) => {
   });
 
   socket.on('joinChat', (requestId) => {
-    console.log(genRoom.chat(requestId), 'joined');
     socket.join(genRoom.chat(requestId));
   });
 
   socket.on('leaveChat', (requestId) => {
-    console.log(genRoom.chat(requestId), 'left');
     socket.leave(genRoom.chat(requestId));
   });
 
@@ -55,8 +51,6 @@ io.on('connection', (socket) => {
     const recentComments = {};
 
     recentComments[requestId] = new Date();
-
-    console.log(recentComments);
 
     io.to(genRoom.request(requestId)).emit('requestChange', {
       message: `${firstName} recently left a comment`,
@@ -82,8 +76,6 @@ io.on('connection', (socket) => {
       row['message'] = message;
       return row;
     });
-
-    console.log(notifications);
 
     await db('userNotifications').insert(notifications);
 
