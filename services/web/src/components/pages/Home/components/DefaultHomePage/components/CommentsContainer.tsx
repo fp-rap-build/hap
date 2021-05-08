@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+import { useSelector } from 'react-redux';
+
 import Comments from '../../../../../common/Comments';
 
 import styles from '../../../../../../styles/pages/home.module.css';
@@ -12,6 +14,8 @@ import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 const { Title } = Typography;
 
 const CommentsContainer = ({ request }) => {
+  const { currentUser } = useSelector(state => state.user);
+
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
@@ -42,6 +46,7 @@ const CommentsContainer = ({ request }) => {
         comments={comments}
         setComments={setComments}
         category="external"
+        notification={`${currentUser.firstName} left a comment on their request`}
       />
     </div>
   );

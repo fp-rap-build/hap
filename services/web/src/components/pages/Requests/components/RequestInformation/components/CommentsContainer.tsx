@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { useSelector } from 'react-redux';
+
 import Comments from '../../../../../common/Comments';
 
 import { Collapse, message } from 'antd';
@@ -10,6 +12,8 @@ import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 const { Panel } = Collapse;
 
 const CommentsContainer = ({ request }) => {
+  const { currentUser } = useSelector(state => state.user);
+
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
@@ -38,6 +42,7 @@ const CommentsContainer = ({ request }) => {
           comments={comments}
           setComments={setComments}
           category="external"
+          notification={`${currentUser.firstName} left a comment on ${request.firstName}'s request`}
         />
       </Panel>
       <Panel header="Internal Comments" key="2">
@@ -46,6 +51,7 @@ const CommentsContainer = ({ request }) => {
           comments={comments}
           setComments={setComments}
           category="internal"
+          notification={`${currentUser.firstName} left a comment on ${request.firstName}'s request`}
         />
       </Panel>
     </Collapse>

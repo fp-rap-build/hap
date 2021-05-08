@@ -11,7 +11,13 @@ import NoComment from './components/NoComment';
 import { Button } from 'antd';
 import socket from '../../../config/socket';
 
-const Comments = ({ request, comments, setComments, category }) => {
+const Comments = ({
+  request,
+  comments,
+  notification,
+  setComments,
+  category,
+}) => {
   const requestId = request.id;
   const [newComment, setNewComment] = useState({ text: '' });
   const [filteredComments, setFilteredComments] = useState([]);
@@ -43,6 +49,7 @@ const Comments = ({ request, comments, setComments, category }) => {
       lastName: currentUser.lastName,
       comment: newComment.text,
       category,
+      notificationMessage: notification,
     };
 
     socket.emit('comment', socketPayload);

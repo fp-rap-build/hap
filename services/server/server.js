@@ -47,9 +47,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('comment', async (comment) => {
-    const { requestId, firstName } = comment;
-
-    let message = `${firstName} left a comment`;
+    const { requestId, firstName, notificationMessage } = comment;
 
     let subscribedUsers = await db('subscriptions as s')
       .join('users as u', 's.userId', '=', 'u.id')
@@ -58,14 +56,14 @@ io.on('connection', (socket) => {
 
     let notifications = subscribedUsers.map((row) => {
       row['requestId'] = requestId;
-      row['message'] = message;
+      row['message'] = notificationMessage;
       return row;
     });
 
     await db('userNotifications').insert(notifications);
 
     io.to(genRoom.request(requestId)).emit('requestChange', {
-      message,
+      message: notificationMessage,
       requestId,
     });
 
@@ -85,7 +83,7 @@ io.on('connection', (socket) => {
 
     let notifications = subscribedUsers.map((row) => {
       row['requestId'] = requestId;
-      row['message'] = message;
+      row['message'] = notificationMessage;
       return row;
     });
 
