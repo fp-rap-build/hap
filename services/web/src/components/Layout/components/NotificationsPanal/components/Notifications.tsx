@@ -1,8 +1,10 @@
 import { useState } from 'react';
 
+import { formatUTC } from '../../../../../utils/dates';
+
 import { useDispatch } from 'react-redux';
 
-import { Button, Card } from 'antd';
+import { Button, Card, Typography } from 'antd';
 
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
@@ -13,7 +15,10 @@ import {
 
 import styles from '../../../../../styles/Layout/notificationspanal.module.css';
 
+const { Text } = Typography;
+
 export default function Notification({
+  createdAt,
   message,
   seen,
   id,
@@ -37,12 +42,23 @@ export default function Notification({
   };
 
   return (
-    <Card onMouseOver={showDelete} onMouseLeave={hideDelete}>
+    <Card
+      onMouseOver={showDelete}
+      onMouseLeave={hideDelete}
+      style={{
+        gap: '1rem',
+      }}
+    >
       <RenderDelete onClick={handleDelete} isDeleteVisible={isDeleteVisible} />
       <h3>{message}</h3>
-      <Button type={seen ? 'ghost' : 'primary'} onClick={handleClick}>
+      <Button
+        type={seen ? 'ghost' : 'primary'}
+        style={{ width: '30%', margin: 0, padding: 0 }}
+        onClick={handleClick}
+      >
         View Request
       </Button>
+      <p style={{ marginTop: '0.5rem' }}>{formatUTC(createdAt)}</p>
     </Card>
   );
 }
