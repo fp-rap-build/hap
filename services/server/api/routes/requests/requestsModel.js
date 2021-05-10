@@ -64,6 +64,7 @@ const findForTable = () => {
       'r.verifiedDocuments',
       'r.foodWrkr',
       'r.unEmp90',
+      'r.orgId',
       'a.address',
       'a.zipCode',
       'a.cityName',
@@ -112,6 +113,22 @@ const findById = (id) => {
     .where('r.id', '=', id);
 };
 
+const findAllComments = (requestId) =>
+  db('comments as c')
+    .where({ requestId })
+    .join('users as u', 'c.authorId', 'u.id')
+    .select(
+      'c.id',
+      'c.requestId',
+      'c.authorId',
+      'u.firstName',
+      'u.lastName',
+      'c.comment',
+      'c.category',
+      'c.createdAt'
+    )
+    .orderBy('c.createdAt', 'asc');
+
 module.exports = {
   findAll,
   findBy,
@@ -122,4 +139,5 @@ module.exports = {
   findAllActive,
   findForTable,
   findById,
+  findAllComments,
 };

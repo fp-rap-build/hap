@@ -1,4 +1,5 @@
 import { axiosWithAuth } from '../../api/axiosWithAuth';
+import socket from '../../config/socket';
 import { setLoading } from '../global/globalActions';
 
 export const setCurrentUser = currentUser => {
@@ -17,9 +18,17 @@ export const fetchCurrentUser = () => async dispatch => {
   dispatch(setLoading(true));
 
   try {
-    let res = await axiosWithAuth().get('/users/me');
+    let currentUser = await axiosWithAuth()
+      .get('/users/me')
+      .then(res => res.data.user);
 
-    let currentUser = res.data.user;
+    if (currentUser.organizationId) {
+      socket.emit('joinOrganization', currentUser.organizationId);
+    }
+
+    currentUser.subscriptions.forEach(sub => {
+      socket.emit('joinRequest', sub.requestId);
+    });
 
     dispatch({ type: 'SET_CURRENT_USER', payload: currentUser });
   } catch (error) {
@@ -29,17 +38,21 @@ export const fetchCurrentUser = () => async dispatch => {
   }
 };
 
-export const logOut = history => dispatch => {
+export const logOut = (history, orgId, subscriptions) => dispatch => {
   // Remove token from localStorage
-
   localStorage.removeItem('token');
 
-  // Logout
+  // Leave rooms
+  socket.emit('leaveOrganization', { orgId });
 
+  subscriptions.forEach(sub => {
+    socket.emit('leaveRequest', sub.requestId);
+  });
+
+  // Logout
   dispatch({ type: 'LOG_OUT' });
 
   // Redirect to landing page
-
   history.push('/landing');
 };
 
@@ -153,7 +166,16 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
     dispatch(setCurrentUser(currentUser));
 
     // Submit a request
-    await axiosWithAuth().post('/requests', request);
+    let newRequest = await axiosWithAuth()
+      .post('/requests', request)
+      .then(res => res.data);
+
+    socket.emit('postRequest', {
+      orgId: newRequest.orgId,
+      requestId: newRequest.id,
+      message: 'A new request was submitted',
+    });
+
     // Redirect to the homepage
     history.push('/');
   } catch (error) {
@@ -169,4 +191,12 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
 export const setCurrentUserStatic = (user, history) => {
   history.push('/');
   return { type: 'SET_CURRENT_USER', payload: user };
+};
+
+export const addSubscription = subscription => {
+  return { type: 'ADD_SUBSCRIPTION', payload: subscription };
+};
+
+export const deleteSubscription = subscriptionId => {
+  return { type: 'DELETE_SUBSCRIPTION', payload: subscriptionId };
 };

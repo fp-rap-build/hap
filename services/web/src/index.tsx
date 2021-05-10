@@ -1,9 +1,15 @@
 import 'antd/dist/antd.less';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+
 import ReactDOM from 'react-dom';
 import ReactGA from 'react-ga';
-import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Provider, useSelector, useDispatch } from 'react-redux';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useHistory,
+} from 'react-router-dom';
 import Layout from './components/Layout';
 import Admin from './components/pages/Admin';
 import Apply from './components/pages/Apply';
@@ -23,6 +29,11 @@ import store from './redux/store';
 import './styles/global.css';
 import PrivateRoute from './utils/auth/PrivateRoute';
 
+import socket from './config/socket';
+
+import { Button, notification } from 'antd';
+import { fetchNotifications } from './redux/notifications/notificationActions';
+
 const TRACKING_ID = 'G-ZDW3ENHWE7'; // YOUR_OWN_TRACKING_ID
 ReactGA.initialize(TRACKING_ID);
 
@@ -40,6 +51,42 @@ ReactDOM.render(
 function RAP() {
   // The reason to declare App this way is so that we can use any helper functions we'd need for business logic, in our case auth.
   // React Router has a nifty useHistory hook we can use at this level to ensure we have security around our routes.
+
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const { isLoggedIn, currentUser } = useSelector(state => state.user);
+
+  const userRef = useRef(currentUser);
+
+  const showNotification = options => {
+    const redirectToRequest = requestId =>
+      history.push(`/requests/${requestId}`);
+
+    const btn = (
+      <Button onClick={() => redirectToRequest(options.requestId)}>
+        View Request
+      </Button>
+    );
+
+    notification.info({ message: options.message, btn });
+  };
+
+  useEffect(() => {
+    socket.on('requestChange', options => {
+      // Only show notifications made by other users
+
+      if (options.senderId !== userRef.current.id) {
+        showNotification(options);
+      }
+
+      dispatch(fetchNotifications());
+    });
+  }, []);
+
+  useEffect(() => {
+    userRef.current = currentUser;
+  }, [currentUser]);
 
   return (
     <Layout>

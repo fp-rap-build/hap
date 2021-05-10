@@ -3,6 +3,7 @@ import { Modal, Input, message } from 'antd';
 import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 
 import { useSelector } from 'react-redux';
+import socket from '../../../../../../config/socket';
 
 export default function ApproveRequestModal({
   isApprovedModalVisible,
@@ -42,6 +43,12 @@ export default function ApproveRequestModal({
       });
 
       const newBudget = selectedProgram.budget - amountToSend;
+
+      socket.emit('requestChange', {
+        requestId: request.id,
+        senderId: currentUser.id,
+        message: `${request.firstName}'s request has been approved!`,
+      });
 
       setRequest(prevState => {
         return { ...prevState, requestStatus: 'approved' };

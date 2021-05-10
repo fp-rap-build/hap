@@ -8,10 +8,13 @@ exports.getCurrentUser = async (req, res) => {
   try {
     let requests = await Users.findRequestsByUserId(user.id);
 
+    let subscriptions = await Users.findSubscriptionsById(user.id);
+
     let organization = await Orgs.findById(user.organizationId);
 
     user['requests'] = requests;
     user['organization'] = organization;
+    user['subscriptions'] = subscriptions;
 
     res.status(200).json({
       user,
@@ -53,5 +56,40 @@ exports.deleteCurrentUser = async (req, res, next) => {
     res.status(204).json({ message: 'User was successfully deleted' });
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+exports.getAllSubscriptions = async (req, res, next) => {
+  const { id } = req.user;
+  try {
+    let subscriptions = await Users.findSubscriptionsById(id);
+
+    res.status(200).json({ subscriptions });
+  } catch (error) {
+    res.status(500).json({ message: 'Unable to get subscriptions by user id' });
+  }
+};
+
+exports.getAllNotifications = async (req, res, next) => {
+  const { id } = req.user;
+
+  try {
+    let notifications = await Users.findNotificationsById(id);
+
+    res.status(200).json({ notifications });
+  } catch (error) {
+    res.status(500).json({ message: 'Unable to fetch notifications for user' });
+  }
+};
+
+exports.readAllNotifications = async (req, res, next) => {
+  const { id } = req.user;
+
+  try {
+    let notifications = await Users.readAllNotifications(id);
+    res.status(200).json({ notifications });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Unable to read Notifications' });
   }
 };

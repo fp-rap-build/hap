@@ -17,6 +17,11 @@ const {
   updateCurrentUser,
   deleteCurrentUser,
   getUserAddressById,
+
+  getAllSubscriptions,
+  getAllNotifications,
+  readAllNotifications,
+  
 } = require('./controllers');
 
 // Global middleware
@@ -30,6 +35,11 @@ router
   .get(getCurrentUser)
   .put(updateCurrentUser)
   .delete(deleteCurrentUser);
+
+router.route('/me/subscriptions').get(getAllSubscriptions);
+
+router.route('/me/notifications').get(getAllNotifications);
+router.route('/me/notifications/read').post(readAllNotifications);
 
 router
   .route('/:id')

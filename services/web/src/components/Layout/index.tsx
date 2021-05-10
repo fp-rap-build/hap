@@ -6,11 +6,14 @@ import Navbar from './components/Navbar';
 
 import Watermark from './components/Watermark';
 
+import NotificationsPanal from './components/NotificationsPanal';
+
 export default function index({ children }) {
   return (
     <div>
       <Navbar />
       <main>{children}</main>
+      <NotificationsPanal />
       <Watermark />
     </div>
   );

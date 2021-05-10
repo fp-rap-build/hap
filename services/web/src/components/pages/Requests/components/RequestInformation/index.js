@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { useSelector } from 'react-redux';
+
 import { isChecklistCompleted } from './utils';
 
 import ApproveRequestModal from './components/ApproveRequestModal';
@@ -16,6 +18,8 @@ import {
 
 import { Card, Input, message, Modal } from 'antd';
 import { axiosWithAuth } from '../../../../../api/axiosWithAuth';
+
+import socket from '../../../../../config/socket';
 
 const tabListNoTitle = [
   {
@@ -46,6 +50,8 @@ export default function Index({
   programs,
   setPrograms,
 }) {
+  const currentUser = useSelector(state => state.user.currentUser);
+
   const [loading, setLoading] = useState(false);
   //eslint-disable-next-line
   const [tab, setTab] = useState('basic');
@@ -88,13 +94,13 @@ export default function Index({
   };
 
   const handleReviewSubmit = status => {
-    const alreadyReviewed =
-      request.requestStatus === 'approved' ||
-      request.requestStatus === 'denied';
+    // const alreadyReviewed =
+    //   request.requestStatus === 'approved' ||
+    //   request.requestStatus === 'denied';
 
-    if (alreadyReviewed) {
-      return message.error('This request has already been reviewed');
-    }
+    // if (alreadyReviewed) {
+    //   return message.error('This request has already been reviewed');
+    // }
 
     let completedChecklist = isChecklistCompleted(preChecklistValues);
 
@@ -102,11 +108,16 @@ export default function Index({
       return pleaseFinishChecklistModal();
 
     const handleDenial = async () => {
-      console.log(request);
       try {
         await axiosWithAuth().put(`/requests/${request.id}`, {
           requestStatus: status,
           email: request.email,
+        });
+
+        socket.emit('requestChange', {
+          requestId: request.id,
+          senderId: currentUser.id,
+          message: `${request.firstName}'s request has been denied`,
         });
 
         setRequest({ ...request, requestStatus: status });
@@ -134,6 +145,13 @@ export default function Index({
     try {
       await axiosWithAuth().put(`/requests/${request.id}`, {
         [name]: checked,
+      });
+
+      // Send notification
+      socket.emit('requestChange', {
+        requestId: request.id,
+        senderId: currentUser.id,
+        message: `${currentUser.firstName} made an update to ${request.firstName}'s checklist`,
       });
     } catch (error) {
       message.error(

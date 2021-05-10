@@ -18,6 +18,7 @@ const findRequestsByUserId = (userId) =>
       'r.pmApproval',
       'r.bookKeeperApproval',
       'r.headAcctApproval',
+      'r.orgId',
       'r.adminApproval',
       'a.address',
       'a.zipCode',
@@ -30,9 +31,8 @@ const findById = async (id) => db('users').where({ id }).first('*');
 
 const findByIdAndUpdate = async (id, payload) => {
   if (payload['password']) {
-    payload['password'] = await bcrypt.hash(payload['password'], 12);
+    payload['password'] = await bcrypt.hash(user['password'], 12);
   }
-
   return await db('users').where({ id }).update(payload).returning('*');
 };
 
@@ -54,6 +54,8 @@ const findOrCreateAddress = async (user) => {
     let address = await db('addresses').insert({}).returning('*');
   }
 };
+
+const findSubscriptionsById = (userId) => db('subscriptions').where({ userId });
 
 const updateAddressById = async (addressId, payload) =>
   await db('addresses').where({ id: addressId }).update(payload).returning('*');
@@ -96,6 +98,15 @@ const nameFromId = (id) => {
     .first();
 };
 
+const findNotificationsById = (userId) =>
+  db('userNotifications').where({ userId }).orderBy('createdAt', 'desc');
+
+const readAllNotifications = (userId) =>
+  db('userNotifications')
+    .where({ userId })
+    .update({ seen: true })
+    .returning('*');
+    
 const createPasswordResetToken = async (id) => {
   let resetToken = crypto.randomBytes(32).toString('hex');
 
@@ -129,5 +140,8 @@ module.exports = {
   updateAddressById,
   nameFromId,
   findRequestsByUserId,
+  findSubscriptionsById,
+  findNotificationsById,
+  readAllNotifications,
   createPasswordResetToken,
 };

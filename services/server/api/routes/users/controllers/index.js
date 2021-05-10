@@ -12,6 +12,9 @@ const {
   getCurrentUser,
   updateCurrentUser,
   deleteCurrentUser,
+  getAllSubscriptions,
+  getAllNotifications,
+  readAllNotifications
 } = require('./routes/me');
 
 const {
@@ -30,4 +33,7 @@ module.exports = {
   deleteCurrentUser,
   updateCurrentUserAddress,
   getUserAddressById,
+  getAllSubscriptions,
+  getAllNotifications,
+  readAllNotifications
 };

@@ -16,7 +16,8 @@ const { getAllDocuments, createDocument } = require('./documents/controllers');
 const { sendPayment } = require('./payments/controllers');
 
 const { createAddress, updateAddress } = require('./address/controllers');
-const { test } = require('../../../config/knexfile');
+
+const { getAllComments } = require('./comments');
 
 const router = express.Router();
 
@@ -39,7 +40,7 @@ router.post('/', async (req, res) => {
 
     const newRequest = await Requests.create(request);
 
-    res.status(200).json(newRequest);
+    res.status(200).json(newRequest[0]);
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ message: 'Internal server error' });
@@ -49,6 +50,7 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const allRequests = await Requests.findAll(req.user);
+
     res.status(200).json({ requests: allRequests });
   } catch (error) {
     console.log(error);
@@ -117,7 +119,7 @@ router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    await Requests.removeAllCommentsByRequestId(id)
+    await Requests.removeAllCommentsByRequestId(id);
     await Requests.remove(id);
 
     res
@@ -138,5 +140,7 @@ router
   .get(getAllDocuments);
 
 router.route('/:id/payments').all(validateRequestId).post(sendPayment);
+
+router.route('/:id/comments').all(validateRequestId).get(getAllComments);
 
 module.exports = router;

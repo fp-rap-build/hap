@@ -2,25 +2,35 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { axiosWithAuth } from '../../../api/axiosWithAuth';
-import { checkCommentLength, getFormattedDate, fetchComments } from './utils';
+import { checkCommentLength, fetchComments } from './utils';
 
 import RenderComment from './components/RenderComment';
 import CreateComment from './components/CreateComment';
 import NoComment from './components/NoComment';
 
 import { Button } from 'antd';
+import socket from '../../../config/socket';
 
-const Comments = ({ request, category }) => {
+const Comments = ({
+  request,
+  comments,
+  notification,
+  setComments,
+  category,
+}) => {
   const requestId = request.id;
-  const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState({ text: '' });
+  const [filteredComments, setFilteredComments] = useState([]);
 
   const currentUser = useSelector(state => state.user.currentUser);
 
   useEffect(() => {
-    fetchComments(requestId, category, setComments);
-    //eslint-disable-next-line
-  }, []);
+    let filter = comments.filter(comment => {
+      if (comment.category === category) return comment;
+    });
+
+    setFilteredComments(filter);
+  }, [comments]);
 
   const addComment = async e => {
     e.stopPropagation();
@@ -28,13 +38,24 @@ const Comments = ({ request, category }) => {
       requestId: requestId,
       authorId: currentUser.id,
       comment: newComment.text,
-      createdAt: getFormattedDate(),
+      createdAt: new Date().toISOString(),
       category: category,
     };
 
+    const socketPayload = {
+      requestId,
+      authorId: currentUser.id,
+      firstName: currentUser.firstName,
+      lastName: currentUser.lastName,
+      comment: newComment.text,
+      category,
+      createdAt: new Date().toISOString(),
+      notificationMessage: notification,
+    };
+
+    socket.emit('comment', socketPayload);
     try {
       await axiosWithAuth().post('/comments', commentToPOST);
-      fetchComments(requestId, category, setComments);
       setNewComment({ text: '' });
     } catch (error) {
       console.error(error);
@@ -43,8 +64,10 @@ const Comments = ({ request, category }) => {
 
   return (
     <div>
-      {comments ? (
-        comments.map(comm => <RenderComment comm={comm} />)
+      {filteredComments ? (
+        filteredComments.map(comm => (
+          <RenderComment key={comm.id} comm={comm} />
+        ))
       ) : (
         <NoComment />
       )}

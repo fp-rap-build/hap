@@ -1,12 +1,18 @@
 import React from 'react';
 
+import { useSelector } from 'react-redux';
+
 import { Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
+
+import socket from '../../../../../../config/socket';
 
 const { Dragger } = Upload;
 
 const DocumentUploader = ({ request }) => {
   const token = localStorage.getItem('token');
+
+  const currentUser = useSelector(state => state.user.currentUser);
 
   const props = {
     headers: {
@@ -18,6 +24,11 @@ const DocumentUploader = ({ request }) => {
     onChange(info) {
       const { status } = info.file;
       if (status === 'done') {
+        socket.emit('requestChange', {
+          requestId: request.id,
+          senderId: currentUser.id,
+          message: `${currentUser.firstName} submitted a new document to their request`,
+        });
         message.success(`${info.file.name} file uploaded successfully.`);
       } else if (status === 'error') {
         message.error(`${info.file.name} file upload failed.`);

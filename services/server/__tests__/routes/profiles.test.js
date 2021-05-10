@@ -66,7 +66,6 @@ describe('User router endpoints', () => {
       };
       const userObject = { user: user };
       try {
-        console.log(addressObject);
         User.findById.mockResolvedValue(addressObject);
         const res = await request(server).get('/users/me');
         expect(res.statusCode).toBe(200);
