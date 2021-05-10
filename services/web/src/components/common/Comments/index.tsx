@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { axiosWithAuth } from '../../../api/axiosWithAuth';
-import { checkCommentLength, getFormattedDate, fetchComments } from './utils';
+import { checkCommentLength, fetchComments } from './utils';
 
 import RenderComment from './components/RenderComment';
 import CreateComment from './components/CreateComment';
@@ -38,7 +38,7 @@ const Comments = ({
       requestId: requestId,
       authorId: currentUser.id,
       comment: newComment.text,
-      createdAt: getFormattedDate(),
+      createdAt: new Date().toISOString(),
       category: category,
     };
 
@@ -49,6 +49,7 @@ const Comments = ({
       lastName: currentUser.lastName,
       comment: newComment.text,
       category,
+      createdAt: new Date().toISOString(),
       notificationMessage: notification,
     };
 

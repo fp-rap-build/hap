@@ -44,3 +44,21 @@ img {
     width: 30%;
   }
 }
+
+@media (max-width: 520px) {
+  img {
+    height: 8rem;
+  }
+  .navItems {
+    width: 35%;
+  }
+}
+
+@media (max-width: 420px) {
+  img {
+    height: 6rem;
+  }
+  .navItems {
+    width: 45%;
+  }
+}
