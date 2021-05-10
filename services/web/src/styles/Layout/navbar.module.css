@@ -23,3 +23,24 @@ img {
   padding-right: 2rem;
   list-style: none;
 }
+
+@media (max-width: 1150px) {
+  .navItems {
+    width: 15%;
+  }
+}
+
+@media (max-width: 820px) {
+  .navItems {
+    width: 20%;
+  }
+}
+
+@media (max-width: 620px) {
+  img {
+    height: 9rem;
+  }
+  .navItems {
+    width: 30%;
+  }
+}
