@@ -1,5 +1,5 @@
 import 'antd/dist/antd.less';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import ReactDOM from 'react-dom';
 import ReactGA from 'react-ga';
@@ -55,7 +55,9 @@ function RAP() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { isLoggedIn } = useSelector(state => state.user);
+  const { isLoggedIn, currentUser } = useSelector(state => state.user);
+
+  const userRef = useRef(currentUser);
 
   const showNotification = options => {
     const redirectToRequest = requestId =>
@@ -72,10 +74,19 @@ function RAP() {
 
   useEffect(() => {
     socket.on('requestChange', options => {
-      showNotification(options);
+      // Only show notifications made by other users
+
+      if (options.senderId !== userRef.current.id) {
+        showNotification(options);
+      }
+
       dispatch(fetchNotifications());
     });
   }, []);
+
+  useEffect(() => {
+    userRef.current = currentUser;
+  }, [currentUser]);
 
   return (
     <Layout>

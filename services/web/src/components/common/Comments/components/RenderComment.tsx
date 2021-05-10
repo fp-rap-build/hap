@@ -1,4 +1,4 @@
-import { formatDate } from '../utils';
+import { formatUTC } from '../../../../utils/dates';
 
 import { Comment } from 'antd';
 
@@ -8,7 +8,7 @@ const RenderComment = ({ comm }) => {
   return (
     <Comment
       author={author}
-      datetime={formatDate(comm.createdAt)}
+      datetime={formatUTC(comm.createdAt)}
       content={<p>{comm.comment}</p>}
     />
   );

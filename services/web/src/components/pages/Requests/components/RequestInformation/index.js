@@ -116,6 +116,7 @@ export default function Index({
 
         socket.emit('requestChange', {
           requestId: request.id,
+          senderId: currentUser.id,
           message: `${request.firstName}'s request has been denied`,
         });
 
@@ -149,6 +150,7 @@ export default function Index({
       // Send notification
       socket.emit('requestChange', {
         requestId: request.id,
+        senderId: currentUser.id,
         message: `${currentUser.firstName} made an update to ${request.firstName}'s checklist`,
       });
     } catch (error) {

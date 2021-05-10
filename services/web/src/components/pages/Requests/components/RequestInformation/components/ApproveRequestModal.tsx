@@ -46,6 +46,7 @@ export default function ApproveRequestModal({
 
       socket.emit('requestChange', {
         requestId: request.id,
+        senderId: currentUser.id,
         message: `${request.firstName}'s request has been approved!`,
       });
 

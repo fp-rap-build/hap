@@ -47,11 +47,13 @@ io.on('connection', (socket) => {
   });
 
   socket.on('comment', async (comment) => {
-    const { requestId, firstName, notificationMessage } = comment;
+    const { requestId, authorId, notificationMessage } = comment;
+
 
     let subscribedUsers = await db('subscriptions as s')
       .join('users as u', 's.userId', '=', 'u.id')
       .where('s.requestId', '=', requestId)
+      .where('u.id', '<>', authorId)
       .select('s.userId');
 
     let notifications = subscribedUsers.map((row) => {
@@ -65,20 +67,25 @@ io.on('connection', (socket) => {
     io.to(genRoom.request(requestId)).emit('requestChange', {
       message: notificationMessage,
       requestId,
+      senderId: authorId,
     });
 
     io.to(genRoom.chat(requestId)).emit('comment', comment);
   });
 
-  socket.on('requestChange', async ({ requestId, message }) => {
+  socket.on('requestChange', async ({ requestId, senderId, message }) => {
     const payload = {
       message,
       requestId,
+      senderId,
     };
+
+    console.log(payload)
 
     let subscribedUsers = await db('subscriptions as s')
       .join('users as u', 's.userId', '=', 'u.id')
       .where('s.requestId', '=', requestId)
+      .where('u.id', '<>', senderId)
       .select('s.userId');
 
     let notifications = subscribedUsers.map((row) => {

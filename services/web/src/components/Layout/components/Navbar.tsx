@@ -60,7 +60,7 @@ function Navbar() {
         <div className={styles.navItems}>
           {isLoggedIn && (
             <>
-              <Dropdown overlay={menu}>
+              <Dropdown overlay={menu} trigger={['click', 'hover']}>
                 <Avatar size={35} icon={<UserOutlined />} />
               </Dropdown>
               <Badge count={unseen}>
