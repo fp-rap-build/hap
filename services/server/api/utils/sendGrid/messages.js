@@ -36,4 +36,27 @@ const sendResetPasswordLink = (emailAddress, resetURL) => {
     });
 };
 
-module.exports = { requestStatusChange, sendResetPasswordLink };
+const sendPromiseToPayEmail = (emailAddress) => {
+  const msg = {
+    to: emailAddress,
+    from: 'admin@familypromiseofspokane.org',
+    subject: 'Approved for Rental Assistance',
+    text: `Your tenants request has been approved! We will contact you shortly to go over the details`,
+    html: `<p>Your tenants request has been approved! We will contact you shortly to go over the details</p>`,
+  };
+
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log('Email sent');
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+module.exports = {
+  requestStatusChange,
+  sendResetPasswordLink,
+  sendPromiseToPayEmail,
+};
