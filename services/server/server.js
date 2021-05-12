@@ -48,7 +48,7 @@ io.on('connection', (socket) => {
 
   socket.on('comment', async (comment) => {
     const { requestId, authorId, notificationMessage } = comment;
-
+    console.log(comment)
     try {
       let subscribedUsers = await db('subscriptions as s')
         .join('users as u', 's.userId', '=', 'u.id')
@@ -61,7 +61,7 @@ io.on('connection', (socket) => {
         row['message'] = notificationMessage;
         return row;
       });
-      
+
       console.log('made it to notifications')
       await db('userNotifications').insert(notifications);
       console.log('made it to after notifications')
