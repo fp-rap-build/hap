@@ -22,6 +22,7 @@
     "emailjs-com": "^2.6.4",
     "eslint": "^7.21.0",
     "faker": "^5.4.0",
+    "framer-motion": "^4.1.16",
     "install": "^0.13.0",
     "material-table": "^1.69.1",
     "npm": "^7.11.2",
