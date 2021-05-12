@@ -7,7 +7,9 @@ export default function Basic({ request, column = 2 }) {
     <Descriptions column={column}>
       <Descriptions.Item label="Name">{`${request.firstName} ${request.lastName}`}</Descriptions.Item>
       <Descriptions.Item label="State">{request.state}</Descriptions.Item>
-      <Descriptions.Item label="Email">{request.email}</Descriptions.Item>
+      <Descriptions.Item label="Email">
+        <a href={`mailto:${request.email}`}>{request.email}</a>
+      </Descriptions.Item>
       <Descriptions.Item label="City">{request.cityName}</Descriptions.Item>
       <Descriptions.Item label="Role">{request.role}</Descriptions.Item>
       <Descriptions.Item label="Zip">{request.zipCode}</Descriptions.Item>
@@ -19,7 +21,6 @@ export default function Basic({ request, column = 2 }) {
       <Descriptions.Item label="Unemployed for 90 days">
         {request.unEmp90 ? 'Yes' : 'No'}
       </Descriptions.Item>
-      
     </Descriptions>
   );
 }

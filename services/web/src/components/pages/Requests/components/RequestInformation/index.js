@@ -94,13 +94,13 @@ export default function Index({
   };
 
   const handleReviewSubmit = status => {
-    // const alreadyReviewed =
-    //   request.requestStatus === 'approved' ||
-    //   request.requestStatus === 'denied';
+    const alreadyReviewed =
+      request.requestStatus === 'approved' ||
+      request.requestStatus === 'denied';
 
-    // if (alreadyReviewed) {
-    //   return message.error('This request has already been reviewed');
-    // }
+    if (alreadyReviewed) {
+      return message.error('This request has already been reviewed');
+    }
 
     let completedChecklist = isChecklistCompleted(preChecklistValues);
 
