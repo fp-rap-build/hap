@@ -49,28 +49,31 @@ io.on('connection', (socket) => {
   socket.on('comment', async (comment) => {
     const { requestId, authorId, notificationMessage } = comment;
 
+    try {
+      let subscribedUsers = await db('subscriptions as s')
+        .join('users as u', 's.userId', '=', 'u.id')
+        .where('s.requestId', '=', requestId)
+        .where('u.id', '<>', authorId)
+        .select('s.userId');
 
-    let subscribedUsers = await db('subscriptions as s')
-      .join('users as u', 's.userId', '=', 'u.id')
-      .where('s.requestId', '=', requestId)
-      .where('u.id', '<>', authorId)
-      .select('s.userId');
+      let notifications = subscribedUsers.map((row) => {
+        row['requestId'] = requestId;
+        row['message'] = notificationMessage;
+        return row;
+      });
 
-    let notifications = subscribedUsers.map((row) => {
-      row['requestId'] = requestId;
-      row['message'] = notificationMessage;
-      return row;
-    });
+      await db('userNotifications').insert(notifications);
 
-    await db('userNotifications').insert(notifications);
+      io.to(genRoom.request(requestId)).emit('requestChange', {
+        message: notificationMessage,
+        requestId,
+        senderId: authorId,
+      });
 
-    io.to(genRoom.request(requestId)).emit('requestChange', {
-      message: notificationMessage,
-      requestId,
-      senderId: authorId,
-    });
-
-    io.to(genRoom.chat(requestId)).emit('comment', comment);
+      io.to(genRoom.chat(requestId)).emit('comment', comment);
+    } catch (error) {
+      console.log(error);
+    }
   });
 
   socket.on('requestChange', async ({ requestId, senderId, message }) => {
@@ -79,7 +82,6 @@ io.on('connection', (socket) => {
       requestId,
       senderId,
     };
-
 
     let subscribedUsers = await db('subscriptions as s')
       .join('users as u', 's.userId', '=', 'u.id')
