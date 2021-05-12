@@ -55,8 +55,39 @@ const sendPromiseToPayEmail = (emailAddress) => {
     });
 };
 
+const sendConfirmationOfApproval = (request) => {
+  let mailingList;
+  let msg;
+
+  if (process.env.NODE_ENV === 'production') {
+    mailingList = ['fpspokane@bill.com', 'dpeabody@fpspokane.org'];
+  } else {
+    mailingList = ['jwylie@fpspokane.org'];
+  }
+
+  mailingList.forEach((email) => {
+    msg = {
+      to: email,
+      from: 'admin@familypromiseofspokane.org',
+      subject: 'Approval',
+      text: `Request #${request.id} has been approved`,
+      html: `<p>Request #${request.id} has been approved</p>`,
+    };
+
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('Email sent');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  });
+};
+
 module.exports = {
   requestStatusChange,
   sendResetPasswordLink,
   sendPromiseToPayEmail,
+  sendConfirmationOfApproval,
 };

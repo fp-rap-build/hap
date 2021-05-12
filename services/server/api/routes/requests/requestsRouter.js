@@ -18,7 +18,10 @@ const { sendPayment } = require('./payments/controllers');
 const { createAddress, updateAddress } = require('./address/controllers');
 
 const { getAllComments } = require('./comments');
-const { sendPromiseToPayEmail } = require('../../utils/sendGrid/messages');
+const {
+  sendPromiseToPayEmail,
+  sendConfirmationOfApproval,
+} = require('../../utils/sendGrid/messages');
 
 const router = express.Router();
 
@@ -113,12 +116,12 @@ router.put('/:id', requestStatusChange, async (req, res) => {
 
     if (change['requestStatus'] === 'approved') {
       sendPromiseToPayEmail(request.landlordEmail);
+      sendConfirmationOfApproval(request);
     }
 
     const updatedRequest = await Requests.update(id, change);
     res.status(200).json(updatedRequest);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
