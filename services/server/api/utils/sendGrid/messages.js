@@ -51,7 +51,7 @@ const sendPromiseToPayEmail = (emailAddress) => {
       console.log('Email sent');
     })
     .catch((error) => {
-      console.error(error);
+      console.error('Failed to send email');
     });
 };
 
