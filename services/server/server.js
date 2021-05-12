@@ -61,15 +61,17 @@ io.on('connection', (socket) => {
         row['message'] = notificationMessage;
         return row;
       });
-
+      
+      console.log('made it to notifications')
       await db('userNotifications').insert(notifications);
+      console.log('made it to after notifications')
 
       io.to(genRoom.request(requestId)).emit('requestChange', {
         message: notificationMessage,
         requestId,
         senderId: authorId,
       });
-
+      console.log('made it to comment')
       io.to(genRoom.chat(requestId)).emit('comment', comment);
     } catch (error) {
       console.log(error);
