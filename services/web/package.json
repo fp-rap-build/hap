@@ -21,7 +21,7 @@
     "craco-less": "^1.17.1",
     "emailjs-com": "^2.6.4",
     "eslint": "^7.21.0",
-    "faker": "^5.4.0",
+    "faker": "^5.5.3",
     "install": "^0.13.0",
     "material-table": "^1.69.1",
     "npm": "^7.11.2",
