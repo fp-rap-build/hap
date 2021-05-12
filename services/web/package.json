@@ -13,7 +13,7 @@
     "@okta/okta-react": "^3.0.10",
     "@okta/okta-signin-widget": "^4.5.2",
     "@types/jest": "^26.0.20",
-    "@types/node": "^14.14.33",
+    "@types/node": "^14.14.41",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.2",
     "antd": "^4.13.1",
