@@ -191,7 +191,7 @@ export default function Index({
 
       <Card
         className="site-page-header-responsive"
-        title="Review"
+        title={`Reviewing ${request.firstName} ${request.lastName}'s request`}
         tabList={tabListNoTitle}
         onTabChange={onTabChange}
         activeTabKey={tab}
