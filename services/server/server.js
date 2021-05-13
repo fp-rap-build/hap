@@ -82,7 +82,6 @@ io.on('connection', (socket) => {
       senderId,
     };
 
-
     let subscribedUsers = await db('subscriptions as s')
       .join('users as u', 's.userId', '=', 'u.id')
       .where('s.requestId', '=', requestId)
