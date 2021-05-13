@@ -45,7 +45,7 @@ const CommentsContainer = ({ request }) => {
           notification={`${currentUser.firstName} left a comment on ${request.firstName}'s request`}
         />
       </Panel>
-      <Panel header="Internal Notes" key="2">
+      <Panel header="Internal Case Notes" key="2">
         <Comments
           request={request}
           comments={comments}
