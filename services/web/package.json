@@ -24,7 +24,7 @@
     "faker": "^5.4.0",
     "framer-motion": "^4.1.16",
     "install": "^0.13.0",
-    "material-table": "^1.69.1",
+    "material-table": "^1.69.3",
     "npm": "^7.11.2",
     "plotly.js": "^1.58.4",
     "react": "^16.14.0",
