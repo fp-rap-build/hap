@@ -20,7 +20,7 @@
     "axios": "^0.21.1",
     "craco-less": "^1.17.1",
     "emailjs-com": "^2.6.4",
-    "eslint": "^7.21.0",
+    "eslint": "^7.24.0",
     "faker": "^5.4.0",
     "framer-motion": "^4.1.16",
     "install": "^0.13.0",
