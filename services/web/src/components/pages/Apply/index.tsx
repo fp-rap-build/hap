@@ -32,6 +32,8 @@ import { setErrorMessage } from '../../../redux/global/globalActions';
 
 import faker from 'faker';
 
+import ReviewAndSubmit from './forms/Eligibility/ReviewAndSubmit';
+
 const INITIAL_VALUES_DEV = {
   firstName: faker.name.firstName(),
   lastName: faker.name.lastName(),
@@ -112,7 +114,7 @@ const INITIAL_VALUES_PROD = {
   demoNotSay: false,
 };
 
-const finalStep = 6;
+const finalStep = 7;
 
 export default function Index() {
   const loading = useSelector(state => state.global.isLoading);
@@ -122,7 +124,7 @@ export default function Index() {
   const dispatch = useDispatch();
 
   const history = useHistory();
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(7);
 
   const goForward = () => {
     setStep(step + 1);
@@ -130,7 +132,7 @@ export default function Index() {
 
   const goBackwards = () => setStep(step - 1);
 
-  const [formValues, setFormValues] = useState(INITIAL_VALUES_PROD);
+  const [formValues, setFormValues] = useState(INITIAL_VALUES_DEV);
   const [formConsent, setFormConsent] = useState(false);
 
   const handleChange = e => {
@@ -182,6 +184,7 @@ export default function Index() {
   let props = {
     formValues,
     step,
+    setStep,
     setFormValues,
     goBackwards,
     goForward,
@@ -258,5 +261,7 @@ const RenderForm = props => {
       return <SecondaryContact {...props} />;
     case 6:
       return <CreateAccount {...props} />;
+    case 7:
+      return <ReviewAndSubmit {...props} />;
   }
 };
