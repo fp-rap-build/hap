@@ -19,13 +19,23 @@
   justify-content: space-between;
 }
 
+.review {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 @media (max-width: 900px) {
   .container {
     width: 80%;
   }
   .form {
-    width: 70%;
+    width: 75%;
   }
+}
+
+.review {
+  margin-bottom: 1rem;
 }
 
 @media (max-width: 600px) {
@@ -33,15 +43,15 @@
     width: 90%;
   }
   .form {
-    width: 80%;
+    width: 85%;
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 600px) {
   .container {
     width: 100%;
   }
   .form {
-    width: 95%;
+    width: 98%;
   }
 }

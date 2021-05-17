@@ -16,6 +16,8 @@ import AdditionalInformation from './forms/Eligibility/AdditionalInformation';
 
 import SecondaryContact from './forms/SecondaryContact';
 
+import Review from './forms/Eligibility/Review';
+
 import CreateAccount from './forms/CreateAccount';
 
 import ProgramSelection from './forms/ProgramSelection';
@@ -44,14 +46,14 @@ const INITIAL_VALUES_DEV = {
   cityName: 'test',
   zipCode: 99205,
   state: 'Washington',
-  role: 'tenant',
+  role: 'landlord',
   familySize: 4,
   beds: 4,
   monthlyIncome: 1000,
   monthlyRent: 500,
   tenantName: 'tenant',
   tenantEmail: 'tenant@gmail.com',
-  tenantPhoneNumber: '111-222-3333',
+  tenantNumber: '111-222-3333',
   landlordName: 'landlord',
   landlordEmail: 'landlord@gmail.com',
   landlordPhoneNumber: '111-222-3333',
@@ -112,7 +114,7 @@ const INITIAL_VALUES_PROD = {
   demoNotSay: false,
 };
 
-const finalStep = 6;
+const finalStep = 7;
 
 export default function Index() {
   const loading = useSelector(state => state.global.isLoading);
@@ -122,6 +124,7 @@ export default function Index() {
   const dispatch = useDispatch();
 
   const history = useHistory();
+
   const [step, setStep] = useState(0);
 
   const goForward = () => {
@@ -182,6 +185,7 @@ export default function Index() {
   let props = {
     formValues,
     step,
+    setStep,
     setFormValues,
     goBackwards,
     goForward,
@@ -257,6 +261,8 @@ const RenderForm = props => {
     case 5:
       return <SecondaryContact {...props} />;
     case 6:
+      return <Review {...props} />;
+    case 7:
       return <CreateAccount {...props} />;
   }
 };
