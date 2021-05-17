@@ -15,11 +15,8 @@ export default function Household({ formValues, step, setStep }) {
       }
     >
       <Descriptions column={1}>
-        <Descriptions.Item
-          label=" Household has at least one minor (17 or younger) or at least one
-            person is pregnant?"
-        >
-          {formValues.minorGuest}
+        <Descriptions.Item label="Residents">
+          {formValues.familySize}
         </Descriptions.Item>
         <Descriptions.Item label="Children in Household">
           {formValues.totalChildren}
@@ -40,3 +37,9 @@ export default function Household({ formValues, step, setStep }) {
     </Card>
   );
 }
+
+const boolToAnswer = bool => {
+  if (bool) return 'Yes';
+
+  return 'No';
+};

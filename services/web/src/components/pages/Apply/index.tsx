@@ -16,6 +16,8 @@ import AdditionalInformation from './forms/Eligibility/AdditionalInformation';
 
 import SecondaryContact from './forms/SecondaryContact';
 
+import Review from './forms/Eligibility/Review';
+
 import CreateAccount from './forms/CreateAccount';
 
 import ProgramSelection from './forms/ProgramSelection';
@@ -32,8 +34,6 @@ import { setErrorMessage } from '../../../redux/global/globalActions';
 
 import faker from 'faker';
 
-import ReviewAndSubmit from './forms/Eligibility/ReviewAndSubmit';
-
 const INITIAL_VALUES_DEV = {
   firstName: faker.name.firstName(),
   lastName: faker.name.lastName(),
@@ -46,14 +46,14 @@ const INITIAL_VALUES_DEV = {
   cityName: 'test',
   zipCode: 99205,
   state: 'Washington',
-  role: 'tenant',
+  role: 'landlord',
   familySize: 4,
   beds: 4,
   monthlyIncome: 1000,
   monthlyRent: 500,
   tenantName: 'tenant',
   tenantEmail: 'tenant@gmail.com',
-  tenantPhoneNumber: '111-222-3333',
+  tenantNumber: '111-222-3333',
   landlordName: 'landlord',
   landlordEmail: 'landlord@gmail.com',
   landlordPhoneNumber: '111-222-3333',
@@ -124,7 +124,8 @@ export default function Index() {
   const dispatch = useDispatch();
 
   const history = useHistory();
-  const [step, setStep] = useState(7);
+
+  const [step, setStep] = useState(0);
 
   const goForward = () => {
     setStep(step + 1);
@@ -132,7 +133,7 @@ export default function Index() {
 
   const goBackwards = () => setStep(step - 1);
 
-  const [formValues, setFormValues] = useState(INITIAL_VALUES_DEV);
+  const [formValues, setFormValues] = useState(INITIAL_VALUES_PROD);
   const [formConsent, setFormConsent] = useState(false);
 
   const handleChange = e => {
@@ -260,8 +261,8 @@ const RenderForm = props => {
     case 5:
       return <SecondaryContact {...props} />;
     case 6:
-      return <CreateAccount {...props} />;
+      return <Review {...props} />;
     case 7:
-      return <ReviewAndSubmit {...props} />;
+      return <CreateAccount {...props} />;
   }
 };
