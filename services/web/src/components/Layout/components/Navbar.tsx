@@ -60,15 +60,15 @@ function Navbar() {
         <div className={styles.navItems}>
           {isLoggedIn && (
             <>
-              <Dropdown overlay={menu} trigger={['click', 'hover']}>
-                <Avatar size={35} icon={<UserOutlined />} />
-              </Dropdown>
               <Badge count={unseen}>
                 <NotificationsIcon
                   onClick={openNotificationsPanal}
                   style={{ color: 'black', cursor: 'pointer' }}
                 />
               </Badge>
+              <Dropdown overlay={menu} trigger={['click', 'hover']}>
+                <Avatar size={35} icon={<UserOutlined />} />
+              </Dropdown>
             </>
           )}
         </div>
