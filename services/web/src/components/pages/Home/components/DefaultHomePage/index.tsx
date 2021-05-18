@@ -6,6 +6,7 @@ import styles from '../../../../../styles/pages/home.module.css';
 import StatusBar from './components/StatusBar';
 import DocumentUploader from './components/DocumentUploader';
 import CommentsContainer from './components/CommentsContainer';
+import UserInfo from './components/UserInfo';
 
 import {
   DesktopOutlined,
@@ -56,9 +57,14 @@ export default function Index() {
           </Title>
         </Header>
         <Layout>
-          <Sider>
+          <Sider theme="dark">
             <div className="logo" />
-            <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+            <Menu
+              theme="dark"
+              defaultSelectedKeys={['1']}
+              mode="inline"
+              style={{ height: '100%' }}
+            >
               <Menu.Item
                 key="status"
                 icon={<PieChartOutlined />}
@@ -80,11 +86,13 @@ export default function Index() {
               >
                 Documents
               </Menu.Item>
-              <SubMenu key="sub1" icon={<UserOutlined />} title="User">
-                <Menu.Item key="3">Tom</Menu.Item>
-                <Menu.Item key="4">Bill</Menu.Item>
-                <Menu.Item key="5">Alex</Menu.Item>
-              </SubMenu>
+              <Menu.Item
+                key="userInfo"
+                icon={<UserOutlined />}
+                onClick={onContentChange}
+              >
+                User
+              </Menu.Item>
               <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
                 <Menu.Item key="6">Team 1</Menu.Item>
                 <Menu.Item key="8">Team 2</Menu.Item>
@@ -123,5 +131,7 @@ const renderContent = props => {
       return <CommentsContainer request={props.request} />;
     case 'documents':
       return <DocumentUploader request={props.request} />;
+    case 'userInfo':
+      return <UserInfo />;
   }
 };

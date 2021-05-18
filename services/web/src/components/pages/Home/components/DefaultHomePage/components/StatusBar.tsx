@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Steps, Typography } from 'antd';
 import {
   FileDoneOutlined,
