@@ -36,6 +36,9 @@ const TenantContact = ({ formValues }) => (
 
 const LandlordContact = ({ formValues }) => (
   <Descriptions column={1}>
+    <Descriptions.Item label="Landlord Name">
+      {formValues.landlordName}
+    </Descriptions.Item>
     <Descriptions.Item label="Landlord Email">
       {formValues.landlordEmail}
     </Descriptions.Item>

@@ -9,6 +9,13 @@ export default function Contact({ request, column = 2 }) {
     <div className={styles.contact}>
       <div>
         <h1>Landlord</h1>
+
+        <h2>Name:</h2>
+        <h3>
+          
+            {request.landlordName}
+      
+        </h3>
         <h2>Email:</h2>
         <h3>
           <a href={`mailto:${request.landlordEmail}`}>
