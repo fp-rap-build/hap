@@ -13,9 +13,12 @@ import {
   FileOutlined,
   TeamOutlined,
   UserOutlined,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
 } from '@ant-design/icons';
 
-import { Typography, Layout, Menu } from 'antd';
+import { Typography, Layout, Menu, Button } from 'antd';
+import { isWhiteSpaceLike } from 'typescript';
 
 const { Header, Content, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -26,12 +29,15 @@ export default function Index() {
 
   const request = currentUser.requests[0];
 
-  const [state, setState] = useState({
-    collapsed: false,
-  });
+  const [currentContent, setCurrentContent] = useState('status');
 
-  const onCollapse = collapsed => {
-    setState(collapsed);
+  const onContentChange = ({ key }) => {
+    setCurrentContent(key);
+  };
+
+  const props = {
+    currentContent,
+    request,
   };
 
   return (
@@ -50,13 +56,29 @@ export default function Index() {
           </Title>
         </Header>
         <Layout>
-          <Sider width={200} className="site-layout-background">
+          <Sider>
+            <div className="logo" />
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-              <Menu.Item key="1" icon={<PieChartOutlined />}>
-                Option 1
+              <Menu.Item
+                key="status"
+                icon={<PieChartOutlined />}
+                onClick={onContentChange}
+              >
+                Request Status
               </Menu.Item>
-              <Menu.Item key="2" icon={<DesktopOutlined />}>
-                Option 2
+              <Menu.Item
+                key="comments"
+                icon={<DesktopOutlined />}
+                onClick={onContentChange}
+              >
+                Comments
+              </Menu.Item>
+              <Menu.Item
+                key="documents"
+                icon={<FileOutlined />}
+                onClick={onContentChange}
+              >
+                Documents
               </Menu.Item>
               <SubMenu key="sub1" icon={<UserOutlined />} title="User">
                 <Menu.Item key="3">Tom</Menu.Item>
@@ -67,21 +89,19 @@ export default function Index() {
                 <Menu.Item key="6">Team 1</Menu.Item>
                 <Menu.Item key="8">Team 2</Menu.Item>
               </SubMenu>
-              <Menu.Item key="9" icon={<FileOutlined />}>
-                Files
-              </Menu.Item>
             </Menu>
           </Sider>
-          <Layout style={{ padding: '0 24px 24px' }}>
+          <Layout>
             <Content
               className="site-layout-background"
               style={{
                 padding: 24,
                 margin: 0,
                 minHeight: 280,
+                background: 'white',
               }}
             >
-              Content
+              {renderContent(props)}
             </Content>
           </Layout>
         </Layout>
@@ -94,3 +114,14 @@ export default function Index() {
     </>
   );
 }
+
+const renderContent = props => {
+  switch (props.currentContent) {
+    case 'status':
+      return <StatusBar request={props.request} />;
+    case 'comments':
+      return <CommentsContainer request={props.request} />;
+    case 'documents':
+      return <DocumentUploader request={props.request} />;
+  }
+};
