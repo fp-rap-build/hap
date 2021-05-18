@@ -1,6 +1,7 @@
 const db = require('../../../data/db-config');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
+const salt = Number(process.env.BCRYPT_SALT);
 const findAll = async (query = {}) => await db('users');
 
 const findBy = async (filter) => await db('users').where(filter);
@@ -31,7 +32,7 @@ const findById = async (id) => db('users').where({ id }).first('*');
 
 const findByIdAndUpdate = async (id, payload) => {
   if (payload['password']) {
-    payload['password'] = await bcrypt.hash(user['password'], process.env.BCRYPT_SALT);
+    payload['password'] = await bcrypt.hash(user['password'], salt);
   }
   return await db('users').where({ id }).update(payload).returning('*');
 };
@@ -63,7 +64,7 @@ const updateAddressById = async (addressId, payload) =>
 const create = async (user) => {
   // Create an empty address for the user and set the addressId
 
-  user['password'] = await bcrypt.hash(user['password'], process.env.BCRYPT_SALT);
+  user['password'] = await bcrypt.hash(user['password'], salt);
 
   return db('users').insert(user).returning('*');
 };
@@ -106,7 +107,7 @@ const readAllNotifications = (userId) =>
     .where({ userId })
     .update({ seen: true })
     .returning('*');
-    
+
 const createPasswordResetToken = async (id) => {
   let resetToken = crypto.randomBytes(32).toString('hex');
 
