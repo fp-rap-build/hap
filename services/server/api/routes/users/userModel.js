@@ -31,7 +31,7 @@ const findById = async (id) => db('users').where({ id }).first('*');
 
 const findByIdAndUpdate = async (id, payload) => {
   if (payload['password']) {
-    payload['password'] = await bcrypt.hash(user['password'], 12);
+    payload['password'] = await bcrypt.hash(user['password'], process.env.BCRYPT_SALT);
   }
   return await db('users').where({ id }).update(payload).returning('*');
 };
@@ -63,7 +63,7 @@ const updateAddressById = async (addressId, payload) =>
 const create = async (user) => {
   // Create an empty address for the user and set the addressId
 
-  user['password'] = await bcrypt.hash(user['password'], 12);
+  user['password'] = await bcrypt.hash(user['password'], process.env.BCRYPT_SALT);
 
   return db('users').insert(user).returning('*');
 };
