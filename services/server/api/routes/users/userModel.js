@@ -31,7 +31,7 @@ const findById = async (id) => db('users').where({ id }).first('*');
 
 const findByIdAndUpdate = async (id, payload) => {
   if (payload['password']) {
-    payload['password'] = await bcrypt.hash(user['password'], 12);
+    payload['password'] = await bcrypt.hash(payload['password'], 12);
   }
   return await db('users').where({ id }).update(payload).returning('*');
 };
