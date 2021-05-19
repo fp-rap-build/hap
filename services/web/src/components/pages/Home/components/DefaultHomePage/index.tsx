@@ -17,11 +17,9 @@ import {
   FileOutlined,
   TeamOutlined,
   UserOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
 } from '@ant-design/icons';
 
-import { Typography, Layout, Menu, Button } from 'antd';
+import { Typography, Layout, Menu } from 'antd';
 
 const { Header, Content, Sider, Footer } = Layout;
 const { SubMenu } = Menu;
@@ -42,6 +40,10 @@ export default function Index() {
 
   const onContentChange = ({ key }) => {
     setCurrentContent(key);
+
+    if (key !== 'userInfo' && collapsed) {
+      setCollapsed(false);
+    }
   };
 
   const props = {
@@ -67,7 +69,7 @@ export default function Index() {
           <Sider collapsible collapsed={collapsed} onCollapse={toggleCollapse}>
             <Menu
               theme="dark"
-              defaultSelectedKeys={['1']}
+              defaultSelectedKeys={['status']}
               mode="inline"
               inlineCollapsed={collapsed}
             >
@@ -95,7 +97,10 @@ export default function Index() {
               <Menu.Item
                 key="userInfo"
                 icon={<UserOutlined />}
-                onClick={onContentChange}
+                onClick={e => {
+                  setCollapsed(true);
+                  onContentChange(e);
+                }}
               >
                 User
               </Menu.Item>
