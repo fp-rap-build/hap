@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
+//Migrate styles to less so it will all be in one place
+
 import styles from '../../../../../styles/pages/home.module.css';
 import '../../../../../styles/overrides.less';
 
@@ -116,7 +118,9 @@ export default function Index() {
           </Content>
         </Layout>
         <Footer style={{ textAlign: 'center' }}>
-          Ant Design ©2018 Created by Ant UED
+          <a href="http://www.familypromiseofspokane.org/" target="_blank">
+            Powered by Family Promise of Spokane
+          </a>
         </Footer>
       </Layout>
     </div>

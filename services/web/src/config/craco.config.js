@@ -7,7 +7,7 @@ module.exports = {
       options: {
         lessLoaderOptions: {
           lessOptions: {
-            //Example of over riding variable
+            //Example of over-riding variable
             // modifyVars: { '@primary-color': '#1DA57A' },
             javascriptEnabled: true,
           },
