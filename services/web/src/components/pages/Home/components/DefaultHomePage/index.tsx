@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import styles from '../../../../../styles/pages/home.module.css';
+import '../../../../../styles/overrides.less';
 
 import StatusBar from './components/StatusBar';
 import DocumentUploader from './components/DocumentUploader';
@@ -47,7 +48,7 @@ export default function Index() {
   };
 
   return (
-    <>
+    <div className="homeContainer">
       <Layout style={{ height: '87vh' }} className="user-dash-container">
         <Header className="header">
           <Title
@@ -62,7 +63,6 @@ export default function Index() {
         </Header>
         <Layout className="sidebar-content-container">
           <Sider collapsible collapsed={collapsed} onCollapse={toggleCollapse}>
-            <div className="logo" />
             <Menu
               theme="dark"
               defaultSelectedKeys={['1']}
@@ -119,7 +119,7 @@ export default function Index() {
           Ant Design ©2018 Created by Ant UED
         </Footer>
       </Layout>
-    </>
+    </div>
   );
 }
 

@@ -18,6 +18,15 @@
   padding: 2%;
 }
 
+/* .homeContainer {
+  border: 3px solid green;
+} */
+/* Need to move this to a Less file then it should work (at least that's what git hub is telling me) */
+
+/* .homeContainer.ant-layout-sider-trigger {
+  position: relative;
+} */
+
 @media (max-width: 500px) {
   .info {
     width: 100%;
