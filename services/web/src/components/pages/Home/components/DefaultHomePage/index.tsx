@@ -6,7 +6,7 @@ import styles from '../../../../../styles/pages/home.module.css';
 import StatusBar from './components/StatusBar';
 import DocumentUploader from './components/DocumentUploader';
 import CommentsContainer from './components/CommentsContainer';
-import UserInfo from './components/UserInfo';
+import UserInfo from './components/UserInfo/index';
 
 import {
   DesktopOutlined,
@@ -19,7 +19,6 @@ import {
 } from '@ant-design/icons';
 
 import { Typography, Layout, Menu, Button } from 'antd';
-import { isWhiteSpaceLike } from 'typescript';
 
 const { Header, Content, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -30,7 +29,13 @@ export default function Index() {
 
   const request = currentUser.requests[0];
 
+  const [collapsed, setCollapsed] = useState(false);
+
   const [currentContent, setCurrentContent] = useState('status');
+
+  const toggleCollapse = () => {
+    setCollapsed(!collapsed);
+  };
 
   const onContentChange = ({ key }) => {
     setCurrentContent(key);
@@ -45,7 +50,6 @@ export default function Index() {
     <>
       <Layout>
         <Header className="header">
-          <div className="logo" />
           <Title
             level={2}
             // className={styles.heading}
@@ -57,13 +61,13 @@ export default function Index() {
           </Title>
         </Header>
         <Layout>
-          <Sider theme="dark">
-            <div className="logo" />
+          <Sider collapsible collapsed={collapsed} onCollapse={toggleCollapse}>
             <Menu
               theme="dark"
               defaultSelectedKeys={['1']}
               mode="inline"
               style={{ height: '100%' }}
+              inlineCollapsed={collapsed}
             >
               <Menu.Item
                 key="status"
@@ -97,15 +101,22 @@ export default function Index() {
                 <Menu.Item key="6">Team 1</Menu.Item>
                 <Menu.Item key="8">Team 2</Menu.Item>
               </SubMenu>
+              <Button
+                type="primary"
+                onClick={toggleCollapse}
+                style={{ marginBottom: 16 }}
+              >
+                {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              </Button>
             </Menu>
           </Sider>
           <Layout>
             <Content
               className="site-layout-background"
               style={{
-                padding: 24,
                 margin: 0,
                 minHeight: 280,
+                border: '1px solid black',
                 background: 'white',
               }}
             >
@@ -114,11 +125,6 @@ export default function Index() {
           </Layout>
         </Layout>
       </Layout>
-      {/* <div className={styles.container}>
-        <StatusBar request={request} />
-        {request && <CommentsContainer request={request} />}
-        <DocumentUploader request={request} />
-      </div> */}
     </>
   );
 }
