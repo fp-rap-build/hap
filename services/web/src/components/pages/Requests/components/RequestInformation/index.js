@@ -28,7 +28,7 @@ const tabListNoTitle = [
   },
   {
     key: 'contact',
-    tab: 'Landlord Contact',
+    tab: 'Contact',
   },
   {
     key: 'documents',

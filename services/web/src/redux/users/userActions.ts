@@ -91,7 +91,7 @@ export const logIn = (user, history) => async dispatch => {
 };
 
 export const registerAndApply = (requestValues, history) => async dispatch => {
-  let tenantEmail, tenantNumber, landlordName, landlordEmail, landlordNumber;
+  let tenantEmail, tenantNumber, landlordEmail, landlordNumber;
 
   // Trim whitespace off strings
   for (let key in requestValues) {
@@ -104,7 +104,6 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
   if (requestValues.role === 'tenant') {
     tenantEmail = requestValues.email;
     tenantNumber = requestValues.phoneNumber;
-    landlordName = requestValues.landlordName;
     landlordEmail = requestValues.landlordEmail;
     landlordNumber = requestValues.landlordNumber;
   } else {
@@ -142,7 +141,6 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
     demoNotSay: requestValues.demoNotSay,
     tenantEmail,
     tenantNumber,
-    landlordName,
     landlordEmail,
     landlordNumber,
     address: {

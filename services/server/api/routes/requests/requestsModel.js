@@ -103,7 +103,6 @@ const findById = (id) => {
       'r.unEmp90',
       'r.tenantEmail',
       'r.tenantNumber',
-      'r.landlordName',
       'r.landlordEmail',
       'r.landlordNumber',
       'a.address',

@@ -84,26 +84,6 @@ const LandlordInfoForm = ({ formValues }) => {
         approve your request.
       </Text>
       <Divider />
-
-      <Form.Item
-        initialValue={formValues.landlordName}
-        label="Name"
-        name="landlordName"
-        rules={[
-          {
-            type: 'string',
-            required: true,
-            message: "Please enter Landlord or Property Manager Name",
-          },
-        ]}
-      >
-        <Input
-          name="landlordName"
-          placeholder="Landlord Name"
-          value={formValues.landlordName}
-        />
-      </Form.Item>
-
       <Form.Item
         initialValue={formValues.landlordEmail}
         label="Email"
