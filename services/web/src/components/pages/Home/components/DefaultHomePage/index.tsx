@@ -20,7 +20,7 @@ import {
 
 import { Typography, Layout, Menu, Button } from 'antd';
 
-const { Header, Content, Sider } = Layout;
+const { Header, Content, Sider, Footer } = Layout;
 const { SubMenu } = Menu;
 const { Title } = Typography;
 
@@ -48,7 +48,7 @@ export default function Index() {
 
   return (
     <>
-      <Layout>
+      <Layout style={{ height: '87vh' }} className="user-dash-container">
         <Header className="header">
           <Title
             level={2}
@@ -60,13 +60,13 @@ export default function Index() {
             Portal.
           </Title>
         </Header>
-        <Layout>
+        <Layout className="sidebar-content-container">
           <Sider collapsible collapsed={collapsed} onCollapse={toggleCollapse}>
+            <div className="logo" />
             <Menu
               theme="dark"
               defaultSelectedKeys={['1']}
               mode="inline"
-              style={{ height: '100%' }}
               inlineCollapsed={collapsed}
             >
               <Menu.Item
@@ -101,29 +101,23 @@ export default function Index() {
                 <Menu.Item key="6">Team 1</Menu.Item>
                 <Menu.Item key="8">Team 2</Menu.Item>
               </SubMenu>
-              <Button
-                type="primary"
-                onClick={toggleCollapse}
-                style={{ marginBottom: 16 }}
-              >
-                {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              </Button>
             </Menu>
           </Sider>
-          <Layout>
-            <Content
-              className="site-layout-background"
-              style={{
-                margin: 0,
-                minHeight: 280,
-                border: '1px solid black',
-                background: 'white',
-              }}
-            >
-              {renderContent(props)}
-            </Content>
-          </Layout>
+          <Content
+            className="site-layout-background"
+            style={{
+              margin: 0,
+              minHeight: 280,
+              border: '1px solid black',
+              background: 'white',
+            }}
+          >
+            {renderContent(props)}
+          </Content>
         </Layout>
+        <Footer style={{ textAlign: 'center' }}>
+          Ant Design ©2018 Created by Ant UED
+        </Footer>
       </Layout>
     </>
   );
