@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import AddressInfo from './AddressInfo';
 
-import { Typography, Layout, Menu } from 'antd';
+import { Layout, Menu } from 'antd';
 import { Add } from '@material-ui/icons';
 
 const { Sider, Content } = Layout;
