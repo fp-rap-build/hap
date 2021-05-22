@@ -122,7 +122,7 @@ router.put('/:id', requestStatusChange, async (req, res) => {
     const updatedRequest = await Requests.update(id, change);
     res.status(200).json(updatedRequest);
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 

@@ -1,19 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+import { axiosWithAuth } from '../../../../../../../api/axiosWithAuth';
 
 import EditableText from './components/EditableText';
 
-import { Typography } from 'antd';
+import { Typography, Button } from 'antd';
+import { ConsoleSqlOutlined } from '@ant-design/icons';
 
 const { Paragraph, Text } = Typography;
 
 const AddressInfo = ({ request }) => {
-  const { address, cityName, state, zipCode } = request;
+  const { address, cityName, state, zipCode, id } = request;
 
   //Local state suite for antd editable text
   //UI works well but need to research better method of handling local state
   const [addressText, setAddressText] = useState(address);
   const [cityNameText, setCityNameText] = useState(cityName);
-  const [zipCodeInput, setZipcodeInput] = useState(zipCode);
+  const [zipCodeInput, setZipCodeInput] = useState(zipCode);
+
+  const handleUpdate = async () => {
+    try {
+      await axiosWithAuth().put(`/requests/${id}`, {
+        address: addressText,
+      });
+    } catch (error) {
+      alert('error updating request');
+      console.log(error);
+    }
+  };
 
   return (
     <div className="editableContent">
@@ -29,9 +43,10 @@ const AddressInfo = ({ request }) => {
       />
       <EditableText
         state={zipCodeInput}
-        setState={setZipcodeInput}
+        setState={setZipCodeInput}
         name="Zip Code"
       />
+      <Button onClick={handleUpdate}>Save Changes</Button>
     </div>
   );
 };
