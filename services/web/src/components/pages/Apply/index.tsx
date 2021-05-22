@@ -46,7 +46,7 @@ const INITIAL_VALUES_DEV = {
   cityName: 'test',
   zipCode: 99205,
   state: 'Washington',
-  role: 'landlord',
+  role: 'tenant',
   familySize: 4,
   beds: 4,
   monthlyIncome: 1000,
