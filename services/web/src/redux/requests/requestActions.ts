@@ -11,8 +11,7 @@ export const setRequest = id => async dispatch => {
   try {
     let request = await axiosWithAuth()
       .get(`requests/${id}`)
-      .then(res => res.data);
-    console.log(request);
+      .then(res => res.data.request);
     dispatch({ type: 'SET_REQUEST', payload: request });
   } catch (error) {
     alert('DEV REDUX ERROR');

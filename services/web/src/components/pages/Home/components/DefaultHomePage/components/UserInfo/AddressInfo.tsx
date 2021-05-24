@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import { axiosWithAuth } from '../../../../../../../api/axiosWithAuth';
 
 import EditableText from './components/EditableText';
 
 import { Typography, Button } from 'antd';
-import { ConsoleSqlOutlined } from '@ant-design/icons';
 
 const { Paragraph, Text } = Typography;
 

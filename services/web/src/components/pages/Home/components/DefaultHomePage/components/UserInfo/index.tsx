@@ -1,17 +1,23 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { setRequest } from '../../../../../../../redux/requests/requestActions';
 
 import AddressInfo from './AddressInfo';
 
 import { Layout, Menu } from 'antd';
-import { Add } from '@material-ui/icons';
 
 const { Sider, Content } = Layout;
 
 const UserInfo = () => {
   const currentUser = useSelector(state => state.user.currentUser);
 
+  const dispatch = useDispatch();
+
   const request = currentUser.requests[0];
+  const { id } = request;
+
+  dispatch(setRequest(id));
 
   const [currentContent, setCurrentContent] = useState('address');
 
