@@ -85,11 +85,11 @@ router.get('/table', async (req, res) => {
   }
 });
 
-router.get('/find', async (req, res) => {
-  const filter = req.body;
+router.get('/reqOnly/:id', async (req, res) => {
+  const {id} = req.params;
   try {
-    const foundRequests = await Requests.findBy(filter);
-    res.status(200).json(foundRequests);
+    const foundRequest = await Requests.requestOnlyById(id);
+    res.status(200).json(foundRequest);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Internal server error' });

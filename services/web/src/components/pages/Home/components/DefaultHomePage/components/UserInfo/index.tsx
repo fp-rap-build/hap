@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { setRequest } from '../../../../../../../redux/requests/requestActions';
@@ -16,8 +16,6 @@ const UserInfo = () => {
 
   const request = currentUser.requests[0];
   const { id } = request;
-
-  dispatch(setRequest(id));
 
   const [currentContent, setCurrentContent] = useState('address');
 

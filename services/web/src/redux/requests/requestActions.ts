@@ -10,8 +10,8 @@ export const setRequest = id => async dispatch => {
 
   try {
     let request = await axiosWithAuth()
-      .get(`requests/${id}`)
-      .then(res => res.data.request);
+      .get(`requests/reqOnly/${id}`)
+      .then(res => res.data);
     dispatch({ type: 'SET_REQUEST', payload: request });
   } catch (error) {
     alert('DEV REDUX ERROR');
@@ -20,6 +20,6 @@ export const setRequest = id => async dispatch => {
   }
 };
 
-export const editCurrentRequest = change => async dispatch => {
+export const updateRequest = change => async dispatch => {
   dispatch(setLoading(true));
 };
