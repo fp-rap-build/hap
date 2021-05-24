@@ -1,7 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-
-import { setRequest } from '../../../../../redux/requests/requestActions';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 //Migrate styles to less so it will all be in one place
 

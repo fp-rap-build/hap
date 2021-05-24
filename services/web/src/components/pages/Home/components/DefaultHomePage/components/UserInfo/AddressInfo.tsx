@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { axiosWithAuth } from '../../../../../../../api/axiosWithAuth';
+import { useSelector } from 'react-redux';
 
 import EditableText from './components/EditableText';
 
@@ -17,16 +17,7 @@ const AddressInfo = ({ request }) => {
   const [cityNameText, setCityNameText] = useState(cityName);
   const [zipCodeInput, setZipCodeInput] = useState(zipCode);
 
-  const handleUpdate = async () => {
-    try {
-      await axiosWithAuth().put(`/requests/${id}`, {
-        address: addressText,
-      });
-    } catch (error) {
-      alert('error updating request');
-      console.log(error);
-    }
-  };
+  const handleUpdate = async () => {};
 
   return (
     <div className="editableContent">

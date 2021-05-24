@@ -1,7 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-
-import { setRequest } from '../../../../../../../redux/requests/requestActions';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import AddressInfo from './AddressInfo';
 
@@ -12,10 +10,9 @@ const { Sider, Content } = Layout;
 const UserInfo = () => {
   const currentUser = useSelector(state => state.user.currentUser);
 
-  const dispatch = useDispatch();
+  const { request } = useSelector(state => state.requests);
 
-  const request = currentUser.requests[0];
-  const { id } = request;
+  console.log(request);
 
   const [currentContent, setCurrentContent] = useState('address');
 

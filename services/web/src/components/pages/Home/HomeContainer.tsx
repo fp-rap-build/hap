@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingComponent from '../../common/LoadingComponent';
 import RenderHomePage from './RenderHomePage';
 import { fetchCurrentUser } from '../../../redux/users/userActions';
 import { fetchNotifications } from '../../../redux/notifications/notificationActions';
-import { setRequest } from '../../../redux/requests/requestActions';
+import { fetchRequest } from '../../../redux/requests/requestActions';
 
 function HomeContainer() {
   const dispatch = useDispatch();
@@ -14,7 +14,7 @@ function HomeContainer() {
     // Set the current user in state
     dispatch(fetchCurrentUser());
     dispatch(fetchNotifications());
-    dispatch(setRequest());
+    dispatch(fetchRequest());
     // eslint-disable-next-line
   }, []);
 
