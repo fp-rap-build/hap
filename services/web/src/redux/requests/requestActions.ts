@@ -5,10 +5,16 @@ export const setCurrentRequest = currentRequest => {
   return { type: 'SET_REQUEST', payload: currentRequest };
 };
 
-export const setRequest = id => async dispatch => {
+export const setRequest = () => async dispatch => {
   dispatch(setLoading(true));
 
   try {
+    let currentUser = await axiosWithAuth()
+      .get('/users/me')
+      .then(res => res.data.user);
+
+    const { id } = currentUser.requests[0];
+
     let request = await axiosWithAuth()
       .get(`requests/reqOnly/${id}`)
       .then(res => res.data);

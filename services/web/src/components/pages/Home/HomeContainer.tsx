@@ -4,6 +4,7 @@ import LoadingComponent from '../../common/LoadingComponent';
 import RenderHomePage from './RenderHomePage';
 import { fetchCurrentUser } from '../../../redux/users/userActions';
 import { fetchNotifications } from '../../../redux/notifications/notificationActions';
+import { setRequest } from '../../../redux/requests/requestActions';
 
 function HomeContainer() {
   const dispatch = useDispatch();
@@ -11,9 +12,9 @@ function HomeContainer() {
 
   useEffect(() => {
     // Set the current user in state
-
     dispatch(fetchCurrentUser());
     dispatch(fetchNotifications());
+    dispatch(setRequest());
     // eslint-disable-next-line
   }, []);
 

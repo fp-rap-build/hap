@@ -32,8 +32,6 @@ export default function Index() {
 
   const request = currentUser.requests[0];
 
-  const dispatch = useDispatch();
-
   const [collapsed, setCollapsed] = useState(false);
 
   const [currentContent, setCurrentContent] = useState('status');
@@ -48,12 +46,6 @@ export default function Index() {
     if (key !== 'userInfo' && collapsed) {
       setCollapsed(false);
     }
-  };
-
-  //Update store when navigating into user info
-  //May need to move this up to home container and find another way to pull req ID
-  const fetchRequest = id => {
-    dispatch(setRequest(id));
   };
 
   const props = {
@@ -110,7 +102,6 @@ export default function Index() {
                 onClick={e => {
                   setCollapsed(true);
                   onContentChange(e);
-                  fetchRequest(request.id);
                 }}
               >
                 User
