@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+
+import { updateAddress } from '../../../../../../../redux/requests/requestActions';
 
 import EditableText from './components/EditableText';
 
@@ -8,33 +10,32 @@ import { Typography, Button } from 'antd';
 
 const { Paragraph, Text } = Typography;
 
-const AddressInfo = ({ request }) => {
-  const { address, cityName, state, zipCode, id } = request;
-
+const AddressInfo = ({ request, addressDetails }) => {
   //Local state suite for antd editable text
   //UI works well but need to research better method of handling local state
-  const [addressText, setAddressText] = useState(address);
-  const [cityNameText, setCityNameText] = useState(cityName);
-  const [zipCodeInput, setZipCodeInput] = useState(zipCode);
+  const { id } = addressDetails;
 
-  const handleUpdate = async () => {};
+  const [displayInfo, setDisplayInfo] = useState(addressDetails);
+
+  const dispatch = useDispatch();
+
+  const handleUpdate = async () => {
+    dispatch(updateAddress(displayInfo));
+  };
 
   return (
     <div className="editableContent">
       <EditableText
-        state={addressText}
-        setState={setAddressText}
-        name="Address"
+        displayInfo={displayInfo}
+        setDisplayInfo={setDisplayInfo}
+        name="address"
+        title="Address"
       />
       <EditableText
-        state={cityNameText}
-        setState={setCityNameText}
-        name="City"
-      />
-      <EditableText
-        state={zipCodeInput}
-        setState={setZipCodeInput}
-        name="Zip Code"
+        displayInfo={displayInfo}
+        setDisplayInfo={setDisplayInfo}
+        name="cityName"
+        title="City"
       />
       <Button onClick={handleUpdate}>Save Changes</Button>
     </div>

@@ -1,6 +1,6 @@
 const INITIAL_STATE = {
   request: {},
-  address: {},
+  addressDetails: {},
 };
 
 const requestReducer = (state = INITIAL_STATE, action) => {
@@ -8,7 +8,7 @@ const requestReducer = (state = INITIAL_STATE, action) => {
     case 'SET_REQUEST':
       return { ...state, request: action.payload };
     case 'SET_ADDRESS':
-      return { ...state, address: action.payload };
+      return { ...state, addressDetails: action.payload };
     default:
       return state;
   }

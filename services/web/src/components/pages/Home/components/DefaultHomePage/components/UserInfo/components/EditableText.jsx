@@ -4,15 +4,26 @@ import '../../../../../../../../styles/pages/Home/homeComponents.less';
 
 const { Paragraph, Text } = Typography;
 
-export default function EditableText({ state, setState, name }) {
+export default function EditableText({
+  displayInfo,
+  setDisplayInfo,
+  name,
+  title,
+}) {
+  const handleChange = newText => {
+    setDisplayInfo({ ...displayInfo, [name]: newText });
+  };
+
   return (
     <div className="editableTextContainer">
       <Row>
         <Col span={6}>
-          <Text strong>{name}:</Text>
+          <Text strong>{title}:</Text>
         </Col>
         <Col span={18}>
-          <Paragraph editable={{ onChange: setState }}>{state}</Paragraph>
+          <Paragraph editable={{ onChange: handleChange }}>
+            {displayInfo[name]}
+          </Paragraph>
         </Col>
       </Row>
     </div>

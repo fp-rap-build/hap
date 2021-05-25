@@ -10,7 +10,7 @@ const { Sider, Content } = Layout;
 const UserInfo = () => {
   const currentUser = useSelector(state => state.user.currentUser);
 
-  const { request } = useSelector(state => state.requests);
+  const { request, addressDetails } = useSelector(state => state.requests);
 
   console.log(request);
 
@@ -20,7 +20,7 @@ const UserInfo = () => {
     setCurrentContent(key);
   };
 
-  const props = { currentContent, request };
+  const props = { currentContent, request, addressDetails };
 
   return (
     <div>

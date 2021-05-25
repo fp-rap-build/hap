@@ -43,6 +43,15 @@ export const fetchRequest = () => async dispatch => {
   }
 };
 
-export const updateRequest = change => async dispatch => {
+export const updateAddress = updatedAddress => async dispatch => {
   dispatch(setLoading(true));
+
+  try {
+    await axiosWithAuth().put(`/addrs/${updatedAddress.id}`, updatedAddress);
+    dispatch(setCurrentAddress(updateAddress));
+  } catch (error) {
+    console.log(error);
+  } finally {
+    dispatch(setLoading(false));
+  }
 };
