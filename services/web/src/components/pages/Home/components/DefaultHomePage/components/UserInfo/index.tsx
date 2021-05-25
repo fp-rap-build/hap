@@ -28,21 +28,27 @@ const UserInfo = () => {
   const handleRequestChange = e => {
     e.stopPropagation();
 
-    const { name, checked } = e.target;
+    const { name, checked, type, value } = e.target;
 
-    setRequestData({ ...requestData, [name]: checked });
+    if (type === 'checkbox') {
+      setRequestData({ ...requestData, [name]: checked });
+    } else {
+      setRequestData({ ...requestData, [name]: value });
+    }
   };
 
-  const handleZipChange = value => {
-    setAddressData({ ...addressData, zipCode: value });
+  const handleNumChange = (name, setState, state) => value => {
+    setState({ ...state, [name]: value });
   };
   const props = {
     currentContent,
     requestData,
     addressData,
     handleAddressChange,
-    handleZipChange,
+    handleNumChange,
     handleRequestChange,
+    setRequestData,
+    setAddressData,
   };
 
   return (

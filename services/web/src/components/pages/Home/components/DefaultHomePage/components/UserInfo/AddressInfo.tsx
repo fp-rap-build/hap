@@ -4,14 +4,18 @@ import { updateAddress } from '../../../../../../../redux/requests/requestAction
 
 import EditableText from './components/EditableText';
 
+import EditableNum from './components/EditableNum';
+
 import { Typography, Button, InputNumber, Checkbox, Divider } from 'antd';
 
 const AddressInfo = ({
   requestData,
   addressData,
   handleAddressChange,
-  handleZipChange,
+  handleNumChange,
   handleRequestChange,
+  setRequestData,
+  setAddressData,
 }) => {
   return (
     <>
@@ -41,11 +45,12 @@ const AddressInfo = ({
           handleChange={handleAddressChange}
           data={addressData}
         />
-        <InputNumber
+        <EditableNum
+          title="Zip Code"
           name="zipCode"
-          size="large"
-          onChange={handleZipChange}
-          value={addressData.zipCode}
+          handleNumChange={handleNumChange}
+          state={addressData}
+          setState={setAddressData}
         />
       </div>
       <Divider />
@@ -100,6 +105,74 @@ const AddressInfo = ({
         >
           Rather Not Say
         </Checkbox>
+      </div>
+      <Divider />
+      <div className="householdInfo">
+        <Typography.Title level={3}>Household Info:</Typography.Title>
+        <Checkbox
+          checked={requestData.foodWrkr}
+          name="foodWrkr"
+          onChange={handleRequestChange}
+        >
+          Worked in Food Service
+        </Checkbox>
+        <Checkbox
+          checked={requestData.unEmp90}
+          name="unEmp90"
+          onChange={handleRequestChange}
+        >
+          Unemployed in the past 90 days
+        </Checkbox>
+        <EditableNum
+          title="Family Size"
+          name="familySize"
+          handleNumChange={handleNumChange}
+          state={requestData}
+          setState={setRequestData}
+        />
+        <EditableNum
+          title="Numbe of Children"
+          name="numChildren"
+          handleNumChange={handleNumChange}
+          state={requestData}
+          setState={setRequestData}
+        />
+        <EditableNum
+          title="Monthly Income"
+          name="monthlyIncome"
+          handleNumChange={handleNumChange}
+          state={requestData}
+          setState={setRequestData}
+        />
+        <EditableNum
+          title="Monthly Rent"
+          name="monthlyRent"
+          handleNumChange={handleNumChange}
+          state={requestData}
+          setState={setRequestData}
+        />
+      </div>
+      <Divider />
+      <div className="Landlord Information:">
+        <Typography.Title level={3}>Landlord Info:</Typography.Title>
+        <EditableText
+          name="landlordName"
+          title="Landlord Name"
+          handleChange={handleRequestChange}
+          data={requestData}
+        />
+        <EditableText
+          name="landlordEmail"
+          title="Landlord Email"
+          handleChange={handleRequestChange}
+          data={requestData}
+        />
+        <EditableText
+          name="landlordNumber"
+          title="Landlord Phone Number"
+          handleChange={handleRequestChange}
+          data={requestData}
+        />
       </div>
     </>
   );
