@@ -1,29 +1,23 @@
-import { Typography, Row, Col } from 'antd';
+import { Typography, Row, Col, Input } from 'antd';
 
 import '../../../../../../../../styles/pages/Home/homeComponents.less';
 
 const { Paragraph, Text } = Typography;
 
-export default function EditableText({
-  displayInfo,
-  setDisplayInfo,
-  name,
-  title,
-}) {
-  const handleChange = newText => {
-    setDisplayInfo({ ...displayInfo, [name]: newText });
-  };
-
+export default function EditableText({ name, title, handleChange, data }) {
   return (
-    <div className="editableTextContainer">
+    <div>
       <Row>
-        <Col span={6}>
-          <Text strong>{title}:</Text>
+        <Col span={8}>
+          <Text strong>{title}: </Text>
         </Col>
-        <Col span={18}>
-          <Paragraph editable={{ onChange: handleChange }}>
-            {displayInfo[name]}
-          </Paragraph>
+        <Col span={16}>
+          <Input
+            size="large"
+            name={name}
+            onChange={handleChange}
+            value={data[name]}
+          />
         </Col>
       </Row>
     </div>

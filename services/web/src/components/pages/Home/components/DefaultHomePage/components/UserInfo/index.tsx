@@ -9,18 +9,41 @@ const { Sider, Content } = Layout;
 
 const UserInfo = () => {
   const currentUser = useSelector(state => state.user.currentUser);
-
-  const { request, addressDetails } = useSelector(state => state.requests);
-
-  console.log(request);
+  const request = useSelector(state => state.requests);
 
   const [currentContent, setCurrentContent] = useState('address');
+  const [requestData, setRequestData] = useState(request.request);
+  const [addressData, setAddressData] = useState(request.addressDetails);
 
   const onContentChange = ({ key }) => {
     setCurrentContent(key);
   };
 
-  const props = { currentContent, request, addressDetails };
+  const handleAddressChange = e => {
+    console.log(e);
+    const { name, value, type } = e.target;
+    setAddressData({ ...addressData, [name]: value });
+  };
+
+  const handleRequestChange = e => {
+    e.stopPropagation();
+
+    const { name, checked } = e.target;
+
+    setRequestData({ ...requestData, [name]: checked });
+  };
+
+  const handleZipChange = value => {
+    setAddressData({ ...addressData, zipCode: value });
+  };
+  const props = {
+    currentContent,
+    requestData,
+    addressData,
+    handleAddressChange,
+    handleZipChange,
+    handleRequestChange,
+  };
 
   return (
     <div>

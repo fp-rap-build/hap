@@ -1,44 +1,107 @@
 import { useState } from 'react';
 
-import { useDispatch } from 'react-redux';
-
 import { updateAddress } from '../../../../../../../redux/requests/requestActions';
 
 import EditableText from './components/EditableText';
 
-import { Typography, Button } from 'antd';
+import { Typography, Button, InputNumber, Checkbox, Divider } from 'antd';
 
-const { Paragraph, Text } = Typography;
-
-const AddressInfo = ({ request, addressDetails }) => {
-  //Local state suite for antd editable text
-  //UI works well but need to research better method of handling local state
-  const { id } = addressDetails;
-
-  const [displayInfo, setDisplayInfo] = useState(addressDetails);
-
-  const dispatch = useDispatch();
-
-  const handleUpdate = async () => {
-    dispatch(updateAddress(displayInfo));
-  };
-
+const AddressInfo = ({
+  requestData,
+  addressData,
+  handleAddressChange,
+  handleZipChange,
+  handleRequestChange,
+}) => {
   return (
-    <div className="editableContent">
-      <EditableText
-        displayInfo={displayInfo}
-        setDisplayInfo={setDisplayInfo}
-        name="address"
-        title="Address"
-      />
-      <EditableText
-        displayInfo={displayInfo}
-        setDisplayInfo={setDisplayInfo}
-        name="cityName"
-        title="City"
-      />
-      <Button onClick={handleUpdate}>Save Changes</Button>
-    </div>
+    <>
+      <div className="addressInformation">
+        <Typography.Title level={3}>Address Information:</Typography.Title>
+        <EditableText
+          name="address"
+          title="Address"
+          handleChange={handleAddressChange}
+          data={addressData}
+        />
+        <EditableText
+          name="addressLine2"
+          title="Address Line Two"
+          handleChange={handleAddressChange}
+          data={addressData}
+        />
+        <EditableText
+          name="cityName"
+          title="City"
+          handleChange={handleAddressChange}
+          data={addressData}
+        />
+        <EditableText
+          name="state"
+          title="State"
+          handleChange={handleAddressChange}
+          data={addressData}
+        />
+        <InputNumber
+          name="zipCode"
+          size="large"
+          onChange={handleZipChange}
+          value={addressData.zipCode}
+        />
+      </div>
+      <Divider />
+      <div className="demographicInfo">
+        <Typography.Title level={3}>Demographic Info:</Typography.Title>
+        <Checkbox
+          checked={requestData.hispanic}
+          name="hispanic"
+          onChange={handleRequestChange}
+        >
+          Hispanic/ Latino
+        </Checkbox>
+        <Checkbox
+          checked={requestData.asian}
+          name="asian"
+          onChange={handleRequestChange}
+        >
+          Asian
+        </Checkbox>
+        <Checkbox
+          checked={requestData.black}
+          name="black"
+          onChange={handleRequestChange}
+        >
+          Black or African American
+        </Checkbox>
+        <Checkbox
+          checked={requestData.pacific}
+          name="pacific"
+          onChange={handleRequestChange}
+        >
+          Native Hawaiian or Other Pacific Islander
+        </Checkbox>
+        <Checkbox
+          checked={requestData.white}
+          name="white"
+          onChange={handleRequestChange}
+        >
+          White
+        </Checkbox>
+        <Checkbox
+          checked={requestData.native}
+          name="native"
+          onChange={handleRequestChange}
+        >
+          Native American or Alskan Native
+        </Checkbox>
+        <Checkbox
+          checked={requestData.demoNotSay}
+          name="demoNotSay"
+          onChange={handleRequestChange}
+        >
+          Rather Not Say
+        </Checkbox>
+      </div>
+    </>
   );
 };
 
