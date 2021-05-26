@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 
 import styles from '../../../../../styles/pages/home.module.css';
 import '../../../../../styles/overrides.less';
+import '../../../../../styles/pages/Home/home.less';
 
 import StatusBar from './components/StatusBar';
 import DocumentUploader from './components/DocumentUploader';
@@ -53,7 +54,7 @@ export default function Index() {
 
   return (
     <div className="homeContainer">
-      <Layout style={{ height: '87vh' }} className="user-dash-container">
+      <Layout style={{ height: '90vh' }} className="user-dash-container">
         <Header className="header">
           <Title
             level={2}
@@ -111,7 +112,7 @@ export default function Index() {
             </Menu>
           </Sider>
           <Content
-            className="site-layout-background"
+            className="homeContent"
             style={{
               margin: 0,
               minHeight: 280,

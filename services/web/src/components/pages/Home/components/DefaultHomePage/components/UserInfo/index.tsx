@@ -55,7 +55,12 @@ const UserInfo = () => {
     <div>
       <Layout>
         <Sider>
-          <Menu theme="light" defaultSelectedKeys={['address']} mode="inline">
+          <Menu
+            theme="light"
+            defaultSelectedKeys={['address']}
+            mode="inline"
+            className="userSidebar"
+          >
             <Menu.Item key="address" onClick={onContentChange}>
               Address
             </Menu.Item>
