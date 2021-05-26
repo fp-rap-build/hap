@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 
-import socket from '../../../../../../config/socket';
+import socket from '../../../../../config/socket';
 
 const { Dragger } = Upload;
 

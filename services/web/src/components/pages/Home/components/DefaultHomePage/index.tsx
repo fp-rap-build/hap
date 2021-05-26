@@ -7,10 +7,10 @@ import styles from '../../../../../styles/pages/home.module.css';
 import '../../../../../styles/overrides.less';
 import '../../../../../styles/pages/Home/home.less';
 
-import StatusBar from './components/StatusBar';
-import DocumentUploader from './components/DocumentUploader';
-import CommentsContainer from './components/CommentsContainer';
-import UserInfo from './components/UserInfo/index';
+import StatusBar from './StatusBar';
+import DocumentUploader from './DocumentUploader';
+import CommentsContainer from './CommentsContainer';
+import UserInfo from './UserInfo/index';
 
 import {
   DesktopOutlined,

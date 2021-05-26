@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import AddressInfo from './AddressInfo';
+import DemoInfo from './DemoInfo';
 
 import { Layout, Menu } from 'antd';
 
@@ -82,6 +83,8 @@ const renderContent = props => {
   switch (props.currentContent) {
     case 'address':
       return <AddressInfo {...props} />;
+    case 'household':
+      return <DemoInfo {...props} />;
     default:
       return <h3>Not Built Yet :/</h3>;
   }

@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
 
-import Comments from '../../../../../common/Comments';
+import Comments from '../../../../common/Comments';
 
-import styles from '../../../../../../styles/pages/home.module.css';
+import styles from '../../../../../styles/pages/home.module.css';
 
 import { message, Typography } from 'antd';
 
-import socket from '../../../../../../config/socket';
-import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
+import socket from '../../../../../config/socket';
+import { axiosWithAuth } from '../../../../../api/axiosWithAuth';
 
 const { Title } = Typography;
 

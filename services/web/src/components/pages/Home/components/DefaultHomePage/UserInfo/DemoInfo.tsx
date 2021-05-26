@@ -1,59 +1,17 @@
-import { useState } from 'react';
+import EditableText from '../../common/EditableText';
 
-import { updateAddress } from '../../../../../../../redux/requests/requestActions';
+import EditableNum from '../../common/EditableNum';
 
-import EditableText from './components/EditableText';
+import { Typography, Checkbox, Divider } from 'antd';
 
-import EditableNum from './components/EditableNum';
-
-import { Typography, Button, InputNumber, Checkbox, Divider } from 'antd';
-
-const AddressInfo = ({
+const DemoInfo = ({
   requestData,
-  addressData,
-  handleAddressChange,
-  handleNumChange,
   handleRequestChange,
+  handleNumChange,
   setRequestData,
-  setAddressData,
 }) => {
   return (
     <>
-      <div className="addressInformation">
-        <Typography.Title level={3}>Address Information:</Typography.Title>
-        <EditableText
-          name="address"
-          title="Address"
-          handleChange={handleAddressChange}
-          data={addressData}
-        />
-        <EditableText
-          name="addressLine2"
-          title="Address Line Two"
-          handleChange={handleAddressChange}
-          data={addressData}
-        />
-        <EditableText
-          name="cityName"
-          title="City"
-          handleChange={handleAddressChange}
-          data={addressData}
-        />
-        <EditableText
-          name="state"
-          title="State"
-          handleChange={handleAddressChange}
-          data={addressData}
-        />
-        <EditableNum
-          title="Zip Code"
-          name="zipCode"
-          handleNumChange={handleNumChange}
-          state={addressData}
-          setState={setAddressData}
-        />
-      </div>
-      <Divider />
       <div className="demographicInfo">
         <Typography.Title level={3}>Demographic Info:</Typography.Title>
         <Checkbox
@@ -152,30 +110,8 @@ const AddressInfo = ({
           setState={setRequestData}
         />
       </div>
-      <Divider />
-      <div className="Landlord Information:">
-        <Typography.Title level={3}>Landlord Info:</Typography.Title>
-        <EditableText
-          name="landlordName"
-          title="Landlord Name"
-          handleChange={handleRequestChange}
-          data={requestData}
-        />
-        <EditableText
-          name="landlordEmail"
-          title="Landlord Email"
-          handleChange={handleRequestChange}
-          data={requestData}
-        />
-        <EditableText
-          name="landlordNumber"
-          title="Landlord Phone Number"
-          handleChange={handleRequestChange}
-          data={requestData}
-        />
-      </div>
     </>
   );
 };
 
-export default AddressInfo;
+export default DemoInfo;

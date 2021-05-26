@@ -1,6 +1,6 @@
 import { Typography, Row, Col, Input } from 'antd';
 
-import '../../../../../../../../styles/pages/Home/homeComponents.less';
+import '../../../../../styles/pages/Home/homeComponents.less';
 
 const { Paragraph, Text } = Typography;
 
