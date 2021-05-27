@@ -7,7 +7,7 @@ import AddressInfo from './AddressInfo';
 import LandlordContact from './LandlordContact';
 import DemoInfo from './DemoInfo';
 import Household from './Household';
-import Income from './Income';
+import Income from './Income.js';
 
 import { Layout, Menu } from 'antd';
 
