@@ -9,7 +9,7 @@ export const setCurrentAddress = currentAddress => {
   return { type: 'SET_ADDRESS', payload: currentAddress };
 };
 
-export const fetchRequest = () => async dispatch => {
+export const fetchRequestAndAddr = () => async dispatch => {
   dispatch(setLoading(true));
 
   try {
@@ -49,6 +49,21 @@ export const updateAddress = updatedAddress => async dispatch => {
   try {
     await axiosWithAuth().put(`/addrs/${updatedAddress.id}`, updatedAddress);
     dispatch(setCurrentAddress(updateAddress));
+  } catch (error) {
+    console.log(error);
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
+
+export const updateRequest = updatedRequest => async dispatch => {
+  dispatch(setLoading(true));
+
+  const { id } = updatedRequest;
+
+  try {
+    await axiosWithAuth().put(`/requests/${id}`, updatedRequest);
+    dispatch(setCurrentRequest(updatedRequest));
   } catch (error) {
     console.log(error);
   } finally {
