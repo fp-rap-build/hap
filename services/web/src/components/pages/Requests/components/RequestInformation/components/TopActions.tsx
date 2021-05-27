@@ -78,6 +78,8 @@ const ChangeStatusDropdown = ({ request, setRequest }) => {
       await axiosWithAuth().put(`/requests/${request.id}`, {
         requestStatus: status,
       });
+
+      message.success(`Successfully changed status to ${status}`);
     } catch (error) {
       message.error('Unable to change status');
     }
@@ -85,6 +87,9 @@ const ChangeStatusDropdown = ({ request, setRequest }) => {
 
   const StatusMenu = (
     <Menu onClick={handleStatusChange}>
+      <Menu.Item key="notResponding" icon={<UserOutlined />}>
+        Not Responding
+      </Menu.Item>
       <Menu.Item key="documentsNeeded" icon={<UserOutlined />}>
         Documents Needed
       </Menu.Item>
