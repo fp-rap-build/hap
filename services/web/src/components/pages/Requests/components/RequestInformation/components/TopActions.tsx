@@ -74,9 +74,10 @@ const ChangeStatusDropdown = ({ request, setRequest }) => {
   };
 
   const changeStatus = async () => {
-    console.log(status);
     try {
-      await axiosWithAuth().put(`/requests/${request.id}`, { status });
+      await axiosWithAuth().put(`/requests/${request.id}`, {
+        requestStatus: status,
+      });
     } catch (error) {
       message.error('Unable to change status');
     }
