@@ -1,15 +1,15 @@
 import { useDispatch } from 'react-redux';
 
-import {
-  updateAddress,
-  updateRequest,
-} from '../../../../../../redux/requests/requestActions';
+// import {
+//   updateAddress,
+//   updateRequest,
+// } from '../../../../../../redux/requests/requestActions';
 
 import EditableText from '../../common/EditableText';
 
 import EditableNum from '../../common/EditableNum';
 
-import { Typography, Divider, Button } from 'antd';
+import { Typography, Button } from 'antd';
 
 const AddressInfo = ({
   requestData,
@@ -57,35 +57,13 @@ const AddressInfo = ({
           setState={setAddressData}
         />
       </div>
-      <Divider />
-      <div className="Landlord Information:">
-        <Typography.Title level={3}>Landlord Info:</Typography.Title>
-        <EditableText
-          name="landlordName"
-          title="Landlord Name"
-          handleChange={handleRequestChange}
-          data={requestData}
-        />
-        <EditableText
-          name="landlordEmail"
-          title="Landlord Email"
-          handleChange={handleRequestChange}
-          data={requestData}
-        />
-        <EditableText
-          name="landlordNumber"
-          title="Landlord Phone Number"
-          handleChange={handleRequestChange}
-          data={requestData}
-        />
-      </div>
-      <Button
+      {/* <Button
         onClick={() => {
           dispatch(updateRequest(requestData));
         }}
       >
         Redux Test
-      </Button>
+      </Button> */}
     </>
   );
 };

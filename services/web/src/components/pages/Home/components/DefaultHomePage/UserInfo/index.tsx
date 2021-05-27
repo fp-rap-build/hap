@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import AddressInfo from './AddressInfo';
+import LandlordContact from './LandlordContact';
 import DemoInfo from './DemoInfo';
+import Household from './Household';
 
 import { Layout, Menu } from 'antd';
 
@@ -65,11 +67,14 @@ const UserInfo = () => {
             <Menu.Item key="address" onClick={onContentChange}>
               Address
             </Menu.Item>
+            <Menu.Item key="landlordContact" onClick={onContentChange}>
+              Landlord Contact
+            </Menu.Item>
             <Menu.Item key="household" onClick={onContentChange}>
               Household Information
             </Menu.Item>
-            <Menu.Item key="landlord" onClick={onContentChange}>
-              Landlord Information
+            <Menu.Item key="demographic" onClick={onContentChange}>
+              Demographic
             </Menu.Item>
           </Menu>
         </Sider>
@@ -84,6 +89,10 @@ const renderContent = props => {
     case 'address':
       return <AddressInfo {...props} />;
     case 'household':
+      return <Household {...props} />;
+    case 'landlordContact':
+      return <LandlordContact {...props} />;
+    case 'demographic':
       return <DemoInfo {...props} />;
     default:
       return <h3>Not Built Yet :/</h3>;
