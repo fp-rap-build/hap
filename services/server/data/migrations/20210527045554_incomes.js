@@ -1,3 +1,5 @@
+const { TokenFileWebIdentityCredentials } = require('aws-sdk');
+
 exports.up = function (knex) {
   return knex.schema.createTable('incomes', (tbl) => {
     tbl.increments();
@@ -12,6 +14,8 @@ exports.up = function (knex) {
       .notNullable();
 
     tbl.string('name', 128).notNullable();
+
+    tbl.integer('amount').unsigned().notNullable();
 
     tbl
       .enu('sourceOfIncome', [
