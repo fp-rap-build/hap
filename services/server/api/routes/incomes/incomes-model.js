@@ -9,7 +9,7 @@ const findByRequestId = (requestId) => {
 };
 
 const update = (id, change) => {
-  return db('incomes').where('id', id).update(change).returning('*');
+  return db('incomes').where('id', id).update(change);
 };
 
 const remove = (id) => {
