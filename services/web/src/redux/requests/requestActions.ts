@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { axiosWithAuth } from '../../api/axiosWithAuth';
 import { setLoading } from '../global/globalActions';
 
@@ -7,6 +8,10 @@ export const setCurrentRequest = currentRequest => {
 
 export const setCurrentAddress = currentAddress => {
   return { type: 'SET_ADDRESS', payload: currentAddress };
+};
+
+export const setIncomes = incomes => {
+  return { type: 'SET_INCOMES', payload: incomes };
 };
 
 export const fetchRequestAndAddr = () => async dispatch => {
@@ -68,5 +73,31 @@ export const updateRequest = updatedRequest => async dispatch => {
     console.log(error);
   } finally {
     dispatch(setLoading(false));
+  }
+};
+
+//INCOMES
+export const fetchIncomes = requestId => async dispatch => {
+  try {
+    const incomes = await axiosWithAuth()
+      .get(`/incomes/${requestId}`)
+      .then(res => res.data);
+    dispatch(setIncomes(incomes));
+  } catch (error) {
+    alert('DEV REDUX ERROR');
+    console.log(error);
+  }
+};
+
+export const addIncome = newIncome => async dispatch => {
+  const { requestId } = newIncome[0];
+
+  try {
+    await axiosWithAuth().post('/incomes', newIncome);
+    const updatedIncomes = await axiosWithAuth().get(`/incomes/${requestId}`);
+    dispatch(setIncomes(updatedIncomes));
+  } catch (error) {
+    alert('DEV REDUX ERROR');
+    console.log(error);
   }
 };

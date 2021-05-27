@@ -1,22 +1,34 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { fetchIncomes } from '../../../../../../redux/requests/requestActions';
 
 import AddressInfo from './AddressInfo';
 import LandlordContact from './LandlordContact';
 import DemoInfo from './DemoInfo';
 import Household from './Household';
+import Income from './Income';
 
 import { Layout, Menu } from 'antd';
 
 const { Sider, Content } = Layout;
 
 const UserInfo = () => {
-  const currentUser = useSelector(state => state.user.currentUser);
   const request = useSelector(state => state.requests);
 
   const [currentContent, setCurrentContent] = useState('address');
   const [requestData, setRequestData] = useState(request.request);
   const [addressData, setAddressData] = useState(request.addressDetails);
+
+  const dispatch = useDispatch();
+
+  //updating incomes here b/c we have access to the request ID
+  //Some good changes could be made to consolidate these into one piece of middleware
+  //and dispatch one action in defaultHomePage
+
+  useEffect(() => {
+    dispatch(fetchIncomes(requestData.id));
+  }, []);
 
   const onContentChange = ({ key }) => {
     setCurrentContent(key);
@@ -76,6 +88,9 @@ const UserInfo = () => {
             <Menu.Item key="demographic" onClick={onContentChange}>
               Demographic
             </Menu.Item>
+            <Menu.Item key="income" onClick={onContentChange}>
+              Income
+            </Menu.Item>
           </Menu>
         </Sider>
         <Content>{renderContent(props)}</Content>
@@ -94,6 +109,8 @@ const renderContent = props => {
       return <LandlordContact {...props} />;
     case 'demographic':
       return <DemoInfo {...props} />;
+    case 'income':
+      return <Income {...props} />;
     default:
       return <h3>Not Built Yet :/</h3>;
   }

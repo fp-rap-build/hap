@@ -22,7 +22,7 @@ exports.up = function (knex) {
         'wages',
         'publicAssistance',
         'pensionRetirement',
-        'unemploymentDissablity',
+        'unemploymentDissability',
         'alimony',
       ])
       .notNullable();
