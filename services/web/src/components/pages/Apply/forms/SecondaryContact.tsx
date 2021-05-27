@@ -93,7 +93,7 @@ const LandlordInfoForm = ({ formValues }) => {
           {
             type: 'string',
             required: true,
-            message: "Please enter Landlord or Property Manager Name",
+            message: 'Please enter Landlord or Property Manager Name',
           },
         ]}
       >
