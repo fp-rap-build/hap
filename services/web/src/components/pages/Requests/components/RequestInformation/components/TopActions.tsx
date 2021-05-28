@@ -77,6 +77,7 @@ const ChangeStatusDropdown = ({ request, setRequest }) => {
     try {
       await axiosWithAuth().put(`/requests/${request.id}`, {
         requestStatus: status,
+        email: request.email,
       });
 
       message.success(`Successfully changed status to ${status}`);
