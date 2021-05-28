@@ -97,7 +97,7 @@ const sendConfirmationOfApproval = (request) => {
   let msg;
 
   if (process.env.NODE_ENV === 'production') {
-    mailingList = ['fpspokane@bill.com', 'dpeabody@fpspokane.org'];
+    mailingList = ['fpspokane@bill.com', 'dpeabody@fpspokane.org', 'jwylie@fpspokane.org'];
   } else {
     mailingList = ['jwylie@fpspokane.org'];
   }
@@ -107,8 +107,8 @@ const sendConfirmationOfApproval = (request) => {
       to: email,
       from: 'admin@familypromiseofspokane.org',
       subject: 'Approval',
-      text: `Request #${request.id} has been approved`,
-      html: `<p>Request #${request.id} has been approved</p>`,
+      text: `Request #${request.id} for tenant ${request.firstName} has been approved`,
+      html: `<p>Request #${request.id} for tenant ${request.firstName} has been approved</p>`,
     };
 
     sgMail
