@@ -1,17 +1,25 @@
 import { useState } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
+import {
+  updateAndAddIncomes,
+  createIncome,
+  updateIncome,
+  deleteIncome,
+} from '../../../../../../redux/requests/requestActions';
 
 import MaterialTable from '@material-table/core';
 
 import { tableIcons } from '../../../../../../utils/tableIcons';
 
-import { Typography, Table, Tag, Space, Form } from 'antd';
-import { resolve } from 'path';
+import { Typography, Button } from 'antd';
 
-const { Title, Text } = Typography;
+const { Title, Paragraph } = Typography;
 
-const Income = ({ props }) => {
+const Income = ({ requestData }) => {
+  const dispatch = useDispatch();
+
   const initialIncomes = useSelector(state => state.requests.incomes);
 
   const [tableState, setTableState] = useState({
@@ -42,12 +50,22 @@ const Income = ({ props }) => {
     data: initialIncomes,
   });
 
+  console.log(tableState.data);
+
   return (
     <div>
-      <Title level={3}>Income Information</Title>
+      <div classname="userInfoHeading">
+        <Title level={3}>Income Information</Title>
+        <Paragraph>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet,
+          dolorum! Debitis praesentium natus necessitatibus sit maxime dolore,
+          dolorem laboriosam animi dignissimos quis, illo magnam molestias
+          maiores at, optio recusandae magni.
+        </Paragraph>
+      </div>
       <MaterialTable
         icons={tableIcons}
-        title="Incomes"
+        title="Household Incomes"
         columns={tableState.columns}
         data={tableState.data}
         editable={{
@@ -56,8 +74,7 @@ const Income = ({ props }) => {
           onRowUpdate: (newData, oldData) =>
             new Promise((resolve, reject) => {
               resolve();
-              // Set the state first to instantly update the table
-              console.log(newData);
+
               setTableState({
                 ...tableState,
                 data: tableState.data.map(row => {
@@ -67,6 +84,39 @@ const Income = ({ props }) => {
                   return row;
                 }),
               });
+
+              delete newData.tableData;
+
+              dispatch(updateIncome(newData));
+            }),
+          onRowAdd: newData =>
+            new Promise((resolve, reject) => {
+              resolve();
+
+              //Adding request ID
+              const completeData = { ...newData, requestId: requestData.id };
+
+              setTableState({
+                ...tableState,
+                data: [...tableState.data, completeData],
+              });
+
+              dispatch(createIncome(completeData));
+            }),
+          onRowDelete: oldData =>
+            new Promise((resolve, reject) => {
+              resolve();
+
+              if (oldData.id) {
+                dispatch(deleteIncome(oldData.id));
+              }
+
+              //Filter state to remove correct income then set new table state
+              const newState = tableState.data.filter(
+                income => income.tableData.id !== oldData.tableData.id
+              );
+
+              setTableState({ ...tableState, data: newState });
             }),
         }}
       />

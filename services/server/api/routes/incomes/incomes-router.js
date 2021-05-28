@@ -9,12 +9,13 @@ const {
   getByRequestId,
   createIncome,
   updateIncome,
+  deleteIncome,
 } = require('./controllers/index');
 
 router.use(authRequired);
 
 //Routes
-router.route('/:id').put(updateIncome);
+router.route('/:id').put(updateIncome).delete(deleteIncome);
 
 router.route('/').post(createIncome);
 

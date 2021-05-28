@@ -46,3 +46,14 @@ exports.updateIncome = async (req, res) => {
     res.status(500).json({ errorMessage: err });
   }
 };
+
+exports.deleteIncome = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deleted = await Income.remove(id);
+    res.status(200).json(deleted);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};

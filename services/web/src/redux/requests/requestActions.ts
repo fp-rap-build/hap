@@ -89,13 +89,64 @@ export const fetchIncomes = requestId => async dispatch => {
   }
 };
 
-export const addIncome = newIncome => async dispatch => {
-  const { requestId } = newIncome[0];
+export const createIncome = newIncome => async dispatch => {
+  // const { requestId } = newIncome[0];
 
   try {
     await axiosWithAuth().post('/incomes', newIncome);
-    const updatedIncomes = await axiosWithAuth().get(`/incomes/${requestId}`);
-    dispatch(setIncomes(updatedIncomes));
+    // const updatedIncomes = await axiosWithAuth().get(`/incomes/${requestId}`);
+    // dispatch(setIncomes(updatedIncomes));
+  } catch (error) {
+    alert('DEV REDUX ERROR');
+    console.log(error);
+  }
+};
+
+export const updateIncome = updatedIncome => async dispatch => {
+  try {
+    await axiosWithAuth().put(`/incomes/${updatedIncome.id}`, updatedIncome);
+  } catch (error) {
+    alert('REDUX DEV ERROR');
+    console.log(error);
+  }
+};
+
+export const deleteIncome = id => async dispatch => {
+  try {
+    await axiosWithAuth().delete(`/incomes/${id}`);
+  } catch (error) {
+    alert('REDUX DEV ERROR');
+    console.log(error);
+  }
+};
+
+export const updateAndAddIncomes = (
+  oldIncomes,
+  newIncomes
+) => async dispatch => {
+  const needsToPOST = [];
+  //Loop through newIncomes
+  try {
+    for (let i = 0; i < newIncomes.length; i++) {
+      //remove table data added by material table
+      delete newIncomes[i].tableData;
+      //if income doesnt have an id -- add to POST array
+      if (!newIncomes[i].id) {
+        needsToPOST.push(newIncomes[i]);
+        continue;
+      }
+      //if newIncome != oldIncome -- persist changes
+      if (newIncomes[i] !== oldIncomes[i]) {
+        await axiosWithAuth().put(
+          `/incomes/${newIncomes[i].id}`,
+          newIncomes[i]
+        );
+      }
+    }
+    //Persist new incomes
+    if (needsToPOST) {
+      await axiosWithAuth().post('/incomes', needsToPOST);
+    }
   } catch (error) {
     alert('DEV REDUX ERROR');
     console.log(error);
