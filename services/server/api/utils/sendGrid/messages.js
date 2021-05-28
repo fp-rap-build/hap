@@ -7,32 +7,33 @@ const requestStatusChange = (requestStatus, emailAddress) => {
   switch (requestStatus) {
     case 'inReview':
       text =
-        'Your Family Promise HAP Application status is being reviewed by our team!';
+        'Your Family Promise HAP Application status is being reviewed by our team! <p> Please log in regularly at www.SpokaneRentHelp.org to check the status of your request';
       break;
 
     case 'documentsNeeded':
-      text = `Your Family Promise HAP Application requires documents to continue forward. Please login to your account to view which documents to upload ${process.env.REACT_APP_URI}/login`;
+      text = `Your Family Promise HAP Application requires documents to continue forward. <p>Please login to your account at www.SpokaneRentHelp.org to view which documents you will need to upload</p>`;
+     
       break;
 
     case 'verifyingDocuments':
-      text = `Our team is currently verifying your documents! You can login to view any new comments here ${process.env.REACT_APP_URI}/login`;
+      text = `Our team is currently verifying your documents! <p> You can login to view any new comments here www.hap.solutions/login </p>`;
       break;
 
     case 'notResponding':
       text =
-        'Our team has decided to put your HAP Application on hold until you respond';
+        'Our team has decided to put your HAP Application on hold until you respond - please log in at www.SpokaneRentHelp.org as soon as possible to continue your request';
       break;
 
     case 'denied':
-      text = 'Your Family Promise HAP Application has been denied';
+      text = 'Your Family Promise HAP Application has been denied - please log in at www.SpokaneRentHelp.org to view why and/or to reapply';
       break;
 
     case 'approved':
-      text = 'Your Family Promise HAP Application has been approved!';
+      text = 'Your Family Promise HAP Application has been approved! - please log in to your account at www.SpokaneRentHelp.org to see what the next steps are.';
       break;
 
     default:
-      text = `Your Family Promise HAP Application status has been changed to ${requestStatus}`;
+      text = `Your Family Promise HAP Application status has been changed to ${requestStatus} - please log in at www.SpokaneRentHelp.org to check for messages from us and/or document requests`;
       break;
   }
 
@@ -41,6 +42,7 @@ const requestStatusChange = (requestStatus, emailAddress) => {
     from: 'admin@familypromiseofspokane.org',
     subject: 'Update! Your request status has changed',
     text: text,
+   
     html: `<p>${text}</p>`,
   };
 
