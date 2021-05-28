@@ -16,7 +16,7 @@ const requestStatusChange = (requestStatus, emailAddress) => {
       break;
 
     case 'verifyingDocuments':
-      text = `Our team is currently verifying your documents! <p> You can login to view any new comments here www.hap.solutions/login </p>`;
+      text = `Our team is currently verifying your documents! <p> You can login to view any new comments here: www.SpokaneRentHelp.org (click on "log in to view your status") </p>`;
       break;
 
     case 'notResponding':
