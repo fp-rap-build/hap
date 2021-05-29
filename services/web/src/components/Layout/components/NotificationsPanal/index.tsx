@@ -25,7 +25,7 @@ export default function Index() {
 
   const close = () => dispatch(closePanal());
 
-  const clearAllNotifications = () => dispatch();
+  const clearAllNotifications = () => dispatch(deleteAllNotifications());
 
   if (notifications.length === 0) return <></>;
 
@@ -43,6 +43,7 @@ export default function Index() {
             isPanalOpen={isPanalOpen}
             notifications={notifications}
             close={close}
+            clearAllNotifications={clearAllNotifications}
           />
         </motion.div>
       )}
@@ -50,11 +51,19 @@ export default function Index() {
   );
 }
 
-const Panal = ({ isPanalOpen, notifications, close }) => {
+const Panal = ({
+  isPanalOpen,
+  notifications,
+  close,
+  clearAllNotifications,
+}) => {
   return (
     <ClickAwayListener onClickAway={close}>
       <div>
-        <div className={styles.clearAllNotifications} onClick={close}>
+        <div
+          className={styles.clearAllNotifications}
+          onClick={clearAllNotifications}
+        >
           Clear All
         </div>
         <div className={styles.closePanal} onClick={close}>

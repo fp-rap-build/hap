@@ -108,6 +108,9 @@ const readAllNotifications = (userId) =>
     .update({ seen: true })
     .returning('*');
 
+const deleteAllNotifications = (userId) =>
+  db('userNotifications').where({ userId }).del();
+
 const createPasswordResetToken = async (id) => {
   let resetToken = crypto.randomBytes(32).toString('hex');
 
@@ -144,5 +147,6 @@ module.exports = {
   findSubscriptionsById,
   findNotificationsById,
   readAllNotifications,
+  deleteAllNotifications,
   createPasswordResetToken,
 };

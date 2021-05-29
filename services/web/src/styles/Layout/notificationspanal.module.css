@@ -1,7 +1,7 @@
 .container {
   width: 30%;
   position: fixed;
-  top: 0.4%;
+  top: 1%;
   right: 0.2%;
   z-index: 10;
   background-color: rgba(0, 0, 0, 0);
