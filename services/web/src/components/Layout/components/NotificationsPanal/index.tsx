@@ -2,7 +2,10 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { motion, AnimatePresence } from 'framer-motion';
 
-import { closePanal } from '../../../../redux/notifications/notificationActions';
+import {
+  closePanal,
+  deleteAllNotifications,
+} from '../../../../redux/notifications/notificationActions';
 
 import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
 
@@ -21,6 +24,8 @@ export default function Index() {
   );
 
   const close = () => dispatch(closePanal());
+
+  const clearAllNotifications = () => dispatch();
 
   if (notifications.length === 0) return <></>;
 
@@ -49,6 +54,9 @@ const Panal = ({ isPanalOpen, notifications, close }) => {
   return (
     <ClickAwayListener onClickAway={close}>
       <div>
+        <div className={styles.clearAllNotifications} onClick={close}>
+          Clear All
+        </div>
         <div className={styles.closePanal} onClick={close}>
           <KeyboardReturnIcon />
         </div>
