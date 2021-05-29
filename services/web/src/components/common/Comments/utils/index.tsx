@@ -24,9 +24,7 @@ const fetchComments = async (id, category, setState) => {
       { category: category }
     );
     setState(res.data);
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export { checkCommentLength, formatDate, fetchComments };

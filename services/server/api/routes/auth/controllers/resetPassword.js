@@ -27,7 +27,6 @@ const resetPassword = async (req, res, next) => {
 
     res.status(200).json({ message: 'Your password has been updated' });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Unable to reset password' });
   }
 };

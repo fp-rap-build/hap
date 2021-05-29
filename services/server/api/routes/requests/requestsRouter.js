@@ -57,7 +57,6 @@ router.get('/', async (req, res) => {
 
     res.status(200).json({ requests: allRequests });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -68,7 +67,6 @@ router.get('/active', async (req, res) => {
     const resRequests = await Requests.findAllActive();
     res.status(200).json(resRequests);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -80,7 +78,6 @@ router.get('/table', async (req, res) => {
     const resRequests = await Requests.findForTable();
     res.status(200).json(resRequests);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -91,7 +88,6 @@ router.get('/find', async (req, res) => {
     const foundRequests = await Requests.findBy(filter);
     res.status(200).json(foundRequests);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -137,7 +133,6 @@ router.delete('/:id', async (req, res) => {
       .status(200)
       .json({ message: `Requests with id: ${id} succesfully deleted` });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
