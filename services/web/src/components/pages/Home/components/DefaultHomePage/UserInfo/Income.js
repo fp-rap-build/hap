@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
-  updateAndAddIncomes,
+  fetchIncomes,
   createIncome,
   updateIncome,
   deleteIncome,
@@ -13,7 +13,7 @@ import MaterialTable from '@material-table/core';
 
 import { tableIcons } from '../../../../../../utils/tableIcons';
 
-import { Typography, Button } from 'antd';
+import { Typography, Divider } from 'antd';
 
 const { Title, Paragraph } = Typography;
 
@@ -53,9 +53,9 @@ const Income = ({ requestData }) => {
   console.log(tableState.data);
 
   return (
-    <div>
-      <div classname="userInfoHeading">
-        <Title level={3}>Income Information</Title>
+    <div className="incomeInfo userInfoContent">
+      <div classname="userContentHeading">
+        <Title level={4}>Income Information</Title>
         <Paragraph>
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet,
           dolorum! Debitis praesentium natus necessitatibus sit maxime dolore,

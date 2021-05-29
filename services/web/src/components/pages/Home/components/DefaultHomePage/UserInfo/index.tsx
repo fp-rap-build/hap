@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { fetchIncomes } from '../../../../../../redux/requests/requestActions';
+import {
+  fetchIncomes,
+  updateAddress,
+} from '../../../../../../redux/requests/requestActions';
 
 import AddressInfo from './AddressInfo';
 import LandlordContact from './LandlordContact';
 import DemoInfo from './DemoInfo';
 import Household from './Household';
 import Income from './Income.js';
+import Footer from './Footer';
 
 import { Layout, Menu } from 'antd';
 
@@ -16,16 +20,17 @@ const { Sider, Content } = Layout;
 const UserInfo = () => {
   const request = useSelector(state => state.requests);
 
-  const [currentContent, setCurrentContent] = useState('address');
   const [requestData, setRequestData] = useState(request.request);
   const [addressData, setAddressData] = useState(request.addressDetails);
+
+  const [currentContent, setCurrentContent] = useState('address');
+  const [disabled, setDisabled] = useState(true);
 
   const dispatch = useDispatch();
 
   //updating incomes here b/c we have access to the request ID
   //Some good changes could be made to consolidate these into one piece of middleware
   //and dispatch one action in defaultHomePage
-
   useEffect(() => {
     dispatch(fetchIncomes(requestData.id));
   }, []);
@@ -35,9 +40,12 @@ const UserInfo = () => {
   };
 
   const handleAddressChange = e => {
-    console.log(e);
     const { name, value, type } = e.target;
     setAddressData({ ...addressData, [name]: value });
+  };
+
+  const handleStateChange = value => {
+    setAddressData({ ...addressData, state: value });
   };
 
   const handleRequestChange = e => {
@@ -55,6 +63,14 @@ const UserInfo = () => {
   const handleNumChange = (name, setState, state) => value => {
     setState({ ...state, [name]: value });
   };
+
+  const postAddress = () => {
+    dispatch(updateAddress(addressData));
+  };
+  const toggleDisabled = e => {
+    setDisabled(!disabled);
+  };
+
   const props = {
     currentContent,
     requestData,
@@ -64,6 +80,10 @@ const UserInfo = () => {
     handleRequestChange,
     setRequestData,
     setAddressData,
+    handleStateChange,
+    disabled,
+    toggleDisabled,
+    postAddress,
   };
 
   return (
@@ -93,7 +113,12 @@ const UserInfo = () => {
             </Menu.Item>
           </Menu>
         </Sider>
-        <Content>{renderContent(props)}</Content>
+
+        <Content>
+          {renderContent(props)}
+
+          <Footer {...props} />
+        </Content>
       </Layout>
     </div>
   );

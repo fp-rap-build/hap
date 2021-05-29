@@ -1,6 +1,6 @@
 import EditableNum from '../../common/EditableNum';
 
-import { Typography, Checkbox } from 'antd';
+import { Typography, Checkbox, Divider } from 'antd';
 
 const Household = ({
   requestData,
@@ -9,8 +9,9 @@ const Household = ({
   handleRequestChange,
 }) => {
   return (
-    <div className="householdInfo">
-      <Typography.Title level={3}>Household Info:</Typography.Title>
+    <div className="householdInfo userInfoContent">
+      <Typography.Title level={4}>Household Info:</Typography.Title>
+      <Divider />
       <Checkbox
         checked={requestData.foodWrkr}
         name="foodWrkr"

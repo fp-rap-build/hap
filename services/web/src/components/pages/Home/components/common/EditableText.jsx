@@ -4,7 +4,13 @@ import '../../../../../styles/pages/Home/homeComponents.less';
 
 const { Paragraph, Text } = Typography;
 
-export default function EditableText({ name, title, handleChange, data }) {
+export default function EditableText({
+  name,
+  title,
+  handleChange,
+  data,
+  editable,
+}) {
   return (
     <div>
       <Row>
@@ -17,6 +23,7 @@ export default function EditableText({ name, title, handleChange, data }) {
             name={name}
             onChange={handleChange}
             value={data[name]}
+            disabled={editable}
           />
         </Col>
       </Row>

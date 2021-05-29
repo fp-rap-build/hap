@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { axiosWithAuth } from '../../api/axiosWithAuth';
 import { setLoading } from '../global/globalActions';
 
@@ -49,15 +48,14 @@ export const fetchRequestAndAddr = () => async dispatch => {
 };
 
 export const updateAddress = updatedAddress => async dispatch => {
-  dispatch(setLoading(true));
+  // dispatch(setLoading(true));
 
   try {
     await axiosWithAuth().put(`/addrs/${updatedAddress.id}`, updatedAddress);
-    dispatch(setCurrentAddress(updateAddress));
   } catch (error) {
     console.log(error);
   } finally {
-    dispatch(setLoading(false));
+    // dispatch(setLoading(false));
   }
 };
 
@@ -78,6 +76,7 @@ export const updateRequest = updatedRequest => async dispatch => {
 
 //INCOMES
 export const fetchIncomes = requestId => async dispatch => {
+  // dispatch(setLoading(true));
   try {
     const incomes = await axiosWithAuth()
       .get(`/incomes/${requestId}`)
@@ -86,6 +85,8 @@ export const fetchIncomes = requestId => async dispatch => {
   } catch (error) {
     alert('DEV REDUX ERROR');
     console.log(error);
+  } finally {
+    // dispatch(setLoading(false));
   }
 };
 

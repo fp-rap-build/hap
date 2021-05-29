@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 //Migrate styles to less so it will all be in one place
-
-import styles from '../../../../../styles/pages/home.module.css';
 import '../../../../../styles/overrides.less';
 import '../../../../../styles/pages/Home/home.less';
 
@@ -62,7 +60,7 @@ export default function Index() {
             style={{ color: '#FFFFFF' }}
           >
             {' '}
-            Hello {currentUser.firstName}, Welcome to the Housing Assistance
+            Hello {currentUser.firstName}, Welcome to your Housing Assistance
             Portal.
           </Title>
         </Header>

@@ -3,7 +3,7 @@ import { Typography, Checkbox } from 'antd';
 const DemoInfo = ({ requestData, handleRequestChange }) => {
   return (
     <>
-      <div className="demographicInfo">
+      <div className="demographicInfo userInfoContent">
         <Typography.Title level={3}>Demographic Info:</Typography.Title>
         <Checkbox
           checked={requestData.hispanic}
