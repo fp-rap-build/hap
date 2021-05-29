@@ -18,6 +18,14 @@ const StatusBar = ({ request }) => {
     switch (status) {
       case 'received':
         return 0;
+      case 'notResponding':
+        return 1;
+      case 'documentsNeeded':
+        return 1;
+      case 'verifyingDocuments':
+        return 1;
+      case 'readyForReview':
+        return 1;
       case 'inReview':
         return 1;
       case 'approved':

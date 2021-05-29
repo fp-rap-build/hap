@@ -11,17 +11,15 @@ export default function Contact({ request, column = 2 }) {
         <h2>Landlord</h2>
 
         <h3>Name:</h3>
-        <h3>
-          
-            {request.landlordName}
-      
-        </h3>
+        <h3>{request.landlordName}</h3>
       </div>
       <div>
         <h2>Contact Information</h2>
         <h3>Email:</h3>
         <h3>
-          <a href={`mailto:${request.landlordEmail}`}>{request.landlordEmail}</a>
+          <a href={`mailto:${request.landlordEmail}`}>
+            {request.landlordEmail}
+          </a>
         </h3>
         <h2>Phone number:</h2>
         <h3>{request.landlordNumber}</h3>

@@ -32,7 +32,7 @@ const findById = async (id) => db('users').where({ id }).first('*');
 
 const findByIdAndUpdate = async (id, payload) => {
   if (payload['password']) {
-    payload['password'] = await bcrypt.hash(user['password'], salt);
+    payload['password'] = await bcrypt.hash(payload['password'], salt);
   }
   return await db('users').where({ id }).update(payload).returning('*');
 };
@@ -108,6 +108,9 @@ const readAllNotifications = (userId) =>
     .update({ seen: true })
     .returning('*');
 
+const deleteAllNotifications = (userId) =>
+  db('userNotifications').where({ userId }).del();
+
 const createPasswordResetToken = async (id) => {
   let resetToken = crypto.randomBytes(32).toString('hex');
 
@@ -144,5 +147,6 @@ module.exports = {
   findSubscriptionsById,
   findNotificationsById,
   readAllNotifications,
+  deleteAllNotifications,
   createPasswordResetToken,
 };

@@ -49,6 +49,10 @@ export default function RequestsTable() {
       lookup: {
         received: 'Received',
         inReview: 'In Review',
+        documentsNeeded: 'documentsNeeded',
+        verifyingDocuments: 'verifyingDocuments',
+        notResponding: 'Not Responding',
+        readyForReview: 'Ready For Review',
         approved: 'Approved',
         denied: 'Denied',
       },

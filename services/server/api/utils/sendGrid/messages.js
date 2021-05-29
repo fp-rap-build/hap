@@ -2,13 +2,50 @@ const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const requestStatusChange = (requestStatus, emailAddress) => {
+  let text;
+
+  switch (requestStatus) {
+    case 'inReview':
+      text =
+        'Your Family Promise HAP Application status is being reviewed by our team! <p> Please log in regularly at www.SpokaneRentHelp.org to check the status of your request';
+      break;
+
+    case 'documentsNeeded':
+      text = `Your Family Promise HAP Application requires documents to continue forward. <p>Please login to your account at www.SpokaneRentHelp.org to view which documents you will need to upload</p>`;
+     
+      break;
+
+    case 'verifyingDocuments':
+      text = `Our team is currently verifying your documents! <p> You can login to view any new comments here: www.SpokaneRentHelp.org (click on "log in to view your status") </p>`;
+      break;
+
+    case 'notResponding':
+      text =
+        'Our team has decided to put your HAP Application on hold until you respond - please log in at www.SpokaneRentHelp.org as soon as possible to continue your request';
+      break;
+
+    case 'denied':
+      text = 'Your Family Promise HAP Application has been denied - please log in at www.SpokaneRentHelp.org to view why and/or to reapply';
+      break;
+
+    case 'approved':
+      text = 'Your Family Promise HAP Application has been approved! - please log in to your account at www.SpokaneRentHelp.org to see what the next steps are.';
+      break;
+
+    default:
+      text = `Your Family Promise HAP Application status has been changed to ${requestStatus} - please log in at www.SpokaneRentHelp.org to check for messages from us and/or document requests`;
+      break;
+  }
+
   const msg = {
     to: emailAddress,
     from: 'admin@familypromiseofspokane.org',
     subject: 'Update! Your request status has changed',
-    text: `Your Family Promise HAP Application status has been updated to ${requestStatus}`,
-    html: `<p>Your Family Promise HAP Application status has been updated to <strong>${requestStatus}!</strong></p>`,
+    text: text,
+   
+    html: `<p>${text}</p>`,
   };
+
   sgMail
     .send(msg)
     .then(() => {
@@ -60,7 +97,7 @@ const sendConfirmationOfApproval = (request) => {
   let msg;
 
   if (process.env.NODE_ENV === 'production') {
-    mailingList = ['fpspokane@bill.com', 'dpeabody@fpspokane.org'];
+    mailingList = ['fpspokane@bill.com', 'dpeabody@fpspokane.org', 'jwylie@fpspokane.org'];
   } else {
     mailingList = ['jwylie@fpspokane.org'];
   }
@@ -70,8 +107,8 @@ const sendConfirmationOfApproval = (request) => {
       to: email,
       from: 'admin@familypromiseofspokane.org',
       subject: 'Approval',
-      text: `Request #${request.id} has been approved`,
-      html: `<p>Request #${request.id} has been approved</p>`,
+      text: `Request #${request.id} for tenant ${request.firstName} has been approved`,
+      html: `<p>Request #${request.id} for tenant ${request.firstName} has been approved</p>`,
     };
 
     sgMail

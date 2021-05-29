@@ -42,7 +42,6 @@ exports.updateCurrentUser = async (req, res) => {
 
     res.status(200).json({ user: updatedUser[0] });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
@@ -89,7 +88,18 @@ exports.readAllNotifications = async (req, res, next) => {
     let notifications = await Users.readAllNotifications(id);
     res.status(200).json({ notifications });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Unable to read Notifications' });
+  }
+};
+
+exports.deleteAllNotifications = async (req, res, next) => {
+  const { id } = req.user;
+
+  try {
+    await Users.deleteAllNotifications(id);
+
+    res.status(200).json('Deleted all notifications');
+  } catch (error) {
+    res.status(500).json({ message: 'Unable to delete all Notifications' });
   }
 };

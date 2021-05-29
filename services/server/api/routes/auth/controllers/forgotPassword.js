@@ -23,7 +23,6 @@ const forgotPassword = async (req, res, next) => {
 
     res.status(200).json({ message: 'Token sent to email!' });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 };

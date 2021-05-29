@@ -19,9 +19,10 @@ const {
   getUserAddressById,
 
   getAllSubscriptions,
+
   getAllNotifications,
   readAllNotifications,
-  
+  deleteAllNotifications,
 } = require('./controllers');
 
 // Global middleware
@@ -38,7 +39,11 @@ router
 
 router.route('/me/subscriptions').get(getAllSubscriptions);
 
-router.route('/me/notifications').get(getAllNotifications);
+router
+  .route('/me/notifications')
+  .get(getAllNotifications)
+  .delete(deleteAllNotifications);
+
 router.route('/me/notifications/read').post(readAllNotifications);
 
 router
