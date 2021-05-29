@@ -14,7 +14,12 @@ const Footer = ({ toggleDisabled, disabled, postAddress }) => {
   return (
     <div>
       {disabled ? <Button onClick={toggleDisabled}>Edit</Button> : null}
-      {!disabled ? <Button onClick={save}>Save Changes</Button> : null}
+      {!disabled ? (
+        <>
+          <Button onClick={save}>Save Changes</Button>
+          <Button onClick={toggleDisabled}>Cancel</Button>
+        </>
+      ) : null}
     </div>
   );
 };
