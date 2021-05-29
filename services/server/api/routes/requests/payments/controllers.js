@@ -22,7 +22,6 @@ const sendPayment = async (req, res, next) => {
 
     res.status(201).json({ payment });
   } catch (error) {
-      console.log(error)
     res.status(500).json({ message: 'Internal server error' });
   }
 };

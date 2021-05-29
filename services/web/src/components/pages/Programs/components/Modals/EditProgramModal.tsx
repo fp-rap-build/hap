@@ -46,7 +46,6 @@ export default function EditProgramModal({
         })
       );
     } catch (error) {
-      console.log(error);
       message.error('unable to edit program');
     } finally {
       closeModal();
