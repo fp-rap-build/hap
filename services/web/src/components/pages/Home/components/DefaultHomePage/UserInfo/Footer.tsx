@@ -1,9 +1,19 @@
 import { Button } from 'antd';
 
-const Footer = ({ toggleDisabled, disabled, postAddress }) => {
+const Footer = ({
+  toggleDisabled,
+  disabled,
+  postAddress,
+  postRequest,
+  currentContent,
+}) => {
   const save = () => {
     try {
-      postAddress();
+      if (currentContent === 'address') {
+        postAddress();
+      } else {
+        postRequest();
+      }
     } catch (error) {
       alert('Error Saving User Data to Server');
     } finally {
@@ -12,7 +22,7 @@ const Footer = ({ toggleDisabled, disabled, postAddress }) => {
   };
 
   return (
-    <div>
+    <div style={currentContent === 'income' ? { display: 'none' } : null}>
       {disabled ? <Button onClick={toggleDisabled}>Edit</Button> : null}
       {!disabled ? (
         <>

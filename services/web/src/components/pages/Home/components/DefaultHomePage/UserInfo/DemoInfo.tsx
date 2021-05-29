@@ -1,59 +1,98 @@
-import { Typography, Checkbox } from 'antd';
+import { Typography, Checkbox, Form, Divider } from 'antd';
 
-const DemoInfo = ({ requestData, handleRequestChange }) => {
+const { Title, Paragraph } = Typography;
+
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
+};
+
+const DemoInfo = ({ requestData, handleRequestChange, disabled }) => {
   return (
     <>
       <div className="demographicInfo userInfoContent">
-        <Typography.Title level={3}>Demographic Info:</Typography.Title>
-        <Checkbox
-          checked={requestData.hispanic}
-          name="hispanic"
-          onChange={handleRequestChange}
-        >
-          Hispanic/ Latino
-        </Checkbox>
-        <Checkbox
-          checked={requestData.asian}
-          name="asian"
-          onChange={handleRequestChange}
-        >
-          Asian
-        </Checkbox>
-        <Checkbox
-          checked={requestData.black}
-          name="black"
-          onChange={handleRequestChange}
-        >
-          Black or African American
-        </Checkbox>
-        <Checkbox
-          checked={requestData.pacific}
-          name="pacific"
-          onChange={handleRequestChange}
-        >
-          Native Hawaiian or Other Pacific Islander
-        </Checkbox>
-        <Checkbox
-          checked={requestData.white}
-          name="white"
-          onChange={handleRequestChange}
-        >
-          White
-        </Checkbox>
-        <Checkbox
-          checked={requestData.native}
-          name="native"
-          onChange={handleRequestChange}
-        >
-          Native American or Alskan Native
-        </Checkbox>
-        <Checkbox
-          checked={requestData.demoNotSay}
-          name="demoNotSay"
-          onChange={handleRequestChange}
-        >
-          Rather Not Say
-        </Checkbox>
+        <div className="userContentHeading">
+          <Title level={4}>Demographic Information: </Title>
+          <Paragraph>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet,
+            dolorum! Debitis praesentium natus necessitatibus sit maxime dolore,
+            dolorem laboriosam animi dignissimos quis, illo magnam molestias
+            maiores at, optio recusandae magni.
+          </Paragraph>
+        </div>
+        <Divider />
+        <Form {...layout}>
+          <Form.Item>
+            <Checkbox
+              checked={requestData.hispanic}
+              disabled={disabled}
+              name="hispanic"
+              onChange={handleRequestChange}
+            >
+              Hispanic/ Latino
+            </Checkbox>
+          </Form.Item>
+          <Form.Item>
+            <Checkbox
+              checked={requestData.asian}
+              disabled={disabled}
+              onChange={handleRequestChange}
+              name="asian"
+            >
+              Asian
+            </Checkbox>
+          </Form.Item>
+          <Form.Item>
+            <Checkbox
+              checked={requestData.black}
+              disabled={disabled}
+              onChange={handleRequestChange}
+              name="black"
+            >
+              Black or African American
+            </Checkbox>
+          </Form.Item>
+          <Form.Item>
+            <Checkbox
+              checked={requestData.pacific}
+              disabled={disabled}
+              onChange={handleRequestChange}
+              name="pacific"
+            >
+              Native Hawaiian or Other Pacific Islander
+            </Checkbox>
+          </Form.Item>
+          <Form.Item>
+            <Checkbox
+              checked={requestData.white}
+              disabled={disabled}
+              onChange={handleRequestChange}
+              name="white"
+            >
+              White
+            </Checkbox>
+          </Form.Item>
+          <Form.Item>
+            <Checkbox
+              checked={requestData.native}
+              disabled={disabled}
+              onChange={handleRequestChange}
+              name="native"
+            >
+              Native American or Alskan Native
+            </Checkbox>
+          </Form.Item>
+          <Form.Item>
+            <Checkbox
+              checked={requestData.demoNotSay}
+              disabled={disabled}
+              onChange={handleRequestChange}
+              name="demoNotSay"
+            >
+              Rather Not Say
+            </Checkbox>
+          </Form.Item>
+        </Form>
       </div>
     </>
   );

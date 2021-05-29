@@ -48,29 +48,20 @@ export const fetchRequestAndAddr = () => async dispatch => {
 };
 
 export const updateAddress = updatedAddress => async dispatch => {
-  // dispatch(setLoading(true));
-
   try {
     await axiosWithAuth().put(`/addrs/${updatedAddress.id}`, updatedAddress);
   } catch (error) {
     console.log(error);
-  } finally {
-    // dispatch(setLoading(false));
   }
 };
 
 export const updateRequest = updatedRequest => async dispatch => {
-  dispatch(setLoading(true));
-
   const { id } = updatedRequest;
 
   try {
     await axiosWithAuth().put(`/requests/${id}`, updatedRequest);
-    dispatch(setCurrentRequest(updatedRequest));
   } catch (error) {
     console.log(error);
-  } finally {
-    dispatch(setLoading(false));
   }
 };
 

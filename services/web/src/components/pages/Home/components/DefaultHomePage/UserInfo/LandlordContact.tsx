@@ -1,37 +1,74 @@
-import { useState } from 'react';
+import { Typography, Divider, Form, Input } from 'antd';
 
-import EditableText from '../../common/EditableText';
+const { Title, Paragraph } = Typography;
 
-import { Typography, Divider } from 'antd';
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
+};
 
-const LandlordContact = ({ requestData, handleRequestChange }) => {
-  const [editable, setEditable] = useState(true);
-
+const LandlordContact = ({ requestData, handleRequestChange, disabled }) => {
   return (
     <div className="landlordInformation userInfoContent">
-      <Typography.Title level={3}>Landlord Info:</Typography.Title>
+      <div className="userContentHeading">
+        <Title level={4}>Landlord Contact Information: </Title>
+        <Paragraph>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet,
+          dolorum! Debitis praesentium natus necessitatibus sit maxime dolore,
+          dolorem laboriosam animi dignissimos quis, illo magnam molestias
+          maiores at, optio recusandae magni.
+        </Paragraph>
+      </div>
       <Divider />
-      <EditableText
-        name="landlordName"
-        title="Landlord Name"
-        handleChange={handleRequestChange}
-        data={requestData}
-        editable={editable}
-      />
-      <EditableText
-        name="landlordEmail"
-        title="Landlord Email"
-        handleChange={handleRequestChange}
-        data={requestData}
-        editable={editable}
-      />
-      <EditableText
-        name="landlordNumber"
-        title="Landlord Phone Number"
-        handleChange={handleRequestChange}
-        data={requestData}
-        editable={editable}
-      />
+      <Form {...layout} name="landlordContact" onChange={handleRequestChange}>
+        <Form.Item
+          initialValue={requestData.landlordName}
+          label="Name"
+          name="landlordName"
+          rules={[
+            {
+              type: 'string',
+              required: true,
+              message: 'Please enter Landlord or Property Manager Name',
+            },
+          ]}
+        >
+          <Input
+            name="landlordName"
+            value={requestData.landlordName}
+            disabled={disabled}
+          />
+        </Form.Item>
+        <Form.Item
+          initialValue={requestData.landlordEmail}
+          label="Email"
+          name="landlordEmail"
+          rules={[
+            {
+              type: 'email',
+              required: true,
+              message: 'Please enter a valid email',
+            },
+          ]}
+        >
+          <Input type="email" name="landlordEmail" disabled={disabled} />
+        </Form.Item>
+
+        <Form.Item
+          initialValue={requestData.landlordNumber}
+          label="Phone number"
+          name="landlordNumber"
+          rules={[
+            {
+              type: 'string',
+              required: true,
+              message: 'Please enter a phone number',
+            },
+          ]}
+        >
+          <Input name="landlordNumber" disabled={disabled} />
+        </Form.Item>
+      </Form>
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchIncomes,
   updateAddress,
+  updateRequest,
 } from '../../../../../../redux/requests/requestActions';
 
 import AddressInfo from './AddressInfo';
@@ -67,6 +68,11 @@ const UserInfo = () => {
   const postAddress = () => {
     dispatch(updateAddress(addressData));
   };
+
+  const postRequest = () => {
+    dispatch(updateRequest(requestData));
+  };
+
   const toggleDisabled = e => {
     setDisabled(!disabled);
   };
@@ -84,6 +90,7 @@ const UserInfo = () => {
     disabled,
     toggleDisabled,
     postAddress,
+    postRequest,
   };
 
   return (
