@@ -1,6 +1,4 @@
-import EditableNum from '../../common/EditableNum';
-
-import { Typography, Checkbox, Divider, Form, Input, InputNumber } from 'antd';
+import { Typography, Divider, Form, Input } from 'antd';
 
 const { Title, Paragraph } = Typography;
 
@@ -13,7 +11,7 @@ const Household = ({ requestData, handleRequestChange, disabled }) => {
   return (
     <div className="householdInfo userInfoContent">
       <div className="userContentHeading">
-        <Title level={4}>Address Information: </Title>
+        <Title level={4}>Household Information: </Title>
         <Paragraph>
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet,
           dolorum! Debitis praesentium natus necessitatibus sit maxime dolore,

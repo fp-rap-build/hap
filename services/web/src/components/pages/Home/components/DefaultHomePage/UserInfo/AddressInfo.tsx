@@ -1,5 +1,3 @@
-import { useDispatch } from 'react-redux';
-
 import { states } from '../../../../../../utils/data/states';
 
 import { Typography, Divider, Form, Input, Select, InputNumber } from 'antd';
@@ -19,8 +17,6 @@ const AddressInfo = ({
   handleStateChange,
   disabled,
 }) => {
-  const dispatch = useDispatch();
-
   return (
     <>
       <div className="addressInformation userInfoContent">

@@ -34,6 +34,7 @@ const UserInfo = () => {
   //and dispatch one action in defaultHomePage
   useEffect(() => {
     dispatch(fetchIncomes(requestData.id));
+    //eslint-disable-next-line
   }, []);
 
   const onContentChange = ({ key }) => {
@@ -41,7 +42,7 @@ const UserInfo = () => {
   };
 
   const handleAddressChange = e => {
-    const { name, value, type } = e.target;
+    const { name, value } = e.target;
     setAddressData({ ...addressData, [name]: value });
   };
 
@@ -61,10 +62,6 @@ const UserInfo = () => {
     }
   };
 
-  const handleNumChange = (name, setState, state) => value => {
-    setState({ ...state, [name]: value });
-  };
-
   const postAddress = () => {
     dispatch(updateAddress(addressData));
   };
@@ -73,7 +70,7 @@ const UserInfo = () => {
     dispatch(updateRequest(requestData));
   };
 
-  const toggleDisabled = e => {
+  const toggleDisabled = () => {
     setDisabled(!disabled);
   };
 
@@ -82,10 +79,7 @@ const UserInfo = () => {
     requestData,
     addressData,
     handleAddressChange,
-    handleNumChange,
     handleRequestChange,
-    setRequestData,
-    setAddressData,
     handleStateChange,
     disabled,
     toggleDisabled,

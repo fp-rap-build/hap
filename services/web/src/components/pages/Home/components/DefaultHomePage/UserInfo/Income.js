@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
-  fetchIncomes,
   createIncome,
   updateIncome,
   deleteIncome,
@@ -63,6 +62,7 @@ const Income = ({ requestData }) => {
           maiores at, optio recusandae magni.
         </Paragraph>
       </div>
+      <Divider />
       <MaterialTable
         icons={tableIcons}
         title="Household Incomes"
@@ -118,6 +118,9 @@ const Income = ({ requestData }) => {
 
               setTableState({ ...tableState, data: newState });
             }),
+        }}
+        options={{
+          search: false,
         }}
       />
     </div>
