@@ -1,13 +1,13 @@
 import { useSelector } from 'react-redux';
 
-import { Upload, message } from 'antd';
+import socket from '../../../../../../config/socket';
+
 import { ConsoleSqlOutlined, InboxOutlined } from '@ant-design/icons';
 
-import socket from '../../../../../config/socket';
-
+import { Upload, message } from 'antd';
 const { Dragger } = Upload;
 
-const DocumentUploader = ({ request }) => {
+const DocumentUploader = ({ request, category }) => {
   const token = localStorage.getItem('token');
 
   const currentUser = useSelector(state => state.user.currentUser);
@@ -36,7 +36,7 @@ const DocumentUploader = ({ request }) => {
   };
 
   return (
-    <div style={{ width: '100%', marginBottom: '3rem' }}>
+    <div style={{ width: '100%', height: '5rem' }}>
       <Dragger
         style={{ width: '100%' }}
         {...props}

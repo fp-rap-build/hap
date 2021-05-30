@@ -6,9 +6,9 @@ import '../../../../../styles/overrides.less';
 import '../../../../../styles/pages/Home/home.less';
 
 import StatusBar from './StatusBar';
-import DocumentUploader from './DocumentUploader';
 import CommentsContainer from './CommentsContainer';
 import UserInfo from './UserInfo/index';
+import Documents from './Documents/index';
 
 import {
   DesktopOutlined,
@@ -138,7 +138,7 @@ const renderContent = props => {
     case 'comments':
       return <CommentsContainer request={props.request} />;
     case 'documents':
-      return <DocumentUploader request={props.request} />;
+      return <Documents request={props.request} />;
     case 'userInfo':
       return <UserInfo />;
   }
