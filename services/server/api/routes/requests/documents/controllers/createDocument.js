@@ -31,6 +31,7 @@ const createDocument = async (req, res) => {
 
       console.log(documents);
     } catch (error) {
+      console.log(error);
       res
         .status(500)
         .json({ message: 'Unable to submit document to database' });

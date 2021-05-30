@@ -49,8 +49,6 @@ const Income = ({ requestData }) => {
     data: initialIncomes,
   });
 
-  console.log(tableState.data);
-
   return (
     <div className="incomeInfo userInfoContent">
       <div classname="userContentHeading">

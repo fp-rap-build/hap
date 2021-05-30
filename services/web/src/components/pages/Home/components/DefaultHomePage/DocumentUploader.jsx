@@ -3,7 +3,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { Upload, message } from 'antd';
-import { InboxOutlined } from '@ant-design/icons';
+import { ConsoleSqlOutlined, InboxOutlined } from '@ant-design/icons';
 
 import socket from '../../../../../config/socket';
 
@@ -22,6 +22,7 @@ const DocumentUploader = ({ request }) => {
     multiple: true,
     action: `${process.env.REACT_APP_API_URI}/requests/${request?.id}/documents`,
     onChange(info) {
+      console.log(info);
       const { status } = info.file;
       if (status === 'done') {
         socket.emit('requestChange', {
