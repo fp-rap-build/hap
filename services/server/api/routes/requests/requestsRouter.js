@@ -11,11 +11,14 @@ const { requestStatusChange } = sendMessage;
 const { validateRequestId } = require('./documents/validators');
 
 // Controllers
-const { getAllDocuments, createDocument } = require('./documents/controllers');
+const {
+  getAllDocuments,
+  createDocument,
+} = require('./documents/controllers');
 
 const { sendPayment } = require('./payments/controllers');
 
-const { createAddress, updateAddress } = require('./address/controllers');
+const { updateAddress } = require('./address/controllers');
 
 const { getAllComments } = require('./comments');
 const {
@@ -83,7 +86,7 @@ router.get('/table', async (req, res) => {
 });
 
 router.get('/reqOnly/:id', async (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
   try {
     const foundRequest = await Requests.requestOnlyById(id);
     res.status(200).json(foundRequest);
@@ -144,6 +147,7 @@ router
   .all(validateRequestId)
   .post(createDocument)
   .get(getAllDocuments);
+
 
 router.route('/:id/payments').all(validateRequestId).post(sendPayment);
 
