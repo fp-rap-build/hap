@@ -14,6 +14,7 @@ import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 import GavelIcon from '@material-ui/icons/Gavel';
 import MailIcon from '@material-ui/icons/Mail';
 import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
+import ArchiveIcon from '@material-ui/icons/Archive';
 
 import { message, Modal } from 'antd';
 import { Mail } from '@material-ui/icons';
@@ -167,6 +168,29 @@ export default function RequestsTable() {
                     subscribeToRequest(rowData.id, setData, dispatch);
                   },
                 },
+          {
+            icon: ArchiveIcon,
+            tooltip: 'Archive',
+            onClick: async (event, rowData) => {
+              // Update the users request to be in review
+
+              try {
+                setData(requests =>
+                  requests.filter(request => {
+                    if (request.id !== rowData.id) return request;
+                  })
+                );
+
+                await axiosWithAuth().put(`/requests/${rowData.id}`, {
+                  archived: true,
+                });
+
+                message.success('Successfully archived request');
+              } catch (error) {
+                message.error('Unable to archive request');
+              }
+            },
+          },
           // {
           //   icon: MailIcon,
           //   tooltip: 'Subscribe',
