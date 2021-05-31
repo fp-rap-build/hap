@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   FolderOpenOutlined,
+  FolderOutlined,
   DownOutlined,
   LineChartOutlined,
 } from '@ant-design/icons';
@@ -15,6 +16,9 @@ const AdminNav = props => {
     <Menu onClick={handleClick} selectedKeys={activeComponent.current}>
       <Menu.Item key="requests" icon={<FolderOpenOutlined />}>
         Manage Requests
+      </Menu.Item>
+      <Menu.Item key="archive" icon={<FolderOutlined />}>
+        Archive
       </Menu.Item>
       <Menu.Item key="analytics" icon={<LineChartOutlined />}>
         Analytics

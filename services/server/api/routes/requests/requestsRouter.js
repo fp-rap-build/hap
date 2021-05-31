@@ -75,7 +75,7 @@ router.get('/active', async (req, res) => {
 //Updates to shape data should be done in model @ 'findForTable'
 router.get('/table', async (req, res) => {
   try {
-    const resRequests = await Requests.findForTable();
+    const resRequests = await Requests.findForTable(req.query);
     res.status(200).json(resRequests);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
