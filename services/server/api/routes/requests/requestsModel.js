@@ -42,7 +42,7 @@ const findAllActive = () => {
     .whereNot('r.requestStatus', 'denied');
 };
 
-const findForTable = () => {
+const findForTable = (params) => {
   return db('requests as r')
     .join('addresses as a', 'r.addressId', '=', 'a.id')
     .join('users as u', 'r.userId', '=', 'u.id')
@@ -69,7 +69,12 @@ const findForTable = () => {
       'a.zipCode',
       'a.cityName',
       'a.state'
-    );
+    )
+    .modify((qb) => {
+      if (params.archived) {
+        qb.where({ archived: params.archived });
+      }
+    });
 };
 
 const findBy = (filter) => {
