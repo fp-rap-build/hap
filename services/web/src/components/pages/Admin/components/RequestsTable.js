@@ -61,7 +61,7 @@ export default function RequestsTable() {
     { title: 'date', field: 'requestDate', type: 'date' },
   ]);
 
-  const fetchUsers = async () => {
+  const fetchRequests = async () => {
     setIsFetching(true);
     try {
       let requests = await axiosWithAuth()
@@ -90,7 +90,7 @@ export default function RequestsTable() {
   };
 
   useEffect(() => {
-    fetchUsers();
+    fetchRequests();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
