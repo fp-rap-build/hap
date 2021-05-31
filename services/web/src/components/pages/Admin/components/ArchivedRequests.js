@@ -55,7 +55,11 @@ export default function RequestsTable() {
     setIsFetching(true);
     try {
       let requests = await axiosWithAuth()
-        .get('/requests/table')
+        .get('/requests/table', {
+          params: {
+            archived: true,
+          },
+        })
         .then(res => res.data);
 
       setData(requests);
