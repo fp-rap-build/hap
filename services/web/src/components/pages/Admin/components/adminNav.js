@@ -1,11 +1,15 @@
 import React from 'react';
 import {
   FolderOpenOutlined,
+  FolderOutlined,
   UserAddOutlined,
   UserOutlined,
   DownOutlined,
   LineChartOutlined,
 } from '@ant-design/icons';
+
+import ArchiveIcon from '@material-ui/icons/Archive';
+
 import { Menu, Dropdown, Button } from 'antd';
 
 import styles from '../../../../styles/pages/admin.module.css';
@@ -20,6 +24,9 @@ const AdminNav = props => {
       </Menu.Item>
       <Menu.Item key="requests" icon={<FolderOpenOutlined />}>
         Manage Requests
+      </Menu.Item>
+      <Menu.Item key="archive" icon={<FolderOutlined />}>
+        Archive
       </Menu.Item>
       <Menu.Item key="user" icon={<UserOutlined />}>
         Manage Users
