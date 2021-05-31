@@ -11,26 +11,16 @@ import styles from '../../../../styles/pages/admin.module.css';
 import { tableIcons } from '../../../../utils/tableIcons';
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
-import GavelIcon from '@material-ui/icons/Gavel';
-import MailIcon from '@material-ui/icons/Mail';
-import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
 import ArchiveIcon from '@material-ui/icons/Archive';
+import UnarchiveIcon from '@material-ui/icons/Unarchive';
 
 import { message, Modal } from 'antd';
-import { Mail } from '@material-ui/icons';
-import {
-  addSubscription,
-  deleteSubscription,
-} from '../../../../redux/users/userActions';
-import socket from '../../../../config/socket';
 
 export default function RequestsTable() {
   const history = useHistory();
   const dispatch = useDispatch();
 
   const currentUser = useSelector(state => state.user.currentUser);
-
-  const subscriptions = formatSubscriptions(currentUser.subscriptions);
 
   // const [isOpen, setIsOpen] = useState(false);
   // const [requestBeingReviewed, setRequestBeingReviewed] = useState(null);
@@ -68,15 +58,7 @@ export default function RequestsTable() {
         .get('/requests/table')
         .then(res => res.data);
 
-      requests = requests.map(request => {
-        request['isSubscribed'] = request.id in subscriptions;
-
-        return request;
-      });
-
-      let sortedRequests = sortRequestsBySubscriptions(requests);
-
-      setData(sortedRequests);
+      setData(requests);
     } catch (error) {
       console.error(error.response);
       alert('error');
@@ -114,63 +96,8 @@ export default function RequestsTable() {
         }}
         actions={[
           {
-            icon: GavelIcon,
-            tooltip: 'Review',
-            onClick: async (event, rowData) => {
-              // Update the users request to be in review
-
-              history.push(`/requests/${rowData.id}`);
-            },
-          },
-
-          rowData =>
-            rowData.isSubscribed
-              ? {
-                  icon: UnsubscribeIcon,
-                  tooltip: 'Unsubscribe',
-                  onClick: () => {
-                    Modal.confirm({
-                      title:
-                        'Are you sure you want to unsubscribe from this request?',
-                      content: 'You will stop receiving notifications',
-                      onOk: () => {
-                        setData(prevState =>
-                          prevState.filter(request => {
-                            if (request.id === rowData.id) {
-                              request['isSubscribed'] = false;
-                            }
-
-                            return request;
-                          })
-                        );
-
-                        let subscription = currentUser.subscriptions.find(
-                          sub => sub.requestId === rowData.id
-                        );
-
-                        axiosWithAuth()
-                          .delete(`/subscriptions/${subscription.id}`)
-                          .then(res => console.log(res.data))
-                          .catch(err =>
-                            message.error('Unable to unsubscribe from request')
-                          );
-
-                        socket.emit('leaveRequest', rowData.id);
-                        dispatch(deleteSubscription(subscription.id));
-                      },
-                    });
-                  },
-                }
-              : {
-                  icon: MailIcon,
-                  tooltip: 'Subscribe',
-                  onClick: (event, rowData) => {
-                    subscribeToRequest(rowData.id, setData, dispatch);
-                  },
-                },
-          {
-            icon: ArchiveIcon,
-            tooltip: 'Archive',
+            icon: UnarchiveIcon,
+            tooltip: 'unarchive',
             onClick: async (event, rowData) => {
               // Update the users request to be in review
 
@@ -182,82 +109,21 @@ export default function RequestsTable() {
                 );
 
                 await axiosWithAuth().put(`/requests/${rowData.id}`, {
-                  archived: true,
+                  archived: false,
                 });
 
-                message.success('Successfully archived request');
+                message.success('Successfully unarchived request');
               } catch (error) {
-                message.error('Unable to archive request');
+                message.error('Unable to unarchive request');
               }
             },
           },
-          // {
-          //   icon: MailIcon,
-          //   tooltip: 'Subscribe',
-          //   onClick: async (event, rowData) => {
-          //     // Update the users request to be in review
-          //     subscribeToRequest(rowData.id);
-          //   },
-          // },
         ]}
         icons={tableIcons}
-        title="Requests for Rental Assistance"
+        title="Archived Requests"
         columns={columns}
         data={data}
       />
     </div>
   );
 }
-
-const subscribeToRequest = async (requestId, setData, dispatch) => {
-  try {
-    // Update table
-    setData(prevState =>
-      prevState.map(request => {
-        if (requestId === request.id) {
-          request['isSubscribed'] = true;
-        }
-        return request;
-      })
-    );
-
-    // Persist new subscription
-    let subscription = await axiosWithAuth()
-      .post('/subscriptions', { requestId })
-      .then(res => res.data.subscription);
-
-    // Join request to receive notifications
-    socket.emit('joinRequest', requestId);
-
-    // Lastly, update current users state
-    dispatch(addSubscription(subscription));
-  } catch (error) {
-    console.log(error.response);
-    message.error('Unable to subscribe to request');
-  }
-};
-
-const formatSubscriptions = subscriptions => {
-  let result = {};
-
-  subscriptions.forEach(sub => {
-    result[sub.requestId] = true;
-  });
-
-  return result;
-};
-
-const sortRequestsBySubscriptions = requests => {
-  let subscribed = [];
-  let unsubscribed = [];
-
-  requests.forEach(req => {
-    if (req.isSubscribed) {
-      subscribed.push(req);
-    } else {
-      unsubscribed.push(req);
-    }
-  });
-
-  return [...subscribed, ...unsubscribed];
-};
