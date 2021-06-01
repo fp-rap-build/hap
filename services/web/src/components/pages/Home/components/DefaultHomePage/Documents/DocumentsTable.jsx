@@ -1,13 +1,11 @@
 import { useState } from 'react';
 
-import { useSelector } from 'react-redux';
-
 import buildTableData from './buildTableData';
 
 import UploadDocModal from './modals/UploadDocModal';
 import SelfDecModal from './modals/SelfDecModal';
 
-import { Tag, Table, Button, Modal } from 'antd';
+import { Tag, Table, Button } from 'antd';
 
 const DocumentsTable = ({ documentStatuses, request, setDocumentStatuses }) => {
   const tableData = buildTableData(documentStatuses);
@@ -65,11 +63,12 @@ const DocumentsTable = ({ documentStatuses, request, setDocumentStatuses }) => {
         return (
           <Tag
             color={color}
-            style={
-              status === 'optOut'
-                ? { fontSize: '1rem', width: '8rem', textAlign: 'center' }
-                : { fontSize: '1rem', width: '5rem', textAlign: 'center' }
-            }
+            style={{
+              fontSize: '1rem',
+              width: '8rem',
+              textAlign: 'center',
+              padding: '3% 0',
+            }}
           >
             {text}
           </Tag>

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
+import useWindowDimensions from '../../../../../utils/useWindowDimensions';
+
 //Migrate styles to less so it will all be in one place
 import '../../../../../styles/overrides.less';
 import '../../../../../styles/pages/Home/home.less';
@@ -29,6 +31,9 @@ export default function Index() {
 
   const request = currentUser.requests[0];
 
+  //Pull window dimensions for responsive layout
+  const { height, width } = useWindowDimensions();
+
   const [collapsed, setCollapsed] = useState(false);
 
   const [currentContent, setCurrentContent] = useState('status');
@@ -55,7 +60,7 @@ export default function Index() {
       <Layout style={{ height: '90vh' }} className="user-dash-container">
         <Header className="header">
           <Title
-            level={2}
+            level={width > 490 ? 2 : 3}
             // className={styles.heading}
             style={{ color: '#FFFFFF' }}
           >
@@ -65,7 +70,11 @@ export default function Index() {
           </Title>
         </Header>
         <Layout className="sidebar-content-container">
-          <Sider collapsible collapsed={collapsed} onCollapse={toggleCollapse}>
+          <Sider
+            collapsible
+            collapsed={width < 700 ? true : collapsed}
+            onCollapse={toggleCollapse}
+          >
             <Menu
               theme="dark"
               defaultSelectedKeys={['status']}
