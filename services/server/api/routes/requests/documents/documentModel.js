@@ -10,9 +10,13 @@ const update = (id, change) => {
   return db('documents').where({ id }).first().update(change).returning('*');
 };
 
+const findByName = (reqId, name) =>
+  db('documents').where({ requestId: reqId, name: name }).first();
+
 module.exports = {
   save,
   findAll,
   findAllByRequestId,
   update,
+  findByName
 };

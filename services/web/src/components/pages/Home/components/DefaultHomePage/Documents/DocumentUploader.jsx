@@ -23,21 +23,23 @@ const DocumentUploader = ({
     //Persist Changes on BE
     try {
       //Find document
-      const newDoc = await axiosWithAuth()
-        .post('/documents/name', { name: name })
-        .then(res => res.data);
-      //Update document category and status
-      newDoc.category = category;
-      newDoc.status = 'received';
+      const docs = await axiosWithAuth()
+        .get(`/requests/${request.id}/documents`)
+        .then(res => res.data.documents);
+
+      const newDoc = docs.filter(doc => doc.name === name);
+      // Update document category and status
+      newDoc[0].category = category;
+      newDoc[0].status = 'received';
 
       const updatedDoc = await axiosWithAuth()
-        .put(`/documents/${newDoc.id}`, newDoc)
+        .put(`/documents/${newDoc[0].id}`, newDoc[0])
         .then(res => res.data);
 
       //Update local state to reflect new category status
       setDocumentStatuses({ ...documentStatuses, [category]: 'received' });
     } catch (error) {
-      console.log(error);
+      console.log('Error Updatind Doc');
     }
   };
 

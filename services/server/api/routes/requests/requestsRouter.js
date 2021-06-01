@@ -14,6 +14,7 @@ const { validateRequestId } = require('./documents/validators');
 const {
   getAllDocuments,
   createDocument,
+  updateDocument,
 } = require('./documents/controllers');
 
 const { sendPayment } = require('./payments/controllers');
@@ -146,8 +147,8 @@ router
   .route('/:id/documents')
   .all(validateRequestId)
   .post(createDocument)
-  .get(getAllDocuments);
-
+  .get(getAllDocuments)
+  .put(updateDocument);
 
 router.route('/:id/payments').all(validateRequestId).post(sendPayment);
 

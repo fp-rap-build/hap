@@ -8,8 +8,20 @@ const SelfDecModal = ({
   handleCancel,
   handleSelfDecAccept,
   selectedCategory,
+  request,
 }) => {
   const [checked, setChecked] = useState(false);
+
+  //Adding place holder doc now as confirmation the user completed this process.
+  //Will be replaced with PDF via pand Doc
+  const placeHolderDoc = {
+    requestId: request.id,
+    name: 'self_declaration.pdf',
+    type: 'application/pdf',
+    location:
+      'https://fpspokane.s3.us-east-2.amazonaws.com/1622510223510-self_declaration.pdf',
+    key: '1622510223510-self_declaration.pdf',
+  };
 
   return (
     <>
