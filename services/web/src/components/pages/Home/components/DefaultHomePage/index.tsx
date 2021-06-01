@@ -76,6 +76,7 @@ export default function Index() {
     currentContent,
     request,
     documentStatuses,
+    setDocumentStatuses,
   };
 
   return (
@@ -166,12 +167,7 @@ const renderContent = props => {
     case 'comments':
       return <CommentsContainer request={props.request} />;
     case 'documents':
-      return (
-        <Documents
-          request={props.request}
-          documentStatuses={props.documentStatuses}
-        />
-      );
+      return <Documents {...props} />;
     case 'userInfo':
       return <UserInfo />;
   }
