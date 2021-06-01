@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 //Migrate styles to less so it will all be in one place
@@ -24,6 +24,13 @@ const { Header, Content, Sider, Footer } = Layout;
 const { SubMenu } = Menu;
 const { Title } = Typography;
 
+const initialStatuses = {
+  residency: 'missing',
+  income: 'missing',
+  housingInstability: 'missing',
+  covid: 'missing',
+};
+
 export default function Index() {
   const currentUser = useSelector(state => state.user.currentUser);
 
@@ -32,6 +39,26 @@ export default function Index() {
   const [collapsed, setCollapsed] = useState(false);
 
   const [currentContent, setCurrentContent] = useState('status');
+
+  //Prepare document Info
+  const [documentStatuses, setDocumentStatuses] = useState(initialStatuses);
+
+  const documents = useSelector(state => state.requests.documents);
+
+  const sortDocuments = documents => {
+    documents.forEach(document => {
+      if (document.category) {
+        setDocumentStatuses({
+          ...documentStatuses,
+          [document.category]: document.status,
+        });
+      }
+    });
+  };
+
+  useEffect(() => {
+    sortDocuments(documents);
+  }, [documents]);
 
   const toggleCollapse = () => {
     setCollapsed(!collapsed);
@@ -48,6 +75,7 @@ export default function Index() {
   const props = {
     currentContent,
     request,
+    documentStatuses,
   };
 
   return (
@@ -138,7 +166,12 @@ const renderContent = props => {
     case 'comments':
       return <CommentsContainer request={props.request} />;
     case 'documents':
-      return <Documents request={props.request} />;
+      return (
+        <Documents
+          request={props.request}
+          documentStatuses={props.documentStatuses}
+        />
+      );
     case 'userInfo':
       return <UserInfo />;
   }

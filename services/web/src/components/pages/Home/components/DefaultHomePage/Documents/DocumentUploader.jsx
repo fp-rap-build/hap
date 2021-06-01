@@ -4,6 +4,8 @@ import socket from '../../../../../../config/socket';
 
 import { ConsoleSqlOutlined, InboxOutlined } from '@ant-design/icons';
 
+import axiosWithAuth from '../../../../../../api/axiosWithAuth';
+
 import { Upload, message } from 'antd';
 const { Dragger } = Upload;
 
@@ -28,6 +30,7 @@ const DocumentUploader = ({ request, category }) => {
           senderId: currentUser.id,
           message: `${currentUser.firstName} submitted a new document to their request`,
         });
+
         message.success(`${info.file.name} file uploaded successfully.`);
       } else if (status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
