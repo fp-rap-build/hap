@@ -7,6 +7,8 @@ import {
   updateRequest,
 } from '../../../../../../redux/requests/requestActions';
 
+import useWindowDimensions from '../../../../../../utils/useWindowDimensions';
+
 import AddressInfo from './AddressInfo';
 import LandlordContact from './LandlordContact';
 import DemoInfo from './DemoInfo';
@@ -14,11 +16,15 @@ import Household from './Household';
 import Income from './Income.js';
 import Footer from './Footer';
 
+import RenderMenu from './RenderMenu';
+
 import { Layout, Menu } from 'antd';
 
 const { Sider, Content } = Layout;
 
 const UserInfo = () => {
+  const dispatch = useDispatch();
+
   const request = useSelector(state => state.requests);
 
   const [requestData, setRequestData] = useState(request.request);
@@ -27,11 +33,9 @@ const UserInfo = () => {
   const [currentContent, setCurrentContent] = useState('address');
   const [disabled, setDisabled] = useState(true);
 
-  const dispatch = useDispatch();
+  const { height, width } = useWindowDimensions();
 
-  //updating incomes here b/c we have access to the request ID
-  //Some good changes could be made to consolidate these into one piece of middleware
-  //and dispatch one action in defaultHomePage
+  //Refactor - create userdash middleware to pull all necessary info in one place
   useEffect(() => {
     dispatch(fetchIncomes(requestData.id));
     //eslint-disable-next-line
@@ -90,34 +94,9 @@ const UserInfo = () => {
   return (
     <div>
       <Layout>
-        <Sider>
-          <Menu
-            theme="light"
-            defaultSelectedKeys={['address']}
-            mode="inline"
-            className="userSidebar"
-          >
-            <Menu.Item key="address" onClick={onContentChange}>
-              Address
-            </Menu.Item>
-            <Menu.Item key="landlordContact" onClick={onContentChange}>
-              Landlord Contact
-            </Menu.Item>
-            <Menu.Item key="household" onClick={onContentChange}>
-              Household Information
-            </Menu.Item>
-            <Menu.Item key="demographic" onClick={onContentChange}>
-              Demographic
-            </Menu.Item>
-            <Menu.Item key="income" onClick={onContentChange}>
-              Income
-            </Menu.Item>
-          </Menu>
-        </Sider>
-
+        <RenderMenu onContentChange={onContentChange} />
         <Content>
           {renderContent(props)}
-
           <Footer {...props} />
         </Content>
       </Layout>

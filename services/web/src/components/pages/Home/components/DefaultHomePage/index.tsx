@@ -74,6 +74,7 @@ export default function Index() {
             collapsible
             collapsed={width < 700 ? true : collapsed}
             onCollapse={toggleCollapse}
+            collapsedWidth={60}
           >
             <Menu
               theme="dark"
@@ -112,10 +113,6 @@ export default function Index() {
               >
                 User
               </Menu.Item>
-              <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
-                <Menu.Item key="6">Team 1</Menu.Item>
-                <Menu.Item key="8">Team 2</Menu.Item>
-              </SubMenu>
             </Menu>
           </Sider>
           <Content
