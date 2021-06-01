@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { axiosWithAuth } from '../../../../../../../api/axiosWithAuth';
+
 import { Modal, Typography, Button, Checkbox } from 'antd';
 const { Paragraph, Title } = Typography;
 
@@ -9,11 +11,13 @@ const SelfDecModal = ({
   handleSelfDecAccept,
   selectedCategory,
   request,
+  setDocumentStatuses,
+  documentStatuses,
 }) => {
   const [checked, setChecked] = useState(false);
 
   //Adding place holder doc now as confirmation the user completed this process.
-  //Will be replaced with PDF via pand Doc
+  //Will be replaced with PDF via panda Doc
   const placeHolderDoc = {
     requestId: request.id,
     name: 'self_declaration.pdf',
@@ -21,6 +25,23 @@ const SelfDecModal = ({
     location:
       'https://fpspokane.s3.us-east-2.amazonaws.com/1622510223510-self_declaration.pdf',
     key: '1622510223510-self_declaration.pdf',
+    category: selectedCategory,
+    status: 'optOut',
+  };
+
+  const postSelfDecPlaceholder = async () => {
+    try {
+      const newDoc = await axiosWithAuth()
+        .post('/documents', placeHolderDoc)
+        .then(res => res.data);
+
+      setDocumentStatuses({
+        ...documentStatuses,
+        [selectedCategory]: 'optOut',
+      });
+    } catch (error) {
+      alert('Error saving self declaration');
+    }
   };
 
   return (
@@ -45,6 +66,7 @@ const SelfDecModal = ({
               type="primary"
               danger
               onClick={() => {
+                postSelfDecPlaceholder();
                 handleSelfDecAccept();
                 setChecked(false);
               }}

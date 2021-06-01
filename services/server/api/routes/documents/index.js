@@ -6,13 +6,13 @@ const {
   getAllDocuments,
   deleteDocument,
   updateDocument,
+  createDocument,
 } = require('./controllers');
 
 // Validators
 const { checkIfDocumentExists } = require('./validators');
 
-router.route('/').get(getAllDocuments);
-
+router.route('/').get(getAllDocuments).post(createDocument);
 
 router
   .route('/:id')

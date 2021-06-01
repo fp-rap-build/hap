@@ -59,13 +59,17 @@ const DocumentsTable = ({ documentStatuses, request, setDocumentStatuses }) => {
 
         if (status === 'optOut') {
           color = 'warning';
-          text = 'Can not Provide Document';
+          text = 'Self Declaration';
         }
 
         return (
           <Tag
             color={color}
-            style={{ fontSize: '1rem', width: '5rem', textAlign: 'center' }}
+            style={
+              status === 'optOut'
+                ? { fontSize: '1rem', width: '8rem', textAlign: 'center' }
+                : { fontSize: '1rem', width: '5rem', textAlign: 'center' }
+            }
           >
             {text}
           </Tag>
