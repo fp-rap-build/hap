@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 
 import socket from '../../../../../../config/socket';
 
-import { ConsoleSqlOutlined, InboxOutlined } from '@ant-design/icons';
+import { InboxOutlined } from '@ant-design/icons';
 
 import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 
