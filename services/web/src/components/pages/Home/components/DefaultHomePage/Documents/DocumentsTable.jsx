@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useSelector } from 'react-redux';
 
-import builtTableData from './buildTableData';
+import buildTableData from './buildTableData';
 
 import UploadDocModal from './modals/UploadDocModal';
 import SelfDecModal from './modals/SelfDecModal';
@@ -10,7 +10,7 @@ import SelfDecModal from './modals/SelfDecModal';
 import { Tag, Table, Button, Modal } from 'antd';
 
 const DocumentsTable = ({ documentStatuses, request, setDocumentStatuses }) => {
-  const tableData = builtTableData(documentStatuses);
+  const tableData = buildTableData(documentStatuses);
 
   const [uploadModalVisibility, setUploadModalVisibility] = useState(false);
   const [selfDecModalVisibility, setSelfDecModalVisibility] = useState(false);
