@@ -4,21 +4,31 @@ import { useSelector } from 'react-redux';
 
 import builtTableData from './buildTableData';
 
-import DocumentUploader from './DocumentUploader';
 import UploadDocModal from './modals/UploadDocModal';
+import SelfDecModal from './modals/SelfDecModal';
 
 import { Tag, Table, Button, Modal } from 'antd';
 
 const DocumentsTable = ({ documentStatuses, request, setDocumentStatuses }) => {
   const tableData = builtTableData(documentStatuses);
-  const documents = useSelector(state => state.requests.documents);
 
   const [uploadModalVisibility, setUploadModalVisibility] = useState(false);
+  const [selfDecModalVisibility, setSelfDecModalVisibility] = useState(false);
+
   const [selectedCategory, setSelectedCategory] = useState('');
 
   const showUploadModal = record => {
     setSelectedCategory(record.category);
     setUploadModalVisibility(true);
+  };
+
+  const showSelfDecModal = record => {
+    setSelectedCategory(record.category);
+    setSelfDecModalVisibility(true);
+  };
+
+  const handleSelfDecAccept = () => {
+    setSelfDecModalVisibility(false);
   };
 
   const handleAcknowledge = () => {
@@ -29,6 +39,7 @@ const DocumentsTable = ({ documentStatuses, request, setDocumentStatuses }) => {
   const handleCancel = () => {
     setSelectedCategory('');
     setUploadModalVisibility(false);
+    setSelfDecModalVisibility(false);
   };
 
   const columns = [
@@ -62,7 +73,7 @@ const DocumentsTable = ({ documentStatuses, request, setDocumentStatuses }) => {
       },
     },
     {
-      title: 'Upload',
+      title: 'Provide Document',
       key: 'upload',
       render: (text, record) => (
         <>
@@ -76,29 +87,35 @@ const DocumentsTable = ({ documentStatuses, request, setDocumentStatuses }) => {
       ),
     },
     {
-      title: 'Dont Have',
+      title: 'Self-Declaration',
       key: 'optOut',
       render: (text, record) => (
         <>
-          <Button>Don't Have Document?</Button>
+          <Button onClick={() => showSelfDecModal(record)}>
+            Don't Have Document?
+          </Button>
         </>
       ),
     },
   ];
 
+  const props = {
+    uploadModalVisibility,
+    handleAcknowledge,
+    handleCancel,
+    selectedCategory,
+    request,
+    setDocumentStatuses,
+    documentStatuses,
+    handleSelfDecAccept,
+    selfDecModalVisibility,
+  };
+
   return (
     <div className="documentsTable">
       <Table columns={columns} dataSource={tableData} pagination={false} />
-      <DocumentUploader request={request} />
-      <UploadDocModal
-        uploadModalVisibility={uploadModalVisibility}
-        handleAcknowledge={handleAcknowledge}
-        handleCancel={handleCancel}
-        selectedCategory={selectedCategory}
-        request={request}
-        setDocumentStatuses={setDocumentStatuses}
-        documentStatuses={documentStatuses}
-      />
+      <UploadDocModal {...props} />
+      <SelfDecModal {...props} />
     </div>
   );
 };

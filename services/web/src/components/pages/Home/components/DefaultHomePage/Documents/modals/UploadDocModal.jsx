@@ -1,5 +1,7 @@
-import { Modal, Button } from 'antd';
 import DocumentUploader from '../DocumentUploader';
+
+import { Modal, Button, Typography } from 'antd';
+const { Title } = Typography;
 
 const UploadDocModal = ({
   uploadModalVisibility,
@@ -13,7 +15,7 @@ const UploadDocModal = ({
   return (
     <>
       <Modal
-        title="Basic Modal"
+        title={<Title level={5}>Upload Document</Title>}
         visible={uploadModalVisibility}
         onOk={handleAcknowledge}
         onCancel={handleCancel}
