@@ -24,19 +24,19 @@ exports.seed = function (knex) {
           organizationId: 1,
         },
         {
-          email: 'programManager@gmail.com',
+          email: 'programmanager@gmail.com',
           firstName: 'Tommy',
           lastName: 'Shelby',
           password: bcrypt.hashSync('testpassword', salt),
-          role: 'programmanager',
+          role: 'programManager',
           organizationId: 1,
         },
         {
-          email: 'assistantProgramManager@gmail.com',
+          email: 'assistantprogrammanager@gmail.com',
           firstName: 'Tommy',
           lastName: 'Shelby',
           password: bcrypt.hashSync('testpassword', salt),
-          role: 'assistantprogrammanager',
+          role: 'assistantProgramManager',
           organizationId: 1,
         },
         {
