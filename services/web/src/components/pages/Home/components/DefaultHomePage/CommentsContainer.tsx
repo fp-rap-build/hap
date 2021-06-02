@@ -20,6 +20,7 @@ const CommentsContainer = ({ request }) => {
 
   useEffect(() => {
     fetchComments(request.id, setComments);
+    //eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -28,6 +29,7 @@ const CommentsContainer = ({ request }) => {
     return () => {
       socket.emit('leaveChat', request.id);
     };
+    //eslint-disable-next-line
   }, []);
 
   useEffect(() => {

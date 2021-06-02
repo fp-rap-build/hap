@@ -15,6 +15,7 @@ const DocumentsTable = ({ documentStatuses, request, setDocumentStatuses }) => {
 
   const [selectedCategory, setSelectedCategory] = useState('');
 
+  //Handle close and ok of modals
   const showUploadModal = record => {
     setSelectedCategory(record.category);
     setUploadModalVisibility(true);
@@ -34,6 +35,7 @@ const DocumentsTable = ({ documentStatuses, request, setDocumentStatuses }) => {
     setUploadModalVisibility(false);
   };
 
+  //cancel for both modals
   const handleCancel = () => {
     setSelectedCategory('');
     setUploadModalVisibility(false);
@@ -50,7 +52,6 @@ const DocumentsTable = ({ documentStatuses, request, setDocumentStatuses }) => {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
-      //Strange render rules in the docs
       render: (status, row, index) => {
         let color = status === 'received' ? 'success' : 'error';
         let text = status === 'received' ? 'Received' : 'Missing';

@@ -32,7 +32,8 @@ const DocumentUploader = ({
       newDoc[0].category = category;
       newDoc[0].status = 'received';
 
-      const updatedDoc = await axiosWithAuth()
+      //PUT Changes
+      await axiosWithAuth()
         .put(`/documents/${newDoc[0].id}`, newDoc[0])
         .then(res => res.data);
 

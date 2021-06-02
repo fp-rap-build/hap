@@ -7,7 +7,7 @@ import { Layout, Menu, Dropdown, Button } from 'antd';
 const { Sider } = Layout;
 
 const RenderMenu = ({ onContentChange }) => {
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
 
   const menu = (
     <Menu

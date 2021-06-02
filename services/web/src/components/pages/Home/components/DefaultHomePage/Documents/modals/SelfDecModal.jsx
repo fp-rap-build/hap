@@ -22,9 +22,8 @@ const SelfDecModal = ({
     requestId: request.id,
     name: 'self_declaration.pdf',
     type: 'application/pdf',
-    location:
-      'https://fpspokane.s3.us-east-2.amazonaws.com/1622510223510-self_declaration.pdf',
-    key: '1622510223510-self_declaration.pdf',
+    location: process.env.REACT_APP_PLACEHOLDER_LOCATION,
+    key: process.env.REACT_APP_PLACEHOLDER_KEY,
     category: selectedCategory,
     status: 'optOut',
   };

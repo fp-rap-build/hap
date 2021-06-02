@@ -1,6 +1,6 @@
 import DocumentUploader from '../DocumentUploader';
 
-import { Modal, Button, Typography } from 'antd';
+import { Modal, Typography } from 'antd';
 const { Title } = Typography;
 
 const UploadDocModal = ({

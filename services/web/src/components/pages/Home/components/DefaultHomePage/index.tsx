@@ -24,27 +24,28 @@ import {
 import { Typography, Layout, Menu } from 'antd';
 
 const { Header, Content, Sider, Footer } = Layout;
-const { SubMenu } = Menu;
 const { Title } = Typography;
 
 export default function Index() {
   const dispatch = useDispatch();
 
+  //Adding request, address, and documents to stor
   useEffect(() => {
     dispatch(fetchRequestAndAddr());
+    //eslint-disable-next-line
   }, []);
 
   const currentUser = useSelector(state => state.user.currentUser);
-
   const request = currentUser.requests[0];
 
-  //Pull window dimensions for responsive layout
-  const { height, width } = useWindowDimensions();
+  //Pull window dimensions for responsive logic
+  const { width } = useWindowDimensions();
 
+  //UI State
   const [collapsed, setCollapsed] = useState(false);
-
   const [currentContent, setCurrentContent] = useState('status');
 
+  //Event Handlers
   const toggleCollapse = () => {
     setCollapsed(!collapsed);
   };
@@ -127,6 +128,7 @@ export default function Index() {
             {renderContent(props)}
           </Content>
           <Footer className="dashFooter">
+            {/* eslint-disable-next-line */}
             <a href="http://www.familypromiseofspokane.org/" target="_blank">
               Powered by Family Promise of Spokane
             </a>
