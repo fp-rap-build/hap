@@ -61,17 +61,17 @@ const StatusBar = ({ request }) => {
         <Step
           icon={<FileDoneOutlined />}
           className={styles.completed}
-          title="Received"
-          description="Your application has been received by our Housing Assistance Team, please begin uploading any documentation that can help verify your details."
+          title="Document Collection"
+          description="Your application has been started and will soon be ready for review by our Housing Assistance Team; please begin uploading any documentation by clicking on the 'Documents' tab on the sidebar.  We cannot begin processing your request until all documents have been submitted."
         />
         <Step
           icon={<FolderOpenOutlined />}
-          title="In Review"
+          title="Verification of Documentation"
           description="Your application is being reviewed by the Housing Assistance Team, please check back often to see if any further action is needed or if specific documents are required."
         />
         <Step
           icon={<AuditOutlined />}
-          title="Decision"
+          title="Ready for Decision"
           description={decsionDescription(request?.requestStatus)}
         />
       </Steps>
