@@ -18,8 +18,6 @@ export const setDocuments = documents => {
 };
 
 export const fetchRequestAndAddr = () => async dispatch => {
-  dispatch(setLoading(true));
-
   try {
     //Need current user to pull their requests
     let currentUser = await axiosWithAuth()
@@ -52,8 +50,6 @@ export const fetchRequestAndAddr = () => async dispatch => {
   } catch (error) {
     alert('DEV REDUX ERROR');
     console.log(error);
-  } finally {
-    dispatch(setLoading(false));
   }
 };
 

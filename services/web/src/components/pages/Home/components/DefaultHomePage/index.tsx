@@ -1,7 +1,9 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import useWindowDimensions from '../../../../../utils/useWindowDimensions';
+
+import { fetchRequestAndAddr } from '../../../../../redux/requests/requestActions';
 
 //Migrate styles to less so it will all be in one place
 import '../../../../../styles/overrides.less';
@@ -26,6 +28,12 @@ const { SubMenu } = Menu;
 const { Title } = Typography;
 
 export default function Index() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchRequestAndAddr());
+  }, []);
+
   const currentUser = useSelector(state => state.user.currentUser);
 
   const request = currentUser.requests[0];
