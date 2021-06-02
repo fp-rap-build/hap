@@ -3,11 +3,14 @@ const User = require('../../users/userModel');
 const bcrypt = require('bcryptjs');
 
 const loginUser = async (req, res, next) => {
-  const { email, password } = req.body;
+  let { email, password } = req.body;
+
+  console.log(email);
 
   try {
     // Fetch the user and check if the passwords match
     let user = await User.findBy({ email });
+
     user = user[0];
 
     const passwordsMatch = await bcrypt.compare(password, user.password);
