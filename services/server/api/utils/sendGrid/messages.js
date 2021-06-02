@@ -39,7 +39,7 @@ const requestStatusChange = (requestStatus, emailAddress) => {
 
   const msg = {
     to: emailAddress,
-    from: 'admin@familypromiseofspokane.org',
+    from: 'hap@familypromiseofspokane.org',
     subject: 'Update! Your request status has changed',
     text: text,
    
@@ -59,7 +59,7 @@ const requestStatusChange = (requestStatus, emailAddress) => {
 const sendResetPasswordLink = (emailAddress, resetURL) => {
   const msg = {
     to: emailAddress,
-    from: 'admin@familypromiseofspokane.org',
+    from: 'hap@familypromiseofspokane.org',
     subject: 'Password reset',
     html: `<p>Click here to reset your password <a href="${resetURL}">${resetURL}</a></p>`,
   };
@@ -76,7 +76,7 @@ const sendResetPasswordLink = (emailAddress, resetURL) => {
 const sendPromiseToPayEmail = (emailAddress) => {
   const msg = {
     to: emailAddress,
-    from: 'admin@familypromiseofspokane.org',
+    from: 'hap@familypromiseofspokane.org',
     subject: 'Approved for Rental Assistance',
     text: `Your tenant's request has been approved! We will contact you shortly to go over the details`,
     html: `<p>Your tenants request has been approved! We will contact you shortly to go over the details</p>`,
