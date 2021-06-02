@@ -54,10 +54,7 @@ const Income = ({ requestData }) => {
       <div classname="userContentHeading">
         <Title level={4}>Income Information</Title>
         <Paragraph>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet,
-          dolorum! Debitis praesentium natus necessitatibus sit maxime dolore,
-          dolorem laboriosam animi dignissimos quis, illo magnam molestias
-          maiores at, optio recusandae magni.
+          Please provide the amount of income you receive, how often you receive it, and the source of income.  Verification of your income will need to be completed prior to making a final decision on your request for assistance. 
         </Paragraph>
       </div>
       <Divider />

@@ -8,10 +8,7 @@ const Household = ({ requestData, handleRequestChange, disabled }) => {
       <div className="userContentHeading">
         <Title level={4}>Household Information: </Title>
         <Paragraph>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet,
-          dolorum! Debitis praesentium natus necessitatibus sit maxime dolore,
-          dolorem laboriosam animi dignissimos quis, illo magnam molestias
-          maiores at, optio recusandae magni.
+          More information about your household allows us to check for various programs you may be eligible for.  
         </Paragraph>
       </div>
       <Divider />

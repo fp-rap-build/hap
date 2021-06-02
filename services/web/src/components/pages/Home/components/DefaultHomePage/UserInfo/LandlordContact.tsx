@@ -8,10 +8,8 @@ const LandlordContact = ({ requestData, handleRequestChange, disabled }) => {
       <div className="userContentHeading">
         <Title level={4}>Landlord Contact Information: </Title>
         <Paragraph>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet,
-          dolorum! Debitis praesentium natus necessitatibus sit maxime dolore,
-          dolorem laboriosam animi dignissimos quis, illo magnam molestias
-          maiores at, optio recusandae magni.
+          Please enter any missing information about your Landlord (or Property Manager), also, be sure to correct any incorrect entries.  
+          Incorrect information here drastically increases the amount of time needed to process a request for assistance.  
         </Paragraph>
       </div>
       <Divider />
