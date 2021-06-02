@@ -5,8 +5,6 @@ const bcrypt = require('bcryptjs');
 const loginUser = async (req, res, next) => {
   let { email, password } = req.body;
 
-  console.log(email);
-
   try {
     // Fetch the user and check if the passwords match
     let user = await User.findBy({ email });
