@@ -4,7 +4,7 @@ const validateRequestId = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const request = await Requests.findBy({ id });
+    const request = await Requests.findById(id);
 
     if (request.length === 0) {
       return res

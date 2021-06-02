@@ -78,7 +78,7 @@ const sendPromiseToPayEmail = (emailAddress) => {
     to: emailAddress,
     from: 'admin@familypromiseofspokane.org',
     subject: 'Approved for Rental Assistance',
-    text: `Your tenants request has been approved! We will contact you shortly to go over the details`,
+    text: `Your tenant's request has been approved! We will contact you shortly to go over the details`,
     html: `<p>Your tenants request has been approved! We will contact you shortly to go over the details</p>`,
   };
 
@@ -108,7 +108,7 @@ const sendConfirmationOfApproval = (request) => {
       from: 'admin@familypromiseofspokane.org',
       subject: 'Approval',
       text: `Request #${request.id} for tenant ${request.firstName} has been approved`,
-      html: `<p>Request #${request.id} for tenant ${request.firstName} has been approved</p>`,
+      html: `<p>Request #${request.id} for tenant ${request.firstName} has been approved</p> <p>Landlord Name: ${request.landlordName}`,
     };
 
     sgMail

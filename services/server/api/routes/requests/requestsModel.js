@@ -77,8 +77,8 @@ const findForTable = (params) => {
     });
 };
 
-const findBy = (filter) => {
-  return db('requests').where(filter);
+const requestOnlyById = (id) => {
+  return db('requests').where('id', '=', id).first();
 };
 
 const findById = (id) => {
@@ -137,7 +137,7 @@ const findAllComments = (requestId) =>
 
 module.exports = {
   findAll,
-  findBy,
+  requestOnlyById,
   create,
   remove,
   removeAllCommentsByRequestId,

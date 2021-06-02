@@ -1,18 +1,48 @@
-import React from 'react';
-
 import { useSelector } from 'react-redux';
-
-import { Upload, message } from 'antd';
-import { InboxOutlined } from '@ant-design/icons';
 
 import socket from '../../../../../../config/socket';
 
+import { InboxOutlined } from '@ant-design/icons';
+
+import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
+
+import { Upload, message } from 'antd';
 const { Dragger } = Upload;
 
-const DocumentUploader = ({ request }) => {
+const DocumentUploader = ({
+  request,
+  category,
+  setDocumentStatuses,
+  documentStatuses,
+}) => {
   const token = localStorage.getItem('token');
 
   const currentUser = useSelector(state => state.user.currentUser);
+
+  const updateDoc = async name => {
+    //Persist Changes on BE
+    try {
+      //Find document
+      const docs = await axiosWithAuth()
+        .get(`/requests/${request.id}/documents`)
+        .then(res => res.data.documents);
+
+      const newDoc = docs.filter(doc => doc.name === name);
+      // Update document category and status
+      newDoc[0].category = category;
+      newDoc[0].status = 'received';
+
+      //PUT Changes
+      await axiosWithAuth()
+        .put(`/documents/${newDoc[0].id}`, newDoc[0])
+        .then(res => res.data);
+
+      //Update local state to reflect new category status
+      setDocumentStatuses({ ...documentStatuses, [category]: 'received' });
+    } catch (error) {
+      console.log('Error Updatind Doc');
+    }
+  };
 
   const props = {
     headers: {
@@ -22,6 +52,7 @@ const DocumentUploader = ({ request }) => {
     multiple: true,
     action: `${process.env.REACT_APP_API_URI}/requests/${request?.id}/documents`,
     onChange(info) {
+      //Emit Notifications
       const { status } = info.file;
       if (status === 'done') {
         socket.emit('requestChange', {
@@ -29,7 +60,11 @@ const DocumentUploader = ({ request }) => {
           senderId: currentUser.id,
           message: `${currentUser.firstName} submitted a new document to their request`,
         });
+
         message.success(`${info.file.name} file uploaded successfully.`);
+
+        //Update Document Status
+        updateDoc(info.file.name);
       } else if (status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
       }
@@ -37,7 +72,7 @@ const DocumentUploader = ({ request }) => {
   };
 
   return (
-    <div style={{ width: '100%', marginBottom: '3rem' }}>
+    <div style={{ width: '100%', height: '5rem' }}>
       <Dragger
         style={{ width: '100%' }}
         {...props}

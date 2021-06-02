@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingComponent from '../../common/LoadingComponent';
 import RenderHomePage from './RenderHomePage';
@@ -11,7 +11,6 @@ function HomeContainer() {
 
   useEffect(() => {
     // Set the current user in state
-
     dispatch(fetchCurrentUser());
     dispatch(fetchNotifications());
     // eslint-disable-next-line
