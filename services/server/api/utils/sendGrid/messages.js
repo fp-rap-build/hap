@@ -106,9 +106,9 @@ const sendConfirmationOfApproval = (request) => {
     msg = {
       to: email,
       from: 'admin@familypromiseofspokane.org',
-      subject: 'Approval',
-      text: `Request #${request.id} for tenant ${request.firstName} has been approved`,
-      html: `<p>Request #${request.id} for tenant ${request.firstName} has been approved</p> <p>Landlord Name: ${request.landlordName}`,
+      subject: 'Rental Assistance',
+      text: `<p>Rental Assistance</p> <p>Payee: ${request.landlordName}</p> <p>Payee Email: ${request.landlordEmail}</p> <p>Check Memo:</p> <p> ${request.firstName} ${request.lastName} </p> <p> ${request.address} ${request.addressLine2} </p> <p> ${request.cityName}, ${request.state} ${request.zipCode} </p>`,
+      html: `<p>Rental Assistance</p> <p>Payee: ${request.landlordName}</p> <p>Payee Email: ${request.landlordEmail}</p> <p>Check Memo:</p> <p> ${request.firstName} ${request.lastName} </p> <p> ${request.address} ${request.addressLine2} </p> <p> ${request.cityName}, ${request.state} ${request.zipCode} </p>`,
     };
 
     sgMail
