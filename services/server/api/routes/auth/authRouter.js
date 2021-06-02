@@ -18,6 +18,8 @@ const {
 
 // Routes
 
+router.use(lowerCaseEmail);
+
 router.post('/login', validateLogin, loginUser);
 
 router.post('/register', validateRegistration, registerUser);
