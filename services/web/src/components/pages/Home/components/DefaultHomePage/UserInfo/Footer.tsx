@@ -22,7 +22,10 @@ const Footer = ({
   };
 
   return (
-    <div style={currentContent === 'income' ? { display: 'none' } : null}>
+    <div
+      className="userInfoFooter"
+      style={currentContent === 'income' ? { display: 'none' } : null}
+    >
       {disabled ? <Button onClick={toggleDisabled}>Edit</Button> : null}
       {!disabled ? (
         <>

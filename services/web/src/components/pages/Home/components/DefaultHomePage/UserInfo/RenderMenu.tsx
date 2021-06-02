@@ -11,11 +11,11 @@ const RenderMenu = ({ onContentChange }) => {
 
   const menu = (
     <Menu
-      theme="light"
+      theme="dark"
       defaultSelectedKeys={['address']}
       mode="inline"
       className="userSidebar"
-      style={width < 800 ? { width: '10rem', height: '10rem' } : null}
+      style={width < 800 ? { width: '10rem', height: '10rem' } : {}}
     >
       <Menu.Item key="address" onClick={onContentChange}>
         Address

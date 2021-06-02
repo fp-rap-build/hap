@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import useWindowDimensions from '../../../../../utils/useWindowDimensions';
@@ -16,7 +16,6 @@ import {
   DesktopOutlined,
   PieChartOutlined,
   FileOutlined,
-  TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 
@@ -57,81 +56,74 @@ export default function Index() {
 
   return (
     <div className="homeContainer">
-      <Layout style={{ height: '90vh' }} className="user-dash-container">
-        <Header className="header">
-          <Title
-            level={width > 490 ? 2 : 3}
-            // className={styles.heading}
-            style={{ color: '#FFFFFF' }}
+      <Layout style={{ minHeight: '90vh' }}>
+        <Sider
+          collapsible
+          collapsed={width < 700 ? true : collapsed}
+          onCollapse={toggleCollapse}
+          collapsedWidth={60}
+          width="10rem"
+        >
+          <div className="spacer" />
+          <Menu
+            theme="dark"
+            defaultSelectedKeys={['status']}
+            mode="inline"
+            inlineCollapsed={collapsed}
           >
-            {' '}
-            Hello {currentUser.firstName}, Welcome to your Housing Assistance
-            Portal.
-          </Title>
-        </Header>
-        <Layout className="sidebar-content-container">
-          <Sider
-            collapsible
-            collapsed={width < 700 ? true : collapsed}
-            onCollapse={toggleCollapse}
-            collapsedWidth={60}
-          >
-            <Menu
-              theme="dark"
-              defaultSelectedKeys={['status']}
-              mode="inline"
-              inlineCollapsed={collapsed}
+            <Menu.Item
+              key="status"
+              icon={<PieChartOutlined />}
+              onClick={onContentChange}
             >
-              <Menu.Item
-                key="status"
-                icon={<PieChartOutlined />}
-                onClick={onContentChange}
-              >
-                Request Status
-              </Menu.Item>
-              <Menu.Item
-                key="comments"
-                icon={<DesktopOutlined />}
-                onClick={onContentChange}
-              >
-                Comments
-              </Menu.Item>
-              <Menu.Item
-                key="documents"
-                icon={<FileOutlined />}
-                onClick={onContentChange}
-              >
-                Documents
-              </Menu.Item>
-              <Menu.Item
-                key="userInfo"
-                icon={<UserOutlined />}
-                onClick={e => {
-                  setCollapsed(true);
-                  onContentChange(e);
-                }}
-              >
-                User
-              </Menu.Item>
-            </Menu>
-          </Sider>
+              Request Status
+            </Menu.Item>
+            <Menu.Item
+              key="comments"
+              icon={<DesktopOutlined />}
+              onClick={onContentChange}
+            >
+              Comments
+            </Menu.Item>
+            <Menu.Item
+              key="documents"
+              icon={<FileOutlined />}
+              onClick={onContentChange}
+            >
+              Documents
+            </Menu.Item>
+            <Menu.Item
+              key="userInfo"
+              icon={<UserOutlined />}
+              onClick={e => {
+                setCollapsed(true);
+                onContentChange(e);
+              }}
+            >
+              User
+            </Menu.Item>
+          </Menu>
+        </Sider>
+        <Layout className="sidebar-content-container">
+          <Header className="header">
+            <Title level={width > 490 ? 2 : 3} style={{ color: '#FFFFFF' }}>
+              {currentUser.firstName}'s Housing Assistance Portal.
+            </Title>
+          </Header>
           <Content
             className="homeContent"
             style={{
-              margin: 0,
               minHeight: 280,
-              border: '1px solid black',
-              background: 'white',
             }}
           >
             {renderContent(props)}
           </Content>
+          <Footer className="dashFooter">
+            <a href="http://www.familypromiseofspokane.org/" target="_blank">
+              Powered by Family Promise of Spokane
+            </a>
+          </Footer>
         </Layout>
-        <Footer style={{ textAlign: 'center' }}>
-          <a href="http://www.familypromiseofspokane.org/" target="_blank">
-            Powered by Family Promise of Spokane
-          </a>
-        </Footer>
       </Layout>
     </div>
   );
