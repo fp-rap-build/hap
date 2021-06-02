@@ -7,8 +7,6 @@ import {
   updateRequest,
 } from '../../../../../../redux/requests/requestActions';
 
-import useWindowDimensions from '../../../../../../utils/useWindowDimensions';
-
 import AddressInfo from './AddressInfo';
 import LandlordContact from './LandlordContact';
 import DemoInfo from './DemoInfo';
@@ -18,9 +16,9 @@ import Footer from './Footer';
 
 import RenderMenu from './RenderMenu';
 
-import { Layout, Menu } from 'antd';
+import { Layout } from 'antd';
 
-const { Sider, Content } = Layout;
+const { Content } = Layout;
 
 const UserInfo = () => {
   const dispatch = useDispatch();
@@ -32,8 +30,6 @@ const UserInfo = () => {
 
   const [currentContent, setCurrentContent] = useState('address');
   const [disabled, setDisabled] = useState(true);
-
-  const { height, width } = useWindowDimensions();
 
   //Refactor - create userdash middleware to pull all necessary info in one place
   useEffect(() => {

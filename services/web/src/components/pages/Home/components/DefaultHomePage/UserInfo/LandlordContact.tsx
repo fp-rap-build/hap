@@ -2,11 +2,6 @@ import { Typography, Divider, Form, Input } from 'antd';
 
 const { Title, Paragraph } = Typography;
 
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-
 const LandlordContact = ({ requestData, handleRequestChange, disabled }) => {
   return (
     <div className="landlordInformation userInfoContent">
@@ -20,7 +15,11 @@ const LandlordContact = ({ requestData, handleRequestChange, disabled }) => {
         </Paragraph>
       </div>
       <Divider />
-      <Form {...layout} name="landlordContact" onChange={handleRequestChange}>
+      <Form
+        layout="vertical"
+        name="landlordContact"
+        onChange={handleRequestChange}
+      >
         <Form.Item
           initialValue={requestData.landlordName}
           label="Name"

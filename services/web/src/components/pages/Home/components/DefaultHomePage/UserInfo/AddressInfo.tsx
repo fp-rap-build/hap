@@ -6,11 +6,6 @@ const { Option } = Select;
 
 const { Title, Paragraph } = Typography;
 
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-
 const AddressInfo = ({
   addressData,
   handleAddressChange,
@@ -31,7 +26,7 @@ const AddressInfo = ({
         </div>
         <Divider />
         <Form
-          {...layout}
+          layout="vertical"
           name="Address Information"
           onChange={handleAddressChange}
         >

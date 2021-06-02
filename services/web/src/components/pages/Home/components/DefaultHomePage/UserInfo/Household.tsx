@@ -2,11 +2,6 @@ import { Typography, Divider, Form, Input } from 'antd';
 
 const { Title, Paragraph } = Typography;
 
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-
 const Household = ({ requestData, handleRequestChange, disabled }) => {
   return (
     <div className="householdInfo userInfoContent">
@@ -21,7 +16,7 @@ const Household = ({ requestData, handleRequestChange, disabled }) => {
       </div>
       <Divider />
       <Form
-        {...layout}
+        layout="vertical"
         name="householdInformation"
         onChange={handleRequestChange}
       >
