@@ -11,10 +11,18 @@ export default function CreateAccount({ formValues, setFormValues }) {
   return (
     <div>
       <Card title={<Title level={4}>Sign Up - Housing Assistance Portal Account</Title>}>
-        <Text type="secondary">
-          We will send you an email once your request has been reviewed! You can
-          also login to check your status.
-        </Text>
+        <p>
+          URGENT NOTICE: </p>
+          <br />
+          <p>Creating a Housing Assistance Portal account does not submit a request for assistance.</p>
+
+          <br />
+           <p> Once you create your account, please begin uploading supporting 
+          documents as directed on your user dashboard.  </p>
+          <p>
+          <br />All documents must be submitted before the Housing Assistance Team can begin
+          processing your request for assistance.  
+        </p>
         <Divider dashed />
         <Form.Item
           hasFeedback

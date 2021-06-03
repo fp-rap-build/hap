@@ -39,7 +39,7 @@ const requestStatusChange = (requestStatus, emailAddress) => {
 
   const msg = {
     to: emailAddress,
-    from: 'admin@familypromiseofspokane.org',
+    from: 'hap@familypromiseofspokane.org',
     subject: 'Update! Your request status has changed',
     text: text,
    
@@ -59,7 +59,7 @@ const requestStatusChange = (requestStatus, emailAddress) => {
 const sendResetPasswordLink = (emailAddress, resetURL) => {
   const msg = {
     to: emailAddress,
-    from: 'admin@familypromiseofspokane.org',
+    from: 'hap@familypromiseofspokane.org',
     subject: 'Password reset',
     html: `<p>Click here to reset your password <a href="${resetURL}">${resetURL}</a></p>`,
   };
@@ -76,7 +76,7 @@ const sendResetPasswordLink = (emailAddress, resetURL) => {
 const sendPromiseToPayEmail = (emailAddress) => {
   const msg = {
     to: emailAddress,
-    from: 'admin@familypromiseofspokane.org',
+    from: 'hap@familypromiseofspokane.org',
     subject: 'Approved for Rental Assistance',
     text: `Your tenant's request has been approved! We will contact you shortly to go over the details`,
     html: `<p>Your tenants request has been approved! We will contact you shortly to go over the details</p>`,
@@ -97,7 +97,7 @@ const sendConfirmationOfApproval = (request) => {
   let msg;
 
   if (process.env.NODE_ENV === 'production') {
-    mailingList = ['fpspokane@bill.com', 'dpeabody@fpspokane.org', 'jwylie@fpspokane.org'];
+    mailingList = ['fpspokane@bill.com', 'dpeabody@familypromiseofspokane.com', 'jwylie@fpspokane.org'];
   } else {
     mailingList = ['jwylie@fpspokane.org'];
   }
@@ -105,10 +105,10 @@ const sendConfirmationOfApproval = (request) => {
   mailingList.forEach((email) => {
     msg = {
       to: email,
-      from: 'admin@familypromiseofspokane.org',
+      from: 'hap@familypromiseofspokane.org',
       subject: 'Rental Assistance',
-      text: `<p>Rental Assistance</p> <p>Payee: ${request.landlordName}</p> <p>Payee Email: ${request.landlordEmail}</p> <p>Check Memo:</p> <p> ${request.firstName} ${request.lastName} </p> <p> ${request.address} ${request.addressLine2} </p> <p> ${request.cityName}, ${request.state} ${request.zipCode} </p>`,
-      html: `<p>Rental Assistance</p> <p>Payee: ${request.landlordName}</p> <p>Payee Email: ${request.landlordEmail}</p> <p>Check Memo:</p> <p> ${request.firstName} ${request.lastName} </p> <p> ${request.address} ${request.addressLine2} </p> <p> ${request.cityName}, ${request.state} ${request.zipCode} </p>`,
+      text: `<p>Rental Assistance</p> <p>Payee Name: ${request.landlordName}</p> <p>Payment Amount: ${request.amountRequested}</p> <p>Payment Address: TBD </p> <p> Payee Email: ${request.landlordEmail} </p> <p> Payment Method: Epay </p> <p> Funding Source: TBD </p> <p> Check Memo: Rent,  ${request.firstName} ${request.lastName} ${request.address}   ${request.cityName}, ${request.state} ${request.zipCode} </p> `,
+      html: `<p>Rental Assistance</p> <p>Payee Name: ${request.landlordName}</p> <p>Payment Amount: ${request.amountRequested}</p> <p>Payment Address: TBD </p> <p> Payee Email: ${request.landlordEmail} </p> <p> Payment Method: Epay </p> <p> Funding Source: TBD </p> <p> Check Memo: Rent,  ${request.firstName} ${request.lastName} ${request.address}   ${request.cityName}, ${request.state} ${request.zipCode} </p> `,
     };
 
     sgMail
