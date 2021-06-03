@@ -17,7 +17,11 @@ export default function Index({ formValues, setStep }) {
 
   return (
     <Card title={<CardTitle percentage={80} title="Review Information" />}>
+      
       <div className={styles.review}>
+        <p>Please carefully review the following information prior to applying for Rental Assistance through Fanmily Promise 
+          of Spokane.  Incorrect information here will greatly increase the amount of time needed to process your request.
+        </p>
         <Basic step={0} {...props} />
         <Household step={1} {...props} />
         <Demographics step={2} {...props} />

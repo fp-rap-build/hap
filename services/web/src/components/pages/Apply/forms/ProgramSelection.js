@@ -70,11 +70,35 @@ const ProgramSelection = ({ formValues }) => {
           <CardTitle percentage={100} title="Programs You May Qualify For:" />
         }
       >
+
+
+          <Row>
+          <Col span={15}>
+            <Paragraph strong={availablePrograms.FP}>
+              {' '}
+              Family Promise of Spokane : Housing Assistance{' '}
+            </Paragraph>
+          </Col>
+          <Col span={1} />
+          <Col span={8}>
+            <Button
+              type="primary"
+              size="medium"
+              htmlType="submit"
+              disabled={!availablePrograms.FP}
+            >
+              {availablePrograms.FP ? 'Apply Now' : 'Not Available'}
+            </Button>
+          </Col>
+        </Row>
+
+        <Divider />
+
         <Row align="middle">
           <Col span={15}>
             <Paragraph strong={availablePrograms.SNAP_ERA}>
               {' '}
-              Spokane Neighborhood Action Partners (SNAP) : ERA Program{' '}
+              Live Stories : FORWARD Program{' '}
             </Paragraph>
           </Col>
           <Col span={1} />
@@ -96,7 +120,7 @@ const ProgramSelection = ({ formValues }) => {
           <Col span={15}>
             <Paragraph strong={availablePrograms.SNAP_ERAP}>
               {' '}
-              Spokane Neighborhood Action Partners (SNAP) : ERAP Program{' '}
+              Spokane Neighborhood Action Partners (SNAP) : ERA Program{' '}
             </Paragraph>
           </Col>
           <Col span={1} />
@@ -112,29 +136,8 @@ const ProgramSelection = ({ formValues }) => {
             </Button>
           </Col>
         </Row>
-        <Divider />
 
-     
-        <Row>
-          <Col span={15}>
-            <Paragraph strong={availablePrograms.FP}>
-              {' '}
-              Family Promise of Spokane : Housing Assistance{' '}
-            </Paragraph>
-          </Col>
-          <Col span={1} />
-          <Col span={8}>
-            <Button
-              type="primary"
-              size="medium"
-              htmlType="submit"
-              disabled={!availablePrograms.FP}
-            >
-              {availablePrograms.FP ? 'Apply Now!' : 'Not Available'}
-            </Button>
-          </Col>
-        </Row>
-<Divider />
+        <Divider />
         <Row>
           <Col span={15}>
             <Paragraph strong={availablePrograms.VLP_EDP}>
