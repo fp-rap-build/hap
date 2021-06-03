@@ -1,3 +1,5 @@
+import FPTitle from '../FPTitle';
+
 import { Form, Input, Card, Typography, Divider } from 'antd';
 
 const { Title, Text } = Typography;
@@ -16,7 +18,10 @@ export default function SecondaryContact({ formValues, setFormValues }) {
 
 const TenantInfoForm = ({ formValues }) => {
   return (
-    <Card title={<Title level={4}>Tenant Information</Title>}>
+    <Card
+      title={<FPTitle title="Tenant Information" />}
+      headStyle={{ background: ' #472D5B' }}
+    >
       <Text type="secondary">
         This will help us contact your tenant; a step required to complete your
         request for Rental Assistance.
@@ -76,7 +81,10 @@ const TenantInfoForm = ({ formValues }) => {
 
 const LandlordInfoForm = ({ formValues }) => {
   return (
-    <Card title={<Title level={4}>Landlord Information</Title>}>
+    <Card
+      title={<FPTitle title="Landlord Information" />}
+      headStyle={{ background: ' #472D5B' }}
+    >
       <Text type="secondary">
         This will help us contact your landlord. We must verify information with
         your landlord to approve any requests. Providing false or incorrect

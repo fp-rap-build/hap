@@ -2,6 +2,8 @@ import React from 'react';
 
 import { useSelector } from 'react-redux';
 
+import FPTitle from '../FPTitle';
+
 import { Form, Input, Card, Typography, Divider } from 'antd';
 
 const { Title, Text } = Typography;
@@ -10,7 +12,10 @@ export default function CreateAccount({ formValues, setFormValues }) {
   const errorMessage = useSelector(state => state.user.errorMessage);
   return (
     <div>
-      <Card title={<Title level={4}>Sign Up - Housing Assistance Portal Account</Title>}>
+      <Card
+        title={<FPTitle title="Sign Up - HAP Account" />}
+        headStyle={{ background: ' #472D5B' }}
+      >
         <Text type="secondary">
           We will send you an email once your request has been reviewed! You can
           also login to check your status.
@@ -74,21 +79,20 @@ export default function CreateAccount({ formValues, setFormValues }) {
           />
         </Form.Item>
         <Form.Item
-        initialValue={formValues.phoneNumber}
-        label="Phone number"
-        name="phoneNumber"
-        rules={[
-          {
-            type: 'string',
-            required: true,
-            message: 'Please enter a phone number',
-          },
-        ]}
-      >
-        <Input placeholder="(111)-111-1111" name="phoneNumber" />
-      </Form.Item>
+          initialValue={formValues.phoneNumber}
+          label="Phone number"
+          name="phoneNumber"
+          rules={[
+            {
+              type: 'string',
+              required: true,
+              message: 'Please enter a phone number',
+            },
+          ]}
+        >
+          <Input placeholder="(111)-111-1111" name="phoneNumber" />
+        </Form.Item>
 
-       
         <Form.Item
           hasFeedback
           initialValue={formValues.password}
