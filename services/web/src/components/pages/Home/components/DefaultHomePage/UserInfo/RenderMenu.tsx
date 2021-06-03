@@ -11,7 +11,7 @@ const RenderMenu = ({ onContentChange }) => {
 
   const menu = (
     <Menu
-      theme="dark"
+      theme="light"
       defaultSelectedKeys={['address']}
       mode="inline"
       className="userSidebar"
