@@ -6,7 +6,7 @@ import FPTitle from '../FPTitle';
 
 import { Form, Input, Card, Typography, Divider } from 'antd';
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 export default function CreateAccount({ formValues, setFormValues }) {
   const errorMessage = useSelector(state => state.user.errorMessage);
@@ -16,10 +16,25 @@ export default function CreateAccount({ formValues, setFormValues }) {
         title={<FPTitle title="Sign Up - HAP Account" />}
         headStyle={{ background: ' #472D5B' }}
       >
-        <Text type="secondary">
-          We will send you an email once your request has been reviewed! You can
-          also login to check your status.
-        </Text>
+        <p>URGENT NOTICE: </p>
+        <br />
+        <p>
+          Creating a Housing Assistance Portal account does not submit a request
+          for assistance.
+        </p>
+
+        <br />
+        <p>
+          {' '}
+          Once you create your account, please begin uploading supporting
+          documents as directed on your user dashboard.{' '}
+        </p>
+        <p>
+          <br />
+          All documents must be submitted before the Housing Assistance Team can
+          begin processing your request for assistance.
+        </p>
+
         <Divider dashed />
         <Form.Item
           hasFeedback

@@ -2,7 +2,7 @@ import FPTitle from '../FPTitle';
 
 import { Form, Input, Card, Typography, Divider } from 'antd';
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 export default function SecondaryContact({ formValues, setFormValues }) {
   return (
