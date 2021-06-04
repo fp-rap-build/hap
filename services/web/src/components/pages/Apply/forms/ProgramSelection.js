@@ -70,9 +70,7 @@ const ProgramSelection = ({ formValues }) => {
           <CardTitle percentage={100} title="Programs You May Qualify For:" />
         }
       >
-
-
-          <Row>
+        <Row>
           <Col span={15}>
             <Paragraph strong={availablePrograms.FP}>
               {' '}
@@ -158,7 +156,6 @@ const ProgramSelection = ({ formValues }) => {
             </Button>
           </Col>
         </Row>
-
       </Card>
     </Spin>
   );

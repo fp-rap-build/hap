@@ -24,7 +24,7 @@ import ProgramSelection from './forms/ProgramSelection';
 
 import Button from 'antd/lib/button';
 
-import styles from '../../../styles/pages/apply.module.css';
+import '../../../styles/pages/apply.less';
 
 import { registerAndApply } from '../../../redux/users/userActions';
 
@@ -198,12 +198,12 @@ export default function Index() {
   };
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Form
         layout="vertical"
         onChange={handleChange}
         onFinish={step === finalStep ? handleSubmit : () => goForward()}
-        className={styles.form}
+        className="form"
       >
         <RenderForm {...props} />
         <FormNavigation {...props} />
@@ -222,7 +222,7 @@ const manageFormButton = (step, formConsent) => {
 
 const FormNavigation = ({ step, goBackwards, loading, formConsent }) => {
   return (
-    <div className={styles.formNavigation}>
+    <div className="formNavigation">
       {step > 0 && <Button onClick={() => goBackwards()}>Previous</Button>}
       {step === finalStep ? (
         <Button
