@@ -4,7 +4,7 @@ exports.seed = async function (knex) {
   //see requests seed file for example response from db
   const users = await db('users')
 
-  const programManager = users.find(user => user.email === 'programManager@gmail.com')
+  const programManager = users.find(user => user.email === 'programmanager@gmail.com')
   const tenant = users.find(user => user.email === 'tenant@gmail.com')
 
   return knex('comments')
