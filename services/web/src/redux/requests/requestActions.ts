@@ -26,30 +26,32 @@ export const fetchRequestAndAddr = () => async dispatch => {
       .get('/users/me')
       .then(res => res.data.user);
 
-    const { id } = currentUser.requests[0];
+    if (currentUser.role === 'tenant' || currentUser.role === 'landlord') {
+      const { id } = currentUser.requests[0];
 
-    //Fetch request and dispatch
-    let request = await axiosWithAuth()
-      .get(`requests/reqOnly/${id}`)
-      .then(res => res.data);
+      //Fetch request and dispatch
+      let request = await axiosWithAuth()
+        .get(`requests/reqOnly/${id}`)
+        .then(res => res.data);
 
-    dispatch(setCurrentRequest(request));
+      dispatch(setCurrentRequest(request));
 
-    //Fetch address and dispatch
-    const { addressId } = request;
+      //Fetch address and dispatch
+      const { addressId } = request;
 
-    let address = await axiosWithAuth()
-      .get(`/addrs/${addressId}`)
-      .then(res => res.data);
+      let address = await axiosWithAuth()
+        .get(`/addrs/${addressId}`)
+        .then(res => res.data);
 
-    dispatch(setCurrentAddress(address));
+      dispatch(setCurrentAddress(address));
 
-    //Fetch Documents and dispatch
-    let documents = await axiosWithAuth()
-      .get(`/requests/${id}/documents`)
-      .then(res => res.data.documents);
+      //Fetch Documents and dispatch
+      let documents = await axiosWithAuth()
+        .get(`/requests/${id}/documents`)
+        .then(res => res.data.documents);
 
-    dispatch(setDocuments(documents));
+      dispatch(setDocuments(documents));
+    }
   } catch (error) {
     console.log(error);
   } finally {
