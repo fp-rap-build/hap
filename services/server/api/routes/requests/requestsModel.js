@@ -69,7 +69,8 @@ const findForTable = (params) => {
       'r.white',
       'r.native',
       'r.demoNotSay',
-      
+      'r.amountRequested',
+
       'r.verifiedDocuments',
       'r.foodWrkr',
       'r.unEmp90',

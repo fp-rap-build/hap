@@ -63,6 +63,10 @@ export default function RequestsTable() {
       field: 'poc',
     },
     {
+      title: 'Amount',
+      field: 'amountRequested',
+    },
+    {
       title: 'Address',
       field: 'address',
     },
