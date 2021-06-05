@@ -6,8 +6,6 @@ import { useHistory } from 'react-router-dom';
 
 import MaterialTable from '@material-table/core';
 
-import styles from '../../../../styles/pages/admin.module.css';
-
 import { tableIcons } from '../../../../utils/tableIcons';
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
@@ -15,14 +13,20 @@ import GavelIcon from '@material-ui/icons/Gavel';
 import MailIcon from '@material-ui/icons/Mail';
 import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
 import ArchiveIcon from '@material-ui/icons/Archive';
+import { Mail } from '@material-ui/icons';
 
 import { message, Modal } from 'antd';
-import { Mail } from '@material-ui/icons';
+
 import {
   addSubscription,
   deleteSubscription,
 } from '../../../../redux/users/userActions';
+
 import socket from '../../../../config/socket';
+
+import calculateAmi from '../../../../utils/general/calculateAmi';
+
+import styles from '../../../../styles/pages/admin.module.css';
 
 export default function RequestsTable() {
   const history = useHistory();
@@ -43,6 +47,10 @@ export default function RequestsTable() {
     {
       title: 'email',
       field: 'email',
+    },
+    {
+      title: 'AMI',
+      field: 'ami',
     },
     {
       title: 'Request Status',
@@ -74,6 +82,7 @@ export default function RequestsTable() {
 
       requests = requests.map(request => {
         request['isSubscribed'] = request.id in subscriptions;
+        request['ami'] = calculateAmi(request.monthlyIncome) + '%';
 
         return request;
       });
