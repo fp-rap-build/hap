@@ -1,5 +1,7 @@
 import { axiosWithAuth } from '../../api/axiosWithAuth';
 
+import { setLoading } from '../global/globalActions';
+
 export const setCurrentRequest = currentRequest => {
   return { type: 'SET_REQUEST', payload: currentRequest };
 };
@@ -17,6 +19,7 @@ export const setDocuments = documents => {
 };
 
 export const fetchRequestAndAddr = () => async dispatch => {
+  dispatch(setLoading(true));
   try {
     //Need current user to pull their requests
     let currentUser = await axiosWithAuth()
@@ -45,9 +48,12 @@ export const fetchRequestAndAddr = () => async dispatch => {
     let documents = await axiosWithAuth()
       .get(`/requests/${id}/documents`)
       .then(res => res.data.documents);
+
     dispatch(setDocuments(documents));
   } catch (error) {
     console.log(error);
+  } finally {
+    dispatch(setLoading(false));
   }
 };
 

@@ -29,11 +29,11 @@ const { Title } = Typography;
 export default function Index() {
   const dispatch = useDispatch();
 
-  //Adding request, address, and documents to stor
-  useEffect(() => {
-    dispatch(fetchRequestAndAddr());
-    //eslint-disable-next-line
-  }, []);
+  //Adding request, address, and documents to store
+  // useEffect(() => {
+  //   dispatch(fetchRequestAndAddr());
+  //   //eslint-disable-next-line
+  // }, []);
 
   const currentUser = useSelector(state => state.user.currentUser);
   const request = currentUser.requests[0];
