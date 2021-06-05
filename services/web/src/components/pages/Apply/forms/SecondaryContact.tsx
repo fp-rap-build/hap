@@ -82,15 +82,27 @@ const TenantInfoForm = ({ formValues }) => {
 const LandlordInfoForm = ({ formValues }) => {
   return (
     <Card
-      title={<FPTitle title="Landlord Information" />}
+      title={<FPTitle title="Family Promise of Spokane" />}
       headStyle={{ background: ' #472D5B' }}
     >
+      <p>
+        Welcome to Family Promise of Spokane's Housing Assistance Application.
+      </p>
+      <br />
+      <p>
+        Please begin by providing information about your Landlord or Property
+        Manager.
+      </p>
       <Text type="secondary">
         This will help us contact your landlord. We must verify information with
-        your landlord to approve any requests. Providing false or incorrect
-        information here may greatly increase the time and work needed to
-        approve your request.
+        your landlord to approve any requests.
+        <br></br>
+        <br />
       </Text>
+      <b>
+        Providing false or incorrect information here may greatly increase the
+        time and work needed to approve your request.
+      </b>
       <Divider />
 
       <Form.Item
