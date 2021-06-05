@@ -3,7 +3,10 @@ import React, { useEffect, useRef } from 'react';
 
 import ReactDOM from 'react-dom';
 import ReactGA from 'react-ga';
+
 import { Provider, useSelector, useDispatch } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+
 import {
   BrowserRouter as Router,
   Route,
@@ -25,7 +28,7 @@ import ProgramManager from './components/pages/ProgramManager';
 import Programs from './components/pages/Programs';
 
 import Requests from './components/pages/Requests';
-import store from './redux/store';
+import { store, persistor } from './redux/store';
 import './styles/global.css';
 import PrivateRoute from './utils/auth/PrivateRoute';
 
@@ -41,7 +44,9 @@ ReactDOM.render(
   <Router>
     <React.StrictMode>
       <Provider store={store}>
-        <RAP />
+        <PersistGate loading={null} persistor={persistor}>
+          <RAP />
+        </PersistGate>
       </Provider>
     </React.StrictMode>
   </Router>,
