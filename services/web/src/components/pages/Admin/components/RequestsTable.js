@@ -27,6 +27,7 @@ import socket from '../../../../config/socket';
 import calculateAmi from '../../../../utils/general/calculateAmi';
 
 import styles from '../../../../styles/pages/admin.module.css';
+import sortRequests from '../utils/sortRequests';
 
 export default function RequestsTable() {
   const history = useHistory();
@@ -82,12 +83,12 @@ export default function RequestsTable() {
 
       requests = requests.map(request => {
         request['isSubscribed'] = request.id in subscriptions;
-        request['ami'] = calculateAmi(request.monthlyIncome) + '%';
+        request['ami'] = calculateAmi(request.monthlyIncome);
 
         return request;
       });
 
-      let sortedRequests = sortRequestsBySubscriptions(requests);
+      let sortedRequests = sortRequests(requests);
 
       setData(sortedRequests);
     } catch (error) {
@@ -258,19 +259,4 @@ const formatSubscriptions = subscriptions => {
   });
 
   return result;
-};
-
-const sortRequestsBySubscriptions = requests => {
-  let subscribed = [];
-  let unsubscribed = [];
-
-  requests.forEach(req => {
-    if (req.isSubscribed) {
-      subscribed.push(req);
-    } else {
-      unsubscribed.push(req);
-    }
-  });
-
-  return [...subscribed, ...unsubscribed];
 };
