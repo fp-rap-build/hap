@@ -28,6 +28,7 @@ import calculateAmi from '../../../../utils/general/calculateAmi';
 
 import styles from '../../../../styles/pages/admin.module.css';
 import sortRequests from '../utils/sortRequests';
+import doesHouseholdContainPoc from '../../../../utils/general/doesHouseholdContainPoc';
 
 export default function RequestsTable() {
   const history = useHistory();
@@ -52,6 +53,26 @@ export default function RequestsTable() {
     {
       title: 'AMI',
       field: 'ami',
+    },
+    {
+      title: 'unEmp90',
+      field: 'unEmp90',
+    },
+    {
+      title: 'POC',
+      field: 'poc',
+    },
+    {
+      title: 'Address',
+      field: 'address',
+    },
+    {
+      title: 'City',
+      field: 'cityName',
+    },
+    {
+      title: 'LN',
+      field: 'landlordName',
     },
     {
       title: 'Request Status',
@@ -84,6 +105,7 @@ export default function RequestsTable() {
       requests = requests.map(request => {
         request['isSubscribed'] = request.id in subscriptions;
         request['ami'] = calculateAmi(request.monthlyIncome);
+        request['poc'] = doesHouseholdContainPoc(request);
 
         return request;
       });
