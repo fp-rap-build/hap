@@ -74,6 +74,11 @@ const findForTable = (params) => {
       if (params.archived) {
         qb.where({ archived: params.archived });
       }
+    })
+    .modify((qb) => {
+      if (params.incomplete) {
+        qb.where({ incomplete: params.incomplete });
+      }
     });
 };
 
