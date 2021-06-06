@@ -27,7 +27,7 @@ export default function Index() {
 
   const { id } = useParams();
 
-  const fetchRequestAndAddr = async () => {
+  const setRequestAddressAndDocuments = async () => {
     setLoading(true);
 
     try {
@@ -66,7 +66,7 @@ export default function Index() {
   };
 
   useEffect(() => {
-    fetchRequestAndAddr();
+    setRequestAddressAndDocuments();
     // eslint-disable-next-line
   }, []);
 

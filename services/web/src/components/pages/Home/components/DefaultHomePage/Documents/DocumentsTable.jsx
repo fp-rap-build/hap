@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { useSelector } from 'react-redux';
+
 import buildTableData from './buildTableData';
 
 import UploadDocModal from './modals/UploadDocModal';
@@ -7,8 +9,21 @@ import SelfDecModal from './modals/SelfDecModal';
 
 import { Tag, Table, Button } from 'antd';
 
-const DocumentsTable = ({ documentStatuses, request, setDocumentStatuses }) => {
-  const tableData = buildTableData(documentStatuses);
+const DocumentsTable = ({ request }) => {
+  const storeStatuses = useSelector(state => state.requests.documentStatuses);
+
+  const [tableData, setTableData] = useState(buildTableData(storeStatuses));
+
+  const updateLocalStatuses = (tableData, category) => {
+    const newTableData = tableData.map(documentRow => {
+      if (documentRow.category === category) {
+        return { ...documentRow, [category]: 'received' };
+      } else {
+        return documentRow;
+      }
+    });
+    setTableData(newTableData);
+  };
 
   const [uploadModalVisibility, setUploadModalVisibility] = useState(false);
   const [selfDecModalVisibility, setSelfDecModalVisibility] = useState(false);
@@ -109,10 +124,11 @@ const DocumentsTable = ({ documentStatuses, request, setDocumentStatuses }) => {
     handleCancel,
     selectedCategory,
     request,
-    setDocumentStatuses,
-    documentStatuses,
     handleSelfDecAccept,
     selfDecModalVisibility,
+    tableData,
+    setTableData,
+    updateLocalStatuses,
   };
 
   return (

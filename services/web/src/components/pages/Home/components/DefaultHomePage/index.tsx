@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import useWindowDimensions from '../../../../../utils/useWindowDimensions';
 
-import { fetchRequestAndAddr } from '../../../../../redux/requests/requestActions';
+import { buildDocumentStatuses } from '../../../../../redux/requests/requestActions';
 
 //Migrate styles to less so it will all be in one place
 import '../../../../../styles/overrides.less';
@@ -29,14 +29,12 @@ const { Title } = Typography;
 export default function Index() {
   const dispatch = useDispatch();
 
-  //Adding request, address, and documents to store
-  // useEffect(() => {
-  //   dispatch(fetchRequestAndAddr());
-  //   //eslint-disable-next-line
-  // }, []);
-
   const currentUser = useSelector(state => state.user.currentUser);
-  const request = currentUser.requests[0];
+  const request = useSelector(state => state.requests.request);
+  const documents = useSelector(state => state.requests.documents);
+  // Build Document Statuses now - to be used in doc's table
+  dispatch(buildDocumentStatuses(documents));
+  //eslint-disable-next-line
 
   //Pull window dimensions for responsive logic
   const { width } = useWindowDimensions();
