@@ -5,6 +5,7 @@ import {
   UserOutlined,
   DownOutlined,
   LineChartOutlined,
+  WarningFilled,
 } from '@ant-design/icons';
 
 import ArchiveIcon from '@material-ui/icons/Archive';
@@ -25,7 +26,10 @@ const AdminNav = props => {
         Manage Requests
       </Menu.Item>
       <Menu.Item key="archive" icon={<FolderOutlined />}>
-        Archive
+        Archived Requests
+      </Menu.Item>
+      <Menu.Item key="incomplete" icon={<WarningFilled />}>
+        Incomplete Requests
       </Menu.Item>
       <Menu.Item key="user" icon={<UserOutlined />}>
         Manage Users

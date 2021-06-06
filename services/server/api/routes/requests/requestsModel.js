@@ -65,6 +65,7 @@ const findForTable = (params) => {
       'r.foodWrkr',
       'r.unEmp90',
       'r.orgId',
+      'r.incomplete',
       'a.address',
       'a.zipCode',
       'a.cityName',
@@ -73,6 +74,11 @@ const findForTable = (params) => {
     .modify((qb) => {
       if (params.archived) {
         qb.where({ archived: params.archived });
+      }
+    })
+    .modify((qb) => {
+      if (params.incomplete) {
+        qb.where({ incomplete: params.incomplete });
       }
     });
 };
@@ -111,6 +117,7 @@ const findById = (id) => {
       'r.landlordName',
       'r.landlordEmail',
       'r.landlordNumber',
+      'r.incomplete',
       'a.address',
       'a.zipCode',
       'a.cityName',
