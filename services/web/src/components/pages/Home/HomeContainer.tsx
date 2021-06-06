@@ -11,7 +11,7 @@ function HomeContainer() {
   const isLoading = useSelector(state => state.global.isLoading);
 
   useEffect(() => {
-    // Set the current user in state
+    // Populate our store with the necessary information
     dispatch(fetchCurrentUser());
     dispatch(fetchNotifications());
     dispatch(setRequestAddressAndDocuments());

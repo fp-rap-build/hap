@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import useWindowDimensions from '../../../../../utils/useWindowDimensions';
@@ -32,9 +32,9 @@ export default function Index() {
   const currentUser = useSelector(state => state.user.currentUser);
   const request = useSelector(state => state.requests.request);
   const documents = useSelector(state => state.requests.documents);
+
   // Build Document Statuses now - to be used in doc's table
   dispatch(buildDocumentStatuses(documents));
-  //eslint-disable-next-line
 
   //Pull window dimensions for responsive logic
   const { width } = useWindowDimensions();

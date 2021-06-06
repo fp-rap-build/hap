@@ -42,7 +42,7 @@ const DocumentUploader = ({
         .then(res => res.data);
 
       //Update local state to reflect new category status
-      await updateLocalStatuses(tableData, category);
+      updateLocalStatuses(tableData, category, 'received');
       //Update store
       dispatch(buildDocumentStatuses(tableData));
       // setDocumentStatuses({ ...documentStatuses, [category]: 'received' });
