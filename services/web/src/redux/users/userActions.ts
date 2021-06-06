@@ -140,7 +140,7 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
     white: requestValues.white,
     native: requestValues.native,
     demoNotSay: requestValues.demoNotSay,
-    inactive: requestValues.inactive,
+    incomplete: requestValues.incomplete,
     tenantEmail,
     tenantNumber,
     landlordName,
