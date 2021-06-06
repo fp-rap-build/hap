@@ -73,6 +73,7 @@ const INITIAL_VALUES_DEV = {
   white: false,
   native: false,
   demoNotSay: false,
+  incomplete: true,
 };
 
 const INITIAL_VALUES_PROD = {
@@ -112,6 +113,7 @@ const INITIAL_VALUES_PROD = {
   white: false,
   native: false,
   demoNotSay: false,
+  incomplete: true,
 };
 
 const finalStep = 7;
