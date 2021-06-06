@@ -14,14 +14,17 @@ const DocumentsTable = ({ request }) => {
 
   const [tableData, setTableData] = useState(buildTableData(storeStatuses));
 
-  const updateLocalStatuses = (tableData, category) => {
+  const updateLocalStatuses = (tableData, inputCategory) => {
     const newTableData = tableData.map(documentRow => {
-      if (documentRow.category === category) {
-        return { ...documentRow, [category]: 'received' };
+      if (documentRow.category === inputCategory) {
+        console.log(documentRow);
+        return { ...documentRow, status: 'received' };
       } else {
         return documentRow;
       }
     });
+
+    console.log(newTableData);
     setTableData(newTableData);
   };
 
