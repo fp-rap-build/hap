@@ -123,7 +123,7 @@ export const fetchDocuments = requestId => async dispatch => {
   try {
     const documents = await axiosWithAuth()
       .get(`/requests/${requestId}/documents`)
-      .then(res => res.data);
+      .then(res => res.data.documents);
     dispatch(setDocuments(documents));
   } catch (error) {
     console.log(error);
