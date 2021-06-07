@@ -1,3 +1,4 @@
+import { request } from 'http';
 import { axiosWithAuth } from '../../api/axiosWithAuth';
 import socket from '../../config/socket';
 import { setLoading } from '../global/globalActions';
@@ -131,6 +132,7 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
     familySize: requestValues.familySize,
     monthlyIncome: Number(requestValues.monthlyIncome),
     monthlyRent: Number(requestValues.monthlyRent),
+    owed: Number(requestValues.owed),
     unEmp90: requestValues.unEmp90,
     foodWrkr: requestValues.foodWrkr,
     totalChildren: requestValues.totalChildren,

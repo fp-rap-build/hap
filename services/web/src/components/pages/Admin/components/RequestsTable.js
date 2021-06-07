@@ -6,8 +6,6 @@ import { useHistory } from 'react-router-dom';
 
 import MaterialTable from '@material-table/core';
 
-import styles from '../../../../styles/pages/admin.module.css';
-
 import { tableIcons } from '../../../../utils/tableIcons';
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
@@ -18,12 +16,19 @@ import ArchiveIcon from '@material-ui/icons/Archive';
 import WarningFilled from '@material-ui/icons/Warning';
 
 import { message, Modal } from 'antd';
-import { Mail } from '@material-ui/icons';
+
 import {
   addSubscription,
   deleteSubscription,
 } from '../../../../redux/users/userActions';
+
 import socket from '../../../../config/socket';
+
+import calculateAmi from '../../../../utils/general/calculateAmi';
+
+import styles from '../../../../styles/pages/admin.module.css';
+import sortRequests from '../utils/sortRequests';
+import doesHouseholdContainPoc from '../../../../utils/general/doesHouseholdContainPoc';
 
 export default function RequestsTable() {
   const history = useHistory();
@@ -33,8 +38,6 @@ export default function RequestsTable() {
 
   const subscriptions = formatSubscriptions(currentUser.subscriptions);
 
-  // const [isOpen, setIsOpen] = useState(false);
-  // const [requestBeingReviewed, setRequestBeingReviewed] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
 
   const [data, setData] = useState([]);
@@ -44,6 +47,34 @@ export default function RequestsTable() {
     {
       title: 'email',
       field: 'email',
+    },
+    {
+      title: 'AMI',
+      field: 'ami',
+    },
+    {
+      title: 'unEmp90',
+      field: 'unEmp90',
+    },
+    {
+      title: 'BIPOC',
+      field: 'poc',
+    },
+    {
+      title: 'Amount',
+      field: 'amountRequested',
+    },
+    {
+      title: 'Address',
+      field: 'address',
+    },
+    {
+      title: 'City',
+      field: 'cityName',
+    },
+    {
+      title: 'LN',
+      field: 'landlordName',
     },
     {
       title: 'Request Status',
@@ -77,11 +108,13 @@ export default function RequestsTable() {
 
       requests = requests.map(request => {
         request['isSubscribed'] = request.id in subscriptions;
+        request['ami'] = calculateAmi(request.monthlyIncome);
+        request['poc'] = doesHouseholdContainPoc(request);
 
         return request;
       });
 
-      let sortedRequests = sortRequestsBySubscriptions(requests);
+      let sortedRequests = sortRequests(requests);
 
       setData(sortedRequests);
     } catch (error) {
@@ -277,19 +310,4 @@ const formatSubscriptions = subscriptions => {
   });
 
   return result;
-};
-
-const sortRequestsBySubscriptions = requests => {
-  let subscribed = [];
-  let unsubscribed = [];
-
-  requests.forEach(req => {
-    if (req.isSubscribed) {
-      subscribed.push(req);
-    } else {
-      unsubscribed.push(req);
-    }
-  });
-
-  return [...subscribed, ...unsubscribed];
 };
