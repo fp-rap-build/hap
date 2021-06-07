@@ -82,6 +82,7 @@ router.get('/table', async (req, res) => {
     const resRequests = await Requests.findForTable(req.query);
     res.status(200).json(resRequests);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
