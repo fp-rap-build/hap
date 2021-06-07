@@ -123,7 +123,7 @@ export const fetchDocuments = requestId => async dispatch => {
   try {
     const documents = await axiosWithAuth()
       .get(`/requests/${requestId}/documents`)
-      .then(res => res.data);
+      .then(res => res.data.documents);
     dispatch(setDocuments(documents));
   } catch (error) {
     console.log(error);
@@ -137,6 +137,8 @@ export const buildDocumentStatuses = documents => async dispatch => {
     housingInstability: 'missing',
     covid: 'missing',
   };
+
+  console.log(documents);
 
   if (documents) {
     documents.forEach(doc => {

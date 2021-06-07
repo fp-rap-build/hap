@@ -1,8 +1,11 @@
 import { useState } from 'react';
 
+import { useDispatch } from 'react-redux';
+
 import { axiosWithAuth } from '../../../../../../../api/axiosWithAuth';
 
 import { Modal, Typography, Button, Checkbox } from 'antd';
+import { fetchDocuments } from '../../../../../../../redux/requests/requestActions';
 const { Paragraph, Title } = Typography;
 
 const SelfDecModal = ({
@@ -15,6 +18,10 @@ const SelfDecModal = ({
   tableData,
 }) => {
   const [checked, setChecked] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const fetchUserDocuments = () => dispatch(fetchDocuments(request.id));
 
   //Adding place holder doc now as confirmation the user completed this process.
   //Will be replaced with PDF via panda Doc
@@ -34,6 +41,7 @@ const SelfDecModal = ({
         .post('/documents', placeHolderDoc)
         .then(res => res.data);
 
+      fetchUserDocuments();
       updateLocalStatuses(tableData, selectedCategory, 'optOut');
     } catch (error) {
       alert('Error saving self declaration');

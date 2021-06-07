@@ -18,14 +18,12 @@ const DocumentsTable = ({ request }) => {
   const updateLocalStatuses = (tableData, inputCategory, newStatus) => {
     const newTableData = tableData.map(documentRow => {
       if (documentRow.category === inputCategory) {
-        console.log(documentRow);
         return { ...documentRow, status: newStatus };
       } else {
         return documentRow;
       }
     });
 
-    console.log(newTableData);
     setTableData(newTableData);
   };
 

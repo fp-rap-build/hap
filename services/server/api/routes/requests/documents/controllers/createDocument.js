@@ -8,6 +8,7 @@ const multiUpload = upload.array('document');
 const createDocument = async (req, res) => {
   multiUpload(req, res, async (err) => {
     if (err) {
+      console.log(err);
       return res.json({
         success: false,
         errors: {
@@ -25,15 +26,10 @@ const createDocument = async (req, res) => {
         formatFile(file, req.params.id)
       );
 
-      let documents = await Documents.save(formattedDocuments).then((res) =>
-        console.log(res.data)
-      );
+      let documents = await Documents.save(formattedDocuments);
 
       res.status(200).json({ documents });
-
-      // console.log(documents);
     } catch (error) {
-      console.log(error);
       res
         .status(500)
         .json({ message: 'Unable to submit document to database' });

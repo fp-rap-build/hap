@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { useSelector, useDispatch } from 'react-redux';
 
 import { buildDocumentStatuses } from '../../../../../../redux/requests/requestActions';
@@ -11,7 +13,11 @@ export default function Index({ request }) {
   //Grab documents and build statuses object for table
   let documents = useSelector(state => state.requests.documents);
 
-  useDispatch(buildDocumentStatuses(documents));
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(buildDocumentStatuses(documents));
+  }, []);
 
   return (
     <div className="documentsContainer" style={{ padding: '2%' }}>

@@ -35,6 +35,7 @@ router.post('/', async (req, res) => {
 
     // Create a new address
     const addressInfo = request['address'] || {};
+    
     const address = await Addresses.create(addressInfo);
 
     // Default to the current users ID if one isn't specified

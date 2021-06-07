@@ -24,7 +24,6 @@ const checkDocumentCompletion = async (tableData, request) => {
       });
     }
   } catch (error) {
-    console.log(error);
     alert('DOC CHECK ERROR');
   }
 };
