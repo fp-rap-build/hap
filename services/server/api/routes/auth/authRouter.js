@@ -6,13 +6,20 @@ const {
   registerUser,
   forgotPassword,
   resetPassword,
-  validateResetToken
+  validateResetToken,
 } = require('./controllers');
 
 // Validators
-const { validateRegistration, validateLogin } = require('./validators');
+const {
+  validateRegistration,
+  validateLogin,
+  lowerCaseEmail,
+} = require('./validators');
 
 // Routes
+
+router.use(lowerCaseEmail);
+
 router.post('/login', validateLogin, loginUser);
 
 router.post('/register', validateRegistration, registerUser);

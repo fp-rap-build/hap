@@ -25,11 +25,13 @@ const createDocument = async (req, res) => {
         formatFile(file, req.params.id)
       );
 
-      let documents = await Documents.save(formattedDocuments);
+      let documents = await Documents.save(formattedDocuments).then((res) =>
+        console.log(res.data)
+      );
 
       res.status(200).json({ documents });
 
-      console.log(documents);
+      // console.log(documents);
     } catch (error) {
       console.log(error);
       res

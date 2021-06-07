@@ -42,7 +42,7 @@ const findAllActive = () => {
     .whereNot('r.requestStatus', 'denied');
 };
 
-const findForTable = () => {
+const findForTable = (params) => {
   return db('requests as r')
     .join('addresses as a', 'r.addressId', '=', 'a.id')
     .join('users as u', 'r.userId', '=', 'u.id')
@@ -65,15 +65,26 @@ const findForTable = () => {
       'r.foodWrkr',
       'r.unEmp90',
       'r.orgId',
+      'r.incomplete',
       'a.address',
       'a.zipCode',
       'a.cityName',
       'a.state'
-    );
+    )
+    .modify((qb) => {
+      if (params.archived) {
+        qb.where({ archived: params.archived });
+      }
+    })
+    .modify((qb) => {
+      if (params.incomplete) {
+        qb.where({ incomplete: params.incomplete });
+      }
+    });
 };
 
-const findBy = (filter) => {
-  return db('requests').where(filter);
+const requestOnlyById = (id) => {
+  return db('requests').where('id', '=', id).first();
 };
 
 const findById = (id) => {
@@ -106,6 +117,7 @@ const findById = (id) => {
       'r.landlordName',
       'r.landlordEmail',
       'r.landlordNumber',
+      'r.incomplete',
       'a.address',
       'a.zipCode',
       'a.cityName',
@@ -132,7 +144,7 @@ const findAllComments = (requestId) =>
 
 module.exports = {
   findAll,
-  findBy,
+  requestOnlyById,
   create,
   remove,
   removeAllCommentsByRequestId,

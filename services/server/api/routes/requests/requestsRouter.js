@@ -11,11 +11,15 @@ const { requestStatusChange } = sendMessage;
 const { validateRequestId } = require('./documents/validators');
 
 // Controllers
-const { getAllDocuments, createDocument } = require('./documents/controllers');
+const {
+  getAllDocuments,
+  createDocument,
+  updateDocument,
+} = require('./documents/controllers');
 
 const { sendPayment } = require('./payments/controllers');
 
-const { createAddress, updateAddress } = require('./address/controllers');
+const { updateAddress } = require('./address/controllers');
 
 const { getAllComments } = require('./comments');
 const {
@@ -57,7 +61,6 @@ router.get('/', async (req, res) => {
 
     res.status(200).json({ requests: allRequests });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -68,7 +71,6 @@ router.get('/active', async (req, res) => {
     const resRequests = await Requests.findAllActive();
     res.status(200).json(resRequests);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -77,21 +79,19 @@ router.get('/active', async (req, res) => {
 //Updates to shape data should be done in model @ 'findForTable'
 router.get('/table', async (req, res) => {
   try {
-    const resRequests = await Requests.findForTable();
+    const resRequests = await Requests.findForTable(req.query);
     res.status(200).json(resRequests);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
 
-router.get('/find', async (req, res) => {
-  const filter = req.body;
+router.get('/reqOnly/:id', async (req, res) => {
+  const { id } = req.params;
   try {
-    const foundRequests = await Requests.findBy(filter);
-    res.status(200).json(foundRequests);
+    const foundRequest = await Requests.requestOnlyById(id);
+    res.status(200).json(foundRequest);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -122,7 +122,7 @@ router.put('/:id', requestStatusChange, async (req, res) => {
     const updatedRequest = await Requests.update(id, change);
     res.status(200).json(updatedRequest);
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 
@@ -137,7 +137,6 @@ router.delete('/:id', async (req, res) => {
       .status(200)
       .json({ message: `Requests with id: ${id} succesfully deleted` });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -148,7 +147,8 @@ router
   .route('/:id/documents')
   .all(validateRequestId)
   .post(createDocument)
-  .get(getAllDocuments);
+  .get(getAllDocuments)
+  .put(updateDocument);
 
 router.route('/:id/payments').all(validateRequestId).post(sendPayment);
 

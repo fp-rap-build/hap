@@ -14,6 +14,8 @@ import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 import GavelIcon from '@material-ui/icons/Gavel';
 import MailIcon from '@material-ui/icons/Mail';
 import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
+import ArchiveIcon from '@material-ui/icons/Archive';
+import WarningFilled from '@material-ui/icons/Warning';
 
 import { message, Modal } from 'antd';
 import { Mail } from '@material-ui/icons';
@@ -49,18 +51,28 @@ export default function RequestsTable() {
       lookup: {
         received: 'Received',
         inReview: 'In Review',
+        documentsNeeded: 'documentsNeeded',
+        verifyingDocuments: 'verifyingDocuments',
+        notResponding: 'Not Responding',
+        readyForReview: 'Ready For Review',
         approved: 'Approved',
         denied: 'Denied',
       },
     },
+
     { title: 'date', field: 'requestDate', type: 'date' },
   ]);
 
-  const fetchUsers = async () => {
+  const fetchRequests = async () => {
     setIsFetching(true);
     try {
       let requests = await axiosWithAuth()
-        .get('/requests/table')
+        .get('/requests/table', {
+          params: {
+            archived: false,
+            incomplete: false,
+          },
+        })
         .then(res => res.data);
 
       requests = requests.map(request => {
@@ -81,7 +93,7 @@ export default function RequestsTable() {
   };
 
   useEffect(() => {
-    fetchUsers();
+    fetchRequests();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -163,6 +175,54 @@ export default function RequestsTable() {
                     subscribeToRequest(rowData.id, setData, dispatch);
                   },
                 },
+          {
+            icon: ArchiveIcon,
+            tooltip: 'Archive',
+            onClick: async (event, rowData) => {
+              // Update the users request to be in review
+
+              try {
+                setData(requests =>
+                  requests.filter(request => {
+                    if (request.id !== rowData.id) return request;
+                  })
+                );
+
+                await axiosWithAuth().put(`/requests/${rowData.id}`, {
+                  archived: true,
+                });
+
+                message.success('Successfully archived request');
+              } catch (error) {
+                message.error('Unable to archive request');
+              }
+            },
+          },
+
+          {
+            icon: WarningFilled,
+            tooltip: 'Mark Incomplete',
+            onClick: async (event, rowData) => {
+              // Update the users request to be in review
+
+              try {
+                setData(requests =>
+                  requests.filter(request => {
+                    if (request.id !== rowData.id) return request;
+                  })
+                );
+
+                await axiosWithAuth().put(`/requests/${rowData.id}`, {
+                  incomplete: true,
+                });
+
+                message.success('Successfully marked request incomplete');
+              } catch (error) {
+                message.error('Unable to mark request as incomplete');
+              }
+            },
+          },
+
           // {
           //   icon: MailIcon,
           //   tooltip: 'Subscribe',

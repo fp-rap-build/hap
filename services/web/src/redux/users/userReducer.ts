@@ -1,5 +1,3 @@
-import { setCurrentUser } from './userActions';
-
 const INITIAL_STATE = {
   isLoggedIn: false,
   currentUser: {

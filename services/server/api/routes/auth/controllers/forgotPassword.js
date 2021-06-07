@@ -13,6 +13,7 @@ const forgotPassword = async (req, res, next) => {
     }
 
     let userId = user[0].id;
+    
     let userEmail = user[0].email;
 
     let passwordResetToken = await User.createPasswordResetToken(userId);
@@ -23,7 +24,6 @@ const forgotPassword = async (req, res, next) => {
 
     res.status(200).json({ message: 'Token sent to email!' });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 };

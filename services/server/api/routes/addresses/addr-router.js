@@ -13,7 +13,8 @@ const {
 } = require('./controllers');
 
 // Global middleware
-router.use(authRequired, restrictTo('admin'));
+// NEED MIDDLEWARE TO ADD SELF OPTION TO AUTH MIDDLEWARE
+router.use(authRequired);
 
 // Routes
 router.route('/').get(getAllAddresses).post(createAddress);

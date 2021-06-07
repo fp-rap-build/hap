@@ -23,7 +23,6 @@ exports.updateAddress = async (req, res) => {
 
     res.status(200).json({ address: address[0] });
   } catch (error) {
-    console.log(error);
     res.json('error');
   }
 };

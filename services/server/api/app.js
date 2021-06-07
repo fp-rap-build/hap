@@ -34,6 +34,7 @@ const analyticsRouter = require('./routes/analytics/analytics.router');
 const programsRouter = require('./routes/programs');
 const subscriptionsRouter = require('./routes/subscriptions');
 const notificationsRouter = require('./routes/notifications');
+const incomesRouter = require('./routes/incomes/incomes-router');
 
 const app = express();
 
@@ -74,6 +75,7 @@ app.use('/documents', authRequired, documentsRouter);
 app.use('/analytics', authRequired, analyticsRouter);
 app.use('/subscriptions', subscriptionsRouter);
 app.use('/notifications', notificationsRouter);
+app.use('/incomes', incomesRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

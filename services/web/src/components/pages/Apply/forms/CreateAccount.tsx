@@ -2,19 +2,39 @@ import React from 'react';
 
 import { useSelector } from 'react-redux';
 
+import FPTitle from '../FPTitle';
+
 import { Form, Input, Card, Typography, Divider } from 'antd';
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 export default function CreateAccount({ formValues, setFormValues }) {
   const errorMessage = useSelector(state => state.user.errorMessage);
   return (
     <div>
-      <Card title={<Title level={4}>Sign Up - Housing Assistance Portal Account</Title>}>
-        <Text type="secondary">
-          We will send you an email once your request has been reviewed! You can
-          also login to check your status.
-        </Text>
+      <Card
+        title={<FPTitle title="Sign Up - HAP Account" />}
+        headStyle={{ background: ' #472D5B' }}
+      >
+        <p>URGENT NOTICE: </p>
+        <br />
+        <p>
+          Creating a Housing Assistance Portal account does not submit a request
+          for assistance.
+        </p>
+
+        <br />
+        <p>
+          {' '}
+          Once you create your account, please begin uploading supporting
+          documents as directed on your user dashboard.{' '}
+        </p>
+        <p>
+          <br />
+          All documents must be submitted before the Housing Assistance Team can
+          begin processing your request for assistance.
+        </p>
+
         <Divider dashed />
         <Form.Item
           hasFeedback
@@ -74,21 +94,20 @@ export default function CreateAccount({ formValues, setFormValues }) {
           />
         </Form.Item>
         <Form.Item
-        initialValue={formValues.phoneNumber}
-        label="Phone number"
-        name="phoneNumber"
-        rules={[
-          {
-            type: 'string',
-            required: true,
-            message: 'Please enter a phone number',
-          },
-        ]}
-      >
-        <Input placeholder="(111)-111-1111" name="phoneNumber" />
-      </Form.Item>
+          initialValue={formValues.phoneNumber}
+          label="Phone number"
+          name="phoneNumber"
+          rules={[
+            {
+              type: 'string',
+              required: true,
+              message: 'Please enter a phone number',
+            },
+          ]}
+        >
+          <Input placeholder="(111)-111-1111" name="phoneNumber" />
+        </Form.Item>
 
-       
         <Form.Item
           hasFeedback
           initialValue={formValues.password}

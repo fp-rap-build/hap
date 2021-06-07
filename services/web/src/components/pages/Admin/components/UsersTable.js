@@ -7,39 +7,38 @@ import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
 export default function UsersTable() {
   const [isFetching, setIsFetching] = useState(false);
-  const [state, setState] = useState({
-    columns: [
-      { title: 'First', field: 'firstName' },
-      { title: 'Last ', field: 'lastName' },
-      { title: 'email', field: 'email', type: 'string', editable: 'never' },
-      {
-        title: 'Minors',
-        field: 'minorGuest',
-        type: 'string',
-        editable: 'never',
+
+  const [columns, setColumns] = useState([
+    { title: 'First', field: 'firstName' },
+    { title: 'Last ', field: 'lastName' },
+    { title: 'email', field: 'email', type: 'string', editable: 'never' },
+    {
+      title: 'Minors',
+      field: 'minorGuest',
+      type: 'string',
+      editable: 'never',
+    },
+    {
+      title: 'role',
+      field: 'role',
+      lookup: {
+        admin: 'admin',
+        programManager: 'program manager',
+        tenant: 'tenant',
+        landlord: 'landlord',
+        pending: 'pending',
       },
-      {
-        title: 'role',
-        field: 'role',
-        lookup: {
-          admin: 'admin',
-          programManager: 'program manager',
-          tenant: 'tenant',
-          landlord: 'landlord',
-          pending: 'pending',
-        },
-      },
-    ],
-    data: [],
-  });
+    },
+  ]);
+
+  const [data, setData] = useState([]);
 
   const fetchUsers = async () => {
     setIsFetching(true);
     try {
       let res = await axiosWithAuth().get('/users');
-      setState({ ...state, data: res.data });
+      setData(res.data);
     } catch (error) {
-      console.error(error);
       alert('error');
     } finally {
       setIsFetching(false);
@@ -69,15 +68,14 @@ export default function UsersTable() {
               resolve();
               // Set the state first to instantly update the table
 
-              setState({
-                ...state,
-                data: state.data.map(row => {
+              setData(
+                data.map(row => {
                   if (row.id === oldData.id) {
                     return newData;
                   }
                   return row;
-                }),
-              });
+                })
+              );
 
               // Persist those changes
 
@@ -91,11 +89,21 @@ export default function UsersTable() {
                 .put(`/users/${oldData.id}`, updatedUser)
                 .catch(err => alert('Failed to update user'));
             }),
+          onRowDelete: oldData =>
+            new Promise((resolve, reject) => {
+              axiosWithAuth()
+                .delete(`/users/${oldData.id}`)
+                .then(() => {
+                  setData(data.filter(row => row.id !== oldData.id));
+                })
+                .catch(err => alert('Unable to delete user'))
+                .finally(() => resolve());
+            }),
         }}
         icons={tableIcons}
         title="Users"
-        columns={state.columns}
-        data={state.data}
+        columns={columns}
+        data={data}
       />
     </>
   );
