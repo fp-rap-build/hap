@@ -11,8 +11,8 @@ const SelfDecModal = ({
   handleSelfDecAccept,
   selectedCategory,
   request,
-  setDocumentStatuses,
-  documentStatuses,
+  updateLocalStatuses,
+  tableData,
 }) => {
   const [checked, setChecked] = useState(false);
 
@@ -30,14 +30,11 @@ const SelfDecModal = ({
 
   const postSelfDecPlaceholder = async () => {
     try {
-      const newDoc = await axiosWithAuth()
+      await axiosWithAuth()
         .post('/documents', placeHolderDoc)
         .then(res => res.data);
 
-      setDocumentStatuses({
-        ...documentStatuses,
-        [selectedCategory]: 'optOut',
-      });
+      updateLocalStatuses(tableData, selectedCategory, 'optOut');
     } catch (error) {
       alert('Error saving self declaration');
     }

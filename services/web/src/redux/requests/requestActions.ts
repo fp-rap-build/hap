@@ -18,7 +18,11 @@ export const setDocuments = documents => {
   return { type: 'SET_DOCUMENTS', payload: documents };
 };
 
-export const fetchRequestAndAddr = () => async dispatch => {
+export const setDocumentStatuses = statuses => {
+  return { type: 'SET_DOCUMENT_STATUSES', payload: statuses };
+};
+
+export const setRequestAddressAndDocuments = () => async dispatch => {
   dispatch(setLoading(true));
   try {
     //Need current user to pull their requests
@@ -124,4 +128,21 @@ export const fetchDocuments = requestId => async dispatch => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const buildDocumentStatuses = documents => async dispatch => {
+  const statuses = {
+    residency: 'missing',
+    income: 'missing',
+    housingInstability: 'missing',
+    covid: 'missing',
+  };
+
+  if (documents) {
+    documents.forEach(doc => {
+      statuses[doc.category] = doc.status;
+    });
+  }
+
+  dispatch(setDocumentStatuses(statuses));
 };

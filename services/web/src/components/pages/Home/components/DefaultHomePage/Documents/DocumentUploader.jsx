@@ -1,6 +1,8 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import socket from '../../../../../../config/socket';
+
+import { buildDocumentStatuses } from '../../../../../../redux/requests/requestActions';
 
 import { InboxOutlined } from '@ant-design/icons';
 
@@ -12,9 +14,11 @@ const { Dragger } = Upload;
 const DocumentUploader = ({
   request,
   category,
-  setDocumentStatuses,
-  documentStatuses,
+  updateLocalStatuses,
+  tableData,
 }) => {
+  const dispatch = useDispatch();
+
   const token = localStorage.getItem('token');
 
   const currentUser = useSelector(state => state.user.currentUser);
@@ -38,7 +42,11 @@ const DocumentUploader = ({
         .then(res => res.data);
 
       //Update local state to reflect new category status
-      setDocumentStatuses({ ...documentStatuses, [category]: 'received' });
+      updateLocalStatuses(tableData, category, 'received');
+      //Update store
+      dispatch(buildDocumentStatuses(tableData));
+      // setDocumentStatuses({ ...documentStatuses, [category]: 'received' });
+      // const newStatuses = { ...documentStatuses, [category]: 'received' };
     } catch (error) {
       console.log('Error Updatind Doc');
     }
@@ -63,8 +71,10 @@ const DocumentUploader = ({
 
         message.success(`${info.file.name} file uploaded successfully.`);
 
-        //Update Document Status
+        //persist changes on data base
         updateDoc(info.file.name);
+        //persist changes on local state
+        //persist changes in store
       } else if (status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
       }

@@ -15,6 +15,7 @@ import GavelIcon from '@material-ui/icons/Gavel';
 import MailIcon from '@material-ui/icons/Mail';
 import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
 import ArchiveIcon from '@material-ui/icons/Archive';
+import WarningFilled from '@material-ui/icons/Warning';
 
 import { message, Modal } from 'antd';
 import { Mail } from '@material-ui/icons';
@@ -58,6 +59,7 @@ export default function RequestsTable() {
         denied: 'Denied',
       },
     },
+
     { title: 'date', field: 'requestDate', type: 'date' },
   ]);
 
@@ -68,6 +70,7 @@ export default function RequestsTable() {
         .get('/requests/table', {
           params: {
             archived: false,
+            incomplete: false,
           },
         })
         .then(res => res.data);
@@ -195,6 +198,31 @@ export default function RequestsTable() {
               }
             },
           },
+
+          {
+            icon: WarningFilled,
+            tooltip: 'Mark Incomplete',
+            onClick: async (event, rowData) => {
+              // Update the users request to be in review
+
+              try {
+                setData(requests =>
+                  requests.filter(request => {
+                    if (request.id !== rowData.id) return request;
+                  })
+                );
+
+                await axiosWithAuth().put(`/requests/${rowData.id}`, {
+                  incomplete: true,
+                });
+
+                message.success('Successfully marked request incomplete');
+              } catch (error) {
+                message.error('Unable to mark request as incomplete');
+              }
+            },
+          },
+
           // {
           //   icon: MailIcon,
           //   tooltip: 'Subscribe',

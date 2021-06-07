@@ -42,6 +42,9 @@ export const logOut = (history, orgId, subscriptions) => dispatch => {
   // Remove token from localStorage
   localStorage.removeItem('token');
 
+  //Remove redux persist from localStorage
+  localStorage.removeItem('persist:root');
+
   // Leave rooms
   socket.emit('leaveOrganization', { orgId });
 
@@ -140,6 +143,7 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
     white: requestValues.white,
     native: requestValues.native,
     demoNotSay: requestValues.demoNotSay,
+    incomplete: requestValues.incomplete,
     tenantEmail,
     tenantNumber,
     landlordName,

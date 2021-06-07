@@ -54,7 +54,10 @@ const Income = ({ requestData }) => {
       <div classname="userContentHeading">
         <Title level={4}>Income Information</Title>
         <Paragraph>
-          Please provide the amount of income you receive, how often you receive it, and the source of income.  Verification of your income will need to be completed prior to making a final decision on your request for assistance. 
+          Please provide the amount of income you receive, how often you receive
+          it, and the source of income. Verification of your income will need to
+          be completed prior to making a final decision on your request for
+          assistance.
         </Paragraph>
       </div>
       <Divider />

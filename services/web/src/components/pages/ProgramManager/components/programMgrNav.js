@@ -4,6 +4,7 @@ import {
   FolderOutlined,
   DownOutlined,
   LineChartOutlined,
+  WarningFilled,
 } from '@ant-design/icons';
 import { Menu, Dropdown, Button } from 'antd';
 
@@ -18,7 +19,10 @@ const AdminNav = props => {
         Manage Requests
       </Menu.Item>
       <Menu.Item key="archive" icon={<FolderOutlined />}>
-        Archive
+        Archived Requests
+      </Menu.Item>
+      <Menu.Item key="incomplete" icon={<WarningFilled />}>
+        Incomplete Requests
       </Menu.Item>
       <Menu.Item key="analytics" icon={<LineChartOutlined />}>
         Analytics
