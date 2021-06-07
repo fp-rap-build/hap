@@ -77,8 +77,6 @@ const DocumentsTable = ({ request }) => {
         let color = status === 'received' ? 'success' : 'error';
         let text = status === 'received' ? 'Received' : 'Missing';
 
-        console.log(status);
-
         if (status === 'optOut') {
           color = 'warning';
           text = 'Self Declaration';
