@@ -42,6 +42,9 @@ export const logOut = (history, orgId, subscriptions) => dispatch => {
   // Remove token from localStorage
   localStorage.removeItem('token');
 
+  //Remove redux persist from localStorage
+  localStorage.removeItem('persist:root');
+
   // Leave rooms
   socket.emit('leaveOrganization', { orgId });
 

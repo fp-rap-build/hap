@@ -26,7 +26,6 @@ export default function builtTableData(statuses) {
       blurb: 'Document showing hardships caused by COVID-19',
       status: statuses.covid ? statuses.covid : 'missing',
     },
-    // { category: 'other', title: 'Additional Documents', blurb: '' },
   ];
 
   return docDescriptions;
