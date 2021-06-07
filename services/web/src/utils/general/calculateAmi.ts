@@ -1,5 +1,5 @@
 const calculateAmi = monthlyIncome => {
-  let ami = Number(((monthlyIncome * 12) / 71700).toFixed(2)) * 100;
+  let ami = Number(((monthlyIncome * 12) / 71700) * 100).toFixed(2);
 
   return ami;
 };
