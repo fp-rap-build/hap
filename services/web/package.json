@@ -11,7 +11,7 @@
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
     "@okta/okta-react": "^3.0.10",
-    "@okta/okta-signin-widget": "^4.5.2",
+    "@okta/okta-signin-widget": "^5.7.1",
     "@types/jest": "^26.0.22",
     "@types/node": "^14.14.41",
     "@types/react": "^17.0.5",
