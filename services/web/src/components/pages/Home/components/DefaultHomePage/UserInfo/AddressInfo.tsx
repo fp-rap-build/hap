@@ -18,8 +18,8 @@ const AddressInfo = ({
         <div className="userContentHeading">
           <Title level={4}>Address Information: </Title>
           <Paragraph>
-            Start with your address;  We have pulled in your responses to the eligibility checker.  Please complete 
-            any missing portions. 
+            Start with your address; We have pulled in your responses to the
+            eligibility checker. Please complete any missing portions.
           </Paragraph>
         </div>
         <Divider />

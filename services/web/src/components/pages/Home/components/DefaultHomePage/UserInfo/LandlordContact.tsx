@@ -8,8 +8,10 @@ const LandlordContact = ({ requestData, handleRequestChange, disabled }) => {
       <div className="userContentHeading">
         <Title level={4}>Landlord Contact Information: </Title>
         <Paragraph>
-          Please enter any missing information about your Landlord (or Property Manager), also, be sure to correct any incorrect entries.  
-          Incorrect information here drastically increases the amount of time needed to process a request for assistance.  
+          Please enter any missing information about your Landlord (or Property
+          Manager), also, be sure to correct any incorrect entries. Incorrect
+          information here drastically increases the amount of time needed to
+          process a request for assistance.
         </Paragraph>
       </div>
       <Divider />
