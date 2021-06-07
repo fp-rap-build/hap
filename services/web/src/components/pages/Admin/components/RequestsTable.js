@@ -38,8 +38,6 @@ export default function RequestsTable() {
 
   const subscriptions = formatSubscriptions(currentUser.subscriptions);
 
-  // const [isOpen, setIsOpen] = useState(false);
-  // const [requestBeingReviewed, setRequestBeingReviewed] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
 
   const [data, setData] = useState([]);
@@ -59,7 +57,7 @@ export default function RequestsTable() {
       field: 'unEmp90',
     },
     {
-      title: 'POC',
+      title: 'BIPOC',
       field: 'poc',
     },
     {
