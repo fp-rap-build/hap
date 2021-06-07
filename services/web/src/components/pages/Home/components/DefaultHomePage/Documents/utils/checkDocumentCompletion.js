@@ -20,7 +20,7 @@ const checkDocumentCompletion = async (tableData, request) => {
       //verifyingDocuments
       await axiosWithAuth().put(`/requests/${request.id}`, {
         requestStatus: 'verifyingDocuments',
-        incomplete: 'false',
+        incomplete: false,
       });
     }
   } catch (error) {
