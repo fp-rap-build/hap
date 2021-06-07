@@ -26,6 +26,9 @@ import {
 } from '../../../../redux/users/userActions';
 
 import socket from '../../../../config/socket';
+import calculateAmi from '../../../../utils/general/calculateAmi';
+import sortRequests from '../utils/sortRequests';
+import doesHouseholdContainPoc from '../../../../utils/general/doesHouseholdContainPoc';
 
 export default function RequestsTable() {
   const history = useHistory();
@@ -33,10 +36,11 @@ export default function RequestsTable() {
 
   const currentUser = useSelector(state => state.user.currentUser);
 
+  const subscriptions = formatSubscriptions(currentUser.subscriptions);
+
   // const [isOpen, setIsOpen] = useState(false);
   // const [requestBeingReviewed, setRequestBeingReviewed] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
-
   const [data, setData] = useState([]);
   const [columns, setColumns] = useState([
     { title: 'First', field: 'firstName' },
@@ -44,6 +48,34 @@ export default function RequestsTable() {
     {
       title: 'email',
       field: 'email',
+    },
+    {
+      title: 'AMI',
+      field: 'ami',
+    },
+    {
+      title: 'unEmp90',
+      field: 'unEmp90',
+    },
+    {
+      title: 'BIPOC',
+      field: 'poc',
+    },
+    {
+      title: 'Amount',
+      field: 'amountRequested',
+    },
+    {
+      title: 'Address',
+      field: 'address',
+    },
+    {
+      title: 'City',
+      field: 'cityName',
+    },
+    {
+      title: 'LN',
+      field: 'landlordName',
     },
     {
       title: 'Request Status',
@@ -59,6 +91,7 @@ export default function RequestsTable() {
         denied: 'Denied',
       },
     },
+
     { title: 'date', field: 'requestDate', type: 'date' },
   ]);
 
@@ -73,7 +106,17 @@ export default function RequestsTable() {
         })
         .then(res => res.data);
 
-      setData(requests);
+      requests = requests.map(request => {
+        request['isSubscribed'] = request.id in subscriptions;
+        request['ami'] = calculateAmi(request.monthlyIncome);
+        request['poc'] = doesHouseholdContainPoc(request);
+
+        return request;
+      });
+
+      let sortedRequests = sortRequests(requests);
+
+      setData(sortedRequests);
     } catch (error) {
       console.error(error.response);
       alert('error');
@@ -224,4 +267,14 @@ const subscribeToRequest = async (requestId, setData, dispatch) => {
     console.log(error.response);
     message.error('Unable to subscribe to request');
   }
+};
+
+const formatSubscriptions = subscriptions => {
+  let result = {};
+
+  subscriptions.forEach(sub => {
+    result[sub.requestId] = true;
+  });
+
+  return result;
 };

@@ -3,7 +3,18 @@ const sortRequests = requests => {
     return a['ami'] - b['ami'];
   });
 
-  return sortedRequests;
+  let subscribed = [];
+  let unsubscribed = [];
+
+  sortedRequests.forEach(req => {
+    if (req.isSubscribed) {
+      subscribed.push(req);
+    } else {
+      unsubscribed.push(req);
+    }
+  });
+
+  return [...subscribed, ...unsubscribed];
 };
 
 export default sortRequests;
@@ -12,13 +23,5 @@ export default sortRequests;
 
 // let subscribed = [];
 // let unsubscribed = [];
-
-// requests.forEach(req => {
-//   if (req.isSubscribed) {
-//     subscribed.push(req);
-//   } else {
-//     unsubscribed.push(req);
-//   }
-// });
 
 // sortedRequests = [...subscribed, ...unsubscribed];
