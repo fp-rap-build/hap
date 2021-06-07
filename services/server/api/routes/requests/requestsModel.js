@@ -75,11 +75,8 @@ const findForTable = (params) => {
       'r.foodWrkr',
       'r.unEmp90',
       'r.orgId',
-<<<<<<< HEAD
       'r.landlordName',
-=======
       'r.incomplete',
->>>>>>> 6e073bea5b5802e9bc89deb0383a76d35fc4b188
       'a.address',
       'a.zipCode',
       'a.cityName',
