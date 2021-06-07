@@ -3,6 +3,7 @@ const INITIAL_STATE = {
   addressDetails: {},
   incomes: [],
   documents: [],
+  documentStatuses: {},
 };
 
 const requestReducer = (state = INITIAL_STATE, action) => {
@@ -15,6 +16,8 @@ const requestReducer = (state = INITIAL_STATE, action) => {
       return { ...state, incomes: action.payload };
     case 'SET_DOCUMENTS':
       return { ...state, documents: action.payload };
+    case 'SET_DOCUMENT_STATUSES':
+      return { ...state, documentStatuses: action.payload };
     default:
       return state;
   }

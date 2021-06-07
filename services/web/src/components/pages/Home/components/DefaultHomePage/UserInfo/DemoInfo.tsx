@@ -14,7 +14,9 @@ const DemoInfo = ({ requestData, handleRequestChange, disabled }) => {
         <div className="userContentHeading">
           <Title level={4}>Demographic Information: </Title>
           <Paragraph>
-            This demographic information does not affect your eligibility for services.  Please provide the race/ethnicity for members of your household.
+            This demographic information does not affect your eligibility for
+            services. Please provide the race/ethnicity for members of your
+            household.
           </Paragraph>
         </div>
         <Divider />

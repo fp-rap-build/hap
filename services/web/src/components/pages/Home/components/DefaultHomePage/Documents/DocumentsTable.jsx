@@ -1,14 +1,37 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-import buildTableData from './buildTableData';
+import { useSelector } from 'react-redux';
+
+import buildTableData from './utils/buildTableData';
+import checkDocumentCompletion from './utils/checkDocumentCompletion';
 
 import UploadDocModal from './modals/UploadDocModal';
 import SelfDecModal from './modals/SelfDecModal';
 
 import { Tag, Table, Button } from 'antd';
 
-const DocumentsTable = ({ documentStatuses, request, setDocumentStatuses }) => {
-  const tableData = buildTableData(documentStatuses);
+const DocumentsTable = ({ request }) => {
+  const storeStatuses = useSelector(state => state.requests.documentStatuses);
+
+  const [tableData, setTableData] = useState(buildTableData(storeStatuses));
+
+  const updateLocalStatuses = (tableData, inputCategory, newStatus) => {
+    const newTableData = tableData.map(documentRow => {
+      if (documentRow.category === inputCategory) {
+        console.log(documentRow);
+        return { ...documentRow, status: newStatus };
+      } else {
+        return documentRow;
+      }
+    });
+
+    console.log(newTableData);
+    setTableData(newTableData);
+  };
+
+  useEffect(() => {
+    checkDocumentCompletion(tableData, request);
+  }, [tableData]);
 
   const [uploadModalVisibility, setUploadModalVisibility] = useState(false);
   const [selfDecModalVisibility, setSelfDecModalVisibility] = useState(false);
@@ -109,10 +132,11 @@ const DocumentsTable = ({ documentStatuses, request, setDocumentStatuses }) => {
     handleCancel,
     selectedCategory,
     request,
-    setDocumentStatuses,
-    documentStatuses,
     handleSelfDecAccept,
     selfDecModalVisibility,
+    tableData,
+    setTableData,
+    updateLocalStatuses,
   };
 
   return (

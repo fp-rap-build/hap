@@ -9,8 +9,8 @@ const UploadDocModal = ({
   handleCancel,
   selectedCategory,
   request,
-  setDocumentStatuses,
-  documentStatuses,
+  tableData,
+  updateLocalStatuses,
 }) => {
   return (
     <>
@@ -24,8 +24,8 @@ const UploadDocModal = ({
         <DocumentUploader
           request={request}
           category={selectedCategory}
-          setDocumentStatuses={setDocumentStatuses}
-          documentStatuses={documentStatuses}
+          tableData={tableData}
+          updateLocalStatuses={updateLocalStatuses}
         />
       </Modal>
     </>

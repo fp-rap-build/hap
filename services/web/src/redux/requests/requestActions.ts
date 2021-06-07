@@ -1,5 +1,7 @@
 import { axiosWithAuth } from '../../api/axiosWithAuth';
 
+import { setLoading } from '../global/globalActions';
+
 export const setCurrentRequest = currentRequest => {
   return { type: 'SET_REQUEST', payload: currentRequest };
 };
@@ -16,38 +18,48 @@ export const setDocuments = documents => {
   return { type: 'SET_DOCUMENTS', payload: documents };
 };
 
-export const fetchRequestAndAddr = () => async dispatch => {
+export const setDocumentStatuses = statuses => {
+  return { type: 'SET_DOCUMENT_STATUSES', payload: statuses };
+};
+
+export const setRequestAddressAndDocuments = () => async dispatch => {
+  dispatch(setLoading(true));
   try {
     //Need current user to pull their requests
     let currentUser = await axiosWithAuth()
       .get('/users/me')
       .then(res => res.data.user);
 
-    const { id } = currentUser.requests[0];
+    if (currentUser.role === 'tenant' || currentUser.role === 'landlord') {
+      const { id } = currentUser.requests[0];
 
-    //Fetch request and dispatch
-    let request = await axiosWithAuth()
-      .get(`requests/reqOnly/${id}`)
-      .then(res => res.data);
+      //Fetch request and dispatch
+      let request = await axiosWithAuth()
+        .get(`requests/reqOnly/${id}`)
+        .then(res => res.data);
 
-    dispatch(setCurrentRequest(request));
+      dispatch(setCurrentRequest(request));
 
-    //Fetch address and dispatch
-    const { addressId } = request;
+      //Fetch address and dispatch
+      const { addressId } = request;
 
-    let address = await axiosWithAuth()
-      .get(`/addrs/${addressId}`)
-      .then(res => res.data);
+      let address = await axiosWithAuth()
+        .get(`/addrs/${addressId}`)
+        .then(res => res.data);
 
-    dispatch(setCurrentAddress(address));
+      dispatch(setCurrentAddress(address));
 
-    //Fetch Documents and dispatch
-    let documents = await axiosWithAuth()
-      .get(`/requests/${id}/documents`)
-      .then(res => res.data.documents);
-    dispatch(setDocuments(documents));
+      //Fetch Documents and dispatch
+      let documents = await axiosWithAuth()
+        .get(`/requests/${id}/documents`)
+        .then(res => res.data.documents);
+
+      dispatch(setDocuments(documents));
+    }
   } catch (error) {
     console.log(error);
+  } finally {
+    dispatch(setLoading(false));
   }
 };
 
@@ -116,4 +128,21 @@ export const fetchDocuments = requestId => async dispatch => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const buildDocumentStatuses = documents => async dispatch => {
+  const statuses = {
+    residency: 'missing',
+    income: 'missing',
+    housingInstability: 'missing',
+    covid: 'missing',
+  };
+
+  if (documents) {
+    documents.forEach(doc => {
+      statuses[doc.category] = doc.status;
+    });
+  }
+
+  dispatch(setDocumentStatuses(statuses));
 };
