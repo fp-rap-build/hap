@@ -28,7 +28,7 @@ const DocumentUploader = ({
 
   const currentUser = useSelector(state => state.user.currentUser);
 
-  const updateDoc = async name => {
+  const updateDoc = async docId => {
     //Persist Changes on BE
     try {
       //Find document
@@ -37,7 +37,7 @@ const DocumentUploader = ({
         .then(res => res.data.documents);
 
       let newDoc = docs.filter(doc => {
-        if (doc.name === name) return doc;
+        if (doc.id === docId) return doc;
       });
 
       // Update document category and status
@@ -53,15 +53,11 @@ const DocumentUploader = ({
       //Update local state to reflect new category status
       updateLocalStatuses(tableData, category, 'received');
 
-      // ********************************************
+      let updatedDocs = await axiosWithAuth()
+        .get(`/requests/${request.id}/documents`)
+        .then(res => res.data.documents);
 
-      // let updatedDocs = await axiosWithAuth()
-      //   .get(`/requests/${request.id}/documents`)
-      //   .then(res => res.data.documents);
-
-      //   dispatch(setDocuments(updatedDocs));
-
-      // ********************************************
+      dispatch(setDocuments(updatedDocs));
 
       dispatch(buildDocumentStatuses(tableData));
 
@@ -93,8 +89,10 @@ const DocumentUploader = ({
 
         message.success(`${info.file.name} file uploaded successfully.`);
 
+        let documentId = info.file.response.documents[0].id;
+
         //persist changes on data base
-        updateDoc(info.file.name);
+        updateDoc(documentId);
 
         //persist changes on local state
         //persist changes in store
