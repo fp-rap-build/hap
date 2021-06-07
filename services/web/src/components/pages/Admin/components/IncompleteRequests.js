@@ -12,9 +12,20 @@ import { tableIcons } from '../../../../utils/tableIcons';
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
 import CheckSquareFilled from '@material-ui/icons/CheckBoxOutlined';
+import GavelIcon from '@material-ui/icons/Gavel';
+import MailIcon from '@material-ui/icons/Mail';
+import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
+import ArchiveIcon from '@material-ui/icons/Archive';
 import UnarchiveIcon from '@material-ui/icons/Unarchive';
 
 import { message, Modal } from 'antd';
+
+import {
+  deleteSubscription,
+  addSubscription,
+} from '../../../../redux/users/userActions';
+
+import socket from '../../../../config/socket';
 
 export default function RequestsTable() {
   const history = useHistory();
@@ -100,6 +111,61 @@ export default function RequestsTable() {
         }}
         actions={[
           {
+            icon: GavelIcon,
+            tooltip: 'Review',
+            onClick: async (event, rowData) => {
+              // Update the users request to be in review
+
+              history.push(`/requests/${rowData.id}`);
+            },
+          },
+
+          rowData =>
+            rowData.isSubscribed
+              ? {
+                  icon: UnsubscribeIcon,
+                  tooltip: 'Unsubscribe',
+                  onClick: () => {
+                    Modal.confirm({
+                      title:
+                        'Are you sure you want to unsubscribe from this request?',
+                      content: 'You will stop receiving notifications',
+                      onOk: () => {
+                        setData(prevState =>
+                          prevState.filter(request => {
+                            if (request.id === rowData.id) {
+                              request['isSubscribed'] = false;
+                            }
+
+                            return request;
+                          })
+                        );
+
+                        let subscription = currentUser.subscriptions.find(
+                          sub => sub.requestId === rowData.id
+                        );
+
+                        axiosWithAuth()
+                          .delete(`/subscriptions/${subscription.id}`)
+                          .then(res => console.log(res.data))
+                          .catch(err =>
+                            message.error('Unable to unsubscribe from request')
+                          );
+
+                        socket.emit('leaveRequest', rowData.id);
+                        dispatch(deleteSubscription(subscription.id));
+                      },
+                    });
+                  },
+                }
+              : {
+                  icon: MailIcon,
+                  tooltip: 'Subscribe',
+                  onClick: (event, rowData) => {
+                    subscribeToRequest(rowData.id, setData, dispatch);
+                  },
+                },
+          {
             icon: CheckSquareFilled,
             tooltip: 'Mark Complete',
             onClick: async (event, rowData) => {
@@ -131,3 +197,31 @@ export default function RequestsTable() {
     </div>
   );
 }
+
+const subscribeToRequest = async (requestId, setData, dispatch) => {
+  try {
+    // Update table
+    setData(prevState =>
+      prevState.map(request => {
+        if (requestId === request.id) {
+          request['isSubscribed'] = true;
+        }
+        return request;
+      })
+    );
+
+    // Persist new subscription
+    let subscription = await axiosWithAuth()
+      .post('/subscriptions', { requestId })
+      .then(res => res.data.subscription);
+
+    // Join request to receive notifications
+    socket.emit('joinRequest', requestId);
+
+    // Lastly, update current users state
+    dispatch(addSubscription(subscription));
+  } catch (error) {
+    console.log(error.response);
+    message.error('Unable to subscribe to request');
+  }
+};
