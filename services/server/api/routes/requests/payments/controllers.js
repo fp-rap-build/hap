@@ -18,8 +18,11 @@ const sendPayment = async (req, res, next) => {
 
     const newBudget = program[0].budget - amount
 
+
+
     await Programs.findByIdAndUpdate(programId, { budget: newBudget })
 
+    
     res.status(201).json({ payment });
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });

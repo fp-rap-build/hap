@@ -18,14 +18,12 @@ const DocumentsTable = ({ request }) => {
   const updateLocalStatuses = (tableData, inputCategory, newStatus) => {
     const newTableData = tableData.map(documentRow => {
       if (documentRow.category === inputCategory) {
-        console.log(documentRow);
         return { ...documentRow, status: newStatus };
       } else {
         return documentRow;
       }
     });
 
-    console.log(newTableData);
     setTableData(newTableData);
   };
 
@@ -78,6 +76,8 @@ const DocumentsTable = ({ request }) => {
       render: (status, row, index) => {
         let color = status === 'received' ? 'success' : 'error';
         let text = status === 'received' ? 'Received' : 'Missing';
+
+        console.log(status);
 
         if (status === 'optOut') {
           color = 'warning';

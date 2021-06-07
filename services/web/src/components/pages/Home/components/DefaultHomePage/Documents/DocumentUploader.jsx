@@ -1,8 +1,13 @@
+import { useEffect } from 'react';
+
 import { useSelector, useDispatch } from 'react-redux';
 
 import socket from '../../../../../../config/socket';
 
-import { buildDocumentStatuses } from '../../../../../../redux/requests/requestActions';
+import {
+  buildDocumentStatuses,
+  setDocuments,
+} from '../../../../../../redux/requests/requestActions';
 
 import { InboxOutlined } from '@ant-design/icons';
 
@@ -27,28 +32,44 @@ const DocumentUploader = ({
     //Persist Changes on BE
     try {
       //Find document
-      const docs = await axiosWithAuth()
+      let docs = await axiosWithAuth()
         .get(`/requests/${request.id}/documents`)
         .then(res => res.data.documents);
 
-      const newDoc = docs.filter(doc => doc.name === name);
+      let newDoc = docs.filter(doc => {
+        if (doc.name === name) return doc;
+      });
+
       // Update document category and status
       newDoc[0].category = category;
       newDoc[0].status = 'received';
 
       //PUT Changes
+
       await axiosWithAuth()
         .put(`/documents/${newDoc[0].id}`, newDoc[0])
         .then(res => res.data);
 
       //Update local state to reflect new category status
       updateLocalStatuses(tableData, category, 'received');
-      //Update store
+
+      // ********************************************
+
+      // let updatedDocs = await axiosWithAuth()
+      //   .get(`/requests/${request.id}/documents`)
+      //   .then(res => res.data.documents);
+
+      //   dispatch(setDocuments(updatedDocs));
+
+      // ********************************************
+
       dispatch(buildDocumentStatuses(tableData));
+
       // setDocumentStatuses({ ...documentStatuses, [category]: 'received' });
       // const newStatuses = { ...documentStatuses, [category]: 'received' };
     } catch (error) {
-      console.log('Error Updatind Doc');
+      console.log(error);
+      console.log('Error Updating Doc');
     }
   };
 
@@ -62,6 +83,7 @@ const DocumentUploader = ({
     onChange(info) {
       //Emit Notifications
       const { status } = info.file;
+
       if (status === 'done') {
         socket.emit('requestChange', {
           requestId: request.id,
@@ -73,6 +95,7 @@ const DocumentUploader = ({
 
         //persist changes on data base
         updateDoc(info.file.name);
+
         //persist changes on local state
         //persist changes in store
       } else if (status === 'error') {
