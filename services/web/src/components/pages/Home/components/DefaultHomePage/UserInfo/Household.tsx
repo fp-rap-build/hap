@@ -1,8 +1,15 @@
-import { Typography, Divider, Form, Input } from 'antd';
+import { Typography, Divider, Form, Input, Select } from 'antd';
+
+const { Option } = Select;
 
 const { Title, Paragraph } = Typography;
 
-const Household = ({ requestData, handleRequestChange, disabled }) => {
+const Household = ({
+  requestData,
+  handleRequestChange,
+  handleNumOfChildrenChange,
+  disabled,
+}) => {
   return (
     <div className="householdInfo userInfoContent">
       <div className="userContentHeading">
@@ -41,22 +48,25 @@ const Household = ({ requestData, handleRequestChange, disabled }) => {
         <Form.Item
           name="totalChildren"
           initialValue={requestData.totalChildren}
-          label="Children in Household"
+          label="Number of Children in Household"
           required
           hasFeedback
           rules={[
             {
               required: true,
-              pattern: RegExp(/^([0-9][0-9]?)\s*$/),
-              message: 'Invalid number of children',
+              message: 'Number of children required',
             },
           ]}
         >
-          <Input
+          <Select
             disabled={disabled}
+            onChange={handleNumOfChildrenChange}
             style={{ width: '100%' }}
-            name="totalChildren"
-          />
+          >
+            {numChildrenArray.map(num => (
+              <Option value={num}>{num}</Option>
+            ))}
+          </Select>
         </Form.Item>
         <Form.Item
           hasFeedback
@@ -146,5 +156,7 @@ const Household = ({ requestData, handleRequestChange, disabled }) => {
     </div>
   );
 };
+
+const numChildrenArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 export default Household;

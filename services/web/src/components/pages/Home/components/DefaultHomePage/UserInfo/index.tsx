@@ -50,6 +50,10 @@ const UserInfo = () => {
     setAddressData({ ...addressData, state: value });
   };
 
+  const handleNumOfChildrenChange = value => {
+    setRequestData({ ...requestData, totalChildren: value });
+  };
+
   const handleRequestChange = e => {
     e.stopPropagation();
 
@@ -85,6 +89,7 @@ const UserInfo = () => {
     toggleDisabled,
     postAddress,
     postRequest,
+    handleNumOfChildrenChange,
   };
 
   return (
