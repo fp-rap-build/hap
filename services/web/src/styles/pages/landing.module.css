@@ -7,11 +7,11 @@
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  background-image: linear-gradient(to right bottom, #8d4982, #8d4982bb),
+  background-image: linear-gradient(to right bottom, #FFFAFA, #FFFAFAaa),
     url('../../assets/rentdue.png');
   background-size: cover;
   background-position: center;
-  color: #fff;
+  color: #f5f5dc;
 }
 
 .contentContainer {
@@ -25,7 +25,7 @@
 }
 
 .header * {
-  color: white;
+  color: #004477;
 }
 
 .header p {

@@ -21,20 +21,19 @@ export default function Index() {
         <div className={styles.contentContainer}>
           <h1>Are you in need of Housing Assistance?</h1>
           <p>
-            Many in our community owe back rent or are struggling to pay their
-            current housing expenses. The Housing Assistance Portal connects
-            landlords and tenants to community housing assistance resources for
-            which they qualify
+            
           </p>
           <Button onClick={redirectToRentalAssistanceForm}>
             Check Eligibility and Apply
           </Button>
-          <h5>
-            Already have an account?{' '}
-            <Link style={{ color: '#4faaff' }} to="/login">
+          <br />
+          <h5>Already have an account?{' '}</h5>
+          <Button>
+            
+            <Link style={{ color: '#FFFFFF' }} to="/login">
               Login to view your status
             </Link>
-          </h5>
+          </Button>
         </div>
         
       </header>

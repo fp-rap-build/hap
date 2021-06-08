@@ -15,7 +15,7 @@ export default function Watermark() {
         Powered by Family Promise of Spokane
       </a>
 
-      <br />
+    
 
       <p>Need Technical Help?  Email us at: <a href = "mailto: hap@fpspokane.org">HAP@fpspokane.org</a></p>
       
