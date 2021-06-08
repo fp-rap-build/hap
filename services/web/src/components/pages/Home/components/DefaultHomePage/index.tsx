@@ -13,6 +13,7 @@ import StatusBar from './StatusBar';
 import CommentsContainer from './CommentsContainer';
 import UserInfo from './UserInfo/index';
 import Documents from './Documents/index';
+import DevTest from '../DevTest';
 
 import {
   DesktopOutlined,
@@ -109,6 +110,13 @@ export default function Index() {
             >
               Request Status
             </Menu.Item>
+            <Menu.Item
+              key="devTest"
+              icon={<PieChartOutlined />}
+              onClick={onContentChange}
+            >
+              Dev Test
+            </Menu.Item>
           </Menu>
         </Sider>
         <Layout className="sidebar-content-container">
@@ -129,10 +137,13 @@ export default function Index() {
             {/* eslint-disable-next-line */}
             <a href="http://www.familypromiseofspokane.org/" target="_blank">
               Powered by Family Promise of Spokane
-            </a> 
-            <p>  &nbsp;&nbsp;  </p>
+            </a>
+            <p> &nbsp;&nbsp; </p>
             <br />
-            <p>Need Technical Help?  Email us at: <a href = "mailto: hap@fpspokane.org">HAP@fpspokane.org</a></p>
+            <p>
+              Need Technical Help? Email us at:{' '}
+              <a href="mailto: hap@fpspokane.org">HAP@fpspokane.org</a>
+            </p>
           </Footer>
         </Layout>
       </Layout>
@@ -150,5 +161,7 @@ const renderContent = props => {
       return <Documents {...props} />;
     case 'userInfo':
       return <UserInfo />;
+    case 'devTest':
+      return <DevTest />;
   }
 };
