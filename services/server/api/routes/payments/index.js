@@ -4,12 +4,12 @@ const router = express.Router();
 const restrictTo = require('../../middleware/restrictTo');
 
 // Controllers
-const {} = require('./controllers');
+const { findForTable } = require('./controllers');
 
 // Global middleware
 router.use(authRequired);
 
 // Routes
-router.route('/').get((req, res, next) => res.send('hello there'));
+router.route('/table').get(findForTable);
 
-module.exports = router
+module.exports = router;
