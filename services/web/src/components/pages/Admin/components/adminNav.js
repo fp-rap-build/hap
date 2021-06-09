@@ -37,7 +37,7 @@ const AdminNav = props => {
       <Menu.Item key="prgMgr" icon={<UserAddOutlined />}>
         Create new user
       </Menu.Item>
-      <Menu.Item key="payments" icon={<FolderOpenOutlined />}>
+      <Menu.Item key="payments" icon={<FolderOutlined />}>
         Payments
       </Menu.Item>
       <Menu.Item key="analytics" icon={<LineChartOutlined />}>

@@ -28,7 +28,7 @@ export default function PaymentsTable() {
       let res = await axiosWithAuth().get('/payments/table');
       setData(res.data.payments);
     } catch (error) {
-      alert('error');
+      alert('Unable to fetch payments');
     } finally {
       setIsFetching(false);
     }
