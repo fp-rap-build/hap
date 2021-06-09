@@ -9,6 +9,8 @@ const { findForTable } = require('./controllers');
 // Global middleware
 router.use(authRequired);
 
+router.use(restrictTo('admin'));
+
 // Routes
 router.route('/table').get(findForTable);
 
