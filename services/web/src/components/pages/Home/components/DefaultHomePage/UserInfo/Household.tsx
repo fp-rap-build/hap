@@ -1,4 +1,4 @@
-import { Typography, Divider, Form, Input, Select } from 'antd';
+import { Typography, Divider, Form, Input, Select, InputNumber } from 'antd';
 
 const { Option } = Select;
 
@@ -10,6 +10,10 @@ const Household = ({
   handleNumOfChildrenChange,
   disabled,
 }) => {
+  // const AgeInputs = ({ age }) => {
+  //   //build array from age
+  //   const numberOfAges = Array(age).fill(0).map((_, i) => i);
+  // };
   return (
     <div className="householdInfo userInfoContent">
       <div className="userContentHeading">
