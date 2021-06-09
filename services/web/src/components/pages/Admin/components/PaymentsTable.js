@@ -11,7 +11,7 @@ export default function PaymentsTable() {
   const [columns, setColumns] = useState([
     { title: 'First', field: 'firstName', editable: 'never' },
     { title: 'Last ', field: 'lastName', editable: 'never' },
-    { title: 'email', field: 'email', type: 'string', editable: 'never' },
+    { title: 'Email', field: 'email', type: 'string', editable: 'never' },
     {
       title: 'Amount',
       field: 'amount',
@@ -21,11 +21,11 @@ export default function PaymentsTable() {
 
   const [data, setData] = useState([]);
 
-  const fetchUsers = async () => {
+  const fetchPayments = async () => {
     setIsFetching(true);
     try {
-      let res = await axiosWithAuth().get('/users');
-      setData(res.data);
+      let res = await axiosWithAuth().get('/payments/table');
+      setData(res.data.payments);
     } catch (error) {
       alert('error');
     } finally {
@@ -34,7 +34,7 @@ export default function PaymentsTable() {
   };
 
   useEffect(() => {
-    fetchUsers();
+    fetchPayments();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -67,29 +67,17 @@ export default function PaymentsTable() {
 
               // Persist those changes
 
-              const updatedUser = {
-                firstName: newData.firstName,
-                lastName: newData.lastName,
-                role: newData.role,
+              const updatedPayment = {
+                amount: newData.amount,
               };
 
               axiosWithAuth()
-                .put(`/users/${oldData.id}`, updatedUser)
-                .catch(err => alert('Failed to update user'));
-            }),
-          onRowDelete: oldData =>
-            new Promise((resolve, reject) => {
-              axiosWithAuth()
-                .delete(`/users/${oldData.id}`)
-                .then(() => {
-                  setData(data.filter(row => row.id !== oldData.id));
-                })
-                .catch(err => alert('Unable to delete user'))
-                .finally(() => resolve());
+                .put(`/payments/${oldData.id}`, updatedPayment)
+                .catch(err => alert('Failed to update payment'));
             }),
         }}
         icons={tableIcons}
-        title="Users"
+        title="Payments"
         columns={columns}
         data={data}
       />

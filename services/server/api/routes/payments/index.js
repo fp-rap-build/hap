@@ -4,12 +4,15 @@ const router = express.Router();
 const restrictTo = require('../../middleware/restrictTo');
 
 // Controllers
-const { findForTable } = require('./controllers');
+const { findForTable, updatePayment } = require('./controllers');
+
 
 // Global middleware
 router.use(authRequired);
 
-router.use(restrictTo('admin'));
+router.use(restrictTo('admin', 'orgAdmin'));
+
+router.route('/:id').put(updatePayment);
 
 // Routes
 router.route('/table').get(findForTable);
