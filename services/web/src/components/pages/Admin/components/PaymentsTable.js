@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 import MaterialTable from '@material-table/core';
 
+import { ExportCsv, ExportPdf } from '@material-table/exporters';
+
 import { tableIcons } from '../../../../utils/tableIcons';
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 import { message } from 'antd';
@@ -45,7 +47,16 @@ export default function PaymentsTable() {
         isLoading={isFetching}
         options={{
           // Allows users to export the data as a CSV file
-          exportButton: true,
+          exportMenu: [
+            {
+              label: 'Export PDF',
+              exportFunc: (cols, datas) => ExportPdf(cols, datas, 'payments'),
+            },
+            {
+              label: 'Export CSV',
+              exportFunc: (cols, datas) => ExportCsv(cols, datas, 'payments'),
+            },
+          ],
         }}
         editable={{
           // Disable deleting and editing if the user is an Admin
