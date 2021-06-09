@@ -140,6 +140,29 @@ const ProgramSelection = ({ formValues }) => {
           <Col span={15}>
             <Paragraph strong={availablePrograms.VLP_EDP}>
               {' '}
+              Northwest Mediation Center : Eviction Resolution Program{' '}
+            </Paragraph>
+          </Col>
+          <Col span={1} />
+          <Col span={8}>
+            <Button
+              href={'https://www.nwmediationcenter.com/'}
+              target="_blank"
+              type="primary"
+              size="medium"
+              disabled={!availablePrograms.VLP_EDP}
+            >
+              {availablePrograms.VLP_EDP ? 'More Info' : 'Not Available'}
+            </Button>
+          </Col>
+        </Row>
+
+
+        <Divider />
+        <Row>
+          <Col span={15}>
+            <Paragraph strong={availablePrograms.VLP_EDP}>
+              {' '}
               Volunteer Lawyers Program : Eviction Defense Project{' '}
             </Paragraph>
           </Col>
@@ -156,6 +179,8 @@ const ProgramSelection = ({ formValues }) => {
             </Button>
           </Col>
         </Row>
+
+        
       </Card>
     </Spin>
   );
