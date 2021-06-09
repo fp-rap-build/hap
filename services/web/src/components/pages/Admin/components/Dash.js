@@ -10,6 +10,8 @@ import IncompleteRequests from './IncompleteRequests';
 import UsersTable from './UsersTable';
 import Analytics from './Analytics';
 import Notifications from './Notifications';
+import PaymentsTable from './PaymentsTable';
+
 import styles from '../../../../styles/pages/admin.module.css';
 
 import { Typography, Layout, Badge } from 'antd';
@@ -67,6 +69,7 @@ const Dash = () => {
         {activeComponent.current === 'notifications' && <Notifications />}
         {activeComponent.current === 'archive' && <ArchivedRequests />}
         {activeComponent.current === 'incomplete' && <IncompleteRequests />}
+        {activeComponent.current === 'payments' && <PaymentsTable />}
       </Content>
       <Footer className={styles.footer} />
     </Layout>
