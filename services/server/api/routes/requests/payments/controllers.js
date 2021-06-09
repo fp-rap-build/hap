@@ -19,9 +19,9 @@ const sendPayment = async (req, res, next) => {
 
     const program = await Programs.findById(programId);
 
-    console.log(program, 'program');
+    console.log(program);
 
-    const newBudget = program[0].budget - amount;
+    const newBudget = program.budget - amount;
 
     await Programs.findByIdAndUpdate(programId, { budget: newBudget });
 
