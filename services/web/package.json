@@ -23,7 +23,7 @@
     "emailjs-com": "^2.6.4",
     "eslint": "^7.25.0",
     "faker": "^5.5.3",
-    "framer-motion": "^4.1.16",
+    "framer-motion": "^4.1.17",
     "insert-css": "^2.0.0",
     "install": "^0.13.0",
     "material-table": "^1.69.3",
