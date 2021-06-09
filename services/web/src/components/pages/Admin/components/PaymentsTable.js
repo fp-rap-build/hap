@@ -4,6 +4,7 @@ import MaterialTable from '@material-table/core';
 
 import { tableIcons } from '../../../../utils/tableIcons';
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
+import { message } from 'antd';
 
 export default function PaymentsTable() {
   const [isFetching, setIsFetching] = useState(false);
@@ -54,6 +55,10 @@ export default function PaymentsTable() {
           onRowUpdate: (newData, oldData) =>
             new Promise((resolve, reject) => {
               resolve();
+
+              if (isNaN(newData.amount))
+                return message.error('Please input a valid number');
+
               // Set the state first to instantly update the table
 
               setData(

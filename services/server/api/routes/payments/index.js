@@ -6,7 +6,6 @@ const restrictTo = require('../../middleware/restrictTo');
 // Controllers
 const { findForTable, updatePayment } = require('./controllers');
 
-
 // Global middleware
 router.use(authRequired);
 
