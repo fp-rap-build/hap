@@ -16,6 +16,13 @@ export default function PaymentsTable() {
     { title: 'Last ', field: 'lastName', editable: 'never' },
     { title: 'Email', field: 'email', type: 'string', editable: 'never' },
     {
+      title: 'Program',
+      field: 'program',
+      type: 'string',
+      editable: 'never',
+    },
+
+    {
       title: 'Amount',
       field: 'amount',
       type: 'integer',
@@ -63,6 +70,16 @@ export default function PaymentsTable() {
 
           isDeletable: rowData => rowData.role !== 'admin',
           isEditable: rowData => rowData.role !== 'admin',
+          onRowDelete: oldData =>
+            new Promise((resolve, reject) => {
+              axiosWithAuth()
+                .delete(`/payments/${oldData.id}`)
+                .then(() => {
+                  setData(data.filter(row => row.id !== oldData.id));
+                })
+                .catch(err => message.error('Unable to delete request'))
+                .finally(() => resolve());
+            }),
           onRowUpdate: (newData, oldData) =>
             new Promise((resolve, reject) => {
               resolve();

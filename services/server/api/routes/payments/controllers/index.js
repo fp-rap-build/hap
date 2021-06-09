@@ -24,3 +24,15 @@ exports.updatePayment = async (req, res, next) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+exports.deletePayment = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    await Payments.findByIdAndDelete(id);
+
+    res.status(204).json({ message: 'Payment has been deleted' });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
