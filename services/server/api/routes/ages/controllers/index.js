@@ -35,3 +35,17 @@ exports.deleteById = async (req, res) => {
     res.status(500).json({ errorMessage: err });
   }
 };
+
+exports.updateById = (req, res) => {
+  const ages = req.body;
+
+  ages.forEach(async (age) => {
+    try {
+      await Ages.update(age.id, age)
+    } catch (err) {
+      res.status(500).json({ errorMessage: err });
+    }
+  });
+
+  res.status(200).json({message: 'Ages Updated'})
+};
