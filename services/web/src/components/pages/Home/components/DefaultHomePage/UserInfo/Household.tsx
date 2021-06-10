@@ -18,11 +18,7 @@ const Household = ({
   handleNumOfChildrenChange,
   disabled,
 }) => {
-  //Handeling Ages
-  //Depending on size may need to move to its own module
-
   const currentUser = useSelector(state => state.user.currentUser);
-  console.log(currentUser.id);
 
   const [childrensAges, setChildrensAges] = useState([]);
 
@@ -100,6 +96,7 @@ const Household = ({
     //eslint-disable-next-line
   }, []);
 
+  //One post request to API to change ages when user toggles edit
   useEffect(() => {
     if (disabled) {
       postAges(childrensAges);

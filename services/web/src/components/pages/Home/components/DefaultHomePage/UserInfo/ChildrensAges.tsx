@@ -34,7 +34,11 @@ const ChildrensAges = ({
         >
           Add Child
         </Button>
-        <Button disabled={disabled} onClick={removeChild}>
+        <Button
+          disabled={disabled}
+          onClick={removeChild}
+          style={childrensAges ? null : { display: 'none' }}
+        >
           Remove Child
         </Button>
       </div>
