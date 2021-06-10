@@ -4,8 +4,9 @@ import { useSelector } from 'react-redux';
 
 import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 
-import { Typography, Divider, Form, Input, Select, InputNumber } from 'antd';
-import { valueScaleCorrection } from 'framer-motion/types/render/dom/projection/scale-correction';
+import ChildrensAges from './ChildrensAges';
+
+import { Typography, Divider, Form, Input, Select } from 'antd';
 
 const { Option } = Select;
 
@@ -25,11 +26,6 @@ const Household = ({
 
   const [childrensAges, setChildrensAges] = useState([]);
 
-  //Pretty sure this is useless for our use case
-  const handleEnter = e => {
-    console.log(e);
-  };
-
   const handleAgeChange = id => value => {
     setChildrensAges(
       childrensAges.map(childAge => {
@@ -42,7 +38,6 @@ const Household = ({
     );
   };
 
-  //Fetch Ages (from current User)
   const fetchAges = async () => {
     try {
       const householdAges = await axiosWithAuth()
@@ -65,11 +60,37 @@ const Household = ({
   };
 
   const postAges = async childrensAges => {
-    console.log(childrensAges);
     try {
       await axiosWithAuth().put('/ages', childrensAges);
     } catch (error) {
       alert('error posting ages');
+      console.log(error);
+    }
+  };
+
+  const addChild = async () => {
+    try {
+      await axiosWithAuth().post('/ages', [
+        {
+          userId: currentUser.id,
+          role: 'child',
+        },
+      ]);
+      await fetchAges();
+    } catch (error) {
+      alert('error posting ages');
+      console.log(error);
+    }
+  };
+
+  const removeChild = async () => {
+    const { id } = childrensAges[childrensAges.length - 1];
+
+    try {
+      await axiosWithAuth().delete(`/ages/${id}`);
+      await fetchAges();
+    } catch (error) {
+      alert('error removing child');
       console.log(error);
     }
   };
@@ -85,31 +106,6 @@ const Household = ({
     }
     //eslint-disable-next-line
   }, [disabled]);
-
-  const ChildrensAges = () => {
-    return (
-      <div>
-        <div style={{ display: 'flex' }}>
-          {childrensAges.map(age => (
-            <div style={{ marginRight: '5%' }}>
-              <Form.Item label={'Child Age'}>
-                <Select
-                  disabled={disabled}
-                  value={age.age}
-                  onChange={handleAgeChange(age.id)}
-                  // style={{ width: '100%' }}
-                >
-                  {numChildrenArray.map(age => (
-                    <Option value={age}>{age}</Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
 
   return (
     <div className="householdInfo userInfoContent">
@@ -146,7 +142,7 @@ const Household = ({
             name="familySize"
           />
         </Form.Item>
-        <Form.Item
+        {/* <Form.Item
           name="totalChildren"
           initialValue={requestData.totalChildren}
           label="Number of Children in Household"
@@ -168,8 +164,14 @@ const Household = ({
               <Option value={num}>{num}</Option>
             ))}
           </Select>
-        </Form.Item>
-        <ChildrensAges />
+        </Form.Item> */}
+        <ChildrensAges
+          childrensAges={childrensAges}
+          disabled={disabled}
+          handleAgeChange={handleAgeChange}
+          addChild={addChild}
+          removeChild={removeChild}
+        />
         <Form.Item
           hasFeedback
           name="monthlyIncome"
@@ -260,27 +262,5 @@ const Household = ({
 };
 
 const numChildrenArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-const childresnAgesRange = [
-  0,
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8,
-  9,
-  10,
-  11,
-  12,
-  13,
-  14,
-  15,
-  16,
-  17,
-  18,
-];
 
 export default Household;
