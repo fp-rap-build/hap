@@ -8,17 +8,22 @@ const create = (age) => {
   return db('ages').insert(age).returning('*');
 };
 
-const findByRequestId = (reqId) => {
-  return db('ages').where('requestId', reqId).returning('*');
+const findByUserId = (userId) => {
+  return db('ages').where('userId', userId).returning('*');
 };
 
 const update = (id, age) => {
   return db('ages').where('id', id).update(age).returning('*');
 };
 
+const removeById = (id) => {
+  return db('ages').where('id', id).del();
+}
+
 module.exports = {
   findAll,
   create,
-  findByRequestId,
+  findByUserId,
   update,
+  removeById
 };
