@@ -1,8 +1,21 @@
 import { useState } from 'react';
 
-import { Typography, Button, Card, Modal, message } from 'antd';
+import {
+  Typography,
+  Button,
+  Card,
+  Modal,
+  message,
+  Tooltip,
+  Select,
+} from 'antd';
 
-import { DownloadOutlined, DeleteOutlined } from '@ant-design/icons';
+import {
+  DownloadOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  CheckOutlined,
+} from '@ant-design/icons';
 
 import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 
@@ -10,16 +23,18 @@ import styles from '../../../../../../styles/pages/request.module.css';
 
 const { Paragraph } = Typography;
 
+const { Option } = Select;
+
 const Document = ({ document, setDocuments }) => {
   const [docState, setDocState] = useState(document);
+  const [editing, setEditing] = useState(false);
 
-  const handleChange = value => {
-    if (docState.name === value) {
-      return;
-    }
-    const updateDocument = { ...document, name: value };
-    setDocState(updateDocument);
-    postNameChange(updateDocument);
+  const handleChange = (value, key) => {
+    console.log(key);
+  };
+
+  const handleCategoryChange = newCategory => {
+    setDocState({ ...docState, category: newCategory });
   };
 
   const handleDownload = () => window.open(docState.location, '_blank');
@@ -40,17 +55,19 @@ const Document = ({ document, setDocuments }) => {
     confirmDelete(deleteDocument);
   };
 
-  const postNameChange = async newDocument => {
+  const postDocChange = async () => {
+    setEditing(false);
+
     try {
       const res = await axiosWithAuth().put(
-        `documents/${newDocument.id}`,
-        newDocument
+        `documents/${docState.id}`,
+        docState
       );
 
       setDocuments(prevState =>
         prevState.map(doc => {
-          if (doc.id == newDocument.id) {
-            return newDocument;
+          if (doc.id == docState.id) {
+            return docState;
           }
           return doc;
         })
@@ -61,39 +78,75 @@ const Document = ({ document, setDocuments }) => {
     }
   };
 
+  const props = {
+    editing,
+    setEditing,
+    category: docState.category,
+    doc: docState,
+    handleChange,
+    handleCategoryChange,
+    postDocChange,
+  };
+
   return (
     <div className={styles.document}>
       <Card
-        title={docState.category}
+        title={<RenderCategory {...props} />}
         style={{ width: '100%' }}
+        extra={
+          <a>
+            <RenderEditIcon {...props} />
+          </a>
+        }
         actions={[
           <DownloadOutlined onClick={handleDownload} />,
           <DeleteOutlined onClick={handleDelete} />,
         ]}
       >
-        <Paragraph
-          editable={{ onChange: handleChange, tooltip: 'click to edit name' }}
-          style={{ paddingTop: '1%' }}
-        >
-          {docState.name}
-        </Paragraph>
+        <Tooltip title={docState.name}>{chopDocName(docState.name)}</Tooltip>
       </Card>
     </div>
   );
 };
 
-{
-  /* <a
-  href={document.location}
-  target="_blank"
-  rel="noopener noreferrer"
-  style={{ marginLeft: '2%' }}
->
-  <Button>
-    <DownloadOutlined /> Download
-  </Button>
-</a> */
-}
+const RenderCategory = ({ category, editing, doc, handleCategoryChange }) => {
+  if (editing) {
+    return (
+      <Select
+        defaultValue={doc.category}
+        key="category"
+        style={{ width: 160 }}
+        onChange={handleCategoryChange}
+      >
+        <Option value="residency">residency</Option>
+        <Option value="income">income</Option>
+        <Option value="housingInstability">housing</Option>
+        <Option value="covid">covid</Option>
+      </Select>
+    );
+  }
+
+  return category;
+};
+
+const RenderEditIcon = ({ editing, setEditing, postDocChange }) => {
+  if (editing) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+        <p onClick={() => setEditing(false)}>X</p>
+        <CheckOutlined onClick={postDocChange} />
+      </div>
+    );
+  }
+
+  return <EditOutlined onClick={() => setEditing(true)} />;
+};
+
+const chopDocName = docName => {
+  if (docName.length >= 30) return docName.slice(0, 30) + ' ..';
+
+  return docName;
+};
 
 const confirmDelete = handleDelete =>
   Modal.confirm({
