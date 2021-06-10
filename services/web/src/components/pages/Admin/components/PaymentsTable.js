@@ -21,7 +21,6 @@ export default function PaymentsTable() {
       type: 'string',
       editable: 'never',
     },
-
     {
       title: 'Amount',
       field: 'amount',
