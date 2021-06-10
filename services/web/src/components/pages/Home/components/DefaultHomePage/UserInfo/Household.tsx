@@ -1,4 +1,11 @@
+import { useState, useEffect } from 'react';
+
+import { useSelector } from 'react-redux';
+
+import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
+
 import { Typography, Divider, Form, Input, Select, InputNumber } from 'antd';
+import { valueScaleCorrection } from 'framer-motion/types/render/dom/projection/scale-correction';
 
 const { Option } = Select;
 
@@ -10,10 +17,79 @@ const Household = ({
   handleNumOfChildrenChange,
   disabled,
 }) => {
-  // const AgeInputs = ({ age }) => {
-  //   //build array from age
-  //   const numberOfAges = Array(age).fill(0).map((_, i) => i);
-  // };
+  //Handeling Ages
+  //Depending on size may need to move to its own module
+
+  const currentUser = useSelector(state => state.user.currentUser);
+
+  const [childrensAges, setChildrensAges] = useState([]);
+
+  //Pretty sure this is useless for our use case
+  const handleEnter = e => {
+    console.log(e);
+  };
+
+  const handleChange = id => value => {
+    setChildrensAges(
+      childrensAges.map(childAge => {
+        if (childAge.id === id) {
+          return { ...childAge, age: value };
+        } else {
+          return childAge;
+        }
+      })
+    );
+  };
+
+  //Fetch Ages (from current User)
+  const fetchAges = async () => {
+    try {
+      const householdAges = await axiosWithAuth()
+        .get(`/ages/user/${currentUser.id}`)
+        .then(res => res.data);
+
+      const builtChildrenAges = [];
+
+      householdAges.forEach(age => {
+        if (age.role === 'child') {
+          builtChildrenAges.push(age);
+        }
+      });
+
+      setChildrensAges(builtChildrenAges);
+    } catch (error) {
+      alert('error fetching ages');
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAges();
+    //eslint-disable-next-line
+  }, []);
+
+  const ChildrensAges = () => {
+    return (
+      <div>
+        <div style={{ display: 'flex' }}>
+          {childrensAges.map(age => (
+            <div style={{ marginRight: '5%' }}>
+              <Form.Item label={'Child Age'}>
+                <InputNumber
+                  disabled={disabled}
+                  defaultValue={age.age}
+                  max={18}
+                  onPressEnter={handleEnter}
+                  onChange={handleChange(age.id)}
+                />
+              </Form.Item>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="householdInfo userInfoContent">
       <div className="userContentHeading">
@@ -72,6 +148,7 @@ const Household = ({
             ))}
           </Select>
         </Form.Item>
+        <ChildrensAges />
         <Form.Item
           hasFeedback
           name="monthlyIncome"

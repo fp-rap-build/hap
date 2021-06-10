@@ -4,6 +4,7 @@ exports.createAge = (req, res) => {
   const ages = req.body;
   const returnAges = [];
   //Add middleware for array and real user id, and only one head of household
+  //Also self auth required
   ages.forEach(async (age) => {
     try {
       await Ages.create(age);
@@ -11,7 +12,7 @@ exports.createAge = (req, res) => {
       res.status(500).json({ errorMessage: err });
     }
   });
-  res.status(200).json({ returnAges });
+  res.status(200).json({ message: 'Ages Created' });
 };
 
 exports.getAgesByUserId = async (req, res) => {

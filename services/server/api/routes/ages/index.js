@@ -6,6 +6,7 @@ const { createAge, getAgesByUserId, deleteById } = require('./controllers');
 
 //Validators
 
+//Takes an array
 router.route('/').post(createAge);
 
 router.route('/:id').delete(deleteById);
