@@ -65,7 +65,7 @@ const Document = ({ document, setDocuments }) => {
     <div className={styles.document}>
       <Card
         title={docState.category}
-        style={{ width: 300 }}
+        style={{ width: '100%' }}
         actions={[
           <DownloadOutlined onClick={handleDownload} />,
           <DeleteOutlined onClick={handleDelete} />,
