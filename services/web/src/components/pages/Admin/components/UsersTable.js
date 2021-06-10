@@ -15,12 +15,8 @@ export default function UsersTable() {
     { title: 'First', field: 'firstName' },
     { title: 'Last ', field: 'lastName' },
     { title: 'email', field: 'email', type: 'string', editable: 'never' },
-    {
-      title: 'Minors',
-      field: 'minorGuest',
-      type: 'string',
-      editable: 'never',
-    },
+    
+    
     {
       title: 'role',
       field: 'role',
@@ -58,6 +54,9 @@ export default function UsersTable() {
       <MaterialTable
         isLoading={isFetching}
         options={{
+
+          pageSize: 10,
+          pageSizeOptions: [5, 10, 20, 30 ,50, 75, 100, 1000 ],
           // Allows users to export the data as a CSV file
           exportMenu: [
             {
