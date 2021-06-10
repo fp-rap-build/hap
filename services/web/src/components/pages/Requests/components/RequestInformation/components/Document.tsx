@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Typography, Button, Card } from 'antd';
+import { Typography, Button, Card, Modal, message } from 'antd';
 
 import { DownloadOutlined, DeleteOutlined } from '@ant-design/icons';
 
@@ -24,7 +24,21 @@ const Document = ({ document, setDocuments }) => {
 
   const handleDownload = () => window.open(docState.location, '_blank');
 
-  const handleDelete = () => alert('delete');
+  const handleDelete = () => {
+    const deleteDocument = async () => {
+      try {
+        await axiosWithAuth().delete(`/documents/${docState.id}`);
+
+        setDocuments(prevState =>
+          prevState.filter(doc => doc.id !== docState.id)
+        );
+      } catch (error) {
+        message.error('Unable to delete documents');
+      }
+    };
+
+    confirmDelete(deleteDocument);
+  };
 
   const postNameChange = async newDocument => {
     try {
@@ -80,4 +94,14 @@ const Document = ({ document, setDocuments }) => {
   </Button>
 </a> */
 }
+
+const confirmDelete = handleDelete =>
+  Modal.confirm({
+    title: 'Confirm',
+    content: 'Are you sure you want to delete this document?',
+    okText: 'Delete',
+    onOk: handleDelete,
+    cancelText: 'Cancel',
+  });
+
 export default Document;
