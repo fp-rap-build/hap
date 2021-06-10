@@ -78,12 +78,10 @@ app.use('/documents', authRequired, documentsRouter);
 app.use('/analytics', authRequired, analyticsRouter);
 app.use('/subscriptions', subscriptionsRouter);
 app.use('/notifications', notificationsRouter);
-app.use('/incomes', incomesRouter);
-<<<<<<< HEAD
+app.use('/incomes', incomesRouter)
 app.use('/ages', agesRouter);
-=======
 app.use('/payments', paymentsRouter);
->>>>>>> main
+
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

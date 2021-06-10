@@ -21,6 +21,7 @@ const Household = ({
   //Depending on size may need to move to its own module
 
   const currentUser = useSelector(state => state.user.currentUser);
+  console.log(currentUser.id);
 
   const [childrensAges, setChildrensAges] = useState([]);
 
@@ -29,7 +30,7 @@ const Household = ({
     console.log(e);
   };
 
-  const handleChange = id => value => {
+  const handleAgeChange = id => value => {
     setChildrensAges(
       childrensAges.map(childAge => {
         if (childAge.id === id) {
@@ -63,10 +64,27 @@ const Household = ({
     }
   };
 
+  const postAges = async childrensAges => {
+    console.log(childrensAges);
+    try {
+      await axiosWithAuth().put('/ages', childrensAges);
+    } catch (error) {
+      alert('error posting ages');
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchAges();
     //eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (disabled) {
+      postAges(childrensAges);
+    }
+    //eslint-disable-next-line
+  }, [disabled]);
 
   const ChildrensAges = () => {
     return (
@@ -75,13 +93,16 @@ const Household = ({
           {childrensAges.map(age => (
             <div style={{ marginRight: '5%' }}>
               <Form.Item label={'Child Age'}>
-                <InputNumber
+                <Select
                   disabled={disabled}
-                  defaultValue={age.age}
-                  max={18}
-                  onPressEnter={handleEnter}
-                  onChange={handleChange(age.id)}
-                />
+                  value={age.age}
+                  onChange={handleAgeChange(age.id)}
+                  // style={{ width: '100%' }}
+                >
+                  {numChildrenArray.map(age => (
+                    <Option value={age}>{age}</Option>
+                  ))}
+                </Select>
               </Form.Item>
             </div>
           ))}
@@ -239,5 +260,27 @@ const Household = ({
 };
 
 const numChildrenArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+const childresnAgesRange = [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+];
 
 export default Household;
