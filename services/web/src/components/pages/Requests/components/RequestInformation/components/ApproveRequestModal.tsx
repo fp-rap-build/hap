@@ -35,6 +35,8 @@ export default function ApproveRequestModal({
       amount: amountToSend,
     };
 
+    console.log(payment);
+
     try {
       await axiosWithAuth().post(`/requests/${request.id}/payments`, payment);
 

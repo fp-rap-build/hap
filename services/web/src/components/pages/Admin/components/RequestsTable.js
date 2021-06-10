@@ -6,6 +6,8 @@ import { useHistory } from 'react-router-dom';
 
 import MaterialTable from '@material-table/core';
 
+import { ExportCsv, ExportPdf } from '@material-table/exporters';
+
 import { tableIcons } from '../../../../utils/tableIcons';
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
@@ -136,8 +138,20 @@ export default function RequestsTable() {
         style={{ width: '100%' }}
         isLoading={isFetching}
         options={{
+          pageSize: 10,
+          pageSizeOptions: [5, 10, 20, 30, 50, 75, 100, 1000],
+
           // Allows users to export the data as a CSV file
-          exportButton: true,
+          exportMenu: [
+            {
+              label: 'Export PDF',
+              exportFunc: (cols, datas) => ExportPdf(cols, datas, 'requests'),
+            },
+            {
+              label: 'Export CSV',
+              exportFunc: (cols, datas) => ExportCsv(cols, datas, 'requests'),
+            },
+          ],
         }}
         editable={{
           isDeleteHidden: () => currentUser.role !== 'admin',
