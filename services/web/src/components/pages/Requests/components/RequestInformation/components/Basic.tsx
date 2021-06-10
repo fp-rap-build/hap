@@ -11,6 +11,9 @@ export default function Basic({ request, column = 2 }) {
         <a href={`mailto:${request.email}`}>{request.email}</a>
       </Descriptions.Item>
       <Descriptions.Item label="City">{request.cityName}</Descriptions.Item>
+      <Descriptions.Item label="Phone Number">
+        {request.tenantNumber}
+      </Descriptions.Item>
       <Descriptions.Item label="Role">{request.role}</Descriptions.Item>
       <Descriptions.Item label="Zip">{request.zipCode}</Descriptions.Item>
       <Descriptions.Item label="Organization">none</Descriptions.Item>
