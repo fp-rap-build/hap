@@ -24,6 +24,7 @@ export default function Index() {
 
   const [documents, setDocuments] = useState([]);
   const [programs, setPrograms] = useState([]);
+  const [ages, setAges] = useState([]);
 
   const { id } = useParams();
 
@@ -41,9 +42,14 @@ export default function Index() {
         `/orgs/${requestInfo.data.request.orgId}/programs`
       );
 
+      let ages = await axiosWithAuth().get(
+        `/ages/user/${requestInfo.data.request.userId}`
+      );
+
       setRequest(requestInfo.data.request);
       setDocuments(requestDocuments.data.documents);
       setPrograms(orgPrograms.data.programs);
+      setAges(ages.data);
     } catch (error) {
       message.error('Unable to fetch request');
     } finally {
@@ -89,6 +95,7 @@ export default function Index() {
         organizationId={organizationId}
         programs={programs}
         setPrograms={setPrograms}
+        ages={ages}
       />
       <DocumentUploader setDocuments={setDocuments} request={request} />
     </div>

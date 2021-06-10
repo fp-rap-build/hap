@@ -1,8 +1,11 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
+
+import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 
 import { Descriptions } from 'antd';
+import { AssignmentReturnSharp } from '@material-ui/icons';
 
-export default function Basic({ request, column = 2 }) {
+export default function Basic({ request, column = 2, ages }) {
   return (
     <Descriptions column={column}>
       <Descriptions.Item label="Name">{`${request.firstName} ${request.lastName}`}</Descriptions.Item>

@@ -20,6 +20,8 @@ const removeById = (id) => {
   return db('ages').where('id', id).del();
 }
 
+
+
 module.exports = {
   findAll,
   create,

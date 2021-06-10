@@ -6,7 +6,7 @@ const {
   createAge,
   getAgesByUserId,
   deleteById,
-  updateById,
+  updateById
 } = require('./controllers');
 
 //Validators
@@ -17,5 +17,7 @@ router.route('/').post(createAge).put(updateById);
 router.route('/:id').delete(deleteById);
 
 router.route('/user/:id').get(getAgesByUserId);
+
+
 
 module.exports = router;

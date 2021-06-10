@@ -49,6 +49,7 @@ export default function Index({
   organizationId,
   programs,
   setPrograms,
+  ages,
 }) {
   const currentUser = useSelector(state => state.user.currentUser);
 
@@ -171,6 +172,7 @@ export default function Index({
     request,
     documents,
     setDocuments,
+    ages,
   };
 
   const approveModalProps = {
