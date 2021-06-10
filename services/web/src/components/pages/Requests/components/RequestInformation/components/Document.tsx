@@ -8,6 +8,7 @@ import {
   message,
   Tooltip,
   Select,
+  Input,
 } from 'antd';
 
 import {
@@ -29,8 +30,8 @@ const Document = ({ document, setDocuments }) => {
   const [docState, setDocState] = useState(document);
   const [editing, setEditing] = useState(false);
 
-  const handleChange = (value, key) => {
-    console.log(key);
+  const handleNameChange = newName => {
+    setDocState({ ...docState, name: newName });
   };
 
   const handleCategoryChange = newCategory => {
@@ -83,7 +84,7 @@ const Document = ({ document, setDocuments }) => {
     setEditing,
     category: docState.category,
     doc: docState,
-    handleChange,
+    handleNameChange,
     handleCategoryChange,
     postDocChange,
   };
@@ -103,7 +104,7 @@ const Document = ({ document, setDocuments }) => {
           <DeleteOutlined onClick={handleDelete} />,
         ]}
       >
-        <Tooltip title={docState.name}>{chopDocName(docState.name)}</Tooltip>
+        <RenderName name={docState.name} {...props} />
       </Card>
     </div>
   );
@@ -127,6 +128,14 @@ const RenderCategory = ({ category, editing, doc, handleCategoryChange }) => {
   }
 
   return category;
+};
+
+const RenderName = ({ editing, name, handleNameChange }) => {
+  if (editing) {
+    return <Input value={name} onChange={handleNameChange} />;
+  }
+
+  return <Tooltip title={name}>{chopDocName(name)}</Tooltip>;
 };
 
 const RenderEditIcon = ({ editing, setEditing, postDocChange }) => {
