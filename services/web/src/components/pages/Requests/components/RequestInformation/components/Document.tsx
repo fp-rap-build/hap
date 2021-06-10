@@ -56,7 +56,7 @@ const Document = ({ document, setDocuments }) => {
         })
       );
     } catch (error) {
-      alert('Un-able to update document name');
+      alert('Unable to update document name');
       console.error(error);
     }
   };
