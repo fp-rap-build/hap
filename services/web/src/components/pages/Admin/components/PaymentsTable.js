@@ -27,6 +27,16 @@ export default function PaymentsTable() {
       field: 'amount',
       type: 'integer',
     },
+    {
+      title: 'Date Requested',
+      field: 'requestDate',
+      type: 'date',
+    },
+    {
+      title: 'Date Approved',
+      field: 'approveDate',
+      type: 'date',
+    },
   ]);
 
   const [data, setData] = useState([]);

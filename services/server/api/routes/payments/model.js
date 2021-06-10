@@ -11,7 +11,9 @@ exports.findForTable = () =>
       'u.lastName',
       'u.email',
       'pr.name as program',
-      'p.amount'
+      'p.amount',
+      'p.createdAt as approveDate',
+      'r.requestDate as requestDate'
     );
 
 exports.findById = (id) => db('payments').where({ id }).first();
