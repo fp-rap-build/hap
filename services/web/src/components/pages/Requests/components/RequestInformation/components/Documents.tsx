@@ -5,7 +5,6 @@ import Document from './Document';
 import { Select } from 'antd';
 
 import styles from '../../../../../../styles/pages/request.module.css';
-import { DvrOutlined } from '@material-ui/icons';
 
 const { Option } = Select;
 
@@ -27,11 +26,7 @@ export default function Documents({ documents, setDocuments }) {
       return setDocuments(originalDocuments);
     }
 
-    setDocuments(
-      originalDocuments.filter(doc => {
-        if (doc.category === category) return doc;
-      })
-    );
+    setDocuments(originalDocuments.filter(doc => doc.category === category));
   }, [category]);
 
   return (
@@ -44,7 +39,11 @@ export default function Documents({ documents, setDocuments }) {
 
 const ChangeCategoryButton = ({ handleChange }) => {
   return (
-    <Select defaultValue="all" style={{ width: 120 }} onChange={handleChange}>
+    <Select
+      defaultValue="all"
+      style={{ width: 120, marginBottom: '1rem' }}
+      onChange={handleChange}
+    >
       <Option value="all">All</Option>
       <Option value="residency">Residency</Option>
       <Option value="income">Income</Option>
