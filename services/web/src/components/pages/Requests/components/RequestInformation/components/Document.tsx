@@ -30,12 +30,18 @@ const Document = ({ document, setDocuments }) => {
   const [docState, setDocState] = useState(document);
   const [editing, setEditing] = useState(false);
 
-  const handleNameChange = newName => {
-    setDocState({ ...docState, name: newName });
+  const handleNameChange = e => {
+    setDocState({ ...docState, name: e.target.value });
   };
 
   const handleCategoryChange = newCategory => {
     setDocState({ ...docState, category: newCategory });
+  };
+
+  const handleCancel = () => {
+    setDocState(document);
+
+    setEditing(false);
   };
 
   const handleDownload = () => window.open(docState.location, '_blank');
@@ -86,6 +92,7 @@ const Document = ({ document, setDocuments }) => {
     doc: docState,
     handleNameChange,
     handleCategoryChange,
+    handleCancel,
     postDocChange,
   };
 
@@ -123,11 +130,12 @@ const RenderCategory = ({ category, editing, doc, handleCategoryChange }) => {
         <Option value="income">income</Option>
         <Option value="housingInstability">housing</Option>
         <Option value="covid">covid</Option>
+        <Option value="other">other</Option>
       </Select>
     );
   }
 
-  return category;
+  return doc.category;
 };
 
 const RenderName = ({ editing, name, handleNameChange }) => {
@@ -138,11 +146,16 @@ const RenderName = ({ editing, name, handleNameChange }) => {
   return <Tooltip title={name}>{chopDocName(name)}</Tooltip>;
 };
 
-const RenderEditIcon = ({ editing, setEditing, postDocChange }) => {
+const RenderEditIcon = ({
+  editing,
+  setEditing,
+  handleCancel,
+  postDocChange,
+}) => {
   if (editing) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-        <p onClick={() => setEditing(false)}>X</p>
+        <p onClick={handleCancel}>X</p>
         <CheckOutlined onClick={postDocChange} />
       </div>
     );
