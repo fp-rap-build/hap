@@ -10,26 +10,8 @@ const BasicInformation = ({ formValues, onRoleChange, onStateChange }) => {
   return (
     <div>
       <Card title={<CardTitle percentage={20} title="Basic Information" />}>
-        <Form.Item
-          hasFeedback
-          initialValue={formValues.role}
-          label="Are you a Landlord or Tenant?"
-          name="role"
-          rules={[{ required: true, message: 'required' }]}
-          extra={
-            formValues.role === 'landlord'
-              ? 'Please enter your own address information below'
-              : null
-          }
-        >
-          <Select
-            onChange={onRoleChange}
-            placeholder="Are you a Landlord or Tenant"
-          >
-            <Option value="tenant">Tenant</Option>
-            <Option value="landlord">Landlord</Option>
-          </Select>
-        </Form.Item>
+        
+       
         <Form.Item
           hasFeedback
           initialValue={formValues.state}

@@ -137,6 +137,7 @@ export default function RequestsTable() {
       <MaterialTable
         style={{ width: '100%' }}
         isLoading={isFetching}
+       
         options={{
           pageSize: 10,
           pageSizeOptions: [5, 10, 20, 30 ,50, 75, 100, 1000 ],
