@@ -70,8 +70,8 @@ const SecondaryContact = ({ formValues, onStateChange }) => {
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
           >
-            {states.map(state => (
-              <Option value={state}>{state}</Option>
+            {states.map(landlordState => (
+              <Option value={landlordState}>{landlordState}</Option>
             ))}
           </Select>
         </Form.Item>
