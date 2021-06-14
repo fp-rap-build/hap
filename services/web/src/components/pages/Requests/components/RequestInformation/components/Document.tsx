@@ -26,7 +26,7 @@ const { Paragraph } = Typography;
 
 const { Option } = Select;
 
-const Document = ({ document, setDocuments }) => {
+const Document = ({ document, setDocuments, setOriginalDocuments }) => {
   const [docState, setDocState] = useState(document);
   const [editing, setEditing] = useState(false);
 
@@ -54,6 +54,10 @@ const Document = ({ document, setDocuments }) => {
         setDocuments(prevState =>
           prevState.filter(doc => doc.id !== docState.id)
         );
+
+        setOriginalDocuments(prevState =>
+          prevState.filter(doc => doc.id !== docState.id)
+        );
       } catch (error) {
         message.error('Unable to delete documents');
       }
@@ -72,6 +76,15 @@ const Document = ({ document, setDocuments }) => {
       );
 
       setDocuments(prevState =>
+        prevState.map(doc => {
+          if (doc.id == docState.id) {
+            return docState;
+          }
+          return doc;
+        })
+      );
+
+      setOriginalDocuments(prevState =>
         prevState.map(doc => {
           if (doc.id == docState.id) {
             return docState;
@@ -126,6 +139,7 @@ const RenderCategory = ({ category, editing, doc, handleCategoryChange }) => {
         style={{ width: 160 }}
         onChange={handleCategoryChange}
       >
+        <Option value="childrenOrPregnancy">children</Option>
         <Option value="residency">residency</Option>
         <Option value="income">income</Option>
         <Option value="housingInstability">housing</Option>

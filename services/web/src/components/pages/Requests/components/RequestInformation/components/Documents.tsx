@@ -46,7 +46,7 @@ const ChangeCategoryButton = ({ handleChange }) => {
       onChange={handleChange}
     >
       <Option value="all">All</Option>
-      <Option value="childrenOrPregnancy">Children or Pregnancy</Option>
+      <Option value="childrenOrPregnancy">Children</Option>
       <Option value="residency">Residency</Option>
       <Option value="income">Income</Option>
       <Option value="housingInstability">Housing</Option>
@@ -56,11 +56,16 @@ const ChangeCategoryButton = ({ handleChange }) => {
   );
 };
 
-const RenderDocuments = ({ documents, setDocuments }) => {
+const RenderDocuments = ({ documents, setDocuments, setOriginalDocuments }) => {
   return (
     <div className={styles.documents}>
       {documents.map(d => (
-        <Document key={d.id} document={d} setDocuments={setDocuments} />
+        <Document
+          key={d.id}
+          document={d}
+          setDocuments={setDocuments}
+          setOriginalDocuments={setOriginalDocuments}
+        />
       ))}
     </div>
   );
