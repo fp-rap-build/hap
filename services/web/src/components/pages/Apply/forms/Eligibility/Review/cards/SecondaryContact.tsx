@@ -39,6 +39,21 @@ const LandlordContact = ({ formValues }) => (
     <Descriptions.Item label="Landlord Name">
       {formValues.landlordName}
     </Descriptions.Item>
+    <Descriptions.Item label="Landlord Address">
+      {formValues.landlordAddress}
+    </Descriptions.Item>
+    <Descriptions.Item label="Landlord Address Line Two">
+      {formValues.landlordAddress2}
+    </Descriptions.Item>
+    <Descriptions.Item label="Landlord City">
+      {formValues.landlordCity}
+    </Descriptions.Item>
+    <Descriptions.Item label="Landlord State">
+      {formValues.landlordState}
+    </Descriptions.Item>
+    <Descriptions.Item label="Landlord ZipCode">
+      {formValues.landlordZip}
+    </Descriptions.Item>
     <Descriptions.Item label="Landlord Email">
       {formValues.landlordEmail}
     </Descriptions.Item>
