@@ -19,7 +19,7 @@ export default function Index() {
     <div>
       <header className={styles.header}>
         <div className={styles.contentContainer}>
-          <h1>Are you in need of Housing Assistance?</h1>
+          <h1>Shnmoopty</h1>
           <p>
             
           </p>
