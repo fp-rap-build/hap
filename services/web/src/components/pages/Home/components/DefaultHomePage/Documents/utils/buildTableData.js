@@ -1,6 +1,14 @@
 export default function builtTableData(statuses) {
   const docDescriptions = [
     {
+      category: 'childrenOrPregnancy',
+      title: 'Proof of Children or Pregnancy',
+      blurb: 'Proof of Children or Pregnancy',
+      status: statuses.childrenOrPregnancy
+        ? statuses.childrenOrPregnancy
+        : 'missing',
+    },
+    {
       category: 'residency',
       title: 'Proof of Residency',
       blurb: 'Document that shows you currently reside within Spokane County.',

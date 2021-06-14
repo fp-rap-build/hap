@@ -102,10 +102,7 @@ const DocumentsTable = ({ request }) => {
       key: 'upload',
       render: (text, record) => (
         <>
-          <Button
-            disabled={record.status === 'received'}
-            onClick={() => showUploadModal(record)}
-          >
+          <Button onClick={() => showUploadModal(record)}>
             Upload Document
           </Button>
         </>
