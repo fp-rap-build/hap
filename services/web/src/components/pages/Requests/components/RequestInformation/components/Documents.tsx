@@ -17,6 +17,7 @@ export default function Documents({ documents, setDocuments }) {
   const props = {
     documents,
     setDocuments,
+    setOriginalDocuments,
     category,
     setCategory,
   };
@@ -45,6 +46,7 @@ const ChangeCategoryButton = ({ handleChange }) => {
       onChange={handleChange}
     >
       <Option value="all">All</Option>
+      <Option value="childrenOrPregnancy">Children or Pregnancy</Option>
       <Option value="residency">Residency</Option>
       <Option value="income">Income</Option>
       <Option value="housingInstability">Housing</Option>
