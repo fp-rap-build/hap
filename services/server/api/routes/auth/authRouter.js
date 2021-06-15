@@ -13,12 +13,9 @@ const {
 const {
   validateRegistration,
   validateLogin,
-  lowerCaseEmail,
 } = require('./validators');
 
 // Routes
-
-router.use(lowerCaseEmail);
 
 router.post('/login', validateLogin, loginUser);
 
