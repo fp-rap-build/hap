@@ -6,9 +6,11 @@ import { axiosWithAuth } from '../../../../../../../api/axiosWithAuth';
 
 import pandaDocUtils from '../utils/pandaDocUtils';
 
-import { Modal, Typography, Button, Checkbox } from 'antd';
 import { fetchDocuments } from '../../../../../../../redux/requests/requestActions';
+
+import { Modal, Typography, Button, Input } from 'antd';
 const { Paragraph, Title } = Typography;
+const { TextArea } = Input;
 
 const SelfDecModal = ({
   selfDecModalVisibility,
@@ -19,7 +21,7 @@ const SelfDecModal = ({
   updateLocalStatuses,
   tableData,
 }) => {
-  const [checked, setChecked] = useState(false);
+  const [documentView, setDocumentView] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -50,47 +52,10 @@ const SelfDecModal = ({
     }
   };
 
-  return (
-    <>
-      <Modal
-        title={<Title level={5}>Self-Declaration</Title>}
-        visible={selfDecModalVisibility}
-        bodyStyle={{ height: '20vh' }}
-        onCancel={handleCancel}
-        footer={[
-          <>
-            <Button
-              onClick={() => {
-                handleCancel();
-                setChecked(false);
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              disabled={!checked}
-              type="primary"
-              danger
-              onClick={() => {
-                // postSelfDecPlaceholder();
-                handleSelfDecAccept();
-                setChecked(false);
-              }}
-            >
-              Submit
-            </Button>
-          </>,
-        ]}
-      >
-        {/* <Paragraph>
-          By clicking below I am stating that I am unable to provide
-          documentation for category: {selectedCategory}. And that I am prepared
-          to provide a detailed explanation of my current status in lieu of
-          providing documentation.
-        </Paragraph>
-        <Checkbox checked={checked} onChange={() => setChecked(!checked)}>
-          I have read and understand the statement above
-        </Checkbox> */}
+  const ModalTextInput = () => {
+    return (
+      <div className="modalTextInput">
+        <TextArea allowClear={true}></TextArea>
         <Button
           onClick={async () => {
             const templateId = await pandaDocUtils.fetchTemplateId(
@@ -101,12 +66,64 @@ const SelfDecModal = ({
         >
           DEV fetchTemplateId
         </Button>
+      </div>
+    );
+  };
+
+  const PandaDocView = () => {
+    return (
+      <div className="documentContainer">
+        <iframe
+          title="Self Dec Embed"
+          src="https://app.pandadoc.com/s/t8K3iwT4ar7CMes4Sn9eFn"
+          style={{ height: '70vh', width: '60vw' }}
+        ></iframe>
+      </div>
+    );
+  };
+
+  const RenderContent = () => {
+    if (documentView) {
+      return <PandaDocView />;
+    }
+    return <ModalTextInput />;
+  };
+
+  return (
+    <>
+      <Modal
+        title={<Title level={5}>Self-Declaration</Title>}
+        visible={selfDecModalVisibility}
+        bodyStyle={documentView ? { width: '80vh' } : null}
+        onCancel={() => {
+          handleCancel();
+          setDocumentView(false);
+        }}
+        footer={[
+          <>
+            <Button
+              onClick={() => {
+                handleCancel();
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="primary"
+              danger
+              onClick={() => {
+                // postSelfDecPlaceholder();
+                // handleSelfDecAccept();
+                setDocumentView(true);
+              }}
+            >
+              Create Document
+            </Button>
+          </>,
+        ]}
+      >
+        <RenderContent />
       </Modal>
-      {/* <iframe
-            title="Self Dec Embed"
-            src="https://app.pandadoc.com/s/t8K3iwT4ar7CMes4Sn9eFn"
-            style={{ height: '70vh', width: '60vw' }}
-          ></iframe> */}
     </>
   );
 };
