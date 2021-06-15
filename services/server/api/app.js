@@ -9,6 +9,7 @@ const swaggerJSDoc = require('swagger-jsdoc');
 const dotenv = require('dotenv');
 const jsdocConfig = require('../config/jsdoc');
 const authRequired = require('./middleware/authRequired');
+const { lowerCaseEmail } = require('./routes/auth/validators');
 
 const config_result = dotenv.config();
 if (process.env.NODE_ENV != 'production' && config_result.error) {
@@ -52,6 +53,7 @@ app.use(
 );
 
 app.use(helmet());
+
 app.use(express.json());
 app.use(
   cors({
@@ -61,6 +63,9 @@ app.use(
 app.use(logger('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+// Lower case all email addresses passed through the hap
+app.use(lowerCaseEmail);
 
 // application routes
 app.use('/', indexRouter);
