@@ -6,7 +6,7 @@ import { Button, Input } from 'antd';
 
 const DevTest = () => {
   const [state, setState] = useState({
-    templateId: '',
+    templateId: 'K34yjNcgomWu9ANtTevtWo',
     document: {},
     //Placeholder so we don't keep blasting the API creating  the same doc
     createdDocumentId: 'aXiXyf3oz2SiFLVHTfHQJV',
@@ -14,7 +14,7 @@ const DevTest = () => {
   });
 
   const documentInfo = {
-    name: 'Self_Dec Test From App',
+    name: 'Self_Dec Test From Modal',
     template_uuid: state.templateId,
     recipients: [
       {

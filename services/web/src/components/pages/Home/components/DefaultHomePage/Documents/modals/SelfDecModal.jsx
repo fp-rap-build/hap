@@ -4,6 +4,8 @@ import { useDispatch } from 'react-redux';
 
 import { axiosWithAuth } from '../../../../../../../api/axiosWithAuth';
 
+import pandaDocUtils from '../utils/pandaDocUtils';
+
 import { Modal, Typography, Button, Checkbox } from 'antd';
 import { fetchDocuments } from '../../../../../../../redux/requests/requestActions';
 const { Paragraph, Title } = Typography;
@@ -70,7 +72,7 @@ const SelfDecModal = ({
               type="primary"
               danger
               onClick={() => {
-                postSelfDecPlaceholder();
+                // postSelfDecPlaceholder();
                 handleSelfDecAccept();
                 setChecked(false);
               }}
@@ -80,7 +82,7 @@ const SelfDecModal = ({
           </>,
         ]}
       >
-        <Paragraph>
+        {/* <Paragraph>
           By clicking below I am stating that I am unable to provide
           documentation for category: {selectedCategory}. And that I am prepared
           to provide a detailed explanation of my current status in lieu of
@@ -88,8 +90,23 @@ const SelfDecModal = ({
         </Paragraph>
         <Checkbox checked={checked} onChange={() => setChecked(!checked)}>
           I have read and understand the statement above
-        </Checkbox>
+        </Checkbox> */}
+        <Button
+          onClick={async () => {
+            const templateId = await pandaDocUtils.fetchTemplateId(
+              'self_declaration'
+            );
+            console.log(templateId.results[0].id);
+          }}
+        >
+          DEV fetchTemplateId
+        </Button>
       </Modal>
+      {/* <iframe
+            title="Self Dec Embed"
+            src="https://app.pandadoc.com/s/t8K3iwT4ar7CMes4Sn9eFn"
+            style={{ height: '70vh', width: '60vw' }}
+          ></iframe> */}
     </>
   );
 };
