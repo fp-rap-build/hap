@@ -8,8 +8,9 @@ const DevTest = () => {
   const [state, setState] = useState({
     templateId: '',
     document: {},
-    //Placeholder so we don't keep blasting the API with the same doc
+    //Placeholder so we don't keep blasting the API creating  the same doc
     createdDocumentId: 'aXiXyf3oz2SiFLVHTfHQJV',
+    sessionId: 'YxUqMx9uiEaYiPDoWRAgsF',
   });
 
   const documentInfo = {
@@ -65,19 +66,51 @@ const DevTest = () => {
     }
   };
 
+  //need to move document from draft status to sent
+  const sendDocument = async () => {
+    try {
+      await axiosForPanda().post(`/documents/${state.createdDocumentId}/send`, {
+        message: 'Hello! This document was sent from the PandaDoc API.',
+        subject: 'Please check this test API document from PandaDoc',
+        silent: true,
+      });
+    } catch (error) {
+      alert('Error sending document');
+      console.log(error);
+    }
+  };
+
+  const createDocumentLink = async () => {
+    try {
+      const sessionId = await axiosForPanda()
+        .post(`documents/${state.createdDocumentId}/session`, {
+          recipient: 'joseph.lasata@gmail.com',
+          lifetime: 9000,
+        })
+        .then(res => res.data);
+
+      console.log(sessionId);
+    } catch (error) {
+      alert('Error creating document link');
+      console.log(error);
+    }
+  };
+
   //New Document ID = aXiXyf3oz2SiFLVHTfHQJV
 
-  <Input></Input>;
+  let docLink = `https://app.pandadoc.com/s/${state.sessionId}`;
 
   return (
     <div>
       <Button onClick={fetchTemplateId}>Fetch Template Id</Button>
       <Button onClick={createDocument}>Create Document</Button>
-      {/* <iframe
+      <Button onClick={sendDocument}>Send Document</Button>
+      <Button onClick={createDocumentLink}>Create Session Id</Button>
+      <iframe
         title="Self Dec Embed"
-        src="https://app.pandadoc.com/s/VxhQmQcDjCtyMAEGdqRAGK"
+        src={docLink}
         style={{ height: '70vh', width: '60vw' }}
-      ></iframe> */}
+      ></iframe>
     </div>
   );
 };
