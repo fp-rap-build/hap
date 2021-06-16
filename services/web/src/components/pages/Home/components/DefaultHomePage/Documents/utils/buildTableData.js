@@ -1,9 +1,17 @@
 export default function builtTableData(statuses) {
   const docDescriptions = [
     {
+      category: 'childrenOrPregnancy',
+      title: 'Proof of Children/Minors or Pregnancy',
+      blurb: 'Proof of Children/Minors in the Household or Pregnancy',
+      status: statuses.childrenOrPregnancy
+        ? statuses.childrenOrPregnancy
+        : 'missing',
+    },
+    {
       category: 'residency',
-      title: 'Proof of Residency',
-      blurb: 'Document that shows you currently reside within Spokane County.',
+      title: 'Proof of Identity/Residency',
+      blurb: 'Document that shows proof of ID and/or that you currently reside within Spokane City.',
       status: statuses.residency ? statuses.residency : 'missing',
     },
     {
@@ -14,7 +22,7 @@ export default function builtTableData(statuses) {
     },
     {
       category: 'housingInstability',
-      title: 'Proof of Housing Status',
+      title: 'Proof of Rent Owed',
       blurb: 'Proof of risk of homelesssness or housing instability',
       status: statuses.housingInstability
         ? statuses.housingInstability

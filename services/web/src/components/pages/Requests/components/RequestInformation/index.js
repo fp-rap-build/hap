@@ -191,11 +191,11 @@ export default function Index({
 
       <Card
         className="site-page-header-responsive"
-        title={`Reviewing ${request.firstName} ${request.lastName}'s request`}
+        title={`Reviewing ${request.firstName} ${request.lastName}'s request; The Current Status is: ${request.requestStatus}`}
         tabList={tabListNoTitle}
         onTabChange={onTabChange}
         activeTabKey={tab}
-        style={{ minHeight: '450px', width: '100%' }}
+        style={{ minHeight: '550px', width: '100%' }}
         extra={[
           <TopActions
             handleReviewSubmit={props.handleReviewSubmit}

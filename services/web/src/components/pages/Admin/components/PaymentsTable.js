@@ -5,47 +5,55 @@ import MaterialTable from '@material-table/core';
 import { ExportCsv, ExportPdf } from '@material-table/exporters';
 
 import { tableIcons } from '../../../../utils/tableIcons';
-
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
+import { message } from 'antd';
 
-export default function UsersTable() {
+export default function PaymentsTable() {
   const [isFetching, setIsFetching] = useState(false);
 
   const [columns, setColumns] = useState([
-    { title: 'First', field: 'firstName' },
-    { title: 'Last ', field: 'lastName' },
-    { title: 'email', field: 'email', type: 'string', editable: 'never' },
-    
-    
+    { title: 'First', field: 'firstName', editable: 'never' },
+    { title: 'Last ', field: 'lastName', editable: 'never' },
+    { title: 'Email', field: 'email', type: 'string', editable: 'never' },
     {
-      title: 'role',
-      field: 'role',
-      lookup: {
-        admin: 'admin',
-        programManager: 'program manager',
-        tenant: 'tenant',
-        landlord: 'landlord',
-        pending: 'pending',
-      },
+      title: 'Program',
+      field: 'program',
+      type: 'string',
+      editable: 'never',
+    },
+    {
+      title: 'Amount',
+      field: 'amount',
+      type: 'integer',
+    },
+    {
+      title: 'Date Requested',
+      field: 'requestDate',
+      type: 'date',
+    },
+    {
+      title: 'Date Approved',
+      field: 'approveDate',
+      type: 'date',
     },
   ]);
 
   const [data, setData] = useState([]);
 
-  const fetchUsers = async () => {
+  const fetchPayments = async () => {
     setIsFetching(true);
     try {
-      let res = await axiosWithAuth().get('/users');
-      setData(res.data);
+      let res = await axiosWithAuth().get('/payments/table');
+      setData(res.data.payments);
     } catch (error) {
-      alert('error');
+      alert('Unable to fetch payments');
     } finally {
       setIsFetching(false);
     }
   };
 
   useEffect(() => {
-    fetchUsers();
+    fetchPayments();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -61,11 +69,11 @@ export default function UsersTable() {
           exportMenu: [
             {
               label: 'Export PDF',
-              exportFunc: (cols, datas) => ExportPdf(cols, datas, 'users'),
+              exportFunc: (cols, datas) => ExportPdf(cols, datas, 'payments'),
             },
             {
               label: 'Export CSV',
-              exportFunc: (cols, datas) => ExportCsv(cols, datas, 'users'),
+              exportFunc: (cols, datas) => ExportCsv(cols, datas, 'payments'),
             },
           ],
         }}
@@ -74,9 +82,23 @@ export default function UsersTable() {
 
           isDeletable: rowData => rowData.role !== 'admin',
           isEditable: rowData => rowData.role !== 'admin',
+          onRowDelete: oldData =>
+            new Promise((resolve, reject) => {
+              axiosWithAuth()
+                .delete(`/payments/${oldData.id}`)
+                .then(() => {
+                  setData(data.filter(row => row.id !== oldData.id));
+                })
+                .catch(err => message.error('Unable to delete request'))
+                .finally(() => resolve());
+            }),
           onRowUpdate: (newData, oldData) =>
             new Promise((resolve, reject) => {
               resolve();
+
+              if (isNaN(newData.amount))
+                return message.error('Please input a valid number');
+
               // Set the state first to instantly update the table
 
               setData(
@@ -90,29 +112,17 @@ export default function UsersTable() {
 
               // Persist those changes
 
-              const updatedUser = {
-                firstName: newData.firstName,
-                lastName: newData.lastName,
-                role: newData.role,
+              const updatedPayment = {
+                amount: newData.amount,
               };
 
               axiosWithAuth()
-                .put(`/users/${oldData.id}`, updatedUser)
-                .catch(err => alert('Failed to update user'));
-            }),
-          onRowDelete: oldData =>
-            new Promise((resolve, reject) => {
-              axiosWithAuth()
-                .delete(`/users/${oldData.id}`)
-                .then(() => {
-                  setData(data.filter(row => row.id !== oldData.id));
-                })
-                .catch(err => alert('Unable to delete user'))
-                .finally(() => resolve());
+                .put(`/payments/${oldData.id}`, updatedPayment)
+                .catch(err => alert('Failed to update payment'));
             }),
         }}
         icons={tableIcons}
-        title="Users"
+        title="Payments"
         columns={columns}
         data={data}
       />
