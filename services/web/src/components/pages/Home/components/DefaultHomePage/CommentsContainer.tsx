@@ -42,7 +42,7 @@ const CommentsContainer = ({ request }) => {
 
   return (
     <div className={styles.commentsWrapper}>
-      <Title level={4}> Request Comments: </Title>
+      <Title level={4}> Chat with Housing Assistance Team: </Title>
       <Comments
         request={request}
         comments={comments}
