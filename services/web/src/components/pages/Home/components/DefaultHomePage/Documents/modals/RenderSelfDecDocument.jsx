@@ -63,9 +63,9 @@ const RenderSelfDecDocument = ({ selectedCategory, userText }) => {
   //Build payload to build document from pandaDoc template
   const updateDocPayload = () => {
     DOCUMENT_SCHEMA.name = `${currentUser.lastName}_${selectedCategory}_self_declaration`;
-    DOCUMENT_SCHEMA.recipients.email = currentUser.email;
-    DOCUMENT_SCHEMA.recipients.first_name = currentUser.firstName;
-    DOCUMENT_SCHEMA.recipients.last_name = currentUser.lastName;
+    DOCUMENT_SCHEMA.recipients[0].email = currentUser.email;
+    DOCUMENT_SCHEMA.recipients[0].first_name = currentUser.firstName;
+    DOCUMENT_SCHEMA.recipients[0].last_name = currentUser.lastName;
 
     switch (selectedCategory) {
       case 'income':
@@ -87,12 +87,17 @@ const RenderSelfDecDocument = ({ selectedCategory, userText }) => {
       default:
         console.log('Invalid category');
     }
+
+    console.log(DOCUMENT_SCHEMA);
   };
 
   const createDocument = async () => {
     try {
       //create a draft document
       const document = await pandaUtils.createDocument(DOCUMENT_SCHEMA);
+      //ISSUE - Document is still in uploaded status - has not been moved to draft
+      //Cannot send doc until it is a draft - look for a work around
+      //We could also look for the document - if it's status isn't good, call it back again
       //set document to sent - aka ready to be edited
       await pandaUtils.sendDocument(document.id);
       //create document link - may run into issue if document status hasn't been updated yet

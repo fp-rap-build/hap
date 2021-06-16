@@ -79,7 +79,7 @@ const SelfDecModal = ({
     return documentView ? (
       <RenderSelfDecDocument
         selectedCategory={selectedCategory}
-        userText={''}
+        userText={userText}
       />
     ) : (
       <ModalTextInput />
