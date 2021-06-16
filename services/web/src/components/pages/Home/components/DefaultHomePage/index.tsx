@@ -100,7 +100,7 @@ export default function Index() {
               icon={<DesktopOutlined />}
               onClick={onContentChange}
             >
-              Comments
+              Chat with us!
             </Menu.Item>
             <Menu.Item
               key="status"
@@ -133,6 +133,8 @@ export default function Index() {
             <p>  &nbsp;&nbsp;  </p>
             <br />
             <p>Need Technical Help?  Email us at: <a href = "mailto: hap@fpspokane.org">HAP@fpspokane.org</a></p>
+            <br />
+            <p>Please direct questions about your request to the Housing Assistance Team by navigating to "Chat with us"</p>
           </Footer>
         </Layout>
       </Layout>
