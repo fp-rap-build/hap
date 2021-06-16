@@ -1,14 +1,16 @@
 import { useState } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { axiosWithAuth } from '../../../../../../../api/axiosWithAuth';
+
+import RenderSelfDecDocument from './RenderSelfDecDocument';
 
 import pandaDocUtils from '../utils/pandaDocUtils';
 
 import { fetchDocuments } from '../../../../../../../redux/requests/requestActions';
 
-import { Modal, Typography, Button, Input } from 'antd';
+import { Modal, Typography, Button, Input, Form } from 'antd';
 const { Paragraph, Title } = Typography;
 const { TextArea } = Input;
 
@@ -21,12 +23,21 @@ const SelfDecModal = ({
   updateLocalStatuses,
   tableData,
 }) => {
-  const [documentView, setDocumentView] = useState(false);
-
+  const currentUser = useSelector(state => state.user.currentUser);
+  //DEV DELETE AT PUSH
+  console.log(request);
+  console.log(currentUser);
+  //--------------------------
   const dispatch = useDispatch();
-
   const fetchUserDocuments = () => dispatch(fetchDocuments(request.id));
 
+  const [documentView, setDocumentView] = useState(false);
+  const [userText, setUserText] = useState({ text: '' });
+
+  const handleTextChange = e => {
+    e.stopPropagation();
+    setUserText({ ...userText, text: e.target.value });
+  };
   //Adding place holder doc now as confirmation the user completed this process.
   //Will be replaced with PDF via panda Doc
   const placeHolderDoc = {
@@ -55,38 +66,24 @@ const SelfDecModal = ({
   const ModalTextInput = () => {
     return (
       <div className="modalTextInput">
-        <TextArea allowClear={true}></TextArea>
-        <Button
-          onClick={async () => {
-            const templateId = await pandaDocUtils.fetchTemplateId(
-              'self_declaration'
-            );
-            console.log(templateId.results[0].id);
-          }}
-        >
-          DEV fetchTemplateId
-        </Button>
-      </div>
-    );
-  };
-
-  const PandaDocView = () => {
-    return (
-      <div className="documentContainer">
-        <iframe
-          title="Self Dec Embed"
-          src="https://app.pandadoc.com/s/t8K3iwT4ar7CMes4Sn9eFn"
-          style={{ height: '70vh', width: '60vw' }}
-        ></iframe>
+        <Form>
+          <Form.Item>
+            <Input rows={5} onChange={handleTextChange} value={userText.text} />
+          </Form.Item>
+        </Form>
       </div>
     );
   };
 
   const RenderContent = () => {
-    if (documentView) {
-      return <PandaDocView />;
-    }
-    return <ModalTextInput />;
+    return documentView ? (
+      <RenderSelfDecDocument
+        selectedCategory={selectedCategory}
+        userText={''}
+      />
+    ) : (
+      <ModalTextInput />
+    );
   };
 
   return (
@@ -94,7 +91,7 @@ const SelfDecModal = ({
       <Modal
         title={<Title level={5}>Self-Declaration</Title>}
         visible={selfDecModalVisibility}
-        bodyStyle={documentView ? { width: '80vh' } : null}
+        width={documentView ? '60vw' : 520}
         onCancel={() => {
           handleCancel();
           setDocumentView(false);
@@ -122,7 +119,9 @@ const SelfDecModal = ({
           </>,
         ]}
       >
-        <RenderContent />
+        <div className="modalTextInput">
+          <RenderContent />
+        </div>
       </Modal>
     </>
   );

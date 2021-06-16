@@ -20,7 +20,9 @@ const pandaUtils = {
   //Takes built out document info
   createDocument: async documentInfo => {
     try {
-      const document = await axiosForPanda().post('/documents', documentInfo);
+      const document = await axiosForPanda()
+        .post('/documents', documentInfo)
+        .then(res => res.data);
       // setState({ ...state, document: document });
       return document;
     } catch (error) {
