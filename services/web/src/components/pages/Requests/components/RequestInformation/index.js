@@ -20,15 +20,30 @@ import { Card, message, Modal } from 'antd';
 import { axiosWithAuth } from '../../../../../api/axiosWithAuth';
 
 import socket from '../../../../../config/socket';
+import Address from './components/Address';
+import Household from './components/Household';
+import Demographics from './components/Demographics';
 
 const tabListNoTitle = [
   {
-    key: 'basic',
-    tab: 'Basic',
+    key: 'user',
+    tab: 'User',
+  },
+  {
+    key: 'address',
+    tab: 'Address',
+  },
+  {
+    key: 'household',
+    tab: 'Household',
+  },
+  {
+    key: 'demographics',
+    tab: 'Demographics',
   },
   {
     key: 'contact',
-    tab: 'Landlord Contact',
+    tab: 'Landlord',
   },
   {
     key: 'documents',
@@ -170,6 +185,7 @@ export default function Index({
     handleReviewSubmit,
     handleCheckboxChange,
     request,
+    setRequest,
     documents,
     setDocuments,
     ages,
@@ -223,10 +239,20 @@ export default function Index({
 
 const renderContent = props => {
   switch (props.tab) {
-    case 'basic':
-      return <Basic request={props.request} ages={props.ages} />;
+    case 'user':
+      return <Basic request={props.request} setRequest={props.setRequest} />;
+    case 'address':
+      return <Address request={props.request} setRequest={props.setRequest} />;
+    case 'household':
+      return (
+        <Household request={props.request} setRequest={props.setRequest} />
+      );
+    case 'demographics':
+      return (
+        <Demographics request={props.request} setRequest={props.setRequest} />
+      );
     case 'contact':
-      return <Contact request={props.request} />;
+      return <Contact request={props.request} setRequest={props.setRequest} />;
     case 'checklist':
       return (
         <Checklist
@@ -244,7 +270,7 @@ const renderContent = props => {
     case 'comments':
       return <CommentsContainer request={props.request} />;
     default:
-      return <Basic request={props.request} />;
+      return <Basic request={props.request} setRequest={props.setRequest} />;
   }
 };
 

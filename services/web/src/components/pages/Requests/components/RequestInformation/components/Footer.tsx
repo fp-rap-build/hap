@@ -15,15 +15,6 @@ export default function Footer({ request }) {
     >
       <Statistic title="Status" value={request.requestStatus} />
 
-      <Statistic title="Residents" value={request.familySize} />
-      <Statistic title="Number of Children" value={request.totalChildren} />
-
-      <Statistic
-        title="Monthly Income"
-        prefix="$"
-        value={request.monthlyIncome}
-      />
-      <Statistic title="Monthly Rent" prefix="$" value={request.monthlyRent} />
       <Statistic
         title="AMI"
         suffix="%"
@@ -31,13 +22,8 @@ export default function Footer({ request }) {
       />
 
       <Statistic
-        title="Amount Requested"
-        prefix="$"
-        value={request.amountRequested}
-      />
-      <Statistic
-        title="Completed by Advocate?"
-        value={request.advocate ? 'Yes' : 'No'}
+        title="Unemployed 90+"
+        value={request.unEmp90 ? 'Yes' : 'No'}
       />
     </div>
   );
