@@ -68,6 +68,28 @@ const Household = ({
             ))}
           </Select>
         </Form.Item>
+
+       
+      
+        <Form.Item
+          initialValue={requestData.childrenAges}
+          label="Children Ages"
+          name="childrenAges"
+          rules={[
+            {
+              type: 'string',
+              required: true,
+              message: 'Please enter the ages of any children in the household, separated by commas.',
+            },
+          ]}
+        >
+          <Input
+            name="childrenAges"
+            value={requestData.childrenAges}
+            disabled={disabled}
+          />
+        </Form.Item>
+
         <Form.Item
           hasFeedback
           name="monthlyIncome"
