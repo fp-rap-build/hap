@@ -28,7 +28,7 @@ export default function Index() {
 
   const { id } = useParams();
 
-  const setRequestAddressAndDocuments = async () => {
+  const setRequestAddressAgesAndDocuments = async () => {
     setLoading(true);
 
     try {
@@ -42,14 +42,14 @@ export default function Index() {
         `/orgs/${requestInfo.data.request.orgId}/programs`
       );
 
-      let ages = await axiosWithAuth().get(
+      let receivedAges = await axiosWithAuth().get(
         `/ages/user/${requestInfo.data.request.userId}`
       );
 
+      setAges(receivedAges.data);
       setRequest(requestInfo.data.request);
       setDocuments(requestDocuments.data.documents);
       setPrograms(orgPrograms.data.programs);
-      setAges(ages.data);
     } catch (error) {
       message.error('Unable to fetch request');
     } finally {
@@ -72,7 +72,7 @@ export default function Index() {
   };
 
   useEffect(() => {
-    setRequestAddressAndDocuments();
+    setRequestAddressAgesAndDocuments();
     // eslint-disable-next-line
   }, []);
 

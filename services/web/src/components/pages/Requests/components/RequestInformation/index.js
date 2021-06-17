@@ -53,6 +53,8 @@ export default function Index({
 }) {
   const currentUser = useSelector(state => state.user.currentUser);
 
+  console.log(ages);
+
   const [loading, setLoading] = useState(false);
   //eslint-disable-next-line
   const [tab, setTab] = useState('basic');
@@ -224,7 +226,7 @@ export default function Index({
 const renderContent = props => {
   switch (props.tab) {
     case 'basic':
-      return <Basic request={props.request} />;
+      return <Basic request={props.request} ages={props.ages} />;
     case 'contact':
       return <Contact request={props.request} />;
     case 'checklist':

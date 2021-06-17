@@ -1,13 +1,16 @@
-import { useEffect, useState } from 'react';
-
-import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
-
 import { Descriptions } from 'antd';
 import { AssignmentReturnSharp } from '@material-ui/icons';
 
-export default function Basic({ request, column = 2, ages }) {
+export default function Basic({ ages, request }) {
+  const childrensAges = ages
+    .filter(age => age.role === 'child')
+    .map(age => age.age)
+    .join(' ,');
+
+  console.log(childrensAges);
+
   return (
-    <Descriptions column={column}>
+    <Descriptions column={2}>
       <Descriptions.Item label="Name">{`${request.firstName} ${request.lastName}`}</Descriptions.Item>
       <Descriptions.Item label="State">{request.state}</Descriptions.Item>
       <Descriptions.Item label="Email">
@@ -23,6 +26,12 @@ export default function Basic({ request, column = 2, ages }) {
       </Descriptions.Item>
       <Descriptions.Item label="Unemployed for 90 days">
         {request.unEmp90 ? 'Yes' : 'No'}
+      </Descriptions.Item>
+      <Descriptions.Item label="Number of Children">
+        {ages.filter(age => age.role === 'child').length}
+      </Descriptions.Item>
+      <Descriptions.Item label="Childrens Ages">
+        {childrensAges}
       </Descriptions.Item>
     </Descriptions>
   );
