@@ -8,21 +8,35 @@ export default function Contact({ request, column = 2 }) {
   return (
     <div className={styles.contact}>
       <div>
-        <h2>Landlord</h2>
+        <h3>Landlord</h3>
 
-        <h3>Name:</h3>
-        <h3>{request.landlordName}</h3>
+        <h4>Name:</h4>
+        <h4>{request.landlordName}</h4>
+
+        <h3>Address:</h3>
+        <h4>{request.landlordAddress}</h4>
+        <h4>{request.landlordAddress2}</h4>
+        <h4>
+          {request.landlordCity} , {request.landlordState} {request.landlordZip}
+        </h4>
       </div>
       <div>
-        <h2>Contact Information</h2>
-        <h3>Email:</h3>
-        <h3>
+        <h3>Contact Information</h3>
+
+        <h4>
+          Email:
           <a href={`mailto:${request.landlordEmail}`}>
             {request.landlordEmail}
           </a>
-        </h3>
-        <h2>Phone number:</h2>
-        <h3>{request.landlordNumber}</h3>
+        </h4>
+        <h3>Phone number:</h3>
+        <h4>{request.landlordNumber}</h4>
+
+        <h3>Prefered Payment Method:</h3>
+
+        <h3>E-Pay Information</h3>
+        <h4>Account Number: </h4>
+        <h4>Routing Number: </h4>
       </div>
     </div>
   );

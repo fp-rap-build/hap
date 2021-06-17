@@ -150,7 +150,14 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
     tenantNumber,
     landlordName,
     landlordEmail,
+    childrenAges: requestValues.childrenAges,
     landlordNumber,
+    landlordAddress: requestValues.landlordAddress,
+    landlordAddress2: requestValues.landlordAddress2,
+    landlordCity: requestValues.landlordCity,
+    landlordState: requestValues.landlordState,
+    landlordZip: requestValues.landlordZip,
+
     address: {
       address: requestValues.address,
       addressLine2: requestValues.addressLine2,

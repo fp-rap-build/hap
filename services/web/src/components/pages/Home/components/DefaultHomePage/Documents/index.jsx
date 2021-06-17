@@ -7,6 +7,7 @@ import { buildDocumentStatuses } from '../../../../../../redux/requests/requestA
 import DocumentsTable from './DocumentsTable';
 
 import { Typography } from 'antd';
+
 const { Title } = Typography;
 
 export default function Index({ request }) {
