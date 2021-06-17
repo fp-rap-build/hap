@@ -7,7 +7,7 @@ import { Descriptions } from 'antd';
 export default function Contact({ formValues, step, setStep }) {
   return (
     <Card
-      title="Secondary Contact"
+      title="Information Needed to Process your Request"
       extra={
         <a href="#" onClick={() => setStep(step)}>
           Edit
@@ -59,6 +59,9 @@ const LandlordContact = ({ formValues }) => (
     </Descriptions.Item>
     <Descriptions.Item label="Landlord Number">
       {formValues.landlordNumber}
+    </Descriptions.Item>
+    <Descriptions.Item label="Children Ages:">
+      {formValues.childrenAges}
     </Descriptions.Item>
   </Descriptions>
 );
