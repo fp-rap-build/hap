@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { Descriptions, Button, Form, Input, message } from 'antd';
 import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
+import EditButton from './components/EditButton';
 
 export default function Basic({ request, setRequest, column = 2 }) {
   const [disabled, setDisabled] = useState(true);
@@ -51,27 +52,10 @@ export default function Basic({ request, setRequest, column = 2 }) {
       <Form.Item label="Role" name="role" initialValue={request.role}>
         <Input disabled={true} />
       </Form.Item>
-      <RenderEditButton setEditing={setDisabled} editing={disabled} />
+      <EditButton disabled={disabled} setDisabled={setDisabled} />
     </Form>
   );
 }
-
-const RenderEditButton = ({ editing, setEditing }) => {
-  if (!editing) {
-    return (
-      <div>
-        <Button htmlType="submit">Submit</Button>
-        <Button onClick={() => setEditing(true)}>Cancel</Button>
-      </div>
-    );
-  }
-
-  return (
-    <Button type="primary" onClick={() => setEditing(false)}>
-      Edit
-    </Button>
-  );
-};
 
 {
   /* <Form.Item

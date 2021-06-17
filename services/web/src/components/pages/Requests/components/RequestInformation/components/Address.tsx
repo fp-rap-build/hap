@@ -1,12 +1,28 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import { Descriptions, Button, Form, Input } from 'antd';
+import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 
-export default function Address({ request, column = 2 }) {
+import { Descriptions, Button, Form, Input, Select, message } from 'antd';
+
+import EditButton from './components/EditButton';
+
+import { states } from '../../../../../../utils/data/states';
+
+const { Option } = Select;
+
+export default function Address({ request, setRequest, column = 2 }) {
   const [disabled, setDisabled] = useState(true);
 
-  const onFinish = values => {
-    console.log(values);
+  const handleAddressSubmit = async values => {
+    setRequest({ ...request, values });
+
+    setDisabled(true);
+
+    try {
+      await axiosWithAuth().put(`/requests/${request.id}/address`, values);
+    } catch (error) {
+      message.error('Unable to edit address');
+    }
   };
 
   return (
@@ -16,15 +32,33 @@ export default function Address({ request, column = 2 }) {
       }}
       name="basic"
       initialValues={{ remember: true }}
-      onFinish={onFinish}
+      onFinish={handleAddressSubmit}
       layout="vertical"
     >
       <Form.Item label="Address" name="address" initialValue={request.address}>
         <Input disabled={disabled} />
       </Form.Item>
 
-      <Form.Item label="State" name="state" initialValue={request.state}>
-        <Input disabled={disabled} />
+      <Form.Item
+        hasFeedback
+        initialValue={request.state}
+        label="State"
+        name="state"
+        rules={[{ required: true, message: 'State is required' }]}
+      >
+        <Select
+          showSearch
+          placeholder="Select a state"
+          disabled={disabled}
+          optionFilterProp="children"
+          filterOption={(input, option) =>
+            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+          }
+        >
+          {states.map(state => (
+            <Option value={state}>{state}</Option>
+          ))}
+        </Select>
       </Form.Item>
 
       <Form.Item label="City" name="cityName" initialValue={request.cityName}>
@@ -34,19 +68,7 @@ export default function Address({ request, column = 2 }) {
       <Form.Item label="Zip" name="zipCode" initialValue={request.zipCode}>
         <Input disabled={disabled} />
       </Form.Item>
-      <RenderEditButton setEditing={setDisabled} editing={disabled} />
+      <EditButton disabled={disabled} setDisabled={setDisabled} />
     </Form>
   );
 }
-
-const RenderEditButton = ({ editing, setEditing }) => {
-  if (!editing) {
-    return <h1 onClick={() => setEditing(true)}>Editing</h1>;
-  }
-
-  return (
-    <Button type="primary" htmlType="submit" onClick={() => setEditing(false)}>
-      Edit
-    </Button>
-  );
-};
