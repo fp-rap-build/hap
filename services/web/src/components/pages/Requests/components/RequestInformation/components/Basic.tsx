@@ -1,13 +1,10 @@
 import { Descriptions } from 'antd';
-import { AssignmentReturnSharp } from '@material-ui/icons';
 
 export default function Basic({ ages, request }) {
   const childrensAges = ages
     .filter(age => age.role === 'child')
     .map(age => age.age)
-    .join(' ,');
-
-  console.log(childrensAges);
+    .join(', ');
 
   return (
     <Descriptions column={2}>

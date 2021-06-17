@@ -85,8 +85,6 @@ export default function Index() {
     return <LoadingComponent />;
   }
 
-  console.log(request);
-
   return (
     <div className={styles.container}>
       <RequestInformation

@@ -53,8 +53,6 @@ export default function Index({
 }) {
   const currentUser = useSelector(state => state.user.currentUser);
 
-  console.log(ages);
-
   const [loading, setLoading] = useState(false);
   //eslint-disable-next-line
   const [tab, setTab] = useState('basic');
