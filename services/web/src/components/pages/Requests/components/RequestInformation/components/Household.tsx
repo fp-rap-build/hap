@@ -96,6 +96,14 @@ export default function Household({ request, setRequest, column = 2 }) {
         </Select>
       </Form.Item>
       <Form.Item
+        name="childrenAges"
+        initialValue={request.childrenAges}
+        label="Children ages"
+        hasFeedback
+      >
+        <Input disabled={disabled} />
+      </Form.Item>
+      <Form.Item
         hasFeedback
         name="monthlyIncome"
         initialValue={request.monthlyIncome}
