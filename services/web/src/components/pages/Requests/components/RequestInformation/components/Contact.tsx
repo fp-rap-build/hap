@@ -53,11 +53,7 @@ export default function Address({ request, setRequest, column = 2 }) {
           },
         ]}
       >
-        <Input
-          name="landlordName"
-          value={request.landlordName}
-          disabled={disabled}
-        />
+        <Input value={request.landlordName} disabled={disabled} />
       </Form.Item>
 
       <Form.Item
@@ -72,11 +68,7 @@ export default function Address({ request, setRequest, column = 2 }) {
           },
         ]}
       >
-        <Input
-          name="landlordAddress"
-          value={request.landlordAddress}
-          disabled={disabled}
-        />
+        <Input value={request.landlordAddress} disabled={disabled} />
       </Form.Item>
 
       <Form.Item
@@ -92,11 +84,7 @@ export default function Address({ request, setRequest, column = 2 }) {
           },
         ]}
       >
-        <Input
-          name="landlordAddress2"
-          value={request.landlordAddess2}
-          disabled={disabled}
-        />
+        <Input value={request.landlordAddess2} disabled={disabled} />
       </Form.Item>
       <Form.Item
         hasFeedback
@@ -131,11 +119,7 @@ export default function Address({ request, setRequest, column = 2 }) {
           },
         ]}
       >
-        <Input
-          name="landlordCity"
-          value={request.landlordCity}
-          disabled={disabled}
-        />
+        <Input value={request.landlordCity} disabled={disabled} />
       </Form.Item>
 
       <Form.Item
@@ -150,11 +134,7 @@ export default function Address({ request, setRequest, column = 2 }) {
           },
         ]}
       >
-        <Input
-          name="landlordZip"
-          value={request.landlordZip}
-          disabled={disabled}
-        />
+        <Input value={request.landlordZip} disabled={disabled} />
       </Form.Item>
 
       <Form.Item
@@ -169,7 +149,7 @@ export default function Address({ request, setRequest, column = 2 }) {
           },
         ]}
       >
-        <Input type="email" name="landlordEmail" disabled={true} />
+        <Input type="email" disabled={true} />
       </Form.Item>
 
       <Form.Item
@@ -184,7 +164,7 @@ export default function Address({ request, setRequest, column = 2 }) {
           },
         ]}
       >
-        <Input name="landlordNumber" disabled={disabled} />
+        <Input disabled={disabled} />
       </Form.Item>
       <EditButton
         disabled={disabled}
@@ -194,15 +174,3 @@ export default function Address({ request, setRequest, column = 2 }) {
     </Form>
   );
 }
-
-const RenderEditButton = ({ editing, setEditing }) => {
-  if (!editing) {
-    return <h1 onClick={() => setEditing(true)}>Editing</h1>;
-  }
-
-  return (
-    <Button type="primary" htmlType="submit" onClick={() => setEditing(false)}>
-      Edit
-    </Button>
-  );
-};
