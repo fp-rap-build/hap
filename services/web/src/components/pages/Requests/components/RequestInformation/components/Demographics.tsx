@@ -1,16 +1,38 @@
 import React, { useState } from 'react';
 
-import { Descriptions, Button, Form, Input, Checkbox } from 'antd';
+import { Descriptions, Button, Form, Input, Checkbox, message } from 'antd';
+import EditButton from './components/EditButton';
+import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 
-export default function Address({ request, column = 2 }) {
+export default function Address({ request, setRequest, column = 2 }) {
   const [disabled, setDisabled] = useState(true);
 
-  const onFinish = values => {
-    console.log(values);
+  const [checkboxValues, setCheckboxValues] = useState({
+    hispanic: request.hispanic,
+    asian: request.asian,
+    black: request.black,
+    pacific: request.pacific,
+    white: request.white,
+    native: request.native,
+    demoNotSay: request.demoNotSay,
+  });
+
+  const handleDemograpicSubmit = async () => {
+    setRequest({ ...request, ...checkboxValues });
+
+    setDisabled(true);
+
+    try {
+      await axiosWithAuth().put(`/requests/${request.id}`, checkboxValues);
+    } catch (error) {
+      message.error('Unable to edit demographics');
+    }
   };
 
-  const handleRequestChange = () => {
-    console.log('hello');
+  const handleCheckboxChange = e => {
+    const { name, checked } = e.target;
+
+    return setCheckboxValues({ ...checkboxValues, [name]: checked });
   };
 
   return (
@@ -20,24 +42,24 @@ export default function Address({ request, column = 2 }) {
       }}
       name="basic"
       initialValues={{ remember: true }}
-      onFinish={onFinish}
+      onFinish={handleDemograpicSubmit}
       layout="vertical"
     >
-      <Form.Item>
+      <Form.Item initialValue={true}>
         <Checkbox
-          checked={request.hispanic}
+          checked={checkboxValues.hispanic}
           disabled={disabled}
           name="hispanic"
-          onChange={handleRequestChange}
+          onChange={handleCheckboxChange}
         >
           Hispanic/ Latino
         </Checkbox>
       </Form.Item>
       <Form.Item>
         <Checkbox
-          checked={request.asian}
+          checked={checkboxValues.asian}
           disabled={disabled}
-          onChange={handleRequestChange}
+          onChange={handleCheckboxChange}
           name="asian"
         >
           Asian
@@ -45,9 +67,9 @@ export default function Address({ request, column = 2 }) {
       </Form.Item>
       <Form.Item>
         <Checkbox
-          checked={request.black}
+          checked={checkboxValues.black}
           disabled={disabled}
-          onChange={handleRequestChange}
+          onChange={handleCheckboxChange}
           name="black"
         >
           Black or African American
@@ -55,9 +77,9 @@ export default function Address({ request, column = 2 }) {
       </Form.Item>
       <Form.Item>
         <Checkbox
-          checked={request.pacific}
+          checked={checkboxValues.pacific}
           disabled={disabled}
-          onChange={handleRequestChange}
+          onChange={handleCheckboxChange}
           name="pacific"
         >
           Native Hawaiian or Other Pacific Islander
@@ -65,9 +87,9 @@ export default function Address({ request, column = 2 }) {
       </Form.Item>
       <Form.Item>
         <Checkbox
-          checked={request.white}
+          checked={checkboxValues.white}
           disabled={disabled}
-          onChange={handleRequestChange}
+          onChange={handleCheckboxChange}
           name="white"
         >
           White
@@ -75,9 +97,9 @@ export default function Address({ request, column = 2 }) {
       </Form.Item>
       <Form.Item>
         <Checkbox
-          checked={request.native}
+          checked={checkboxValues.native}
           disabled={disabled}
-          onChange={handleRequestChange}
+          onChange={handleCheckboxChange}
           name="native"
         >
           Native American or Alskan Native
@@ -85,15 +107,15 @@ export default function Address({ request, column = 2 }) {
       </Form.Item>
       <Form.Item>
         <Checkbox
-          checked={request.demoNotSay}
+          checked={checkboxValues.demoNotSay}
           disabled={disabled}
-          onChange={handleRequestChange}
+          onChange={handleCheckboxChange}
           name="demoNotSay"
         >
           Rather Not Say
         </Checkbox>
       </Form.Item>
-      <RenderEditButton setEditing={setDisabled} editing={disabled} />
+      <EditButton disabled={disabled} setDisabled={setDisabled} />
     </Form>
   );
 }

@@ -14,7 +14,7 @@ export default function Address({ request, setRequest, column = 2 }) {
   const [disabled, setDisabled] = useState(true);
 
   const handleAddressSubmit = async values => {
-    setRequest({ ...request, values });
+    setRequest({ ...request, ...values });
 
     setDisabled(true);
 

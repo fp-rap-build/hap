@@ -8,7 +8,7 @@ export default function Basic({ request, setRequest, column = 2 }) {
   const [disabled, setDisabled] = useState(true);
 
   const handleUserEditSubmit = async values => {
-    setRequest({ ...request, values });
+    setRequest({ ...request, ...values });
 
     setDisabled(true);
 

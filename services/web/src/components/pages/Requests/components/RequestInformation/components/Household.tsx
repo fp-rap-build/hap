@@ -10,7 +10,7 @@ export default function Household({ request, setRequest, column = 2 }) {
   const [disabled, setDisabled] = useState(true);
 
   const handleHouseholdSubmit = async values => {
-    setRequest({ ...request, values });
+    setRequest({ ...request, ...values });
 
     setDisabled(true);
 
