@@ -17,6 +17,15 @@ const { Option } = Select;
 export default function Household({ request, setRequest, column = 2 }) {
   const [disabled, setDisabled] = useState(true);
 
+  const [form] = Form.useForm();
+
+  const resetFields = () => {
+    setDisabled(true);
+    form.resetFields();
+
+    setCheckboxValues({ unEmp90: request.unEmp90, foodWrkr: request.foodWrkr });
+  };
+
   const [checkboxValues, setCheckboxValues] = useState({
     unEmp90: request.unEmp90,
     foodWrkr: request.foodWrkr,
@@ -47,6 +56,7 @@ export default function Household({ request, setRequest, column = 2 }) {
 
   return (
     <Form
+      form={form}
       style={{
         marginBottom: '3rem',
       }}
@@ -188,7 +198,11 @@ export default function Household({ request, setRequest, column = 2 }) {
         </Checkbox>
       </Form.Item>
 
-      <EditButton disabled={disabled} setDisabled={setDisabled} />
+      <EditButton
+        disabled={disabled}
+        setDisabled={setDisabled}
+        onCancel={resetFields}
+      />
     </Form>
   );
 }

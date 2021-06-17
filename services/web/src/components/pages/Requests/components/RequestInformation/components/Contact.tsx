@@ -12,6 +12,13 @@ const { Option } = Select;
 export default function Address({ request, setRequest, column = 2 }) {
   const [disabled, setDisabled] = useState(true);
 
+  const [form] = Form.useForm();
+
+  const resetFields = () => {
+    setDisabled(true);
+    form.resetFields();
+  };
+
   const handleLandlordSubmit = async values => {
     setRequest({ ...request, ...values });
 
@@ -26,6 +33,7 @@ export default function Address({ request, setRequest, column = 2 }) {
 
   return (
     <Form
+      form={form}
       style={{
         marginBottom: '3rem',
       }}
@@ -178,7 +186,11 @@ export default function Address({ request, setRequest, column = 2 }) {
       >
         <Input name="landlordNumber" disabled={disabled} />
       </Form.Item>
-      <EditButton disabled={disabled} setDisabled={setDisabled} />
+      <EditButton
+        disabled={disabled}
+        setDisabled={setDisabled}
+        onCancel={resetFields}
+      />
     </Form>
   );
 }

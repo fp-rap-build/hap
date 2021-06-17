@@ -7,6 +7,13 @@ import EditButton from './components/EditButton';
 export default function Basic({ request, setRequest, column = 2 }) {
   const [disabled, setDisabled] = useState(true);
 
+  const [form] = Form.useForm();
+
+  const resetFields = () => {
+    setDisabled(true);
+    form.resetFields();
+  };
+
   const handleUserEditSubmit = async values => {
     setRequest({ ...request, ...values });
 
@@ -21,6 +28,7 @@ export default function Basic({ request, setRequest, column = 2 }) {
 
   return (
     <Form
+      form={form}
       style={{
         marginBottom: '3rem',
       }}
@@ -52,7 +60,11 @@ export default function Basic({ request, setRequest, column = 2 }) {
       <Form.Item label="Role" name="role" initialValue={request.role}>
         <Input disabled={true} />
       </Form.Item>
-      <EditButton disabled={disabled} setDisabled={setDisabled} />
+      <EditButton
+        disabled={disabled}
+        setDisabled={setDisabled}
+        onCancel={resetFields}
+      />
     </Form>
   );
 }

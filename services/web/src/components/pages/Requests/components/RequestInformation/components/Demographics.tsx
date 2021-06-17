@@ -7,6 +7,23 @@ import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 export default function Address({ request, setRequest, column = 2 }) {
   const [disabled, setDisabled] = useState(true);
 
+  const [form] = Form.useForm();
+
+  const resetFields = () => {
+    setDisabled(true);
+    form.resetFields();
+
+    setCheckboxValues({
+      hispanic: request.hispanic,
+      asian: request.asian,
+      black: request.black,
+      pacific: request.pacific,
+      white: request.white,
+      native: request.native,
+      demoNotSay: request.demoNotSay,
+    });
+  };
+
   const [checkboxValues, setCheckboxValues] = useState({
     hispanic: request.hispanic,
     asian: request.asian,
@@ -37,6 +54,7 @@ export default function Address({ request, setRequest, column = 2 }) {
 
   return (
     <Form
+      form={form}
       style={{
         marginBottom: '3rem',
       }}
@@ -45,7 +63,7 @@ export default function Address({ request, setRequest, column = 2 }) {
       onFinish={handleDemograpicSubmit}
       layout="vertical"
     >
-      <Form.Item initialValue={true}>
+      <Form.Item>
         <Checkbox
           checked={checkboxValues.hispanic}
           disabled={disabled}
@@ -115,7 +133,11 @@ export default function Address({ request, setRequest, column = 2 }) {
           Rather Not Say
         </Checkbox>
       </Form.Item>
-      <EditButton disabled={disabled} setDisabled={setDisabled} />
+      <EditButton
+        disabled={disabled}
+        setDisabled={setDisabled}
+        onCancel={resetFields}
+      />
     </Form>
   );
 }
