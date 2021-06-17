@@ -66,6 +66,15 @@ export default function Household({ request, setRequest, column = 2 }) {
       layout="vertical"
     >
       <Form.Item
+        name="tenantNumber"
+        initialValue={request.tenantNumber}
+        label="Phone Number"
+        hasFeedback
+      >
+        <Input disabled={disabled} />
+      </Form.Item>
+
+      <Form.Item
         name="familySize"
         initialValue={request.familySize}
         label="Residents"
