@@ -11,7 +11,8 @@ export default function builtTableData(statuses) {
     {
       category: 'residency',
       title: 'Proof of Identity/Residency',
-      blurb: 'Document that shows proof of ID and/or that you currently reside within Spokane City.',
+      blurb:
+        'Document that shows proof of ID and/or that you currently reside within Spokane City.',
       status: statuses.residency ? statuses.residency : 'missing',
     },
     {

@@ -1,5 +1,6 @@
 const express = require('express');
 const Requests = require('./requestsModel');
+const Ages = require('../ages/agesModel');
 const restrictTo = require('../../middleware/restrictTo');
 const Addresses = require('../addresses/addr-model');
 // Middlewares
@@ -35,7 +36,7 @@ router.post('/', async (req, res) => {
 
     // Create a new address
     const addressInfo = request['address'] || {};
-    
+
     const address = await Addresses.create(addressInfo);
 
     // Default to the current users ID if one isn't specified
@@ -46,6 +47,14 @@ router.post('/', async (req, res) => {
 
     // Remove the address before saving to db
     delete request['address'];
+
+    // Create entry in age for head of household
+    await Ages.create({ userId: req.user.id, role: 'headOfHousehold' });
+
+    //Create age entries for children
+    for (let i = 0; i < request.totalChildren; i++) {
+      await Ages.create({ userId: req.user.id, role: 'child' });
+    }
 
     const newRequest = await Requests.create(request);
 

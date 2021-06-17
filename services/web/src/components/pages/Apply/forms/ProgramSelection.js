@@ -157,7 +157,6 @@ const ProgramSelection = ({ formValues }) => {
           </Col>
         </Row>
 
-
         <Divider />
         <Row>
           <Col span={15}>
@@ -179,8 +178,6 @@ const ProgramSelection = ({ formValues }) => {
             </Button>
           </Col>
         </Row>
-
-        
       </Card>
     </Spin>
   );

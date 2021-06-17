@@ -66,7 +66,8 @@ const LandlordContact = ({ requestData, handleRequestChange, disabled }) => {
             {
               type: 'string',
               required: true,
-              message: 'Please enter Landlord or Property Manager Address Line Two',
+              message:
+                'Please enter Landlord or Property Manager Address Line Two',
             },
           ]}
         >

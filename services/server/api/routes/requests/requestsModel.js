@@ -48,6 +48,7 @@ const findForTable = (params) => {
     .join('users as u', 'r.userId', '=', 'u.id')
     .select(
       'r.id',
+      'r.userId',
       'u.firstName',
       'u.lastName',
       'u.email',
@@ -82,6 +83,7 @@ const findForTable = (params) => {
       'r.landlordCity',
       'r.landlordState',
       'r.landlordZip',
+      'r.childrenAges',
       'r.incomplete',
       'a.address',
       'a.zipCode',
@@ -110,6 +112,7 @@ const findById = (id) => {
     .join('users as u', 'r.userId', '=', 'u.id')
     .select(
       'r.*',
+      'r.userId',
       'r.id',
       'u.firstName',
       'u.lastName',
@@ -140,6 +143,7 @@ const findById = (id) => {
       'r.landlordZip',
       'r.landlordEmail',
       'r.landlordNumber',
+      'r.childrenAges',
       'r.incomplete',
       'a.address',
       'a.zipCode',
