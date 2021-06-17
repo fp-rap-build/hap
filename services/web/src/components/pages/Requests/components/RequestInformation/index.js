@@ -20,15 +20,30 @@ import { Card, Input, message, Modal } from 'antd';
 import { axiosWithAuth } from '../../../../../api/axiosWithAuth';
 
 import socket from '../../../../../config/socket';
+import Address from './components/Address';
+import Household from './components/Household';
+import Demographics from './components/Demographics';
 
 const tabListNoTitle = [
   {
-    key: 'basic',
-    tab: 'Basic',
+    key: 'user',
+    tab: 'User',
+  },
+  {
+    key: 'address',
+    tab: 'Address',
+  },
+  {
+    key: 'household',
+    tab: 'Household',
+  },
+  {
+    key: 'demographics',
+    tab: 'Demographics',
   },
   {
     key: 'contact',
-    tab: 'Landlord Contact',
+    tab: 'Landlord',
   },
   {
     key: 'documents',
@@ -220,8 +235,14 @@ export default function Index({
 
 const renderContent = props => {
   switch (props.tab) {
-    case 'basic':
+    case 'user':
       return <Basic request={props.request} />;
+    case 'address':
+      return <Address request={props.request} />;
+    case 'household':
+      return <Household request={props.request} />;
+    case 'demographics':
+      return <Demographics request={props.request} />;
     case 'contact':
       return <Contact request={props.request} />;
     case 'checklist':
