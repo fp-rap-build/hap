@@ -52,7 +52,6 @@ export default function Address({ request, setRequest, column = 2 }) {
         initialValue={request.state}
         label="State"
         name="state"
-        rules={[{ required: true, message: 'State is required' }]}
       >
         <Select
           showSearch

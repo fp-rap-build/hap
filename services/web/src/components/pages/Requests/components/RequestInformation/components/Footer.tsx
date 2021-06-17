@@ -22,13 +22,8 @@ export default function Footer({ request }) {
       />
 
       <Statistic
-        title="Amount Requested"
-        prefix="$"
-        value={request.amountRequested}
-      />
-      <Statistic
-        title="Completed by Advocate?"
-        value={request.advocate ? 'Yes' : 'No'}
+        title="Unemployed 90+"
+        value={request.unEmp90 ? 'Yes' : 'No'}
       />
     </div>
   );
