@@ -1,12 +1,27 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import { Descriptions, Button, Form, Input } from 'antd';
+import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 
-export default function Address({ request, column = 2 }) {
+import { Descriptions, Button, Form, Input, Select, message } from 'antd';
+import EditButton from './components/EditButton';
+
+import { states } from '../../../../../../utils/data/states';
+
+const { Option } = Select;
+
+export default function Address({ request, setRequest, column = 2 }) {
   const [disabled, setDisabled] = useState(true);
 
-  const onFinish = values => {
-    console.log(values);
+  const handleLandlordSubmit = async values => {
+    setRequest({ ...request, ...values });
+
+    setDisabled(true);
+
+    try {
+      await axiosWithAuth().put(`/requests/${request.id}`, values);
+    } catch (error) {
+      message.error('Unable to edit landlord info');
+    }
   };
 
   return (
@@ -16,7 +31,7 @@ export default function Address({ request, column = 2 }) {
       }}
       name="basic"
       initialValues={{ remember: true }}
-      onFinish={onFinish}
+      onFinish={handleLandlordSubmit}
       layout="vertical"
     >
       <Form.Item
@@ -26,7 +41,6 @@ export default function Address({ request, column = 2 }) {
         rules={[
           {
             type: 'string',
-            required: true,
             message: 'Please enter Landlord or Property Manager Name',
           },
         ]}
@@ -45,7 +59,7 @@ export default function Address({ request, column = 2 }) {
         rules={[
           {
             type: 'string',
-            required: true,
+
             message: 'Please enter Landlord or Property Manager Address',
           },
         ]}
@@ -64,7 +78,7 @@ export default function Address({ request, column = 2 }) {
         rules={[
           {
             type: 'string',
-            required: true,
+
             message:
               'Please enter Landlord or Property Manager Address Line Two',
           },
@@ -76,6 +90,26 @@ export default function Address({ request, column = 2 }) {
           disabled={disabled}
         />
       </Form.Item>
+      <Form.Item
+        hasFeedback
+        initialValue={request.landlordState}
+        label="State"
+        name="landlordState"
+      >
+        <Select
+          showSearch
+          placeholder="Select a state"
+          disabled={disabled}
+          optionFilterProp="children"
+          filterOption={(input, option) =>
+            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+          }
+        >
+          {states.map(state => (
+            <Option value={state}>{state}</Option>
+          ))}
+        </Select>
+      </Form.Item>
 
       <Form.Item
         initialValue={request.landlordCity}
@@ -84,7 +118,7 @@ export default function Address({ request, column = 2 }) {
         rules={[
           {
             type: 'string',
-            required: true,
+
             message: 'Please enter Landlord or Property Manager City',
           },
         ]}
@@ -97,32 +131,13 @@ export default function Address({ request, column = 2 }) {
       </Form.Item>
 
       <Form.Item
-        initialValue={request.landlordState}
-        label="State"
-        name="landlordState"
-        rules={[
-          {
-            type: 'string',
-            required: true,
-            message: 'Please enter Landlord or Property Manager State',
-          },
-        ]}
-      >
-        <Input
-          name="landlordState"
-          value={request.landlordState}
-          disabled={disabled}
-        />
-      </Form.Item>
-
-      <Form.Item
         initialValue={request.landlordZip}
         label="Zipcode"
         name="landlordZip"
         rules={[
           {
             type: 'string',
-            required: true,
+
             message: 'Please enter Landlord or Property Manager Zipcode',
           },
         ]}
@@ -141,12 +156,12 @@ export default function Address({ request, column = 2 }) {
         rules={[
           {
             type: 'email',
-            required: true,
+
             message: 'Please enter a valid email',
           },
         ]}
       >
-        <Input type="email" name="landlordEmail" disabled={disabled} />
+        <Input type="email" name="landlordEmail" disabled={true} />
       </Form.Item>
 
       <Form.Item
@@ -156,14 +171,14 @@ export default function Address({ request, column = 2 }) {
         rules={[
           {
             type: 'string',
-            required: true,
+
             message: 'Please enter a phone number',
           },
         ]}
       >
         <Input name="landlordNumber" disabled={disabled} />
       </Form.Item>
-      <RenderEditButton setEditing={setDisabled} editing={disabled} />
+      <EditButton disabled={disabled} setDisabled={setDisabled} />
     </Form>
   );
 }
