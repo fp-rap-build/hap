@@ -1,14 +1,24 @@
 import React, { useState } from 'react';
 
-import { Descriptions, Button, Form, Input, Select } from 'antd';
+import { Descriptions, Button, Form, Input, Select, message } from 'antd';
+import EditButton from './components/EditButton';
+import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 
 const { Option } = Select;
 
-export default function Household({ request, column = 2 }) {
+export default function Household({ request, setRequest, column = 2 }) {
   const [disabled, setDisabled] = useState(true);
 
-  const onFinish = values => {
-    console.log(values);
+  const handleHouseholdSubmit = async values => {
+    setRequest({ ...request, values });
+
+    setDisabled(true);
+
+    try {
+      await axiosWithAuth().put(`/requests/${request.id}`, values);
+    } catch (error) {
+      message.error('Unable to edit household information');
+    }
   };
 
   return (
@@ -18,14 +28,13 @@ export default function Household({ request, column = 2 }) {
       }}
       name="basic"
       initialValues={{ remember: true }}
-      onFinish={onFinish}
+      onFinish={handleHouseholdSubmit}
       layout="vertical"
     >
       <Form.Item
         name="familySize"
         initialValue={request.familySize}
         label="Residents"
-        required
         hasFeedback
         rules={[
           {
@@ -44,13 +53,7 @@ export default function Household({ request, column = 2 }) {
         name="totalChildren"
         initialValue={request.totalChildren}
         label="Number of Children in Household"
-        required
         hasFeedback
-        rules={[
-          {
-            message: 'Number of children required',
-          },
-        ]}
       >
         <Select disabled={disabled} style={{ width: '100%' }}>
           {numChildren.map(num => (
@@ -138,7 +141,7 @@ export default function Household({ request, column = 2 }) {
           style={{ width: '100%' }}
         />
       </Form.Item>
-      <RenderEditButton setEditing={setDisabled} editing={disabled} />
+      <EditButton disabled={disabled} setDisabled={setDisabled} />
     </Form>
   );
 }
