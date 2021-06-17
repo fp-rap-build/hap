@@ -184,6 +184,7 @@ export default function Index({
     handleReviewSubmit,
     handleCheckboxChange,
     request,
+    setRequest,
     documents,
     setDocuments,
   };
@@ -236,15 +237,19 @@ export default function Index({
 const renderContent = props => {
   switch (props.tab) {
     case 'user':
-      return <Basic request={props.request} />;
+      return <Basic request={props.request} setRequest={props.setRequest} />;
     case 'address':
-      return <Address request={props.request} />;
+      return <Address request={props.request} setRequest={props.setRequest} />;
     case 'household':
-      return <Household request={props.request} />;
+      return (
+        <Household request={props.request} setRequest={props.setRequest} />
+      );
     case 'demographics':
-      return <Demographics request={props.request} />;
+      return (
+        <Demographics request={props.request} setRequest={props.setRequest} />
+      );
     case 'contact':
-      return <Contact request={props.request} />;
+      return <Contact request={props.request} setRequest={props.setRequest} />;
     case 'checklist':
       return (
         <Checklist
@@ -262,7 +267,7 @@ const renderContent = props => {
     case 'comments':
       return <CommentsContainer request={props.request} />;
     default:
-      return <Basic request={props.request} />;
+      return <Basic request={props.request} setRequest={props.setRequest} />;
   }
 };
 

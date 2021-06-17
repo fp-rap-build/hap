@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
 
-import { Descriptions, Button, Form, Input } from 'antd';
+import { Descriptions, Button, Form, Input, message } from 'antd';
+import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 
-export default function Basic({ request, column = 2 }) {
+export default function Basic({ request, setRequest, column = 2 }) {
   const [disabled, setDisabled] = useState(true);
 
-  const onFinish = values => {};
+  const handleUserEditSubmit = async values => {
+    setRequest({ ...request, values });
+
+    setDisabled(true);
+
+    try {
+      await axiosWithAuth().put(`/users/${request.userId}`, values);
+    } catch (error) {
+      message.error('Unable to edit user');
+    }
+  };
 
   return (
     <Form
@@ -14,7 +25,7 @@ export default function Basic({ request, column = 2 }) {
       }}
       name="basic"
       initialValues={{ remember: true }}
-      onFinish={onFinish}
+      onFinish={handleUserEditSubmit}
       layout="vertical"
     >
       <Form.Item
@@ -34,11 +45,11 @@ export default function Basic({ request, column = 2 }) {
       </Form.Item>
 
       <Form.Item label="Email" name="email" initialValue={request.email}>
-        <Input disabled={disabled} />
+        <Input disabled={true} />
       </Form.Item>
 
       <Form.Item label="Role" name="role" initialValue={request.role}>
-        <Input disabled={disabled} />
+        <Input disabled={true} />
       </Form.Item>
       <RenderEditButton setEditing={setDisabled} editing={disabled} />
     </Form>
@@ -47,11 +58,16 @@ export default function Basic({ request, column = 2 }) {
 
 const RenderEditButton = ({ editing, setEditing }) => {
   if (!editing) {
-    return <h1 onClick={() => setEditing(true)}>Editing</h1>;
+    return (
+      <div>
+        <Button htmlType="submit">Submit</Button>
+        <Button onClick={() => setEditing(true)}>Cancel</Button>
+      </div>
+    );
   }
 
   return (
-    <Button type="primary" htmlType="submit" onClick={() => setEditing(false)}>
+    <Button type="primary" onClick={() => setEditing(false)}>
       Edit
     </Button>
   );
