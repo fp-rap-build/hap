@@ -39,7 +39,18 @@ const ChildrensAges = ({
     <div style={{ display: 'flex', alignItems: 'center' }}>
       {childrensAges.map(age => (
         <div style={{ marginRight: '5%' }}>
-          <Form.Item label={'Child Age'}>
+          <Form.Item
+            label={'Child Age'}
+            required
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: 'Invalid age',
+                pattern: RegExp(/^([0-9][0-8]?)\s*$/),
+              },
+            ]}
+          >
             <Select
               disabled={disabled}
               value={age.age}

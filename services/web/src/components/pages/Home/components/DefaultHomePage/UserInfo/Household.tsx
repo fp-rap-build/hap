@@ -12,12 +12,7 @@ const { Option } = Select;
 
 const { Title, Paragraph } = Typography;
 
-const Household = ({
-  requestData,
-  handleRequestChange,
-  handleNumOfChildrenChange,
-  disabled,
-}) => {
+const Household = ({ requestData, handleRequestChange, disabled }) => {
   const currentUser = useSelector(state => state.user.currentUser);
 
   const [childrensAges, setChildrensAges] = useState([]);

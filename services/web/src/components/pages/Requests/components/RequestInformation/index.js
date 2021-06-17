@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useSelector } from 'react-redux';
 
@@ -16,7 +16,7 @@ import {
   Contact,
 } from './components';
 
-import { Card, Input, message, Modal } from 'antd';
+import { Card, message, Modal } from 'antd';
 import { axiosWithAuth } from '../../../../../api/axiosWithAuth';
 
 import socket from '../../../../../config/socket';
