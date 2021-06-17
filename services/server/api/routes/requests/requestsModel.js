@@ -48,6 +48,7 @@ const findForTable = (params) => {
     .join('users as u', 'r.userId', '=', 'u.id')
     .select(
       'r.id',
+      'r.userId',
       'u.firstName',
       'u.lastName',
       'u.email',
@@ -111,6 +112,7 @@ const findById = (id) => {
     .join('users as u', 'r.userId', '=', 'u.id')
     .select(
       'r.*',
+      'r.userId',
       'r.id',
       'u.firstName',
       'u.lastName',

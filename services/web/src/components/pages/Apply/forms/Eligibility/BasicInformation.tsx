@@ -10,8 +10,6 @@ const BasicInformation = ({ formValues, onRoleChange, onStateChange }) => {
   return (
     <div>
       <Card title={<CardTitle percentage={20} title="Basic Information" />}>
-        
-       
         <Form.Item
           hasFeedback
           initialValue={formValues.state}

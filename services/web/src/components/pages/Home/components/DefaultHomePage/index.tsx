@@ -129,12 +129,18 @@ export default function Index() {
             {/* eslint-disable-next-line */}
             <a href="http://www.familypromiseofspokane.org/" target="_blank">
               Powered by Family Promise of Spokane
-            </a> 
-            <p>  &nbsp;&nbsp;  </p>
+            </a>
+            <p> &nbsp;&nbsp; </p>
             <br />
-            <p>Need Technical Help?  Email us at: <a href = "mailto: hap@fpspokane.org">HAP@fpspokane.org</a></p>
+            <p>
+              Need Technical Help? Email us at:{' '}
+              <a href="mailto: hap@fpspokane.org">HAP@fpspokane.org</a>
+            </p>
             <br />
-            <p>Please direct questions about your request to the Housing Assistance Team by navigating to "Chat with us"</p>
+            <p>
+              Please direct questions about your request to the Housing
+              Assistance Team by navigating to "Chat with us"
+            </p>
           </Footer>
         </Layout>
       </Layout>

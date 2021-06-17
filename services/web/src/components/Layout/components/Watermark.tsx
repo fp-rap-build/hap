@@ -10,16 +10,6 @@ export default function Watermark() {
           ? { display: 'none' }
           : { position: 'fixed', zIndex: 3, bottom: '4%', left: '1%' }
       }
-    >
-    
-
-    
-
-      
-      
-      
-
-
-    </div>
+    ></div>
   );
 }

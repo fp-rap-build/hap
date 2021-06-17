@@ -2,12 +2,19 @@ import FPTitle from '../FPTitle';
 
 import { states } from '../../../../utils/data/states';
 
-import { Form, Input, Card, InputNumber, Typography, Select, Divider } from 'antd';
+import {
+  Form,
+  Input,
+  Card,
+  InputNumber,
+  Typography,
+  Select,
+  Divider,
+} from 'antd';
 
 const { Option } = Select;
 
 const { Text } = Typography;
-
 
 const SecondaryContact = ({ formValues, onStateChange }) => {
   return (
@@ -55,85 +62,85 @@ const SecondaryContact = ({ formValues, onStateChange }) => {
       </Form.Item>
 
       <Form.Item
-          hasFeedback
-          initialValue={formValues.landlordState}
-          label="State"
-          name="landlordState"
-          rules={[{ required: true, message: 'State is required' }]}
+        hasFeedback
+        initialValue={formValues.landlordState}
+        label="State"
+        name="landlordState"
+        rules={[{ required: true, message: 'State is required' }]}
+      >
+        <Select
+          onChange={onStateChange}
+          showSearch
+          placeholder="Select a state"
+          optionFilterProp="children"
+          filterOption={(input, option) =>
+            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+          }
         >
-          <Select
-            onChange={onStateChange}
-            showSearch
-            placeholder="Select a state"
-            optionFilterProp="children"
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-          >
-            {states.map(landlordState => (
-              <Option value={landlordState}>{landlordState}</Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          hasFeedback
-          initialValue={formValues.landlordCity}
-          label="City"
-          name="landlordCity"
-          rules={[
-            { required: true, min: 3, message: 'City is required' },
-            {
-              pattern: RegExp(/^[A-Za-z0-9'.-\s,#]*$/),
-              message: 'Enter a valid City Name',
-            },
-          ]}
-        >
-          <Input name="landlordCity" value={formValues.landlordCity} />
-        </Form.Item>
+          {states.map(landlordState => (
+            <Option value={landlordState}>{landlordState}</Option>
+          ))}
+        </Select>
+      </Form.Item>
+      <Form.Item
+        hasFeedback
+        initialValue={formValues.landlordCity}
+        label="City"
+        name="landlordCity"
+        rules={[
+          { required: true, min: 3, message: 'City is required' },
+          {
+            pattern: RegExp(/^[A-Za-z0-9'.-\s,#]*$/),
+            message: 'Enter a valid City Name',
+          },
+        ]}
+      >
+        <Input name="landlordCity" value={formValues.landlordCity} />
+      </Form.Item>
 
-        <Form.Item
-          hasFeedback
-          initialValue={formValues.landlordAddress}
-          label="Address"
-          name="landlordAddress"
-          rules={[
-            { required: true, message: 'Address is required' },
-            {
-              pattern: RegExp(/^[A-Za-z0-9'.-\s,#]*$/),
-              message: 'Enter a valid City Name',
-            },
-          ]}
-        >
-          <Input name="landlordAddress" />
-        </Form.Item>
-        <Form.Item
-          hasFeedback
-          initialValue={formValues.landlordAddress2}
-          label="Address Line Two"
-          name="landlordAddress2"
-        >
-          <Input name="landlordAddress2" />
-        </Form.Item>
-        <Form.Item
-          hasFeedback
-          initialValue={formValues.landlordZip}
-          label="Postal Code"
-          name="landlordZip"
-          rules={[
-            {
-              type: 'number',
-              required: true,
-              message: 'Postal code is required',
-            },
-            {
-              required: true,
-              pattern: RegExp(/^\d{5}$/),
-              message: 'Invalid postal code',
-            },
-          ]}
-        >
-          <InputNumber style={{ width: '100%' }} name="landlordZip" />
-        </Form.Item>
+      <Form.Item
+        hasFeedback
+        initialValue={formValues.landlordAddress}
+        label="Address"
+        name="landlordAddress"
+        rules={[
+          { required: true, message: 'Address is required' },
+          {
+            pattern: RegExp(/^[A-Za-z0-9'.-\s,#]*$/),
+            message: 'Enter a valid City Name',
+          },
+        ]}
+      >
+        <Input name="landlordAddress" />
+      </Form.Item>
+      <Form.Item
+        hasFeedback
+        initialValue={formValues.landlordAddress2}
+        label="Address Line Two"
+        name="landlordAddress2"
+      >
+        <Input name="landlordAddress2" />
+      </Form.Item>
+      <Form.Item
+        hasFeedback
+        initialValue={formValues.landlordZip}
+        label="Postal Code"
+        name="landlordZip"
+        rules={[
+          {
+            type: 'number',
+            required: true,
+            message: 'Postal code is required',
+          },
+          {
+            required: true,
+            pattern: RegExp(/^\d{5}$/),
+            message: 'Invalid postal code',
+          },
+        ]}
+      >
+        <InputNumber style={{ width: '100%' }} name="landlordZip" />
+      </Form.Item>
 
       <Form.Item
         initialValue={formValues.landlordEmail}
@@ -170,7 +177,8 @@ const SecondaryContact = ({ formValues, onStateChange }) => {
       </Form.Item>
 
       <b>
-        Please enter the ages of any children in your household, separated by commas:
+        Please enter the ages of any children in your household, separated by
+        commas:
       </b>
 
       <Form.Item
@@ -181,7 +189,8 @@ const SecondaryContact = ({ formValues, onStateChange }) => {
           {
             type: 'string',
             required: true,
-            message: 'Please enter the ages of any children in the household, separated by commas',
+            message:
+              'Please enter the ages of any children in the household, separated by commas',
           },
         ]}
       >
@@ -191,7 +200,6 @@ const SecondaryContact = ({ formValues, onStateChange }) => {
           value={formValues.childrenAges}
         />
       </Form.Item>
-
     </Card>
   );
 };

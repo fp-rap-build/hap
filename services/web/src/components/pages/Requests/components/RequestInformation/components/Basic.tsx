@@ -1,10 +1,13 @@
-import React from 'react';
-
 import { Descriptions } from 'antd';
 
-export default function Basic({ request, column = 2 }) {
+export default function Basic({ ages, request }) {
+  const childrensAges = ages
+    .filter(age => age.role === 'child')
+    .map(age => age.age)
+    .join(', ');
+
   return (
-    <Descriptions column={column}>
+    <Descriptions column={2} style={{ paddingBottom: '5%' }}>
       <Descriptions.Item label="Name">{`${request.firstName} ${request.lastName}`}</Descriptions.Item>
       <Descriptions.Item label="State">{request.state}</Descriptions.Item>
       <Descriptions.Item label="Email">
@@ -24,7 +27,12 @@ export default function Basic({ request, column = 2 }) {
       <Descriptions.Item label="Unemployed for 90 days">
         {request.unEmp90 ? 'Yes' : 'No'}
       </Descriptions.Item>
-      <Descriptions.Item label="Children Ages">{request.childrenAges}</Descriptions.Item>
+      <Descriptions.Item label="Number of Children">
+        {ages.filter(age => age.role === 'child').length}
+      </Descriptions.Item>
+      <Descriptions.Item label="Childrens Ages">
+        {childrensAges}
+      </Descriptions.Item>
     </Descriptions>
   );
 }

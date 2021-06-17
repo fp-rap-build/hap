@@ -24,10 +24,11 @@ export default function Index() {
 
   const [documents, setDocuments] = useState([]);
   const [programs, setPrograms] = useState([]);
+  const [ages, setAges] = useState([]);
 
   const { id } = useParams();
 
-  const setRequestAddressAndDocuments = async () => {
+  const setRequestAddressAgesAndDocuments = async () => {
     setLoading(true);
 
     try {
@@ -41,6 +42,11 @@ export default function Index() {
         `/orgs/${requestInfo.data.request.orgId}/programs`
       );
 
+      let receivedAges = await axiosWithAuth().get(
+        `/ages/user/${requestInfo.data.request.userId}`
+      );
+
+      setAges(receivedAges.data);
       setRequest(requestInfo.data.request);
       setDocuments(requestDocuments.data.documents);
       setPrograms(orgPrograms.data.programs);
@@ -66,7 +72,7 @@ export default function Index() {
   };
 
   useEffect(() => {
-    setRequestAddressAndDocuments();
+    setRequestAddressAgesAndDocuments();
     // eslint-disable-next-line
   }, []);
 
@@ -89,6 +95,7 @@ export default function Index() {
         organizationId={organizationId}
         programs={programs}
         setPrograms={setPrograms}
+        ages={ages}
       />
       <DocumentUploader setDocuments={setDocuments} request={request} />
     </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useSelector } from 'react-redux';
 
@@ -16,7 +16,7 @@ import {
   Contact,
 } from './components';
 
-import { Card, Input, message, Modal } from 'antd';
+import { Card, message, Modal } from 'antd';
 import { axiosWithAuth } from '../../../../../api/axiosWithAuth';
 
 import socket from '../../../../../config/socket';
@@ -49,6 +49,7 @@ export default function Index({
   organizationId,
   programs,
   setPrograms,
+  ages,
 }) {
   const currentUser = useSelector(state => state.user.currentUser);
 
@@ -171,6 +172,7 @@ export default function Index({
     request,
     documents,
     setDocuments,
+    ages,
   };
 
   const approveModalProps = {
@@ -195,7 +197,8 @@ export default function Index({
         tabList={tabListNoTitle}
         onTabChange={onTabChange}
         activeTabKey={tab}
-        style={{ minHeight: '550px', width: '100%' }}
+        style={{ minHeight: '450px', width: '100%' }}
+        key={request.id}
         extra={[
           <TopActions
             handleReviewSubmit={props.handleReviewSubmit}
@@ -221,7 +224,7 @@ export default function Index({
 const renderContent = props => {
   switch (props.tab) {
     case 'basic':
-      return <Basic request={props.request} />;
+      return <Basic request={props.request} ages={props.ages} />;
     case 'contact':
       return <Contact request={props.request} />;
     case 'checklist':

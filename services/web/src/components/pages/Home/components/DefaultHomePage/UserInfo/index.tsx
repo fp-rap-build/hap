@@ -25,6 +25,8 @@ const UserInfo = () => {
 
   const request = useSelector(state => state.requests);
 
+  console.log(request);
+
   const [requestData, setRequestData] = useState(request.request);
   const [addressData, setAddressData] = useState(request.addressDetails);
 
