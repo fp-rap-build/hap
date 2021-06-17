@@ -198,6 +198,7 @@ export default function Index({
         onTabChange={onTabChange}
         activeTabKey={tab}
         style={{ minHeight: '450px', width: '100%' }}
+        key={request.id}
         extra={[
           <TopActions
             handleReviewSubmit={props.handleReviewSubmit}

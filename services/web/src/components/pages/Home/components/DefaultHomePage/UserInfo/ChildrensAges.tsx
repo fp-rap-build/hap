@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { Form, Select, Button } from 'antd';
 const { Option } = Select;
 
@@ -8,6 +10,31 @@ const ChildrensAges = ({
   addChild,
   removeChild,
 }) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleAdd = async () => {
+    setLoading(true);
+
+    try {
+      await addChild();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    setLoading(true);
+    try {
+      await removeChild();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       {childrensAges.map(age => (
@@ -19,8 +46,10 @@ const ChildrensAges = ({
               onChange={handleAgeChange(age.id)}
               // style={{ width: '100%' }}
             >
-              {childresnAgesRange.map(age => (
-                <Option value={age}>{age}</Option>
+              {childrensAgesRange.map(age => (
+                <Option key={age} value={age}>
+                  {age}
+                </Option>
               ))}
             </Select>
           </Form.Item>
@@ -28,15 +57,17 @@ const ChildrensAges = ({
       ))}
       <div style={{ paddingTop: '5px', display: 'flex' }}>
         <Button
+          loading={loading}
           disabled={disabled}
-          onClick={addChild}
+          onClick={handleAdd}
           style={{ marginRight: '5%' }}
         >
           Add Child
         </Button>
         <Button
+          loading={loading}
           disabled={disabled}
-          onClick={removeChild}
+          onClick={handleDelete}
           style={childrensAges ? null : { display: 'none' }}
         >
           Remove Child
@@ -46,7 +77,7 @@ const ChildrensAges = ({
   );
 };
 
-const childresnAgesRange = [
+const childrensAgesRange = [
   0,
   1,
   2,
