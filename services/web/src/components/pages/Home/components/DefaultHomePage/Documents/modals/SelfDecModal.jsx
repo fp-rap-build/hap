@@ -26,8 +26,7 @@ const SelfDecModal = ({
   tableData,
 }) => {
   const currentUser = useSelector(state => state.user.currentUser);
-  //DEV DELETE AT PUSH
-  console.log(request);
+  //DEV DELETE AT PUSh
   console.log(currentUser);
   //--------------------------
   const dispatch = useDispatch();
@@ -49,6 +48,7 @@ const SelfDecModal = ({
       selectedCategory,
       SELF_DEC_SCHEMA
     );
+
     setSessionId(sessionIdfromAPI);
   };
 
@@ -90,7 +90,6 @@ const SelfDecModal = ({
                 // postSelfDecPlaceholder();
                 // handleSelfDecAccept();
                 handleDocCreation();
-                setDocumentView(true);
               }}
             >
               Create Document
@@ -99,7 +98,7 @@ const SelfDecModal = ({
         ]}
       >
         <div className="modalTextInput">
-          {documentView ? (
+          {sessionId ? (
             <RenderSelfDecDocument sessionId={sessionId} />
           ) : (
             <ModalTextInput />

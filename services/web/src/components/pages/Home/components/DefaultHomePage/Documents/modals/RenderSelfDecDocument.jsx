@@ -15,17 +15,13 @@ const RenderSelfDecDocument = ({ sessionId }) => {
 
   return (
     <div>
-      {sessionId ? (
-        <div className="documentContainer">
-          <iframe
-            title="Self Dec Embed"
-            src={docUrl(sessionId)}
-            style={{ height: '70vh', width: '50vw' }}
-          ></iframe>
-        </div>
-      ) : (
-        <h2>Loading...</h2>
-      )}
+      <div className="documentContainer">
+        <iframe
+          title="Self Dec Embed"
+          src={docUrl(sessionId)}
+          style={{ height: '70vh', width: '50vw' }}
+        ></iframe>
+      </div>
     </div>
   );
 };

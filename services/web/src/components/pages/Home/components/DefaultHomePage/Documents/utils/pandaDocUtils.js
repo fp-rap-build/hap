@@ -1,3 +1,4 @@
+import { getParsedCommandLineOfConfigFile } from 'typescript';
 import { axiosForPanda } from '../../../../../../../api/axiosForPanda';
 
 const fetchTemplateId = async templateName => {
@@ -38,7 +39,7 @@ const wait = async ms => {
 const sendDocument = async documentId => {
   try {
     //Wait 1s for pandaDoc to process teh doc before sending
-    await wait(1000);
+    await wait(5000);
     await axiosForPanda().post(`/documents/${documentId}/send`, {
       //test to see if message and subject are required when silent sent to true
       message: 'Hello! This document was sent from the PandaDoc API.',
@@ -116,6 +117,7 @@ const processDocument = async (
     await sendDocument(document.id);
     //create document link - may run into issue if document status hasn't been updated yet
     const docLinkId = await createDocumentLink(document.id, currentUser.email);
+
     return docLinkId.id;
   } catch (error) {
     console.log(error);
