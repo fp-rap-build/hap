@@ -137,6 +137,8 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
     foodWrkr: requestValues.foodWrkr,
     totalChildren: requestValues.totalChildren,
     amountRequested: requestValues.amountRequested,
+    amountApproved: requestValues.amountApproved,
+    budget: requestValues.budget,
     advocate: requestValues.advocate,
     hispanic: requestValues.hispanic,
     asian: requestValues.asian,

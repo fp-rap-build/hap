@@ -131,6 +131,8 @@ const findById = (id) => {
       'r.verifiedDocuments',
       'r.foodWrkr',
       'r.amountRequested',
+      'r.amountApproved',
+      'r.budget',
       'r.orgId',
       'r.unEmp90',
       'r.tenantEmail',
