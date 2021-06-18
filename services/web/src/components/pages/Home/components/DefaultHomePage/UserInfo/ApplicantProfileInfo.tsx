@@ -1,4 +1,6 @@
-import { Form, Input } from 'antd';
+import { Form, Input, Typography, Divider } from 'antd';
+
+const { Title, Paragraph } = Typography;
 
 const ApplicantProfileInfo = ({
   applicantData,
@@ -6,7 +8,14 @@ const ApplicantProfileInfo = ({
   handleApplicantChange,
 }) => {
   return (
-    <div>
+    <div className="addressInformation userInfoContent">
+      <div className="userContentHeading">
+        <Title level={4}>Applicant Information: </Title>
+        <Paragraph>
+          Check your personal information below and make changes if necessary.
+        </Paragraph>
+      </div>
+      <Divider />
       <Form
         style={{
           marginBottom: '3rem',
