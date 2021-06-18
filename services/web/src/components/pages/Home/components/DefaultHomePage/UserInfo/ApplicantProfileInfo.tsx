@@ -1,10 +1,4 @@
-import { useState } from 'react';
-
-import { useSelector } from 'react-redux';
-
-import { Form, Input, message } from 'antd';
-
-import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
+import { Form, Input } from 'antd';
 
 const ApplicantProfileInfo = ({
   applicantData,
@@ -48,11 +42,6 @@ const ApplicantProfileInfo = ({
         <Form.Item label="Role" name="role" initialValue={applicantData.role}>
           <Input disabled={true} name="role" />
         </Form.Item>
-        {/* <EditButton
-        disabled={disabled}
-        setDisabled={setDisabled}
-        onCancel={resetFields}
-      /> */}
       </Form>
     </div>
   );

@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 
+import { fetchCurrentUser } from '../../../../../../redux/users/userActions';
+
 import {
   fetchIncomes,
   updateAddress,
@@ -20,8 +22,6 @@ import Footer from './Footer';
 import RenderMenu from './RenderMenu';
 
 import { Layout } from 'antd';
-import { stat } from 'fs';
-import { async } from 'q';
 
 const { Content } = Layout;
 
@@ -103,15 +103,12 @@ const UserInfo = () => {
 
   const postApplicant = async () => {
     try {
-      console.log(applicantData);
-      const updatedApplicant = await axiosWithAuth().put(
-        `/user/${currentUser.id}`,
-        applicantData
-      );
+      await axiosWithAuth().put(`/user/${currentUser.id}`, applicantData);
     } catch (error) {
       alert('error posting applicant');
       console.log(error);
     }
+    dispatch(fetchCurrentUser());
   };
 
   const toggleDisabled = () => {
