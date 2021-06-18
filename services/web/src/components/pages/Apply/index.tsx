@@ -65,6 +65,8 @@ const INITIAL_VALUES_DEV = {
   childrenAges: '4, 2',
   owed: 600,
   amountRequested: 450,
+  amountApproved: 1000,
+  budget: 'Treasury ERA',
   rent: 500,
   advocate: false,
   totalChildren: 2,
@@ -110,6 +112,8 @@ const INITIAL_VALUES_PROD = {
   childrenAges: '',
   owed: null,
   amountRequested: null,
+  amountApproved: null,
+  budget: '',
   rent: null,
   monthlyRent: null,
   advocate: false,
@@ -147,7 +151,7 @@ export default function Index() {
 
   const goBackwards = () => setStep(step - 1);
 
-  const [formValues, setFormValues] = useState(INITIAL_VALUES_DEV);
+  const [formValues, setFormValues] = useState(INITIAL_VALUES_PROD);
   const [formConsent, setFormConsent] = useState(false);
 
   const handleChange = e => {

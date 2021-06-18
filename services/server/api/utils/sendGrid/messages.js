@@ -7,33 +7,33 @@ const requestStatusChange = (requestStatus, emailAddress) => {
   switch (requestStatus) {
     case 'inReview':
       text =
-        'Your Family Promise HAP Application status is being reviewed by our team! <p> Please log in regularly at www.SpokaneHousingHelp.org to check the status of your request';
+        'Your Family Promise HAP Application status is being reviewed by our team! <p> Please log in regularly at www.SpokaneHousingAssistance.org to check the status of your request';
       break;
 
     case 'documentsNeeded':
-      text = `Your Family Promise HAP Application requires documents to continue forward. <p>Please login to your account at www.SpokaneHousingHelp.org to view which documents you will need to upload</p>`;
+      text = `Your Family Promise HAP Application requires documents to continue forward. <p>Please login to your account at www.SpokaneHousingAssistance.org to view which documents you will need to upload</p>`;
      
       break;
 
     case 'verifyingDocuments':
-      text = `Our team is currently verifying your documents! <p> You can login to view any new comments here: www.SpokaneHousingHelp.org (click on "log in to view your status") </p>`;
+      text = `Our team is currently verifying your documents! <p> You can login to view any new comments here: www.SpokaneHousingAssistance.org (click on "log in to view your status") </p>`;
       break;
 
     case 'notResponding':
       text =
-        'Our team has decided to put your HAP Application on hold until you respond - please log in at www.SpokaneHousingHelp.org as soon as possible to continue your request';
+        'Our team has decided to put your HAP Application on hold until you respond - please log in at www.SpokaneHousingAssistance.org as soon as possible to continue your request';
       break;
 
     case 'denied':
-      text = 'Your Family Promise HAP Application has been denied - please log in at www.SpokaneHousingHelp.org to view why and/or to reapply';
+      text = 'Your Family Promise HAP Application has been denied - please log in at www.SpokaneHousingAssistance.org to view why and/or to reapply';
       break;
 
     case 'approved':
-      text = 'Your Family Promise HAP Application has been approved! - please log in to your account at www.SpokaneHousingHelp.org to see what the next steps are.';
+      text = 'Your Family Promise HAP Application has been approved! - please log in to your account at www.SpokaneHousingAssistance.org to see what the next steps are.';
       break;
 
     default:
-      text = `Your Family Promise HAP Application status has been changed to ${requestStatus} - please log in at www.SpokaneHousingHelp.org to check for messages from us and/or document requests`;
+      text = `Your Family Promise HAP Application status has been changed to ${requestStatus} - please log in at www.SpokaneHousingAssistance.org to check for messages from us and/or document requests`;
       break;
   }
 
@@ -97,7 +97,7 @@ const sendConfirmationOfApproval = (request) => {
   let msg;
 
   if (process.env.NODE_ENV === 'production') {
-    mailingList = ['jwylie@fpspokane.org'];
+    mailingList = ['jwylie@fpspokane.org', 'fpspokane@bill.com', 'dpeabody@familypromiseofspokane.com'];
   } else {
     mailingList = ['jwylie@fpspokane.org'];
   }
@@ -107,10 +107,10 @@ const sendConfirmationOfApproval = (request) => {
       to: email,
       from: 'hap@familypromiseofspokane.org',
       subject: 'Rental Assistance',
-      text: `<p>Rental Assistance</p> <p>Payee Name: ${request.landlordName}</p> <p>Payment Amount: ${request.amountRequested}</p> <p>Payment Address: TBD </p> <p> Payee Email: ${request.landlordEmail} </p> <p> Payment Method: Epay </p> <p> Funding Source: TBD </p> <p> Check Memo: Rent,  ${request.firstName} ${request.lastName} ${request.address}   ${request.cityName}, ${request.state} ${request.zipCode} </p> `,
-      html: `<p>Rental Assistance</p> <p>Payee Name: ${request.landlordName}</p> <p>Payment Amount: ${request.amountRequested}</p> <p>Payment Address: TBD </p> <p> Payee Email: ${request.landlordEmail} </p> <p> Payment Method: Epay </p> <p> Funding Source: TBD </p> <p> Check Memo: Rent,  ${request.firstName} ${request.lastName} ${request.address}   ${request.cityName}, ${request.state} ${request.zipCode} </p> `,
+      text: `<p>Rental Assistance</p> <p> Funding Source: ${request.budget} </p> <p>Payment Method: Check </p>  <p>Payee: Landlord</p> <p>Payee Name: ${request.landlordName}</p> <p>Payee Address: ${request.landlordAddress}  ${request.landlordAddress2}  ${request.landlordCity}  ${request.landlordState}  ${request.landlordZip} </p> <p> Payee Email:  ${request.landlordEmail} </p><p>Payment Amount: ${request.amountApproved}</p>  <p> Check Memo: Rent,  ${request.firstName} ${request.lastName} ${request.address}   ${request.cityName}, ${request.state} ${request.zipCode} </p> `,
+      html: `<p>Rental Assistance</p> <p> Funding Source: ${request.budget} </p> <p>Payment Method: Check </p>  <p>Payee: Landlord</p> <p>Payee Name: ${request.landlordName}</p> <p>Payee Address: ${request.landlordAddress}  ${request.landlordAddress2}  ${request.landlordCity}  ${request.landlordState}  ${request.landlordZip} </p> <p> Payee Email:  ${request.landlordEmail} </p><p>Payment Amount: ${request.amountApproved}</p>  <p> Check Memo: Rent,  ${request.firstName} ${request.lastName} ${request.address}   ${request.cityName}, ${request.state} ${request.zipCode} </p> `,
     };
-
+    
     sgMail
       .send(msg)
       .then(() => {
