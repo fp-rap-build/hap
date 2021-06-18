@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
+
 import {
   fetchIncomes,
   updateAddress,
   updateRequest,
 } from '../../../../../../redux/requests/requestActions';
 
+import ApplicantProfileInfo from './ApplicantProfileInfo';
 import AddressInfo from './AddressInfo';
 import LandlordContact from './LandlordContact';
 import DemoInfo from './DemoInfo';
@@ -17,20 +20,37 @@ import Footer from './Footer';
 import RenderMenu from './RenderMenu';
 
 import { Layout } from 'antd';
+import { stat } from 'fs';
+import { async } from 'q';
 
 const { Content } = Layout;
+
+const buildApplicantData = currentUser => {
+  return {
+    id: currentUser.id,
+    firstName: currentUser.firstName,
+    lastName: currentUser.lastName,
+    email: currentUser.email,
+    role: currentUser.role,
+  };
+};
 
 const UserInfo = () => {
   const dispatch = useDispatch();
 
   const request = useSelector(state => state.requests);
+  const currentUser = useSelector(state => state.user.currentUser);
 
   console.log(request);
 
   const [requestData, setRequestData] = useState(request.request);
   const [addressData, setAddressData] = useState(request.addressDetails);
+  const [applicantData, setApplicantData] = useState(
+    buildApplicantData(currentUser)
+  );
 
-  const [currentContent, setCurrentContent] = useState('address');
+  //currentContent toggles with menu - set initial display here
+  const [currentContent, setCurrentContent] = useState('applicant');
   const [disabled, setDisabled] = useState(true);
 
   //Refactor - create userdash middleware to pull all necessary info in one place
@@ -41,6 +61,11 @@ const UserInfo = () => {
 
   const onContentChange = ({ key }) => {
     setCurrentContent(key);
+  };
+
+  const handleApplicantChange = e => {
+    const { name, value } = e.target;
+    setApplicantData({ ...applicantData, [name]: value });
   };
 
   const handleAddressChange = e => {
@@ -76,6 +101,19 @@ const UserInfo = () => {
     dispatch(updateRequest(requestData));
   };
 
+  const postApplicant = async () => {
+    try {
+      console.log(applicantData);
+      const updatedApplicant = await axiosWithAuth().put(
+        `/user/${currentUser.id}`,
+        applicantData
+      );
+    } catch (error) {
+      alert('error posting applicant');
+      console.log(error);
+    }
+  };
+
   const toggleDisabled = () => {
     setDisabled(!disabled);
   };
@@ -84,14 +122,17 @@ const UserInfo = () => {
     currentContent,
     requestData,
     addressData,
+    applicantData,
     handleAddressChange,
     handleRequestChange,
     handleStateChange,
     disabled,
     toggleDisabled,
+    handleNumOfChildrenChange,
+    handleApplicantChange,
     postAddress,
     postRequest,
-    handleNumOfChildrenChange,
+    postApplicant,
   };
 
   return (
@@ -109,6 +150,8 @@ const UserInfo = () => {
 
 const renderContent = props => {
   switch (props.currentContent) {
+    case 'applicant':
+      return <ApplicantProfileInfo {...props} />;
     case 'address':
       return <AddressInfo {...props} />;
     case 'household':

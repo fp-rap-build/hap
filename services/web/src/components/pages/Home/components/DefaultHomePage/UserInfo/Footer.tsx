@@ -6,11 +6,14 @@ const Footer = ({
   postAddress,
   postRequest,
   currentContent,
+  postApplicant,
 }) => {
   const save = () => {
     try {
       if (currentContent === 'address') {
         postAddress();
+      } else if (currentContent === 'applicant') {
+        postApplicant();
       } else {
         postRequest();
       }
