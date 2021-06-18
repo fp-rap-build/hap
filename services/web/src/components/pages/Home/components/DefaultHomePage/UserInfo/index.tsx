@@ -41,14 +41,11 @@ const UserInfo = () => {
   const request = useSelector(state => state.requests);
   const currentUser = useSelector(state => state.user.currentUser);
 
-  console.log(request);
-
   const [requestData, setRequestData] = useState(request.request);
   const [addressData, setAddressData] = useState(request.addressDetails);
   const [applicantData, setApplicantData] = useState(
     buildApplicantData(currentUser)
   );
-
   //currentContent toggles with menu - set initial display here
   const [currentContent, setCurrentContent] = useState('applicant');
   const [disabled, setDisabled] = useState(true);
