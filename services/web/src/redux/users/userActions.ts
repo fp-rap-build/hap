@@ -11,6 +11,10 @@ export const setErrorMessage = message => {
   return { type: 'SET_ERROR_MESSAGE', payload: message };
 };
 
+export const setUserNameInformation = nameInformation => {
+  return { type: 'SET_USER_NAME_INFO', payload: nameInformation };
+};
+
 export const clearErrorMessage = () => {
   return setErrorMessage('');
 };
@@ -216,4 +220,18 @@ export const addSubscription = subscription => {
 
 export const deleteSubscription = subscriptionId => {
   return { type: 'DELETE_SUBSCRIPTION', payload: subscriptionId };
+};
+
+export const updateUserNameInfo = nameInfo => async dispatch => {
+  try {
+    const resNameInfo = await axiosWithAuth()
+      .put(`/user/${nameInfo.id}`, nameInfo)
+      .then(res => res.data.user);
+
+    dispatch(setUserNameInformation(resNameInfo));
+  } catch (error) {
+    const message = error?.response?.data?.message || 'Internal server error';
+
+    dispatch(setErrorMessage(message));
+  }
 };

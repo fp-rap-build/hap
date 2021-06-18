@@ -12,11 +12,14 @@ const RenderMenu = ({ onContentChange }) => {
   const menu = (
     <Menu
       theme="light"
-      defaultSelectedKeys={['address']}
+      defaultSelectedKeys={['applicant']}
       mode="inline"
       className="userSidebar"
-      style={width < 800 ? { width: '10rem', height: '10rem' } : {}}
+      style={width < 800 ? { width: '10rem', height: '13rem' } : {}}
     >
+      <Menu.Item key="applicant" onClick={onContentChange}>
+        Applicant
+      </Menu.Item>
       <Menu.Item key="address" onClick={onContentChange}>
         Address
       </Menu.Item>

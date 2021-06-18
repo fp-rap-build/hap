@@ -48,7 +48,7 @@ router.route('/me/notifications/read').post(readAllNotifications);
 
 router
   .route('/:id')
-  .all(restrictTo('admin', 'programManager'))
+  // .all(restrictTo('admin', 'programManager'))
   .get(getUserById)
   .put(updateUserById)
   .delete(deleteUserById);
