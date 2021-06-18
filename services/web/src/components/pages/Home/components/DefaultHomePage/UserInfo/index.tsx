@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 
-import { fetchCurrentUser } from '../../../../../../redux/users/userActions';
+import { updateUserNameInfo } from '../../../../../../redux/users/userActions';
 
 import {
   fetchIncomes,
@@ -102,13 +102,7 @@ const UserInfo = () => {
   };
 
   const postApplicant = async () => {
-    try {
-      await axiosWithAuth().put(`/user/${currentUser.id}`, applicantData);
-    } catch (error) {
-      alert('error posting applicant');
-      console.log(error);
-    }
-    dispatch(fetchCurrentUser());
+    dispatch(updateUserNameInfo(applicantData));
   };
 
   const toggleDisabled = () => {
