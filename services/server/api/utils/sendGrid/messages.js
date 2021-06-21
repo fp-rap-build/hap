@@ -97,7 +97,7 @@ const sendConfirmationOfApproval = (request) => {
   let msg;
 
   if (process.env.NODE_ENV === 'production') {
-    mailingList = ['jwylie@fpspokane.org', 'fpspokane@bill.com', 'dpeabody@familypromiseofspokane.com'];
+    mailingList = ['jwylie@fpspokane.org', 'fpspokane@bill.com', 'dpeabody@familypromiseofspokane.org'];
   } else {
     mailingList = ['jwylie@fpspokane.org'];
   }
