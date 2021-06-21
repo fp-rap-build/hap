@@ -65,7 +65,10 @@ export const setRequestAddressAndDocuments = () => async dispatch => {
 
 export const updateAddress = updatedAddress => async dispatch => {
   try {
-    await axiosWithAuth().put(`/addrs/${updatedAddress.id}`, updatedAddress);
+    const resAddress = await axiosWithAuth()
+      .put(`/addrs/${updatedAddress.id}`, updatedAddress)
+      .then(res => res.data.address);
+    dispatch(setCurrentAddress(resAddress));
   } catch (error) {
     console.log(error);
   }
@@ -75,7 +78,11 @@ export const updateRequest = updatedRequest => async dispatch => {
   const { id } = updatedRequest;
 
   try {
-    await axiosWithAuth().put(`/requests/${id}`, updatedRequest);
+    const resRequest = await axiosWithAuth()
+      .put(`/requests/${id}`, updatedRequest)
+      .then(res => res.data[0]);
+
+    dispatch(setCurrentRequest(resRequest));
   } catch (error) {
     console.log(error);
   }

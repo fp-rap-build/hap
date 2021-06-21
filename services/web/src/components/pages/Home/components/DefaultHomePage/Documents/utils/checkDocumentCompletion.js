@@ -1,5 +1,4 @@
 import { axiosWithAuth } from '../../../../../../../api/axiosWithAuth';
-import RequestsTable from '../../../../../Admin/components/RequestsTable';
 
 const checkDocumentCompletion = async (tableData, request) => {
   try {

@@ -1,15 +1,104 @@
+import { useState, useEffect } from 'react';
+
+import { useSelector } from 'react-redux';
+
+import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
+
+import ChildrensAges from './ChildrensAges';
+
 import { Typography, Divider, Form, Input, Select } from 'antd';
 
 const { Option } = Select;
 
 const { Title, Paragraph } = Typography;
 
-const Household = ({
-  requestData,
-  handleRequestChange,
-  handleNumOfChildrenChange,
-  disabled,
-}) => {
+const Household = ({ requestData, handleRequestChange, disabled }) => {
+  const currentUser = useSelector(state => state.user.currentUser);
+
+  const [childrensAges, setChildrensAges] = useState([]);
+
+  const handleAgeChange = id => value => {
+    setChildrensAges(
+      childrensAges.map(childAge => {
+        if (childAge.id === id) {
+          return { ...childAge, age: value };
+        } else {
+          return childAge;
+        }
+      })
+    );
+  };
+
+  const fetchAges = async () => {
+    try {
+      const householdAges = await axiosWithAuth()
+        .get(`/ages/user/${currentUser.id}`)
+        .then(res => res.data);
+
+      const builtChildrenAges = [];
+
+      householdAges.forEach(age => {
+        if (age.role === 'child') {
+          builtChildrenAges.push(age);
+        }
+      });
+
+      setChildrensAges(builtChildrenAges);
+    } catch (error) {
+      alert('error fetching ages');
+      console.log(error);
+    }
+  };
+
+  const postAges = async childrensAges => {
+    try {
+      await axiosWithAuth().put('/ages', childrensAges);
+    } catch (error) {
+      alert('error posting ages');
+      console.log(error);
+    }
+  };
+
+  const addChild = async () => {
+    try {
+      await axiosWithAuth().post('/ages', [
+        {
+          userId: currentUser.id,
+          role: 'child',
+        },
+      ]);
+      await fetchAges();
+    } catch (error) {
+      alert('error posting ages');
+      console.log(error);
+    }
+  };
+
+  const removeChild = async () => {
+    const { id } = childrensAges[childrensAges.length - 1];
+
+    try {
+      await axiosWithAuth().delete(`/ages/${id}`);
+      await fetchAges();
+    } catch (error) {
+      alert('error removing child');
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAges();
+    //eslint-disable-next-line
+  }, []);
+
+  //One post request to API to change ages when user toggles edit
+  useEffect(() => {
+    if (disabled) {
+      postAges(childrensAges);
+    }
+    //eslint-disable-next-line
+  }, [disabled]);
+
   return (
     <div className="householdInfo userInfoContent">
       <div className="userContentHeading">
@@ -45,7 +134,7 @@ const Household = ({
             name="familySize"
           />
         </Form.Item>
-        <Form.Item
+        {/* <Form.Item
           name="totalChildren"
           initialValue={requestData.totalChildren}
           label="Number of Children in Household"
@@ -67,7 +156,14 @@ const Household = ({
               <Option value={num}>{num}</Option>
             ))}
           </Select>
-        </Form.Item>
+        </Form.Item> */}
+        <ChildrensAges
+          childrensAges={childrensAges}
+          disabled={disabled}
+          handleAgeChange={handleAgeChange}
+          addChild={addChild}
+          removeChild={removeChild}
+        />
         <Form.Item
           hasFeedback
           name="monthlyIncome"
