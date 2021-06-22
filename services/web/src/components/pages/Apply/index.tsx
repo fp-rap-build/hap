@@ -146,7 +146,7 @@ const INITIAL_VALUES_PROD = {
   hispanicHOH: false,
   asianHOH: false,
   blackHOH: false,
-  pacificHOH: true,
+  pacificHOH: false,
   whiteHOH: false,
   nativeHOH: false,
   demoNotSayHOH: false,

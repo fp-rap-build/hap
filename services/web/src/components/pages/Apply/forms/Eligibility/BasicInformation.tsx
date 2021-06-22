@@ -12,11 +12,6 @@ import { Card, Checkbox, Form, Select, Input, InputNumber, DatePicker } from 'an
 const { Option } = Select;
 
 
-
-
-
-
-
 const BasicInformation = ({ formValues, handleApplicantChange, handleCheckBoxChange, handleDateChange, handleChange, onRoleChange, onStateChange, onGenderChange, date, datestring }) => {
   
 
