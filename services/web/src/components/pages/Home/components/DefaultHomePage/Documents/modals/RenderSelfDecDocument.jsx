@@ -45,11 +45,13 @@ const RenderSelfDecDocument = ({
           >
             <TextArea key="fix" rows={5} allowClear />
           </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Create Document
-            </Button>
-          </Form.Item>
+          {sessionId ? null : (
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Create Document
+              </Button>
+            </Form.Item>
+          )}
         </Form>
       </div>
     );
