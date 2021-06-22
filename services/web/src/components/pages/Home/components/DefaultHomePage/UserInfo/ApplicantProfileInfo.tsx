@@ -3,7 +3,7 @@ import { Form, Input, Typography, Divider, DatePicker } from 'antd';
 const { Title, Paragraph } = Typography;
 
 const formatDate = (date) => {
-  date = new Date(date);
+  date =  new Date(date);
   let year = date.getFullYear();
   let month = date.getMonth()+1;
   let day = date.getDate();
@@ -61,9 +61,7 @@ const ApplicantProfileInfo = ({
           <Input disabled={true} name="email" />
         </Form.Item>
 
-        <Form.Item label="DOB" name="dob" initialValue={formatDate(requestData.dob)}>
-        <Input disabled={true} />
-      </Form.Item>
+        
 
        
 
