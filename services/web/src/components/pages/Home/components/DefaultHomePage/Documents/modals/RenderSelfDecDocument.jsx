@@ -9,19 +9,21 @@ import LoadingComponent from '../../../../../../common/LoadingComponent';
 const templateId = process.env.REACT_APP_SELF_DEC_TEMPLATE_ID;
 
 const RenderSelfDecDocument = ({ sessionId }) => {
-  const docUrl = sessionId => {
-    return `https://app.pandadoc.com/s/${sessionId}`;
-  };
+  const docUrl = `https://app.pandadoc.com/s/${sessionId}`;
 
   return (
     <div>
-      <div className="documentContainer">
-        <iframe
-          title="Self Dec Embed"
-          src={docUrl(sessionId)}
-          style={{ height: '70vh', width: '50vw' }}
-        ></iframe>
-      </div>
+      {sessionId ? (
+        <div className="documentContainer">
+          <iframe
+            title="Self Dec Embed"
+            src={docUrl}
+            style={{ height: '70vh', width: '50vw' }}
+          ></iframe>
+        </div>
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
 };

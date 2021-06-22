@@ -9,10 +9,12 @@ import { processDocument } from '../utils/pandaDocUtils';
 import SELF_DEC_SCHEMA from '../utils/selfDecSchema';
 
 import RenderSelfDecDocument from './RenderSelfDecDocument';
+import LoadingComponent from '../../../../../../common/LoadingComponent';
 
 import { fetchDocuments } from '../../../../../../../redux/requests/requestActions';
 
 import { Modal, Typography, Button, Input, Form } from 'antd';
+import session from 'redux-persist/lib/storage/session';
 const { Paragraph, Title } = Typography;
 const { TextArea } = Input;
 
@@ -26,42 +28,32 @@ const SelfDecModal = ({
   tableData,
 }) => {
   const currentUser = useSelector(state => state.user.currentUser);
-  //DEV DELETE AT PUSh
-  console.log(currentUser);
-  //--------------------------
+
   const dispatch = useDispatch();
 
   const fetchUserDocuments = () => dispatch(fetchDocuments(request.id));
 
   const [documentView, setDocumentView] = useState(false);
-  const [userText, setUserText] = useState({ text: '' });
   const [sessionId, setSessionId] = useState('');
-
-  const handleTextChange = e => {
-    e.stopPropagation();
-    setUserText({ ...userText, text: e.target.value });
-  };
+  const [loading, setLoading] = useState(false);
 
   const handleDocCreation = async () => {
-    const sessionIdfromAPI = await processDocument(
-      currentUser,
-      selectedCategory,
-      SELF_DEC_SCHEMA
-    );
-
-    setSessionId(sessionIdfromAPI);
-  };
-
-  const ModalTextInput = () => {
-    return (
-      <div className="modalTextInput">
-        <Form>
-          <Form.Item>
-            <Input rows={5} onChange={handleTextChange} value={userText.text} />
-          </Form.Item>
-        </Form>
-      </div>
-    );
+    setLoading(true);
+    try {
+      const sessionIdfromAPI = await processDocument(
+        currentUser,
+        selectedCategory,
+        SELF_DEC_SCHEMA
+      );
+      console.log('From The Other Side', sessionIdfromAPI);
+      setSessionId(sessionIdfromAPI);
+      // console.log(sessionId);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+      // console.log(sessionId);
+    }
   };
 
   return (
@@ -98,10 +90,10 @@ const SelfDecModal = ({
         ]}
       >
         <div className="modalTextInput">
-          {sessionId ? (
-            <RenderSelfDecDocument sessionId={sessionId} />
+          {loading ? (
+            <LoadingComponent />
           ) : (
-            <ModalTextInput />
+            <RenderSelfDecDocument sessionId={sessionId} />
           )}
         </div>
       </Modal>

@@ -1,5 +1,6 @@
-import { getParsedCommandLineOfConfigFile } from 'typescript';
 import { axiosForPanda } from '../../../../../../../api/axiosForPanda';
+
+import { useState } from 'react';
 
 const fetchTemplateId = async templateName => {
   try {
@@ -70,6 +71,7 @@ const createDocumentLink = async (documentId, recipientEmail) => {
 };
 
 const updateDocPayload = (currentUser, selectedCategory, DOCUMENT_SCHEMA) => {
+  //Refactor to be return new obj
   DOCUMENT_SCHEMA.name = `${currentUser.lastName}_${selectedCategory}_self_declaration`;
   DOCUMENT_SCHEMA.recipients[0].email = currentUser.email;
   DOCUMENT_SCHEMA.recipients[0].first_name = currentUser.firstName;
@@ -77,34 +79,32 @@ const updateDocPayload = (currentUser, selectedCategory, DOCUMENT_SCHEMA) => {
 
   switch (selectedCategory) {
     case 'income':
-      DOCUMENT_SCHEMA.fields.income_checkbox = true;
-      // DOCUMENT_SCHEMA.fields.income_text = userText;
+      DOCUMENT_SCHEMA.fields.income_checkbox.value = true;
+      // DOCUMENT_SCHEMA.fields.income_text.value = userText;
       break;
     case 'residency':
-      DOCUMENT_SCHEMA.fields.rental_proof_checkbox = true;
-      // DOCUMENT_SCHEMA.fields.rental_proof_text = userText;
+      DOCUMENT_SCHEMA.fields.rental_proof_checkbox.value = true;
+      // DOCUMENT_SCHEMA.fields.rental_proof_text.value = userText;
       break;
     case 'housingInstability':
-      DOCUMENT_SCHEMA.fields.housing_status_checkbox = true;
-      // DOCUMENT_SCHEMA.fields.housing_status_text = userText;
+      DOCUMENT_SCHEMA.fields.housing_status_checkbox.value = true;
+      // DOCUMENT_SCHEMA.fields.housing_status_text.value = userText;
       break;
     case 'covid':
-      DOCUMENT_SCHEMA.fields.financial_hardship_checkbox = true;
-      // DOCUMENT_SCHEMA.fields.financial_hardship_text = userText;
+      DOCUMENT_SCHEMA.fields.financial_hardship_checkbox.value = true;
+      // DOCUMENT_SCHEMA.fields.financial_hardship_text.value = userText;
       break;
     default:
       console.log('Invalid category');
   }
-
-  console.log(DOCUMENT_SCHEMA);
 };
 
+//RETURNS SESSION ID FOR EMBED LINK
 const processDocument = async (
   currentUser,
   selectedCategory,
   DOCUMENT_SCHEMA
 ) => {
-  //RETURNS SESSION ID FOR EMBED LINK
   updateDocPayload(currentUser, selectedCategory, DOCUMENT_SCHEMA);
 
   try {
@@ -116,9 +116,10 @@ const processDocument = async (
     //set document to sent - aka ready to be edited
     await sendDocument(document.id);
     //create document link - may run into issue if document status hasn't been updated yet
+
     const docLinkId = await createDocumentLink(document.id, currentUser.email);
 
-    return docLinkId.id;
+    return docLinkId;
   } catch (error) {
     console.log(error);
   }
