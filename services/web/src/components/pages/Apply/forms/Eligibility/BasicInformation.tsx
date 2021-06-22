@@ -8,7 +8,7 @@ import { genders } from '../../../../../utils/data/genders';
 
 //UI
 import { Card, Checkbox, Form, Select, Input, InputNumber, DatePicker } from 'antd';
-import "react-datepicker/dist/react-datepicker.css";
+
 const { Option } = Select;
 
 
