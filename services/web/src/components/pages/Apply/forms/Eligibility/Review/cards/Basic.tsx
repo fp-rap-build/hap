@@ -16,6 +16,9 @@ export default function Basic({ formValues, step, setStep }) {
     >
       <Descriptions column={1}>
         <Descriptions.Item label="Role">{formValues.role}</Descriptions.Item>
+
+        <Descriptions.Item label="Dob">{formValues.dob}</Descriptions.Item>
+        
         <Descriptions.Item label="State">{formValues.state}</Descriptions.Item>
         <Descriptions.Item label="City">
           {formValues.cityName}

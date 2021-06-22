@@ -48,6 +48,14 @@ const ApplicantProfileInfo = ({
           <Input disabled={true} name="email" />
         </Form.Item>
 
+        <Form.Item
+          label="Date of Birth"
+          name="dob"
+          initialValue={applicantData.dob}
+        >
+          <Input disabled={disabled} name="dob" />
+        </Form.Item>
+
         <Form.Item label="Role" name="role" initialValue={applicantData.role}>
           <Input disabled={true} name="role" />
         </Form.Item>

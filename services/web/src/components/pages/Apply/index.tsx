@@ -74,6 +74,15 @@ const INITIAL_VALUES_DEV = {
   foodWrkr: false,
   minorGuest: false,
   covidFH: false,
+  hispanicHOH: false,
+  asianHOH: false,
+  blackHOH: false,
+  pacificHOH: true,
+  whiteHOH: false,
+  nativeHOH: false,
+  demoNotSayHOH: false,
+  gender: 'Male',
+  dob: '1981/01/01',
   hispanic: false,
   asian: false,
   black: false,
@@ -97,6 +106,8 @@ const INITIAL_VALUES_PROD = {
   state: '',
   role: 'tenant',
   familySize: '',
+  beds: null,
+  dob: '',
   monthlyIncome: '',
   tenantName: '',
   tenantEmail: '',
@@ -129,6 +140,14 @@ const INITIAL_VALUES_PROD = {
   white: false,
   native: false,
   demoNotSay: false,
+  hispanicHOH: false,
+  asianHOH: false,
+  blackHOH: false,
+  pacificHOH: true,
+  whiteHOH: false,
+  nativeHOH: false,
+  demoNotSayHOH: false,
+  gender: '',
   incomplete: true,
 };
 
@@ -151,7 +170,7 @@ export default function Index() {
 
   const goBackwards = () => setStep(step - 1);
 
-  const [formValues, setFormValues] = useState(INITIAL_VALUES_PROD);
+  const [formValues, setFormValues] = useState(INITIAL_VALUES_DEV);
   const [formConsent, setFormConsent] = useState(false);
 
   const handleChange = e => {
@@ -168,6 +187,31 @@ export default function Index() {
 
   function onStateChange(value) {
     setFormValues({ ...formValues, state: value });
+  }
+
+  function handleDateChange(value) {
+
+    const formatDate = (date) => {
+      date = new Date(date);
+      let year = date.getFullYear();
+      let month = date.getMonth();
+      let day = date.getDate();
+      month = month+1;
+  
+      return `${year} / ${month} / ${day}`;
+  };
+
+  const date = formatDate(value);
+	
+		setFormValues({
+			...formValues,
+			dob: date
+		});
+	};
+
+  function onDateChange(value) {
+
+    setFormValues({ ...formValues, dob: value});
   }
 
   const onRoleChange = value => {
@@ -210,7 +254,9 @@ export default function Index() {
     loading,
     onStateChange,
     onRoleChange,
+    onDateChange,
     handleCheckBoxChange,
+    handleDateChange,
     formConsent,
     setFormConsent,
   };
