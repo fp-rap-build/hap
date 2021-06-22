@@ -1,15 +1,137 @@
+import React, { useState } from 'react';
+
 //Components
 import CardTitle from '../../CardTitle';
 //Utils
 import { states } from '../../../../../utils/data/states';
+import { genders } from '../../../../../utils/data/genders';
+
 //UI
-import { Card, Form, Select, Input, InputNumber } from 'antd';
+import { Card, Checkbox, Form, Select, Input, InputNumber, DatePicker } from 'antd';
+
 const { Option } = Select;
 
-const BasicInformation = ({ formValues, onRoleChange, onStateChange }) => {
+
+
+
+
+
+
+const BasicInformation = ({ formValues, handleApplicantChange, handleCheckBoxChange, handleDateChange, handleChange, onRoleChange, onStateChange, onGenderChange, date, datestring }) => {
+  
+
+  
   return (
+
+
+    
     <div>
-      <Card title={<CardTitle percentage={20} title="Basic Information" />}>
+      <Card title={<CardTitle percentage={20} title="Head of Household Information" />}>
+
+        <p>Please answer the following questions about the Head of the Household (The person responsible for 
+          managing the rent and utility payments for this household)
+        </p>
+        <br />
+        <Form.Item
+        name='dob'
+        label='Date of Birth'>
+        <DatePicker
+        
+        onChange={handleDateChange}></DatePicker>
+        </Form.Item>
+       <h2>Head of Household Identifies as:</h2>
+
+   
+          <h3>Ethnicty</h3>
+
+        
+        <Form.Item>
+          <Checkbox
+            checked={formValues.hispanic}
+            name="hispanic"
+            onChange={handleCheckBoxChange}
+          >
+            Hispanic / Latinx
+          </Checkbox>
+        </Form.Item>
+
+        <h3>Race</h3>
+
+        <Form.Item>
+          <Checkbox
+            checked={formValues.asian}
+            onChange={handleCheckBoxChange}
+            name="asian"
+          >
+            Asian
+          </Checkbox>
+        </Form.Item>
+        <Form.Item>
+          <Checkbox
+            checked={formValues.black}
+            onChange={handleCheckBoxChange}
+            name="black"
+          >
+            Black or African American
+          </Checkbox>
+        </Form.Item>
+        <Form.Item>
+          <Checkbox
+            checked={formValues.pacific}
+            onChange={handleCheckBoxChange}
+            name="pacific"
+          >
+            Native Hawaiian or Other Pacific Islander
+          </Checkbox>
+        </Form.Item>
+        <Form.Item>
+          <Checkbox
+            checked={formValues.white}
+            onChange={handleCheckBoxChange}
+            name="white"
+          >
+            White
+          </Checkbox>
+        </Form.Item>
+        <Form.Item>
+          <Checkbox
+            checked={formValues.native}
+            onChange={handleCheckBoxChange}
+            name="native"
+          >
+            Native American or Alskan Native
+          </Checkbox>
+        </Form.Item>
+        <Form.Item>
+          <Checkbox
+            checked={formValues.demoNotSay}
+            onChange={handleCheckBoxChange}
+            name="demoNotSay"
+          >
+            Rather Not Say
+          </Checkbox>
+        </Form.Item>
+
+        <Form.Item
+          hasFeedback
+          initialValue={formValues.gender}
+          label="Gender"
+          name="gender"
+          rules={[{ required: true, message: 'Please select the gender you most closely identify with' }]}
+        >
+          <Select
+            onChange={onGenderChange}
+            showSearch
+            placeholder="Select a gender you most closely identify with"
+          >
+            {genders.map(gender => (
+              <Option value={gender}>{gender}</Option>
+            ))}
+          </Select>
+        </Form.Item>
+
+        <h2>Head of Household's Address:</h2>
+
         <Form.Item
           hasFeedback
           initialValue={formValues.state}

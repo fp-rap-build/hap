@@ -4,6 +4,15 @@ import { Card } from 'antd';
 
 import { Descriptions } from 'antd';
 
+const formatDate = (date) => {
+  date = new Date(date);
+  let year = date.getFullYear();
+  let month = date.getMonth()+1;
+  let day = date.getDate();
+
+  return `${year} / ${month} / ${day}`;
+};
+
 export default function Basic({ formValues, step, setStep }) {
   return (
     <Card
@@ -15,7 +24,10 @@ export default function Basic({ formValues, step, setStep }) {
       }
     >
       <Descriptions column={1}>
-        <Descriptions.Item label="Role">{formValues.role}</Descriptions.Item>
+        <Descriptions.Item label="Gender">{formValues.gender}</Descriptions.Item>
+
+        <Descriptions.Item label="Date of Birth">{formatDate(formValues.dob)}</Descriptions.Item>
+        
         <Descriptions.Item label="State">{formValues.state}</Descriptions.Item>
         <Descriptions.Item label="City">
           {formValues.cityName}

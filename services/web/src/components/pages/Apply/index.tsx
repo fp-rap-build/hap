@@ -32,7 +32,10 @@ import { clearErrorMessage } from '../../../redux/users/userActions';
 
 import { setErrorMessage } from '../../../redux/global/globalActions';
 
-import faker from 'faker';
+
+const faker = require('faker');
+
+let recentDate = faker.date.recent();
 
 const INITIAL_VALUES_DEV = {
   firstName: faker.name.firstName(),
@@ -72,13 +75,22 @@ const INITIAL_VALUES_DEV = {
   totalChildren: 2,
   unEmp90: true,
   foodWrkr: false,
-  minorGuest: false,
-  covidFH: false,
-  hispanic: false,
+  minorGuest: true,
+  covidFH: true,
+  hispanicHOH: true,
+  asianHOH: false,
+  blackHOH: false,
+  pacificHOH: false,
+  whiteHOH: true,
+  nativeHOH: false,
+  demoNotSayHOH: false,
+  gender: 'Male',
+  dob: recentDate,
+  hispanic: true,
   asian: false,
   black: false,
-  pacific: true,
-  white: false,
+  pacific: false,
+  white: true,
   native: false,
   demoNotSay: false,
   incomplete: true,
@@ -97,6 +109,8 @@ const INITIAL_VALUES_PROD = {
   state: '',
   role: 'tenant',
   familySize: '',
+  beds: null,
+  dob: '',
   monthlyIncome: '',
   tenantName: '',
   tenantEmail: '',
@@ -129,6 +143,14 @@ const INITIAL_VALUES_PROD = {
   white: false,
   native: false,
   demoNotSay: false,
+  hispanicHOH: false,
+  asianHOH: false,
+  blackHOH: false,
+  pacificHOH: true,
+  whiteHOH: false,
+  nativeHOH: false,
+  demoNotSayHOH: false,
+  gender: '',
   incomplete: true,
 };
 
@@ -170,6 +192,24 @@ export default function Index() {
     setFormValues({ ...formValues, state: value });
   }
 
+  function handleDateChange(value) {
+	
+		setFormValues({
+			...formValues,
+			dob: value
+		});
+	};
+
+  function onDateChange(value) {
+
+    setFormValues({ ...formValues, dob: value});
+  }
+
+  function onGenderChange(value) {
+
+    setFormValues({ ...formValues, gender: value});
+  }
+
   const onRoleChange = value => {
     setFormValues({ ...formValues, role: value });
   };
@@ -209,8 +249,11 @@ export default function Index() {
     goForward,
     loading,
     onStateChange,
+    onGenderChange,
     onRoleChange,
+    onDateChange,
     handleCheckBoxChange,
+    handleDateChange,
     formConsent,
     setFormConsent,
   };

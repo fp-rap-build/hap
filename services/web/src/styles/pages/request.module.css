@@ -41,6 +41,14 @@
   align-items: flex-start;
 }
 
+.datepicker {
+  width: 50%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
 @media (max-width: 1280px) {
   .documents {
     grid-template-columns: 1fr 1fr 1fr;
@@ -77,6 +85,11 @@
   }
 
   .checklist {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .datepicker {
     width: 100%;
     margin-bottom: 1rem;
   }
