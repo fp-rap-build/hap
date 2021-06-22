@@ -66,28 +66,30 @@ const SelfDecModal = ({
           handleCancel();
           setDocumentView(false);
         }}
-        footer={[
-          <>
-            <Button
-              onClick={() => {
-                handleCancel();
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              type="primary"
-              danger
-              onClick={() => {
-                // postSelfDecPlaceholder();
-                // handleSelfDecAccept();
-                handleDocCreation();
-              }}
-            >
-              Create Document
-            </Button>
-          </>,
-        ]}
+        footer={
+          [
+            // <>
+            //   <Button
+            //     onClick={() => {
+            //       handleCancel();
+            //     }}
+            //   >
+            //     Cancel
+            //   </Button>
+            //   <Button
+            //     type="primary"
+            //     danger
+            //     onClick={() => {
+            //       // postSelfDecPlaceholder();
+            //       // handleSelfDecAccept();
+            //       handleDocCreation();
+            //     }}
+            //   >
+            //     Create Document
+            //   </Button>
+            // </>,
+          ]
+        }
       >
         <div className="modalTextInput">
           {loading ? (
@@ -97,6 +99,7 @@ const SelfDecModal = ({
               sessionId={sessionId}
               userText={userText}
               setUserText={setUserText}
+              handleDocCreation={handleDocCreation}
             />
           )}
         </div>
