@@ -12,6 +12,12 @@ const SELF_DEC_SCHEMA = {
     },
   ],
   fields: {
+    name: {
+      value: '',
+    },
+    date: {
+      value: '',
+    },
     income_checkbox: {
       value: false,
     },
@@ -23,12 +29,6 @@ const SELF_DEC_SCHEMA = {
     },
     rental_proof_checkbox: {
       value: false,
-    },
-    name: {
-      value: '',
-    },
-    date: {
-      value: '',
     },
     income_text: {
       value: '',

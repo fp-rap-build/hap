@@ -2,19 +2,16 @@ import { useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { axiosWithAuth } from '../../../../../../../api/axiosWithAuth';
-
 import { processDocument } from '../utils/pandaDocUtils';
 
 import SELF_DEC_SCHEMA from '../utils/selfDecSchema';
 
 import RenderSelfDecDocument from './RenderSelfDecDocument';
-import LoadingComponent from '../../../../../../common/LoadingComponent';
 
 import { fetchDocuments } from '../../../../../../../redux/requests/requestActions';
 
 import { Modal, Typography, Button, Input, Spin } from 'antd';
-import session from 'redux-persist/lib/storage/session';
+
 const { Paragraph, Title } = Typography;
 const { TextArea } = Input;
 
@@ -36,12 +33,14 @@ const SelfDecModal = ({
   const [documentView, setDocumentView] = useState(false);
   const [sessionId, setSessionId] = useState('');
   const [loading, setLoading] = useState(false);
+  const [userText, setUserText] = useState('');
 
   const handleDocCreation = async () => {
     setLoading(true);
     try {
       const sessionIdfromAPI = await processDocument(
         currentUser,
+        userText,
         selectedCategory,
         SELF_DEC_SCHEMA
       );
@@ -94,7 +93,11 @@ const SelfDecModal = ({
           {loading ? (
             <Spin tip="Creating Your Document!" />
           ) : (
-            <RenderSelfDecDocument sessionId={sessionId} />
+            <RenderSelfDecDocument
+              sessionId={sessionId}
+              userText={userText}
+              setUserText={setUserText}
+            />
           )}
         </div>
       </Modal>

@@ -70,6 +70,7 @@ const createDocumentLink = async (documentId, recipientEmail) => {
 
 const updateSelfDecPayload = (
   currentUser,
+  userText,
   selectedCategory,
   DOCUMENT_SCHEMA
 ) => {
@@ -80,22 +81,24 @@ const updateSelfDecPayload = (
   resSchema.recipients[0].first_name = currentUser.firstName;
   resSchema.recipients[0].last_name = currentUser.lastName;
 
+  resSchema.fields.name.value = `${currentUser.firstName} ${currentUser.lastName}`;
+
   switch (selectedCategory) {
     case 'income':
       resSchema.fields.income_checkbox.value = true;
-      // resSchema.fields.income_text.value = userText;
+      resSchema.fields.income_text.value = userText;
       break;
     case 'residency':
       resSchema.fields.rental_proof_checkbox.value = true;
-      // resSchema.fields.rental_proof_text.value = userText;
+      resSchema.fields.rental_proof_text.value = userText;
       break;
     case 'housingInstability':
       resSchema.fields.housing_status_checkbox.value = true;
-      // resSchema.fields.housing_status_text.value = userText;
+      resSchema.fields.housing_status_text.value = userText;
       break;
     case 'covid':
       resSchema.fields.financial_hardship_checkbox.value = true;
-      // resSchema.fields.financial_hardship_text.value = userText;
+      resSchema.fields.financial_hardship_text.value = userText;
       break;
     default:
       console.log('Error creating document - Invalid category');
@@ -107,11 +110,13 @@ const updateSelfDecPayload = (
 //RETURNS SESSION ID FOR EMBED LINK
 const processDocument = async (
   currentUser,
+  userText,
   selectedCategory,
   DOCUMENT_SCHEMA
 ) => {
   const docPayload = updateSelfDecPayload(
     currentUser,
+    userText,
     selectedCategory,
     DOCUMENT_SCHEMA
   );
@@ -119,13 +124,9 @@ const processDocument = async (
   try {
     //create a draft document
     const document = await createDocument(docPayload);
-    //ISSUE - Document is still in uploaded status - has not been moved to draft
-    //Cannot send doc until it is a draft - look for a work around
-    //We could also look for the document - if it's status isn't good, call it back again
     //set document to sent - aka ready to be edited
     await sendDocument(document.id);
     //create document link - may run into issue if document status hasn't been updated yet
-
     const docLinkId = await createDocumentLink(document.id, currentUser.email);
 
     return docLinkId;
