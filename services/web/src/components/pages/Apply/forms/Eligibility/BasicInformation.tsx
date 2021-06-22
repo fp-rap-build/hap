@@ -17,7 +17,7 @@ const { Option } = Select;
 
 
 
-const BasicInformation = ({ formValues, handleCheckBoxChange, handleDateChange, handleChange, onRoleChange, onStateChange, date, datestring }) => {
+const BasicInformation = ({ formValues, handleApplicantChange, handleCheckBoxChange, handleDateChange, handleChange, onRoleChange, onStateChange, onGenderChange, date, datestring }) => {
   
 
   
@@ -120,13 +120,9 @@ const BasicInformation = ({ formValues, handleCheckBoxChange, handleDateChange, 
           rules={[{ required: true, message: 'Please select the gender you most closely identify with' }]}
         >
           <Select
-            onChange={onStateChange}
+            onChange={onGenderChange}
             showSearch
             placeholder="Select a gender you most closely identify with"
-            optionFilterProp="children"
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
           >
             {genders.map(gender => (
               <Option value={gender}>{gender}</Option>

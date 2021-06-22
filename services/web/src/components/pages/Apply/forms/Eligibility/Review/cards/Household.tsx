@@ -24,6 +24,9 @@ export default function Household({ formValues, step, setStep }) {
         <Descriptions.Item label="Monthly Income">
           {formValues.monthlyIncome}
         </Descriptions.Item>
+        <Descriptions.Item label="Total Bedrooms">
+          {formValues.beds}
+        </Descriptions.Item>
         <Descriptions.Item label="Monthly Rent">
           {formValues.monthlyRent}
         </Descriptions.Item>

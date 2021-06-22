@@ -1,13 +1,26 @@
-import { Form, Input, Typography, Divider } from 'antd';
+import { Form, Input, Typography, Divider, DatePicker } from 'antd';
 
 const { Title, Paragraph } = Typography;
 
+const formatDate = (date) => {
+  date = new Date(date);
+  let year = date.getFullYear();
+  let month = date.getMonth()+1;
+  let day = date.getDate();
+
+
+  return `${year} / ${month} / ${day}`;
+};
+
 const ApplicantProfileInfo = ({
   applicantData,
+  requestData,
   disabled,
   handleApplicantChange,
+  handleDateChange
 }) => {
   return (
+    
     <div className="addressInformation userInfoContent">
       <div className="userContentHeading">
         <Title level={4}>Applicant Information: </Title>
@@ -48,13 +61,11 @@ const ApplicantProfileInfo = ({
           <Input disabled={true} name="email" />
         </Form.Item>
 
-        <Form.Item
-          label="Date of Birth"
-          name="dob"
-          initialValue={applicantData.dob}
-        >
-          <Input disabled={disabled} name="dob" />
-        </Form.Item>
+        <Form.Item label="DOB" name="dob" initialValue={formatDate(requestData.dob)}>
+        <Input disabled={true} />
+      </Form.Item>
+
+       
 
         <Form.Item label="Role" name="role" initialValue={applicantData.role}>
           <Input disabled={true} name="role" />

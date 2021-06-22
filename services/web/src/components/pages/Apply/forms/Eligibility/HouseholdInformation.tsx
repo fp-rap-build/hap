@@ -50,6 +50,27 @@ export default function HouseHoldInformation({ formValues, role }) {
         </Form.Item>
 
         <Form.Item
+          name="beds"
+          initialValue={formValues.beds}
+          label="Total Bedrooms"
+          required
+          hasFeedback
+          rules={[
+            {
+              required: true,
+              pattern: RegExp(/^([0-9][0-9]?)\s*$/),
+              message: 'Invalid number of bedrooms',
+            },
+          ]}
+        >
+          <Input
+            style={{ width: '100%' }}
+            name="beds"
+            value={formValues.beds}
+          />
+        </Form.Item>
+
+        <Form.Item
           hasFeedback
           name="monthlyIncome"
           initialValue={formValues.monthlyIncome}

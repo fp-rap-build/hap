@@ -32,7 +32,10 @@ import { clearErrorMessage } from '../../../redux/users/userActions';
 
 import { setErrorMessage } from '../../../redux/global/globalActions';
 
-import faker from 'faker';
+
+const faker = require('faker');
+
+let recentDate = faker.date.recent();
 
 const INITIAL_VALUES_DEV = {
   firstName: faker.name.firstName(),
@@ -72,22 +75,22 @@ const INITIAL_VALUES_DEV = {
   totalChildren: 2,
   unEmp90: true,
   foodWrkr: false,
-  minorGuest: false,
-  covidFH: false,
-  hispanicHOH: false,
+  minorGuest: true,
+  covidFH: true,
+  hispanicHOH: true,
   asianHOH: false,
   blackHOH: false,
-  pacificHOH: true,
-  whiteHOH: false,
+  pacificHOH: false,
+  whiteHOH: true,
   nativeHOH: false,
   demoNotSayHOH: false,
   gender: 'Male',
-  dob: '1981/01/01',
-  hispanic: false,
+  dob: recentDate,
+  hispanic: true,
   asian: false,
   black: false,
-  pacific: true,
-  white: false,
+  pacific: false,
+  white: true,
   native: false,
   demoNotSay: false,
   incomplete: true,
@@ -170,7 +173,7 @@ export default function Index() {
 
   const goBackwards = () => setStep(step - 1);
 
-  const [formValues, setFormValues] = useState(INITIAL_VALUES_DEV);
+  const [formValues, setFormValues] = useState(INITIAL_VALUES_PROD);
   const [formConsent, setFormConsent] = useState(false);
 
   const handleChange = e => {
@@ -190,28 +193,21 @@ export default function Index() {
   }
 
   function handleDateChange(value) {
-
-    const formatDate = (date) => {
-      date = new Date(date);
-      let year = date.getFullYear();
-      let month = date.getMonth();
-      let day = date.getDate();
-      month = month+1;
-  
-      return `${year} / ${month} / ${day}`;
-  };
-
-  const date = formatDate(value);
 	
 		setFormValues({
 			...formValues,
-			dob: date
+			dob: value
 		});
 	};
 
   function onDateChange(value) {
 
     setFormValues({ ...formValues, dob: value});
+  }
+
+  function onGenderChange(value) {
+
+    setFormValues({ ...formValues, gender: value});
   }
 
   const onRoleChange = value => {
@@ -253,6 +249,7 @@ export default function Index() {
     goForward,
     loading,
     onStateChange,
+    onGenderChange,
     onRoleChange,
     onDateChange,
     handleCheckBoxChange,

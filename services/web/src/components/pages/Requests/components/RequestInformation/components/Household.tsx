@@ -92,6 +92,26 @@ export default function Household({ request, setRequest, column = 2 }) {
           name="familySize"
         />
       </Form.Item>
+
+      <Form.Item
+        name="beds"
+        initialValue={request.beds}
+        label="Total Bedrooms"
+        hasFeedback
+        rules={[
+          {
+            pattern: RegExp(/^([1-9][0-9]?)\s*$/),
+            message: 'Invalid number of bedrooms',
+          },
+        ]}
+      >
+        <Input
+          disabled={disabled}
+          style={{ width: '100%' }}
+          name="beds"
+        />
+      </Form.Item>
+
       <Form.Item
         name="totalChildren"
         initialValue={request.totalChildren}
