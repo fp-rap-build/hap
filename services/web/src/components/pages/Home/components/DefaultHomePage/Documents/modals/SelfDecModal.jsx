@@ -13,7 +13,7 @@ import LoadingComponent from '../../../../../../common/LoadingComponent';
 
 import { fetchDocuments } from '../../../../../../../redux/requests/requestActions';
 
-import { Modal, Typography, Button, Input, Form } from 'antd';
+import { Modal, Typography, Button, Input, Spin } from 'antd';
 import session from 'redux-persist/lib/storage/session';
 const { Paragraph, Title } = Typography;
 const { TextArea } = Input;
@@ -61,7 +61,8 @@ const SelfDecModal = ({
       <Modal
         title={<Title level={5}>Self-Declaration</Title>}
         visible={selfDecModalVisibility}
-        width={documentView ? '60vw' : 520}
+        width={sessionId ? '80vw' : 520}
+        maskClosable={false}
         onCancel={() => {
           handleCancel();
           setDocumentView(false);
@@ -91,7 +92,7 @@ const SelfDecModal = ({
       >
         <div className="modalTextInput">
           {loading ? (
-            <LoadingComponent />
+            <Spin tip="Creating Your Document!" />
           ) : (
             <RenderSelfDecDocument sessionId={sessionId} />
           )}

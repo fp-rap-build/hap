@@ -16,6 +16,7 @@ const UploadDocModal = ({
     <>
       <Modal
         title={<Title level={5}>Upload Document</Title>}
+        askClosable={false}
         visible={uploadModalVisibility}
         onOk={handleAcknowledge}
         onCancel={handleCancel}

@@ -11,7 +11,6 @@ const fetchTemplateId = async templateName => {
       .then(res => res.data);
 
     return templateId.results[0].id;
-    // setState({ ...state, templateId: templateId.results[0].id });
   } catch (error) {
     alert('Error fetching template Id');
     console.log(error);
@@ -31,21 +30,20 @@ const createDocument = async documentInfo => {
   }
 };
 
-const wait = async ms => {
+const wait = async s => {
   return new Promise(resolve => {
-    setTimeout(resolve, ms);
+    setTimeout(resolve, s * 1000);
   });
 };
 
 const sendDocument = async documentId => {
   try {
-    //Wait 1s for pandaDoc to process teh doc before sending
-    await wait(5000);
+    //Need to wait 5s for pandaDoc to process the doc before sending
+    await wait(5);
     await axiosForPanda().post(`/documents/${documentId}/send`, {
-      //test to see if message and subject are required when silent sent to true
       message: 'Hello! This document was sent from the PandaDoc API.',
       subject: 'Please check this test API document from PandaDoc',
-      //No need to send email w/ embeded doc
+      //Set silent to true, we do not need to send an email b/c we are embedding the doc for immediate signature
       silent: true,
     });
   } catch (error) {
@@ -70,33 +68,40 @@ const createDocumentLink = async (documentId, recipientEmail) => {
   }
 };
 
-const updateDocPayload = (currentUser, selectedCategory, DOCUMENT_SCHEMA) => {
-  //Refactor to be return new obj
-  DOCUMENT_SCHEMA.name = `${currentUser.lastName}_${selectedCategory}_self_declaration`;
-  DOCUMENT_SCHEMA.recipients[0].email = currentUser.email;
-  DOCUMENT_SCHEMA.recipients[0].first_name = currentUser.firstName;
-  DOCUMENT_SCHEMA.recipients[0].last_name = currentUser.lastName;
+const updateSelfDecPayload = (
+  currentUser,
+  selectedCategory,
+  DOCUMENT_SCHEMA
+) => {
+  const resSchema = Object.assign({}, DOCUMENT_SCHEMA);
+
+  resSchema.name = `${currentUser.lastName}_${selectedCategory}_self_declaration`;
+  resSchema.recipients[0].email = currentUser.email;
+  resSchema.recipients[0].first_name = currentUser.firstName;
+  resSchema.recipients[0].last_name = currentUser.lastName;
 
   switch (selectedCategory) {
     case 'income':
-      DOCUMENT_SCHEMA.fields.income_checkbox.value = true;
-      // DOCUMENT_SCHEMA.fields.income_text.value = userText;
+      resSchema.fields.income_checkbox.value = true;
+      // resSchema.fields.income_text.value = userText;
       break;
     case 'residency':
-      DOCUMENT_SCHEMA.fields.rental_proof_checkbox.value = true;
-      // DOCUMENT_SCHEMA.fields.rental_proof_text.value = userText;
+      resSchema.fields.rental_proof_checkbox.value = true;
+      // resSchema.fields.rental_proof_text.value = userText;
       break;
     case 'housingInstability':
-      DOCUMENT_SCHEMA.fields.housing_status_checkbox.value = true;
-      // DOCUMENT_SCHEMA.fields.housing_status_text.value = userText;
+      resSchema.fields.housing_status_checkbox.value = true;
+      // resSchema.fields.housing_status_text.value = userText;
       break;
     case 'covid':
-      DOCUMENT_SCHEMA.fields.financial_hardship_checkbox.value = true;
-      // DOCUMENT_SCHEMA.fields.financial_hardship_text.value = userText;
+      resSchema.fields.financial_hardship_checkbox.value = true;
+      // resSchema.fields.financial_hardship_text.value = userText;
       break;
     default:
-      console.log('Invalid category');
+      console.log('Error creating document - Invalid category');
   }
+
+  return resSchema;
 };
 
 //RETURNS SESSION ID FOR EMBED LINK
@@ -105,11 +110,15 @@ const processDocument = async (
   selectedCategory,
   DOCUMENT_SCHEMA
 ) => {
-  updateDocPayload(currentUser, selectedCategory, DOCUMENT_SCHEMA);
+  const docPayload = updateSelfDecPayload(
+    currentUser,
+    selectedCategory,
+    DOCUMENT_SCHEMA
+  );
 
   try {
     //create a draft document
-    const document = await createDocument(DOCUMENT_SCHEMA);
+    const document = await createDocument(docPayload);
     //ISSUE - Document is still in uploaded status - has not been moved to draft
     //Cannot send doc until it is a draft - look for a work around
     //We could also look for the document - if it's status isn't good, call it back again

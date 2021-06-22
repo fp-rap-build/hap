@@ -1,13 +1,3 @@
-import { useEffect, useState } from 'react';
-
-import { useSelector } from 'react-redux';
-
-import pandaUtils from '../utils/pandaDocUtils';
-
-import LoadingComponent from '../../../../../../common/LoadingComponent';
-
-const templateId = process.env.REACT_APP_SELF_DEC_TEMPLATE_ID;
-
 const RenderSelfDecDocument = ({ sessionId }) => {
   const docUrl = `https://app.pandadoc.com/s/${sessionId}`;
 
@@ -18,7 +8,7 @@ const RenderSelfDecDocument = ({ sessionId }) => {
           <iframe
             title="Self Dec Embed"
             src={docUrl}
-            style={{ height: '70vh', width: '50vw' }}
+            style={{ height: '70vh', width: '75vw' }}
           ></iframe>
         </div>
       ) : (
