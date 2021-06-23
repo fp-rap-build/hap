@@ -95,11 +95,11 @@ const SelfDecModal = ({
               rules={[
                 {
                   required: true,
-                  message: 'Please explain why you cannot provide a document!',
+                  message: 'Please explain why you cannot provide a document.',
                 },
                 {
                   min: 20,
-                  message: 'Explanation must be at least 20 characters!',
+                  message: 'Explanation must be at least 20 characters.',
                 },
               ]}
             >
