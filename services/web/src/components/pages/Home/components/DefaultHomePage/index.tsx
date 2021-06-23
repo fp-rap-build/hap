@@ -125,7 +125,10 @@ export default function Index() {
           >
             {renderContent(props)}
           </Content>
-          <Footer className="dashFooter">
+          <Footer
+            className="dashFooter"
+            style={width < 1030 ? { height: '5rem' } : null}
+          >
             {/* eslint-disable-next-line */}
             <a href="http://www.familypromiseofspokane.org/" target="_blank">
               Powered by Family Promise of Spokane

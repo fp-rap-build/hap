@@ -1,12 +1,14 @@
 import { useState } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { axiosWithAuth } from '../../../../../../../api/axiosWithAuth';
 
-import { Modal, Typography, Button, Checkbox } from 'antd';
 import { fetchDocuments } from '../../../../../../../redux/requests/requestActions';
-const { Paragraph, Title } = Typography;
+
+import { Modal, Typography, Button, Form, Input } from 'antd';
+const { Title } = Typography;
+const { TextArea } = Input;
 
 const SelfDecModal = ({
   selfDecModalVisibility,
@@ -17,10 +19,9 @@ const SelfDecModal = ({
   updateLocalStatuses,
   tableData,
 }) => {
-  const [checked, setChecked] = useState(false);
+  const currentUser = useSelector(state => state.user.currentUser);
 
   const dispatch = useDispatch();
-
   const fetchUserDocuments = () => dispatch(fetchDocuments(request.id));
 
   //Adding place holder doc now as confirmation the user completed this process.
@@ -48,47 +49,69 @@ const SelfDecModal = ({
     }
   };
 
+  //Post explanation to comments
+  const postToComments = async userText => {
+    const reqBody = {
+      requestId: request.id,
+      authorId: currentUser.id,
+      comment: userText,
+      category: 'external',
+      createdAt: new Date().toISOString(),
+    };
+
+    try {
+      await axiosWithAuth().post(`comments/`, reqBody);
+    } catch (error) {
+      alert('ERROR POSTING COMMENT');
+      console.log(error);
+    }
+  };
+
+  const onFinish = value => {
+    postToComments(
+      `${selectedCategory.toUpperCase()} Self Declaration explanation: ${
+        value.text
+      }`
+    );
+    postSelfDecPlaceholder();
+    handleSelfDecAccept();
+  };
+
   return (
     <>
       <Modal
         title={<Title level={5}>Self-Declaration</Title>}
         visible={selfDecModalVisibility}
-        bodyStyle={{ height: '20vh' }}
+        bodyStyle={{ height: '16rem' }}
         onCancel={handleCancel}
-        footer={[
-          <>
-            <Button
-              onClick={() => {
-                handleCancel();
-                setChecked(false);
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              disabled={!checked}
-              type="primary"
-              danger
-              onClick={() => {
-                postSelfDecPlaceholder();
-                handleSelfDecAccept();
-                setChecked(false);
-              }}
-            >
-              Submit
-            </Button>
-          </>,
-        ]}
+        maskClosable={false}
+        footer={null}
       >
-        <Paragraph>
-          By clicking below I am stating that I am unable to provide
-          documentation for category: {selectedCategory}. And that I am prepared
-          to provide a detailed explanation of my current status in lieu of
-          providing documentation.
-        </Paragraph>
-        <Checkbox checked={checked} onChange={() => setChecked(!checked)}>
-          I have read and understand the statement above
-        </Checkbox>
+        <div className="selfDecContent">
+          <Form layout="vertical" name="selfDecUserInput" onFinish={onFinish}>
+            <Form.Item
+              name="text"
+              label="Briefly explain why you cannot provide the requested document:"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please explain why you cannot provide a document.',
+                },
+                {
+                  min: 20,
+                  message: 'Explanation must be at least 20 characters.',
+                },
+              ]}
+            >
+              <TextArea key="fix" rows={5} allowClear />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
       </Modal>
     </>
   );
