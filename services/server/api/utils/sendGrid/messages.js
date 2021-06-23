@@ -78,8 +78,8 @@ const sendPromiseToPayEmail = (emailAddress) => {
     to: emailAddress,
     from: 'hap@familypromiseofspokane.org',
     subject: 'Approved for Rental Assistance',
-    text: `Your tenant's request has been approved! We will contact you shortly to go over the details`,
-    html: `<p>Your tenants request has been approved! We will contact you shortly to go over the details</p>`,
+    text: `Your tenant ${request.firstName} ${request.lastName} at ${request.address} has been approved for rental assistance! We will contact you shortly to go over the details`,
+    html: `<p>Your tenant ${request.firstName} ${request.lastName} at ${request.address} has been approved for rental assistance!</p> <p> We will contact you shortly to go over the details </p>`,
   };
 
   sgMail
@@ -97,9 +97,9 @@ const sendConfirmationOfApproval = (request) => {
   let msg;
 
   if (process.env.NODE_ENV === 'production') {
-    mailingList = ['jwylie@fpspokane.org', 'fpspokane@bill.com', 'dpeabody@familypromiseofspokane.org'];
+    mailingList = ['hap@familypromiseofspokane.org', 'fpspokane@bill.com', 'dpeabody@familypromiseofspokane.org'];
   } else {
-    mailingList = ['jwylie@fpspokane.org'];
+    mailingList = ['hap@familypromiseofspokane.org'];
   }
 
   mailingList.forEach((email) => {
