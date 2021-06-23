@@ -8,7 +8,7 @@ import { Divider, Typography, Button, Row, Col, Spin, Card } from 'antd';
 
 // urls
 
-import { SNAP_ERA, SNAP_ERAP, VLP_EDP } from '../../../../utils/data/urls';
+import { SNAP_ERA, SNAP_ERAP, VLP_EDP, LS, OTHER } from '../../../../utils/data/urls';
 
 const { Paragraph, Title } = Typography;
 
@@ -94,7 +94,7 @@ const ProgramSelection = ({ formValues }) => {
 
         <Row align="middle">
           <Col span={15}>
-            <Paragraph strong={availablePrograms.SNAP_ERA}>
+            <Paragraph strong={availablePrograms.LS}>
               {' '}
               Live Stories : FORWARD Program{' '}
             </Paragraph>
@@ -102,17 +102,18 @@ const ProgramSelection = ({ formValues }) => {
           <Col span={1} />
           <Col span={8}>
             <Button
-              href={SNAP_ERA}
+              href={LS}
               target="_blank"
               type="primary"
               size="medium"
-              disabled={!availablePrograms.SNAP_ERA}
+              disabled={!availablePrograms.LS}
             >
-              {availablePrograms.SNAP_ERA ? 'More Info' : 'Not Available'}
+              {availablePrograms.LS ? 'More Info' : 'Not Available'}
             </Button>
           </Col>
         </Row>
         <Divider />
+        
 
         <Row>
           <Col span={15}>
@@ -140,7 +141,7 @@ const ProgramSelection = ({ formValues }) => {
           <Col span={15}>
             <Paragraph strong={availablePrograms.VLP_EDP}>
               {' '}
-              Northwest Mediation Center : Eviction Resolution Program{' '}
+              NW Mediation Center : Eviction Resolution Program{' '}
             </Paragraph>
           </Col>
           <Col span={1} />
@@ -178,6 +179,30 @@ const ProgramSelection = ({ formValues }) => {
             </Button>
           </Col>
         </Row>
+        <Divider />
+
+        <Row align="middle">
+          <Col span={15}>
+            <Paragraph strong={availablePrograms.OTHER}>
+              {' '}
+              Services and Resources Available in Spokane County: {' '}
+            </Paragraph>
+          </Col>
+          <Col span={1} />
+          <Col span={8}>
+            <Button
+              href={OTHER}
+              target="_blank"
+              type="primary"
+              size="medium"
+              disabled={!availablePrograms.OTHER}
+            >
+              {availablePrograms.OTHER ? 'More Info' : 'Not Available'}
+            </Button>
+          </Col>
+        </Row>
+        <Divider />
+
       </Card>
     </Spin>
   );
