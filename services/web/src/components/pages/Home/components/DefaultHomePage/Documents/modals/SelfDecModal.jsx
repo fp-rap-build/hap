@@ -21,8 +21,6 @@ const SelfDecModal = ({
 }) => {
   const currentUser = useSelector(state => state.user.currentUser);
 
-  const [userText, setUserText] = useState('');
-
   const dispatch = useDispatch();
   const fetchUserDocuments = () => dispatch(fetchDocuments(request.id));
 
@@ -70,7 +68,6 @@ const SelfDecModal = ({
   };
 
   const onFinish = value => {
-    setUserText(value.text);
     postToComments(
       `${selectedCategory.toUpperCase()} Self Declaration explanation: ${
         value.text
@@ -95,7 +92,6 @@ const SelfDecModal = ({
             <Form.Item
               name="text"
               label="Briefly explain why you cannot provide the requested document:"
-              initialValue={userText}
               rules={[
                 {
                   required: true,
