@@ -6,8 +6,8 @@ import { axiosWithAuth } from '../../../../../../../api/axiosWithAuth';
 
 import { fetchDocuments } from '../../../../../../../redux/requests/requestActions';
 
-import { Modal, Typography, Button, Checkbox, Form, Input } from 'antd';
-const { Paragraph, Title } = Typography;
+import { Modal, Typography, Button, Form, Input } from 'antd';
+const { Title } = Typography;
 const { TextArea } = Input;
 
 const SelfDecModal = ({
@@ -21,7 +21,6 @@ const SelfDecModal = ({
 }) => {
   const currentUser = useSelector(state => state.user.currentUser);
 
-  const [checked, setChecked] = useState(false);
   const [userText, setUserText] = useState('');
 
   const dispatch = useDispatch();
@@ -52,6 +51,7 @@ const SelfDecModal = ({
     }
   };
 
+  //Post explanation to comments
   const postToComments = async userText => {
     const reqBody = {
       requestId: request.id,
@@ -72,8 +72,12 @@ const SelfDecModal = ({
   const onFinish = value => {
     setUserText(value.text);
     postToComments(
-      `${selectedCategory} self declaration explanation: ${value.text}`
+      `${selectedCategory.toUpperCase()} Self Declaration explanation: ${
+        value.text
+      }`
     );
+    postSelfDecPlaceholder();
+    handleSelfDecAccept();
   };
 
   return (
@@ -81,33 +85,10 @@ const SelfDecModal = ({
       <Modal
         title={<Title level={5}>Self-Declaration</Title>}
         visible={selfDecModalVisibility}
-        bodyStyle={{ height: '20vh' }}
+        bodyStyle={{ height: '16rem' }}
         onCancel={handleCancel}
         maskClosable={false}
-        footer={[
-          <>
-            <Button
-              onClick={() => {
-                handleCancel();
-                setChecked(false);
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              disabled={!checked}
-              type="primary"
-              danger
-              onClick={() => {
-                postSelfDecPlaceholder();
-                handleSelfDecAccept();
-                setChecked(false);
-              }}
-            >
-              Submit
-            </Button>
-          </>,
-        ]}
+        footer={null}
       >
         <div className="selfDecContent">
           <Form layout="vertical" name="selfDecUserInput" onFinish={onFinish}>
@@ -135,15 +116,6 @@ const SelfDecModal = ({
             </Form.Item>
           </Form>
         </div>
-        {/* <Paragraph>
-          By clicking below I am stating that I am unable to provide
-          documentation for category: {selectedCategory}. And that I am prepared
-          to provide a detailed explanation of my current status in lieu of
-          providing documentation.
-        </Paragraph>
-        <Checkbox checked={checked} onChange={() => setChecked(!checked)}>
-          I have read and understand the statement above
-        </Checkbox> */}
       </Modal>
     </>
   );
