@@ -32,7 +32,6 @@ import { clearErrorMessage } from '../../../redux/users/userActions';
 
 import { setErrorMessage } from '../../../redux/global/globalActions';
 
-
 const faker = require('faker');
 
 let recentDate = faker.date.recent();
@@ -193,21 +192,18 @@ export default function Index() {
   }
 
   function handleDateChange(value) {
-	
-		setFormValues({
-			...formValues,
-			dob: value
-		});
-	};
+    setFormValues({
+      ...formValues,
+      dob: value,
+    });
+  }
 
   function onDateChange(value) {
-
-    setFormValues({ ...formValues, dob: value});
+    setFormValues({ ...formValues, dob: value });
   }
 
   function onGenderChange(value) {
-
-    setFormValues({ ...formValues, gender: value});
+    setFormValues({ ...formValues, gender: value });
   }
 
   const onRoleChange = value => {
