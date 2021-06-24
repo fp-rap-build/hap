@@ -47,8 +47,6 @@ exports.createRequest = async (req, res, next) => {
       createdAt: new Date().toISOString(),
     };
 
-    console.log(initialComment);
-
     // Find a user to attach the comment to..
     let email =
       process.env.NODE_ENV === 'production'
@@ -64,7 +62,6 @@ exports.createRequest = async (req, res, next) => {
 
     res.status(200).json(newRequest[0]);
   } catch (error) {
-    console.log(error.message);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
