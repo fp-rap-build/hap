@@ -42,6 +42,7 @@ exports.createRequest = async (req, res, next) => {
       authorId: null,
       comment: 'Initial comment',
       category: 'external',
+      createdAt: new Date().toISOString(),
     };
 
     // Find a user to attach the comment to..
@@ -54,8 +55,6 @@ exports.createRequest = async (req, res, next) => {
 
     // Create comment
     commentPayload.authorId = user[0].id;
-
-    console.log(commentPayload);
 
     await Comments.create(commentPayload);
 
