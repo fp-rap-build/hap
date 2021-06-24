@@ -149,7 +149,7 @@ export default function Address({ request, setRequest, column = 2 }) {
           },
         ]}
       >
-        <Input type="email" disabled={true} />
+        <Input type="email" disabled={disabled} />
       </Form.Item>
 
       <Form.Item
