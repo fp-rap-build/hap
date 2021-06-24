@@ -14,12 +14,7 @@ const sendPayment = async (req, res, next) => {
     // Deduct from programs budget
     const { programId, amount } = payment;
 
-    console.log(programId, 'program id');
-    console.log(payment, 'payment');
-
     const program = await Programs.findById(programId);
-
-    console.log(program);
 
     const newBudget = program.budget - amount;
 
