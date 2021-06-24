@@ -8,6 +8,8 @@ const Comments = require('../comments/commentsModel');
 
 const Users = require('../users/userModel');
 
+const initialComment = require('../../utils/messages/initialComment');
+
 exports.createRequest = async (req, res, next) => {
   try {
     const request = req.body;
@@ -40,10 +42,12 @@ exports.createRequest = async (req, res, next) => {
     const commentPayload = {
       requestId: newRequest[0].id,
       authorId: null,
-      comment: 'Initial comment',
+      comment: initialComment,
       category: 'external',
       createdAt: new Date().toISOString(),
     };
+
+    console.log(initialComment);
 
     // Find a user to attach the comment to..
     let email =
