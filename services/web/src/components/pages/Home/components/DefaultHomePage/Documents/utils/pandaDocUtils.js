@@ -1,7 +1,5 @@
 import { axiosForPanda } from '../../../../../../../api/axiosForPanda';
 
-import { useState } from 'react';
-
 const fetchTemplateId = async templateName => {
   try {
     const templateId = await axiosForPanda()
@@ -16,13 +14,13 @@ const fetchTemplateId = async templateName => {
     console.log(error);
   }
 };
+
 //Takes built out document info
 const createDocument = async documentInfo => {
   try {
     const document = await axiosForPanda()
       .post('/documents', documentInfo)
       .then(res => res.data);
-    // setState({ ...state, document: document });
     return document;
   } catch (error) {
     alert('Error creating document');

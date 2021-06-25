@@ -91,11 +91,8 @@ const DocumentUploader = ({
 
         let documentId = info.file.response.documents[0].id;
 
-        //persist changes on data base
+        //persist changes in data base
         updateDoc(documentId);
-
-        //persist changes on local state
-        //persist changes in store
       } else if (status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
       }
