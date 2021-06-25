@@ -16,7 +16,7 @@ const RenderSelfDecDocument = ({
     //Set text to be used in doc
     setUserText(values.text);
     //Create doc - this will also toggle the create doc modal
-    handleDocCreation();
+    handleDocCreation(values.text);
   };
 
   const UserTextInput = () => {

@@ -36,13 +36,13 @@ const SelfDecModal = ({
   const [loading, setLoading] = useState(false);
   const [userText, setUserText] = useState('');
 
-  const handleDocCreation = async () => {
+  const handleDocCreation = async text => {
     setLoading(true);
     try {
       console.log(userText);
       const sessionIdfromAPI = await processDocument(
         currentUser,
-        userText,
+        text,
         selectedCategory,
         SELF_DEC_SCHEMA
       );
@@ -55,7 +55,6 @@ const SelfDecModal = ({
   };
 
   //Adding place holder doc now as confirmation the user completed this process.
-  //Will be replaced with PDF via panda Doc
   const placeHolderDoc = {
     requestId: request.id,
     name: 'self_declaration.pdf',
@@ -95,6 +94,7 @@ const SelfDecModal = ({
         maskClosable={false}
         onCancel={() => {
           setSessionId('');
+          setUserText('');
           handleCancel();
         }}
         footer={
@@ -124,7 +124,9 @@ const SelfDecModal = ({
       >
         <div className="modalTextInput">
           {loading ? (
-            <Spin tip="Creating Your Document!" />
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Spin tip="Creating Your Document!" />
+            </div>
           ) : (
             <RenderSelfDecDocument
               sessionId={sessionId}
