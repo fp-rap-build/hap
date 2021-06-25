@@ -1,7 +1,17 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <!-- Google Tag Manager -->
+ 
+    <script>
+      const isIE = /*@cc_on!@*/false || !!document.documentMode;
+
+      if(isIE) {
+        alert('Please upgrade to a newer browser in order to use the Housing Assistance Portal (Chrome or Microsoft Edge is recommended)')
+      }
+    </script>
+
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -34,6 +44,7 @@
       a.appendChild(r);
   })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
+
 
 <!-- Global site tag (gtag.js) - Google Analytics for dev work
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-P7SY8L5HVT"></script>
@@ -94,4 +105,5 @@
     -->
     
   </body>
+
 </html>
