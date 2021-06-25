@@ -82,6 +82,8 @@ const SelfDecModal = ({
   const handleFinalClose = () => {
     postSelfDecPlaceholder();
     handleSelfDecAccept();
+    setUserText('');
+    setSessionId('');
   };
 
   return (
