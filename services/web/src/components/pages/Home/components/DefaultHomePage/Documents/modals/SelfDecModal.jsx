@@ -115,13 +115,14 @@ const SelfDecModal = ({
       <Modal
         title={<Title level={5}>Self-Declaration</Title>}
         visible={selfDecModalVisibility}
-        bodyStyle={{ height: '16rem' }}
+        bodyStyle={sessionId ? { height: '80vh' } : { height: '16rem' }}
+        width={sessionId ? '80vw' : 520}
         onCancel={handleCancel}
         maskClosable={false}
         footer={null}
       >
         <div className="selfDecContent">
-          <Form layout="vertical" name="selfDecUserInput" onFinish={onFinish}>
+          {/* <Form layout="vertical" name="selfDecUserInput" onFinish={onFinish}>
             <Form.Item
               name="text"
               label="Briefly explain why you cannot provide the requested document:"
@@ -143,7 +144,14 @@ const SelfDecModal = ({
                 Submit
               </Button>
             </Form.Item>
-          </Form>
+          </Form> */}
+          <RenderSelfDecDocument
+            sessionId={sessionId}
+            userText={userText}
+            setUserText={setUserText}
+            handleDocCreation={handleDocCreation}
+            handleFinalClose={handleFinalClose}
+          />
         </div>
       </Modal>
     </>
