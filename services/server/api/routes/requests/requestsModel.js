@@ -46,6 +46,8 @@ const findForTable = (params) => {
   return db('requests as r')
     .join('addresses as a', 'r.addressId', '=', 'a.id')
     .join('users as u', 'r.userId', '=', 'u.id')
+    .join('users as m', 'r.managerId', '=', 'm.id')
+
     .select(
       'r.id',
       'r.userId',
@@ -63,6 +65,10 @@ const findForTable = (params) => {
       'r.bookKeeperApproval',
       'r.headAcctApproval',
       'r.adminApproval',
+
+      'm.firstName as managerFirstName',
+      'm.lastName as managerLastName',
+      'm.email as managerEmail',
 
       'r.hispanic',
       'r.asian',
@@ -121,6 +127,7 @@ const findById = (id) => {
   return db('requests as r')
     .join('addresses as a', 'r.addressId', '=', 'a.id')
     .join('users as u', 'r.userId', '=', 'u.id')
+    .join('users as m', 'r.managerId', '=', 'm.id')
     .select(
       'r.*',
       'r.userId',
@@ -131,6 +138,9 @@ const findById = (id) => {
       'u.role',
       'u.dob',
       'u.gender',
+      'm.firstName as managerFirstName',
+      'm.lastName as managerLastName',
+      'm.email as managerEmail',
       'r.familySize',
       'r.monthlyIncome',
       'r.owed',
