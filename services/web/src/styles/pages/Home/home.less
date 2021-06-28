@@ -39,19 +39,31 @@
 
 .dashFooter {
   display: flex;
-  justify-content: center;
+  flex-flow: row nowrap;
+  justify-content: space-around;
   align-items: center;
   height: 3rem;
   border: 1px solid black;
+}
+
+.footerItem {
+  padding: 0 1rem;
 }
 
 .userInfoFooter {
   padding-left: 2%;
 }
 
-@media (max-width: 843px) {
-
+@media (max-width: 870px) {
+  .dashFooter {
+    flex-flow: row wrap;
+    align-items: flex-start;
+    padding: 0;
+  }
+  .footerItem {
+    padding: 0
+  }
 }
 
-@media (max-width: 490px) {
+@media (max-width: 652px) {
 }

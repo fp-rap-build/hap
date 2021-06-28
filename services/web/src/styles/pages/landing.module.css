@@ -67,3 +67,9 @@
     font-size: 2rem;
   }
 }
+
+@media (max-width: 570px) {
+  .contentContainer h1 {
+    text-align: center;
+  }
+}
