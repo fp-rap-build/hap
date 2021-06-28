@@ -172,7 +172,7 @@ export default function Index() {
 
   const goBackwards = () => setStep(step - 1);
 
-  const [formValues, setFormValues] = useState(INITIAL_VALUES_DEV);
+  const [formValues, setFormValues] = useState(INITIAL_VALUES_PROD);
   const [formConsent, setFormConsent] = useState(false);
 
   const handleChange = e => {
