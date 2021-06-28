@@ -7,7 +7,7 @@
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  background-image: linear-gradient(to right bottom, #FFFAFA, #FFFAFAaa),
+  background-image: linear-gradient(to right bottom, #fffafa, #fffafaaa),
     url('../../assets/rentdue.png');
   background-size: cover;
   background-position: center;
@@ -61,5 +61,11 @@
 @media (max-width: 738px) {
   h1 {
     font-size: 2rem;
+  }
+}
+
+@media (max-width: 570px) {
+  .contentContainer h1 {
+    text-align: center;
   }
 }
