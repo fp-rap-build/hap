@@ -28,6 +28,7 @@ const UserList = ({ users, request }) => {
       style={{ width: 300 }}
       placeholder="Select a manager"
       onChange={onUserChange}
+      defaultValue={request.managerId}
     >
       <Option value={null}>Nobody</Option>
       {users.map(user => (
