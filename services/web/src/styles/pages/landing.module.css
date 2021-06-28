@@ -14,6 +14,10 @@
   color: #f5f5dc;
 }
 
+.title {
+  text-align: center;
+}
+
 .contentContainer {
   margin-top: 3rem;
   width: 100%;
