@@ -134,6 +134,23 @@ const Household = ({ requestData, handleRequestChange, disabled }) => {
             name="familySize"
           />
         </Form.Item>
+
+        <Form.Item
+          name="beds"
+          initialValue={requestData.beds}
+          label="Total Bedrooms"
+          required
+          hasFeedback
+          rules={[
+            {
+              required: true,
+              pattern: RegExp(/^([1-9][0-9]?)\s*$/),
+              message: 'Invalid number of bedrooms',
+            },
+          ]}
+        >
+          <Input disabled={disabled} style={{ width: '100%' }} name="beds" />
+        </Form.Item>
         {/* <Form.Item
           name="totalChildren"
           initialValue={requestData.totalChildren}

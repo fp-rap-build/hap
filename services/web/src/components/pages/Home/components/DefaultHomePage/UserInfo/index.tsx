@@ -74,6 +74,10 @@ const UserInfo = () => {
     setAddressData({ ...addressData, state: value });
   };
 
+  const handleGenderChange = value => {
+    setRequestData({ ...requestData, gender: value });
+  };
+
   const handleNumOfChildrenChange = value => {
     setRequestData({ ...requestData, totalChildren: value });
   };
@@ -114,6 +118,7 @@ const UserInfo = () => {
     handleAddressChange,
     handleRequestChange,
     handleStateChange,
+    handleGenderChange,
     disabled,
     toggleDisabled,
     handleNumOfChildrenChange,

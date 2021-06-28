@@ -12,9 +12,8 @@ import RenderSelfDecDocument from './RenderSelfDecDocument';
 
 import { fetchDocuments } from '../../../../../../../redux/requests/requestActions';
 
-import { Modal, Typography, Button, Input, Spin } from 'antd';
-
-const { Paragraph, Title } = Typography;
+import { Modal, Typography, Button, Form, Input } from 'antd';
+const { Title } = Typography;
 const { TextArea } = Input;
 
 const SelfDecModal = ({
@@ -29,7 +28,6 @@ const SelfDecModal = ({
   const currentUser = useSelector(state => state.user.currentUser);
 
   const dispatch = useDispatch();
-
   const fetchUserDocuments = () => dispatch(fetchDocuments(request.id));
 
   const [sessionId, setSessionId] = useState('');
@@ -84,58 +82,68 @@ const SelfDecModal = ({
     setUserText('');
     setSessionId('');
   };
+  //Post explanation to comments
+  const postToComments = async userText => {
+    const reqBody = {
+      requestId: request.id,
+      authorId: currentUser.id,
+      comment: userText,
+      category: 'external',
+      createdAt: new Date().toISOString(),
+    };
+
+    try {
+      await axiosWithAuth().post(`comments/`, reqBody);
+    } catch (error) {
+      alert('ERROR POSTING COMMENT');
+      console.log(error);
+    }
+  };
+
+  const onFinish = value => {
+    postToComments(
+      `${selectedCategory.toUpperCase()} Self Declaration explanation: ${
+        value.text
+      }`
+    );
+    postSelfDecPlaceholder();
+    handleSelfDecAccept();
+  };
 
   return (
     <>
       <Modal
         title={<Title level={5}>Self-Declaration</Title>}
         visible={selfDecModalVisibility}
-        width={sessionId ? '80vw' : 520}
+        bodyStyle={{ height: '16rem' }}
+        onCancel={handleCancel}
         maskClosable={false}
-        onCancel={() => {
-          setSessionId('');
-          setUserText('');
-          handleCancel();
-        }}
-        footer={
-          [
-            // <>
-            //   <Button
-            //     onClick={() => {
-            //       handleCancel();
-            //     }}
-            //   >
-            //     Cancel
-            //   </Button>
-            //   <Button
-            //     type="primary"
-            //     danger
-            //     onClick={() => {
-            //       // postSelfDecPlaceholder();
-            //       // handleSelfDecAccept();
-            //       handleDocCreation();
-            //     }}
-            //   >
-            //     Create Document
-            //   </Button>
-            // </>,
-          ]
-        }
+        footer={null}
       >
-        <div className="modalTextInput">
-          {loading ? (
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Spin tip="Creating Your Document!" />
-            </div>
-          ) : (
-            <RenderSelfDecDocument
-              sessionId={sessionId}
-              userText={userText}
-              setUserText={setUserText}
-              handleDocCreation={handleDocCreation}
-              handleFinalClose={handleFinalClose}
-            />
-          )}
+        <div className="selfDecContent">
+          <Form layout="vertical" name="selfDecUserInput" onFinish={onFinish}>
+            <Form.Item
+              name="text"
+              label="Briefly explain why you cannot provide the requested document:"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please explain why you cannot provide a document.',
+                },
+                {
+                  min: 20,
+                  message: 'Explanation must be at least 20 characters.',
+                },
+              ]}
+            >
+              <TextArea key="fix" rows={5} allowClear />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
         </div>
       </Modal>
     </>

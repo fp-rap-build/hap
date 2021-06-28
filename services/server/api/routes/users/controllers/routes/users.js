@@ -75,3 +75,14 @@ exports.deleteUserById = (req, res) => {
     });
   }
 };
+
+exports.getAllStaffUsers = async (req, res) => {
+  try {
+    let staff = await Users.findAllStaff(req.user.role);
+
+    res.status(200).json({ staff });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal service error' });
+    console.log(error);
+  }
+};

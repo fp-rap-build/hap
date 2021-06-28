@@ -12,7 +12,7 @@ const requestStatusChange = (requestStatus, emailAddress) => {
 
     case 'documentsNeeded':
       text = `Your Family Promise HAP Application requires documents to continue forward. <p>Please login to your account at www.SpokaneHousingAssistance.org to view which documents you will need to upload</p>`;
-     
+
       break;
 
     case 'verifyingDocuments':
@@ -25,11 +25,13 @@ const requestStatusChange = (requestStatus, emailAddress) => {
       break;
 
     case 'denied':
-      text = 'Your Family Promise HAP Application has been denied - please log in at www.SpokaneHousingAssistance.org to view why and/or to reapply';
+      text =
+        'Your Family Promise HAP Application has been denied - please log in at www.SpokaneHousingAssistance.org to view why and/or to reapply';
       break;
 
     case 'approved':
-      text = 'Your Family Promise HAP Application has been approved! - please log in to your account at www.SpokaneHousingAssistance.org to see what the next steps are.';
+      text =
+        'Your Family Promise HAP Application has been approved! - please log in to your account at www.SpokaneHousingAssistance.org to see what the next steps are.';
       break;
 
     default:
@@ -42,7 +44,7 @@ const requestStatusChange = (requestStatus, emailAddress) => {
     from: 'hap@familypromiseofspokane.org',
     subject: 'Update! Your request status has changed',
     text: text,
-   
+
     html: `<p>${text}</p>`,
   };
 
@@ -73,13 +75,13 @@ const sendResetPasswordLink = (emailAddress, resetURL) => {
     });
 };
 
-const sendPromiseToPayEmail = (emailAddress) => {
+const sendPromiseToPayEmail = (request, emailAddress) => {
   const msg = {
     to: emailAddress,
     from: 'hap@familypromiseofspokane.org',
     subject: 'Approved for Rental Assistance',
-    text: `Your tenant's request has been approved! We will contact you shortly to go over the details`,
-    html: `<p>Your tenants request has been approved! We will contact you shortly to go over the details</p>`,
+    text: `Your tenant ${request.firstName} ${request.lastName} at ${request.address} has been approved for rental assistance! We will contact you shortly to go over the details`,
+    html: `<p>Your tenant ${request.firstName} ${request.lastName} at ${request.address} has been approved for rental assistance!</p> <p> We will contact you shortly to go over the details </p>`,
   };
 
   sgMail
@@ -97,9 +99,13 @@ const sendConfirmationOfApproval = (request) => {
   let msg;
 
   if (process.env.NODE_ENV === 'production') {
-    mailingList = ['jwylie@fpspokane.org', 'fpspokane@bill.com', 'dpeabody@familypromiseofspokane.com'];
+    mailingList = [
+      'hap@familypromiseofspokane.org',
+      'fpspokane@bill.com',
+      'dpeabody@familypromiseofspokane.org',
+    ];
   } else {
-    mailingList = ['jwylie@fpspokane.org'];
+    mailingList = ['hap@familypromiseofspokane.org'];
   }
 
   mailingList.forEach((email) => {
@@ -107,10 +113,10 @@ const sendConfirmationOfApproval = (request) => {
       to: email,
       from: 'hap@familypromiseofspokane.org',
       subject: 'Rental Assistance',
-      text: `<p>Rental Assistance</p> <p> Funding Source: ${request.budget} </p> <p>Payment Method: Check </p>  <p>Payee: Landlord</p> <p>Payee Name: ${request.landlordName}</p> <p>Payee Address: ${request.landlordAddress}  ${request.landlordAddress2}  ${request.landlordCity}  ${request.landlordState}  ${request.landlordZip} </p> <p> Payee Email:  ${request.landlordEmail} </p><p>Payment Amount: ${request.amountApproved}</p>  <p> Check Memo: Rent,  ${request.firstName} ${request.lastName} ${request.address}   ${request.cityName}, ${request.state} ${request.zipCode} </p> `,
+      text: `Subject: Rental Assistance,  Funding Source: ${request.budget} , Payment Method: Check, Payee: Landlord, Payee Name: ${request.landlordName} , Payee Address: ${request.landlordAddress}  ${request.landlordAddress2}  ${request.landlordCity}  ${request.landlordState}  ${request.landlordZip} ,  Payee Email:  ${request.landlordEmail} Payment Amount: ${request.amountApproved} ,  Check Memo: Rent,  ${request.firstName} ${request.lastName} ${request.address}   ${request.cityName}, ${request.state} ${request.zipCode} `,
       html: `<p>Rental Assistance</p> <p> Funding Source: ${request.budget} </p> <p>Payment Method: Check </p>  <p>Payee: Landlord</p> <p>Payee Name: ${request.landlordName}</p> <p>Payee Address: ${request.landlordAddress}  ${request.landlordAddress2}  ${request.landlordCity}  ${request.landlordState}  ${request.landlordZip} </p> <p> Payee Email:  ${request.landlordEmail} </p><p>Payment Amount: ${request.amountApproved}</p>  <p> Check Memo: Rent,  ${request.firstName} ${request.lastName} ${request.address}   ${request.cityName}, ${request.state} ${request.zipCode} </p> `,
     };
-    
+
     sgMail
       .send(msg)
       .then(() => {

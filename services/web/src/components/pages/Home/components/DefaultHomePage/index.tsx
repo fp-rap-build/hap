@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import useWindowDimensions from '../../../../../utils/useWindowDimensions';
@@ -133,22 +133,25 @@ export default function Index() {
           >
             {renderContent(props)}
           </Content>
-          <Footer className="dashFooter">
+          <Footer
+            className="dashFooter"
+            style={width < 1030 ? { height: '5rem' } : null}
+          >
             {/* eslint-disable-next-line */}
-            <a href="http://www.familypromiseofspokane.org/" target="_blank">
-              Powered by Family Promise of Spokane
-            </a>
-            <p> &nbsp;&nbsp; </p>
-            <br />
-            <p>
-              Need Technical Help? Email us at:{' '}
-              <a href="mailto: hap@fpspokane.org">HAP@fpspokane.org</a>
-            </p>
-            <br />
-            <p>
-              Please direct questions about your request to the Housing
-              Assistance Team by navigating to "Chat with us"
-            </p>
+            <div className="footerItem">
+              <a href="http://www.familypromiseofspokane.org/" target="_blank">
+                Powered by Family Promise of Spokane
+              </a>
+            </div>
+            <div className="footerItem">
+              <p>
+                Need Technical Help? Email us at:{' '}
+                <a href="mailto: hap@fpspokane.org">HAP@fpspokane.org</a>
+              </p>
+            </div>
+            <div className="footerItem">
+              <p>Questions about your request? Navigate to "Chat with us"</p>
+            </div>
           </Footer>
         </Layout>
       </Layout>

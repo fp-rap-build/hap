@@ -6,6 +6,7 @@ const {
   getUserById,
   updateUserById,
   deleteUserById,
+  getAllStaffUsers,
 } = require('./routes/users');
 
 const {
@@ -15,7 +16,7 @@ const {
   getAllSubscriptions,
   getAllNotifications,
   readAllNotifications,
-  deleteAllNotifications
+  deleteAllNotifications,
 } = require('./routes/me');
 
 const {
@@ -25,6 +26,7 @@ const {
 
 module.exports = {
   getAllUsers,
+  getAllStaffUsers,
   createUser,
   getUserById,
   updateUserById,
@@ -37,5 +39,5 @@ module.exports = {
   getAllSubscriptions,
   getAllNotifications,
   readAllNotifications,
-  deleteAllNotifications
+  deleteAllNotifications,
 };

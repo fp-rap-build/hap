@@ -46,9 +46,16 @@ const findForTable = (params) => {
   return db('requests as r')
     .join('addresses as a', 'r.addressId', '=', 'a.id')
     .join('users as u', 'r.userId', '=', 'u.id')
+    .fullOuterJoin('users as m', 'r.managerId', '=', 'm.id')
+
     .select(
       'r.id',
       'r.userId',
+
+      'm.firstName as managerFirstName',
+      'm.lastName as managerLastName',
+      'm.email as managerEmail',
+
       'u.firstName',
       'u.lastName',
       'u.email',
@@ -72,6 +79,17 @@ const findForTable = (params) => {
       'r.native',
       'r.demoNotSay',
       'r.amountRequested',
+
+      'r.hispanicHOH',
+      'r.asianHOH',
+      'r.blackHOH',
+      'r.pacificHOH',
+      'r.whiteHOH',
+      'r.nativeHOH',
+      'r.demoNotSayHOH',
+      'r.dob',
+      'r.gender',
+      'r.beds',
 
       'r.verifiedDocuments',
       'r.foodWrkr',
@@ -110,14 +128,22 @@ const findById = (id) => {
   return db('requests as r')
     .join('addresses as a', 'r.addressId', '=', 'a.id')
     .join('users as u', 'r.userId', '=', 'u.id')
+    .fullOuterJoin('users as m', 'r.managerId', '=', 'm.id')
     .select(
-      'r.*',
-      'r.userId',
-      'r.id',
       'u.firstName',
       'u.lastName',
       'u.email',
       'u.role',
+      'u.dob',
+      'u.gender',
+
+      'm.firstName as managerFirstName',
+      'm.lastName as managerLastName',
+      'm.email as managerEmail',
+
+      'r.*',
+      'r.userId',
+      'r.id',
       'r.familySize',
       'r.monthlyIncome',
       'r.owed',
@@ -135,6 +161,16 @@ const findById = (id) => {
       'r.budget',
       'r.orgId',
       'r.unEmp90',
+      'r.gender',
+      'r.beds',
+      'r.hispanicHOH',
+      'r.asianHOH',
+      'r.blackHOH',
+      'r.pacificHOH',
+      'r.whiteHOH',
+      'r.nativeHOH',
+      'r.demoNotSayHOH',
+      'r.beds',
       'r.tenantEmail',
       'r.tenantNumber',
       'r.landlordName',
@@ -147,6 +183,7 @@ const findById = (id) => {
       'r.landlordNumber',
       'r.childrenAges',
       'r.incomplete',
+
       'a.address',
       'a.zipCode',
       'a.cityName',

@@ -7,6 +7,7 @@ const restrictTo = require('../../middleware/restrictTo');
 // Controllers
 const {
   getAllUsers,
+  getAllStaffUsers,
   createUser,
 
   getUserById,
@@ -30,6 +31,11 @@ router.use(authRequired);
 
 // Routes
 router.route('/').get(getAllUsers).post(createUser);
+
+router
+  .route('/staff')
+  .all(restrictTo('admin', 'programManager', 'assistantProgramManager'))
+  .get(getAllStaffUsers);
 
 router
   .route('/me')

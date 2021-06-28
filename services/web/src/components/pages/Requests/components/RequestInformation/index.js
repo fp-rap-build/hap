@@ -114,10 +114,6 @@ export default function Index({
       request.requestStatus === 'approved' ||
       request.requestStatus === 'denied';
 
-    if (alreadyReviewed) {
-      return message.error('This request has already been reviewed');
-    }
-
     let completedChecklist = isChecklistCompleted(preChecklistValues);
 
     if (!completedChecklist && status !== 'denied')

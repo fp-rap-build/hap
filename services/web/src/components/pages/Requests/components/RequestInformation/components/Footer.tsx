@@ -1,6 +1,8 @@
 import { Statistic } from 'antd';
 import React from 'react';
 
+import calculateAmi from '../../../../../../utils/general/calculateAmi';
+
 export default function Footer({ request }) {
   return (
     <div
@@ -18,7 +20,7 @@ export default function Footer({ request }) {
       <Statistic
         title="AMI"
         suffix="%"
-        value={Number(((request.monthlyIncome * 12) / 71700).toFixed(2)) * 100}
+        value={Number(calculateAmi(request.monthlyIncome, request.familySize))}
       />
 
       <Statistic

@@ -44,6 +44,10 @@ export default function RequestsTable() {
 
   const [data, setData] = useState([]);
   const [columns, setColumns] = useState([
+    {
+      title: 'Manager',
+      field: 'manager',
+    },
     { title: 'First', field: 'firstName' },
     { title: 'Last ', field: 'lastName' },
     {
@@ -110,8 +114,15 @@ export default function RequestsTable() {
 
       requests = requests.map(request => {
         request['isSubscribed'] = request.id in subscriptions;
-        request['ami'] = calculateAmi(request.monthlyIncome);
+        request['ami'] = calculateAmi(
+          request.monthlyIncome,
+          request.familySize
+        );
         request['poc'] = doesHouseholdContainPoc(request);
+
+        request['manager'] = request['managerFirstName']
+          ? request['managerFirstName'] + ' ' + request['managerLastName']
+          : 'Nobody';
 
         return request;
       });
@@ -139,7 +150,7 @@ export default function RequestsTable() {
         isLoading={isFetching}
         options={{
           pageSize: 10,
-          pageSizeOptions: [5, 10, 20, 30, 50, 75, 100, 1000],
+          pageSizeOptions: [5, 10, 20, 30, 50, 75, 100, 500, 1000],
 
           // Allows users to export the data as a CSV file
           exportMenu: [

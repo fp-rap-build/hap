@@ -129,6 +129,8 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
     email: requestValues.email,
     password: requestValues.password,
     role: requestValues.role,
+    dob: requestValues.dob,
+    gender: requestValues.gender,
   };
 
   // request and address information
@@ -150,6 +152,14 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
     pacific: requestValues.pacific,
     white: requestValues.white,
     native: requestValues.native,
+    beds: requestValues.beds,
+    hispanicHOH: requestValues.hispanicHOH,
+    asianHOH: requestValues.asianHOH,
+    blackHOH: requestValues.blackHOH,
+    pacificHOH: requestValues.pacificHOH,
+    whiteHOH: requestValues.whiteHOH,
+    nativeHOH: requestValues.nativeHOH,
+    demoNotSayHOH: requestValues.demoNotSayHOH,
     demoNotSay: requestValues.demoNotSay,
     incomplete: requestValues.incomplete,
     tenantEmail,

@@ -19,23 +19,21 @@ export default function Index() {
     <div>
       <header className={styles.header}>
         <div className={styles.contentContainer}>
-          <h1>Are you in need of Housing Assistance?</h1>
-          <p>
-            
-          </p>
+          <h1 className={styles.title}>
+            Are you in need of Housing Assistance?
+          </h1>
+          <p></p>
           <Button onClick={redirectToRentalAssistanceForm}>
             Check Eligibility and Apply
           </Button>
           <br />
-          <h5>Already have an account?{' '}</h5>
+          <h5>Already have an account? </h5>
           <Button>
-            
             <Link style={{ color: '#FFFFFF' }} to="/login">
               Login to view your status
             </Link>
           </Button>
         </div>
-        
       </header>
     </div>
   );
