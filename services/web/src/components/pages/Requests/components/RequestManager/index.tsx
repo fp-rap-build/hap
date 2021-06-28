@@ -26,9 +26,14 @@ const UserList = ({ users, request }) => {
   return (
     <Select
       style={{ width: 300 }}
+      showSearch
       placeholder="Select a manager"
       onChange={onUserChange}
       defaultValue={request.managerId}
+      optionFilterProp="children"
+      filterOption={(input, option) =>
+        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      }
     >
       <Option value={null}>Nobody</Option>
       {users.map(user => (

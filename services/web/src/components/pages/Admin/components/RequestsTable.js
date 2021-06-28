@@ -120,8 +120,6 @@ export default function RequestsTable() {
         );
         request['poc'] = doesHouseholdContainPoc(request);
 
-        console.log(request);
-
         request['manager'] = request['managerFirstName']
           ? request['managerFirstName'] + ' ' + request['managerLastName']
           : 'Nobody';
