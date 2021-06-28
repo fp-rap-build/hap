@@ -7,40 +7,51 @@ import { states } from '../../../../../utils/data/states';
 import { genders } from '../../../../../utils/data/genders';
 
 //UI
-import { Card, Checkbox, Form, Select, Input, InputNumber, DatePicker } from 'antd';
+import {
+  Card,
+  Checkbox,
+  Form,
+  Select,
+  Input,
+  InputNumber,
+  DatePicker,
+  Typography,
+} from 'antd';
 
 const { Option } = Select;
+const { Title } = Typography;
 
-
-const BasicInformation = ({ formValues, handleApplicantChange, handleCheckBoxChange, handleDateChange, handleChange, onRoleChange, onStateChange, onGenderChange, date, datestring }) => {
-  
-
-  
+const BasicInformation = ({
+  formValues,
+  handleApplicantChange,
+  handleCheckBoxChange,
+  handleDateChange,
+  handleChange,
+  onRoleChange,
+  onStateChange,
+  onGenderChange,
+  date,
+  datestring,
+}) => {
   return (
-
-
-    
     <div>
-      <Card title={<CardTitle percentage={20} title="Head of Household Information" />}>
-
-        <p>Please answer the following questions about the Head of the Household (The person responsible for 
-          managing the rent and utility payments for this household)
+      <Card
+        title={
+          <CardTitle percentage={20} title="Head of Household Information" />
+        }
+      >
+        <p>
+          Please answer the following questions about the Head of the Household
+          (The person responsible for managing the rent and utility payments for
+          this household)
         </p>
         <br />
-        <Form.Item
-        name='dob'
-        label='Date of Birth'>
-        <DatePicker
-        
-        onChange={handleDateChange}></DatePicker>
+        <Form.Item name="dob" label="Date of Birth">
+          <DatePicker onChange={handleDateChange}></DatePicker>
         </Form.Item>
-       <h2>Head of Household Identifies as:</h2>
+        <Title level={5}>Head of Household Identifies as:</Title>
 
-   
-          <h3>Ethnicty</h3>
-
-        
-        <Form.Item>
+        <Form.Item label="Ethnicity:">
           <Checkbox
             checked={formValues.hispanic}
             name="hispanic"
@@ -50,9 +61,7 @@ const BasicInformation = ({ formValues, handleApplicantChange, handleCheckBoxCha
           </Checkbox>
         </Form.Item>
 
-        <h3>Race</h3>
-
-        <Form.Item>
+        <Form.Item label="Race:">
           <Checkbox
             checked={formValues.asian}
             onChange={handleCheckBoxChange}
@@ -112,7 +121,13 @@ const BasicInformation = ({ formValues, handleApplicantChange, handleCheckBoxCha
           initialValue={formValues.gender}
           label="Gender"
           name="gender"
-          rules={[{ required: true, message: 'Please select the gender you most closely identify with' }]}
+          rules={[
+            {
+              required: true,
+              message:
+                'Please select the gender you most closely identify with',
+            },
+          ]}
         >
           <Select
             onChange={onGenderChange}
@@ -125,7 +140,7 @@ const BasicInformation = ({ formValues, handleApplicantChange, handleCheckBoxCha
           </Select>
         </Form.Item>
 
-        <h2>Head of Household's Address:</h2>
+        <Title level={5}>Head of Household's Address:</Title>
 
         <Form.Item
           hasFeedback
