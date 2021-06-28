@@ -51,13 +51,13 @@ export default function Index() {
         `/ages/user/${requestInfo.data.request.userId}`
       );
 
-      let usersData = await axiosWithAuth().get('/users');
+      let usersData = await axiosWithAuth().get('/users/staff');
 
       setAges(receivedAges.data);
       setRequest(requestInfo.data.request);
       setDocuments(requestDocuments.data.documents);
       setPrograms(orgPrograms.data.programs);
-      setUsers(usersData.data);
+      setUsers(usersData.data.staff);
     } catch (error) {
       message.error('Unable to fetch request');
     } finally {

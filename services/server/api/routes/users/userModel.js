@@ -2,7 +2,27 @@ const db = require('../../../data/db-config');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const salt = Number(process.env.BCRYPT_SALT);
+
 const findAll = async (query = {}) => await db('users');
+
+const findAllStaff = async (role) =>
+  await db('users').modify((qb) => {
+    switch (role) {
+      case 'admin':
+        qb.whereIn('role', [
+          'admin',
+          'programManager',
+          'assistantProgramManager',
+        ]);
+        break;
+      case 'programManager':
+        qb.whereIn('role', ['programManager', 'assistantProgramManager']);
+        break;
+      case 'assistantProgramManager':
+        qb.whereIn('role', ['assistantProgramManager']);
+        break;
+    }
+  });
 
 const findBy = async (filter) => await db('users').where(filter);
 
@@ -131,6 +151,7 @@ const createPasswordResetToken = async (id) => {
 
 module.exports = {
   findAll,
+  findAllStaff,
   findBy,
   findById,
   findByIdAndUpdate,
