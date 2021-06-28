@@ -14,7 +14,7 @@ import Demographics from './forms/Eligibility/Demographics';
 
 import AdditionalInformation from './forms/Eligibility/AdditionalInformation';
 
-import SecondaryContact from './forms/SecondaryContact';
+import SecondaryContact from './forms/LandLordContact';
 
 import Review from './forms/Eligibility/Review';
 
@@ -172,7 +172,7 @@ export default function Index() {
 
   const goBackwards = () => setStep(step - 1);
 
-  const [formValues, setFormValues] = useState(INITIAL_VALUES_PROD);
+  const [formValues, setFormValues] = useState(INITIAL_VALUES_DEV);
   const [formConsent, setFormConsent] = useState(false);
 
   const handleChange = e => {
