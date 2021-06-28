@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import { Input, Form, Button } from 'antd';
-import { ConsoleSqlOutlined } from '@ant-design/icons';
 const { TextArea } = Input;
 
 const RenderSelfDecDocument = ({
@@ -9,19 +8,15 @@ const RenderSelfDecDocument = ({
   userText,
   setUserText,
   handleDocCreation,
+  handleFinalClose,
 }) => {
   const docUrl = `https://app.pandadoc.com/s/${sessionId}`;
 
-  const handleTextChange = values => {
-    console.log(values);
-    setUserText(values.text);
-  };
-
   const onFinish = values => {
     //Set text to be used in doc
-    setUserText(values);
+    setUserText(values.text);
     //Create doc - this will also toggle the create doc modal
-    handleDocCreation();
+    handleDocCreation(values.text);
   };
 
   const UserTextInput = () => {
@@ -67,6 +62,7 @@ const RenderSelfDecDocument = ({
             src={docUrl}
             style={{ height: '70vh', width: '75vw' }}
           ></iframe>
+          <Button onClick={handleFinalClose}>Finish Submission</Button>
         </div>
       ) : (
         <UserTextInput />

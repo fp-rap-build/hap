@@ -6,6 +6,8 @@ const { request } = require('../../../../app');
 const multiUpload = upload.array('document');
 
 const createDocument = async (req, res) => {
+
+
   multiUpload(req, res, async (err) => {
     if (err) {
       console.log(err);
@@ -19,7 +21,7 @@ const createDocument = async (req, res) => {
       });
     }
     // Document was successfully saved to the S3 bucket, let's store a reference to that document in our db
-
+    console.log(req)
     try {
       // Format documents to match our schema
       let formattedDocuments = req.files.map((file) =>

@@ -20,7 +20,7 @@ const UploadDocModal = ({
         visible={uploadModalVisibility}
         onOk={handleAcknowledge}
         onCancel={handleCancel}
-        bodyStyle={{ height: '20vh' }}
+        bodyStyle={{ height: '30vh' }}
       >
         <DocumentUploader
           request={request}
