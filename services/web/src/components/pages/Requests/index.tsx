@@ -10,6 +10,8 @@ import { axiosWithAuth } from '../../../api/axiosWithAuth';
 import DocumentUploader from './components/RequestInformation/components/DocumentUploader';
 import LoadingComponent from '../../common/LoadingComponent';
 import RequestInformation from './components/RequestInformation';
+import RequestManager from './components/RequestManager';
+
 import { message } from 'antd';
 
 export default function Index() {
@@ -25,10 +27,13 @@ export default function Index() {
   const [documents, setDocuments] = useState([]);
   const [programs, setPrograms] = useState([]);
   const [ages, setAges] = useState([]);
+  const [users, setUsers] = useState([]);
 
   const { id } = useParams();
 
-  const setRequestAddressAgesAndDocuments = async () => {
+  // Personal note, split this up #TODO
+
+  const fetchData = async () => {
     setLoading(true);
 
     try {
@@ -46,10 +51,13 @@ export default function Index() {
         `/ages/user/${requestInfo.data.request.userId}`
       );
 
+      let usersData = await axiosWithAuth().get('/users');
+
       setAges(receivedAges.data);
       setRequest(requestInfo.data.request);
       setDocuments(requestDocuments.data.documents);
       setPrograms(orgPrograms.data.programs);
+      setUsers(usersData.data);
     } catch (error) {
       message.error('Unable to fetch request');
     } finally {
@@ -72,7 +80,7 @@ export default function Index() {
   };
 
   useEffect(() => {
-    setRequestAddressAgesAndDocuments();
+    fetchData();
     // eslint-disable-next-line
   }, []);
 
@@ -87,6 +95,7 @@ export default function Index() {
 
   return (
     <div className={styles.container}>
+      <RequestManager request={request} users={users} setRequest={setRequest} />
       <RequestInformation
         request={request}
         setRequest={setRequest}
