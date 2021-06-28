@@ -51,6 +51,11 @@ const findForTable = (params) => {
     .select(
       'r.id',
       'r.userId',
+
+      'm.firstName as managerFirstName',
+      'm.lastName as managerLastName',
+      'm.email as managerEmail',
+
       'u.firstName',
       'u.lastName',
       'u.email',
@@ -123,20 +128,22 @@ const findById = (id) => {
   return db('requests as r')
     .join('addresses as a', 'r.addressId', '=', 'a.id')
     .join('users as u', 'r.userId', '=', 'u.id')
-    .join('users as m', 'r.managerId', '=', 'm.id')
+    .fullOuterJoin('users as m', 'r.managerId', '=', 'm.id')
     .select(
-      'r.*',
-      'r.userId',
-      'r.id',
       'u.firstName',
       'u.lastName',
       'u.email',
       'u.role',
       'u.dob',
       'u.gender',
+
       'm.firstName as managerFirstName',
       'm.lastName as managerLastName',
       'm.email as managerEmail',
+
+      'r.*',
+      'r.userId',
+      'r.id',
       'r.familySize',
       'r.monthlyIncome',
       'r.owed',
@@ -176,6 +183,7 @@ const findById = (id) => {
       'r.landlordNumber',
       'r.childrenAges',
       'r.incomplete',
+
       'a.address',
       'a.zipCode',
       'a.cityName',
