@@ -12,7 +12,7 @@ import RenderSelfDecDocument from './RenderSelfDecDocument';
 
 import { fetchDocuments } from '../../../../../../../redux/requests/requestActions';
 
-import { Modal, Typography, Button, Form, Input } from 'antd';
+import { Modal, Typography, Button, Form, Input, Spin } from 'antd';
 const { Title } = Typography;
 const { TextArea } = Input;
 
@@ -145,13 +145,22 @@ const SelfDecModal = ({
               </Button>
             </Form.Item>
           </Form> */}
-          <RenderSelfDecDocument
-            sessionId={sessionId}
-            userText={userText}
-            setUserText={setUserText}
-            handleDocCreation={handleDocCreation}
-            handleFinalClose={handleFinalClose}
-          />
+          {loading ? (
+            <div
+              className="loadingSpinner"
+              style={{ display: 'flex', justifyContent: 'center' }}
+            >
+              <Spin tip="Creating your document..." />
+            </div>
+          ) : (
+            <RenderSelfDecDocument
+              sessionId={sessionId}
+              userText={userText}
+              setUserText={setUserText}
+              handleDocCreation={handleDocCreation}
+              handleFinalClose={handleFinalClose}
+            />
+          )}
         </div>
       </Modal>
     </>
