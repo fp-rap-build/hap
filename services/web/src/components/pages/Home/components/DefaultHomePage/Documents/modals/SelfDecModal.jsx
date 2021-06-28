@@ -14,7 +14,6 @@ import { fetchDocuments } from '../../../../../../../redux/requests/requestActio
 
 import { Modal, Typography, Button, Form, Input, Spin } from 'antd';
 const { Title } = Typography;
-const { TextArea } = Input;
 
 const SelfDecModal = ({
   selfDecModalVisibility,
@@ -32,12 +31,10 @@ const SelfDecModal = ({
 
   const [sessionId, setSessionId] = useState('');
   const [loading, setLoading] = useState(false);
-  const [userText, setUserText] = useState('');
 
   const handleDocCreation = async text => {
     setLoading(true);
     try {
-      console.log(userText);
       const sessionIdfromAPI = await processDocument(
         currentUser,
         text,
@@ -79,7 +76,6 @@ const SelfDecModal = ({
   const handleFinalClose = () => {
     postSelfDecPlaceholder();
     handleSelfDecAccept();
-    setUserText('');
     setSessionId('');
   };
   //Post explanation to comments
@@ -100,14 +96,18 @@ const SelfDecModal = ({
     }
   };
 
-  const onFinish = value => {
+  const handleTextSubmit = text => {
     postToComments(
-      `${selectedCategory.toUpperCase()} Self Declaration explanation: ${
-        value.text
-      }`
+      `${selectedCategory.toUpperCase()} Self Declaration explanation: ${text}`
     );
-    postSelfDecPlaceholder();
-    handleSelfDecAccept();
+
+    if (selectedCategory === 'childrenOrPregnancy') {
+      //Essentially 'finishing' the document flow here for child or pregnancy
+      handleSelfDecAccept();
+      postSelfDecPlaceholder();
+    } else {
+      handleDocCreation(text);
+    }
   };
 
   return (
@@ -122,29 +122,6 @@ const SelfDecModal = ({
         footer={null}
       >
         <div className="selfDecContent">
-          {/* <Form layout="vertical" name="selfDecUserInput" onFinish={onFinish}>
-            <Form.Item
-              name="text"
-              label="Briefly explain why you cannot provide the requested document:"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please explain why you cannot provide a document.',
-                },
-                {
-                  min: 20,
-                  message: 'Explanation must be at least 20 characters.',
-                },
-              ]}
-            >
-              <TextArea key="fix" rows={5} allowClear />
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item>
-          </Form> */}
           {loading ? (
             <div
               className="loadingSpinner"
@@ -155,10 +132,9 @@ const SelfDecModal = ({
           ) : (
             <RenderSelfDecDocument
               sessionId={sessionId}
-              userText={userText}
-              setUserText={setUserText}
-              handleDocCreation={handleDocCreation}
+              handleTextSubmit={handleTextSubmit}
               handleFinalClose={handleFinalClose}
+              selectedCategory={selectedCategory}
             />
           )}
         </div>

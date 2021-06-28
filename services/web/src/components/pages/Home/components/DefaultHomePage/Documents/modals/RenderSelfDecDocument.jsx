@@ -5,18 +5,14 @@ const { TextArea } = Input;
 
 const RenderSelfDecDocument = ({
   sessionId,
-  userText,
-  setUserText,
-  handleDocCreation,
+  handleTextSubmit,
   handleFinalClose,
+  selectedCategory,
 }) => {
   const docUrl = `https://app.pandadoc.com/s/${sessionId}`;
 
   const onFinish = values => {
-    //Set text to be used in doc
-    setUserText(values.text);
-    //Create doc - this will also toggle the create doc modal
-    handleDocCreation(values.text);
+    handleTextSubmit(values.text);
   };
 
   const UserTextInput = () => {
@@ -26,7 +22,7 @@ const RenderSelfDecDocument = ({
           <Form.Item
             name="text"
             label="Briefly explain why you cannot provide a document:"
-            initialValue={userText}
+            initialValue={''}
             rules={[
               {
                 required: true,
@@ -43,7 +39,9 @@ const RenderSelfDecDocument = ({
           {sessionId ? null : (
             <Form.Item>
               <Button type="primary" htmlType="submit">
-                Create Document
+                {selectedCategory === 'childrenOrPregnancy'
+                  ? 'Submit'
+                  : 'Create Document'}
               </Button>
             </Form.Item>
           )}
