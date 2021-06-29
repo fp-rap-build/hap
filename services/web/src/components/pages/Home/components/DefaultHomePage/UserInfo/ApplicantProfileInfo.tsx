@@ -3,17 +3,17 @@ import { Form, Input, Typography, Divider, DatePicker } from 'antd';
 const { Title, Paragraph } = Typography;
 
 const formatDate = date => {
-  date = new Date(date);
+  date = new Date( date);
   let year = date.getFullYear();
-  let month = date.getMonth() + 1;
-  let day = date.getDate();
+  let month = date.getMonth()+1;
+  let day = date.getDate()+1;
 
   return `${year} / ${month} / ${day}`;
 };
 
 const ApplicantProfileInfo = ({
   applicantData,
-  requestData,
+  requests,
   disabled,
   handleApplicantChange,
   handleDateChange,
@@ -50,6 +50,8 @@ const ApplicantProfileInfo = ({
         >
           <Input disabled={disabled} name="lastName" />
         </Form.Item>
+
+      
 
         <Form.Item
           label="Email"
