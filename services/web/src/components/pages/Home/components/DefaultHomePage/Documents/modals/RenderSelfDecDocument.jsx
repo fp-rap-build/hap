@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { Input, Form, Button } from 'antd';
 const { TextArea } = Input;
 
@@ -52,7 +50,7 @@ const RenderSelfDecDocument = ({
 
   return (
     <div>
-      {/* Toggle components with sessionID - which is set from clicking generate form in the footer */}
+      {/* sessionId is generated from handle doc creation  */}
       {sessionId ? (
         <div className="documentContainer">
           <iframe

@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { useSelector, useDispatch } from 'react-redux';
 
 import socket from '../../../../../../config/socket';
@@ -100,17 +98,17 @@ const DocumentUploader = ({
   };
 
   return (
-    <div style={{ width: '100%', height: '5rem' }}>
+    <div style={{ width: '100%' }}>
       <Dragger
-        style={{ width: '100%' }}
+        style={{ width: '100%', height: '15rem' }}
         {...props}
         className="upload-list-inline"
       >
         <p className="ant-upload-drag-icon">
           <InboxOutlined />
-        </p>
-        <p className="ant-upload-text">
-          Click or drag file to this area to upload
+          <p className="ant-upload-text">
+            Click or drag file to this area to upload
+          </p>
         </p>
       </Dragger>
     </div>

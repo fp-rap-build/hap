@@ -12,7 +12,7 @@ import RenderSelfDecDocument from './RenderSelfDecDocument';
 
 import { fetchDocuments } from '../../../../../../../redux/requests/requestActions';
 
-import { Modal, Typography, Button, Form, Input, Spin } from 'antd';
+import { Modal, Typography, Spin } from 'antd';
 const { Title } = Typography;
 
 const SelfDecModal = ({
@@ -29,9 +29,12 @@ const SelfDecModal = ({
   const dispatch = useDispatch();
   const fetchUserDocuments = () => dispatch(fetchDocuments(request.id));
 
+  //sessionId is only truthy once Document has been creaated
+  //sessionId is used to access the embed document as well as toggle necessary UI
   const [sessionId, setSessionId] = useState('');
   const [loading, setLoading] = useState(false);
 
+  //----- HELPERS -----//
   const handleDocCreation = async text => {
     setLoading(true);
     try {
@@ -49,7 +52,7 @@ const SelfDecModal = ({
     }
   };
 
-  //Adding place holder doc now as confirmation the user completed this process.
+  //Create placeholder Doc and POST when necessary to update UI and track self dec on BE
   const placeHolderDoc = {
     requestId: request.id,
     name: 'self_declaration.pdf',
@@ -73,7 +76,7 @@ const SelfDecModal = ({
     }
   };
 
-  //Post explanation to comments
+  //Post self dec input to comments for staff ease of use
   const postToComments = async userText => {
     const reqBody = {
       requestId: request.id,
@@ -90,6 +93,8 @@ const SelfDecModal = ({
       console.log(error);
     }
   };
+
+  //----- EVENT HANDLERS -----//
 
   const handleTextSubmit = text => {
     postToComments(

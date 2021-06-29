@@ -13,7 +13,7 @@ const UploadDocModal = ({
   updateLocalStatuses,
 }) => {
   return (
-    <>
+    <div className="uploadDocModal">
       <Modal
         title={<Title level={5}>Upload Document</Title>}
         askClosable={false}
@@ -29,7 +29,7 @@ const UploadDocModal = ({
           updateLocalStatuses={updateLocalStatuses}
         />
       </Modal>
-    </>
+    </div>
   );
 };
 
