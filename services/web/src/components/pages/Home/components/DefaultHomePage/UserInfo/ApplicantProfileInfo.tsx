@@ -13,7 +13,6 @@ const formatDate = date => {
 
 const ApplicantProfileInfo = ({
   applicantData,
-  requests,
   disabled,
   handleApplicantChange,
   handleDateChange,
