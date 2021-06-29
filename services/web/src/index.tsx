@@ -34,11 +34,13 @@ import PrivateRoute from './utils/auth/PrivateRoute';
 
 import socket from './config/socket';
 
-import { Button, notification } from 'antd';
+import { Button, notification, Modal } from 'antd';
 
 import { fetchNotifications } from './redux/notifications/notificationActions';
 
 import IdleTimer from './utils/general/idleTimer';
+import { Timer } from '@material-ui/icons';
+import { logOut } from './redux/users/userActions';
 
 const TRACKING_ID = 'G-ZDW3ENHWE7'; // YOUR_OWN_TRACKING_ID
 ReactGA.initialize(TRACKING_ID);
@@ -81,7 +83,7 @@ function RAP() {
 
   useEffect(() => {
     const timer = new IdleTimer({
-      timeout: 5, //expire after 10 seconds
+      timeout: 10, // expire after 10 seconds
       onTimeout: () => {
         setIsTimeout(true);
       },
@@ -107,10 +109,6 @@ function RAP() {
       dispatch(fetchNotifications());
     });
   }, []);
-
-  useEffect(() => {
-    alert('user timed out');
-  }, [isTimeout]);
 
   useEffect(() => {
     userRef.current = currentUser;
