@@ -16,6 +16,10 @@ export default function PaymentsTable() {
     { title: 'Last ', field: 'lastName', editable: 'never' },
     { title: 'Email', field: 'email', type: 'string', editable: 'never' },
     {
+      title: 'BIPOC',
+      field: 'poc',
+    },
+    {
       title: 'Program',
       field: 'program',
       type: 'string',
