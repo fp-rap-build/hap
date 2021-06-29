@@ -36,8 +36,6 @@ const faker = require('faker');
 
 let recentDate = faker.date.recent();
 
-console.log(recentDate);
-
 const INITIAL_VALUES_DEV = {
   firstName: faker.name.firstName(),
   lastName: faker.name.lastName(),
