@@ -6,7 +6,7 @@ const { TextArea } = Input;
 const RenderSelfDecDocument = ({
   sessionId,
   handleTextSubmit,
-  handleFinalClose,
+  handleModalCloseButton,
   selectedCategory,
 }) => {
   const docUrl = `https://app.pandadoc.com/s/${sessionId}`;
@@ -60,7 +60,7 @@ const RenderSelfDecDocument = ({
             src={docUrl}
             style={{ height: '70vh', width: '75vw' }}
           ></iframe>
-          <Button onClick={handleFinalClose}>Finish Submission</Button>
+          <Button onClick={handleModalCloseButton}>Finish Submission</Button>
         </div>
       ) : (
         <UserTextInput />

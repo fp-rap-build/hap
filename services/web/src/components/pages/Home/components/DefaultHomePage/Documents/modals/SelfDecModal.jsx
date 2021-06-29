@@ -73,11 +73,6 @@ const SelfDecModal = ({
     }
   };
 
-  const handleFinalClose = () => {
-    postSelfDecPlaceholder();
-    handleSelfDecAccept();
-    setSessionId('');
-  };
   //Post explanation to comments
   const postToComments = async userText => {
     const reqBody = {
@@ -100,13 +95,25 @@ const SelfDecModal = ({
     postToComments(
       `${selectedCategory.toUpperCase()} Self Declaration explanation: ${text}`
     );
-
+    //If the category is children/pregnancy do not continue to panda doc signature
     if (selectedCategory === 'childrenOrPregnancy') {
-      //Essentially 'finishing' the document flow here for child or pregnancy
       handleSelfDecAccept();
       postSelfDecPlaceholder();
     } else {
+      //builds doc and populates sessionID which opens embeded document view
       handleDocCreation(text);
+    }
+  };
+
+  const handleModalCloseButton = () => {
+    //If selectedCategory is childrenOrPregnancy or sessionId is falsy  - just close the modal
+    if (selectedCategory === 'childrenOrPregnancy' || !sessionId) {
+      handleCancel();
+    } else {
+      //Else the doc has been started/ completed so we need to post teh self dec placeholder, handel the accept and wipe session ID
+      postSelfDecPlaceholder();
+      handleSelfDecAccept();
+      setSessionId('');
     }
   };
 
@@ -117,7 +124,7 @@ const SelfDecModal = ({
         visible={selfDecModalVisibility}
         bodyStyle={sessionId ? { height: '80vh' } : { height: '16rem' }}
         width={sessionId ? '80vw' : 520}
-        onCancel={handleCancel}
+        onCancel={handleModalCloseButton}
         maskClosable={false}
         footer={null}
       >
@@ -133,7 +140,7 @@ const SelfDecModal = ({
             <RenderSelfDecDocument
               sessionId={sessionId}
               handleTextSubmit={handleTextSubmit}
-              handleFinalClose={handleFinalClose}
+              handleModalCloseButton={handleModalCloseButton}
               selectedCategory={selectedCategory}
             />
           )}
