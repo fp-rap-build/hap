@@ -36,6 +36,8 @@ const faker = require('faker');
 
 let recentDate = faker.date.recent();
 
+console.log(recentDate);
+
 const INITIAL_VALUES_DEV = {
   firstName: faker.name.firstName(),
   lastName: faker.name.lastName(),
@@ -191,12 +193,12 @@ export default function Index() {
     setFormValues({ ...formValues, state: value });
   }
 
-  function handleDateChange(value) {
+  const handleDateChange = (value, dateString) => {
     setFormValues({
       ...formValues,
-      dob: value,
+      dob: dateString,
     });
-  }
+  };
 
   function onDateChange(value) {
     setFormValues({ ...formValues, dob: value });
