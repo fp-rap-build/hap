@@ -191,12 +191,12 @@ export default function Index() {
     setFormValues({ ...formValues, state: value });
   }
 
-  function handleDateChange(value) {
+  const handleDateChange = (value, dateString) => {
     setFormValues({
       ...formValues,
-      dob: value,
+      dob: dateString,
     });
-  }
+  };
 
   function onDateChange(value) {
     setFormValues({ ...formValues, dob: value });

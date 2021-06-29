@@ -1,4 +1,3 @@
-import { request } from 'http';
 import { axiosWithAuth } from '../../api/axiosWithAuth';
 import socket from '../../config/socket';
 import { setLoading } from '../global/globalActions';
