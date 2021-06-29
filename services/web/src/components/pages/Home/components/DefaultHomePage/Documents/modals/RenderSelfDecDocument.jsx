@@ -58,7 +58,6 @@ const RenderSelfDecDocument = ({
             src={docUrl}
             style={{ height: '70vh', width: '75vw' }}
           ></iframe>
-          <Button onClick={handleModalCloseButton}>Finish Submission</Button>
         </div>
       ) : (
         <UserTextInput />

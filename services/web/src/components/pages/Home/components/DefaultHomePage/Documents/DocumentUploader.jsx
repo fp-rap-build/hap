@@ -34,9 +34,7 @@ const DocumentUploader = ({
         .get(`/requests/${request.id}/documents`)
         .then(res => res.data.documents);
 
-      let newDoc = docs.filter(doc => {
-        if (doc.id === docId) return doc;
-      });
+      let newDoc = docs.filter(doc => doc.id === docId);
 
       // Update document category and status
       newDoc[0].category = category;

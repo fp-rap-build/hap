@@ -1,20 +1,5 @@
 import { axiosForPanda } from '../../../../../../../api/axiosForPanda';
 
-const fetchTemplateId = async templateName => {
-  try {
-    const templateId = await axiosForPanda()
-      .get('/templates', {
-        params: { q: templateName },
-      })
-      .then(res => res.data);
-
-    return templateId.results[0].id;
-  } catch (error) {
-    alert('Error fetching template Id');
-    console.log(error);
-  }
-};
-
 //Takes built out document info
 const createDocument = async documentInfo => {
   try {
@@ -73,6 +58,14 @@ const updateSelfDecPayload = (
   DOCUMENT_SCHEMA
 ) => {
   const resSchema = Object.assign({}, DOCUMENT_SCHEMA);
+
+  const today = new Date();
+  const date =
+    today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
+  console.log(date);
+
+  resSchema.fields.date.value = date;
 
   resSchema.name = `${currentUser.lastName}_${selectedCategory}_self_declaration`;
   resSchema.recipients[0].email = currentUser.email;
@@ -134,3 +127,18 @@ const processDocument = async (
 };
 
 export { processDocument };
+
+// const fetchTemplateId = async templateName => {
+//   try {
+//     const templateId = await axiosForPanda()
+//       .get('/templates', {
+//         params: { q: templateName },
+//       })
+//       .then(res => res.data);
+
+//     return templateId.results[0].id;
+//   } catch (error) {
+//     alert('Error fetching template Id');
+//     console.log(error);
+//   }
+// };

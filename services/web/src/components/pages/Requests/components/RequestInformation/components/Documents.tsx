@@ -28,6 +28,7 @@ export default function Documents({ documents, setDocuments }) {
     }
 
     setDocuments(originalDocuments.filter(doc => doc.category === category));
+    //eslint-disable-next-line
   }, [category]);
 
   return (
