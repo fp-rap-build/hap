@@ -63,8 +63,6 @@ const updateSelfDecPayload = (
   const date =
     today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 
-  console.log(date);
-
   resSchema.fields.date.value = date;
 
   resSchema.name = `${currentUser.lastName}_${selectedCategory}_self_declaration`;

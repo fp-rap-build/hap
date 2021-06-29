@@ -32,7 +32,7 @@ const SelfDecModal = ({
   //sessionId is only truthy once Document has been creaated
   //sessionId is used to access the embed document as well as toggle necessary UI
   const [sessionId, setSessionId] = useState('');
-  const [pandaInfo, setPandaInfo] = useState({ docId: '', docNam: '' });
+  const [pandaInfo, setPandaInfo] = useState({ docId: '', docName: '' });
   const [loading, setLoading] = useState(false);
 
   //----- HELPERS -----//
@@ -82,12 +82,10 @@ const SelfDecModal = ({
     }
   };
 
-  //Need to start on BE and create a new row in documents called pandaId
-  //Then continue to upload placeholder info but populate pandaId and name with correctInfo
   const postPandaInfo = async () => {
     const uploadObj = {
       requestId: request.id,
-      name: pandaInfo.docNam,
+      name: pandaInfo.docName,
       type: 'application/pdf',
       location: process.env.REACT_APP_PLACEHOLDER_LOCATION,
       key: process.env.REACT_APP_PLACEHOLDER_KEY,
@@ -148,7 +146,7 @@ const SelfDecModal = ({
       handleCancel();
     } else {
       //Else the doc has been started/ completed so we need to post teh self dec placeholder, handel the accept and wipe session ID
-      postSelfDecPlaceholder();
+      postPandaInfo();
       handleSelfDecAccept();
       setSessionId('');
     }
