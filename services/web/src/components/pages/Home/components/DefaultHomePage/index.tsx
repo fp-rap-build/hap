@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import useWindowDimensions from '../../../../../utils/useWindowDimensions';
@@ -13,7 +13,6 @@ import StatusBar from './StatusBar';
 import CommentsContainer from './CommentsContainer';
 import UserInfo from './UserInfo/index';
 import Documents from './Documents/index';
-import DevTest from '../DevTest';
 
 import {
   DesktopOutlined,
@@ -110,13 +109,6 @@ export default function Index() {
             >
               Request Status
             </Menu.Item>
-            <Menu.Item
-              key="devTest"
-              icon={<PieChartOutlined />}
-              onClick={onContentChange}
-            >
-              Dev Test
-            </Menu.Item>
           </Menu>
         </Sider>
         <Layout className="sidebar-content-container">
@@ -137,8 +129,8 @@ export default function Index() {
             className="dashFooter"
             style={width < 1030 ? { height: '5rem' } : null}
           >
-            {/* eslint-disable-next-line */}
             <div className="footerItem">
+              {/* eslint-disable-next-line */}
               <a href="http://www.familypromiseofspokane.org/" target="_blank">
                 Powered by Family Promise of Spokane
               </a>
@@ -169,7 +161,5 @@ const renderContent = props => {
       return <Documents {...props} />;
     case 'userInfo':
       return <UserInfo />;
-    case 'devTest':
-      return <DevTest />;
   }
 };
