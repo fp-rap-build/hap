@@ -118,9 +118,13 @@ const processDocument = async (
     //set document to sent - aka ready to be edited
     await sendDocument(document.id);
     //create document link - may run into issue if document status hasn't been updated yet
-    const docLinkId = await createDocumentLink(document.id, currentUser.email);
+    const sessionId = await createDocumentLink(document.id, currentUser.email);
 
-    return docLinkId;
+    return {
+      sessionId: sessionId,
+      docId: document.id,
+      docName: document.name,
+    };
   } catch (error) {
     console.log(error);
   }

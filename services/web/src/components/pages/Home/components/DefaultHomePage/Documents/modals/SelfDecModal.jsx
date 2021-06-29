@@ -32,19 +32,25 @@ const SelfDecModal = ({
   //sessionId is only truthy once Document has been creaated
   //sessionId is used to access the embed document as well as toggle necessary UI
   const [sessionId, setSessionId] = useState('');
+  const [pandaInfo, setPandaInfo] = useState({ docId: '', docNam: '' });
   const [loading, setLoading] = useState(false);
 
   //----- HELPERS -----//
   const handleDocCreation = async text => {
     setLoading(true);
     try {
-      const sessionIdfromAPI = await processDocument(
+      const pandaDocRes = await processDocument(
         currentUser,
         text,
         selectedCategory,
         SELF_DEC_SCHEMA
       );
-      setSessionId(sessionIdfromAPI);
+      console.log(pandaDocRes);
+      setSessionId(pandaDocRes.sessionId);
+      setPandaInfo({
+        docId: pandaDocRes.docId,
+        docName: pandaDocRes.docName,
+      });
     } catch (error) {
       console.log(error);
     } finally {
@@ -67,6 +73,32 @@ const SelfDecModal = ({
     try {
       await axiosWithAuth()
         .post('/documents', placeHolderDoc)
+        .then(res => res.data);
+
+      fetchUserDocuments();
+      updateLocalStatuses(tableData, selectedCategory, 'optOut');
+    } catch (error) {
+      alert('Error saving self declaration');
+    }
+  };
+
+  //Need to start on BE and create a new row in documents called pandaId
+  //Then continue to upload placeholder info but populate pandaId and name with correctInfo
+  const postPandaInfo = async () => {
+    const uploadObj = {
+      requestId: request.id,
+      name: pandaInfo.docNam,
+      type: 'application/pdf',
+      location: process.env.REACT_APP_PLACEHOLDER_LOCATION,
+      key: process.env.REACT_APP_PLACEHOLDER_KEY,
+      category: selectedCategory,
+      status: 'optOut',
+      pandaId: pandaInfo.docId,
+    };
+
+    try {
+      await axiosWithAuth()
+        .post('/documents', uploadObj)
         .then(res => res.data);
 
       fetchUserDocuments();
