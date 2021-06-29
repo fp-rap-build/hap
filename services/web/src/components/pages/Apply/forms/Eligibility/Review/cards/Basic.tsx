@@ -5,10 +5,10 @@ import { Card } from 'antd';
 import { Descriptions } from 'antd';
 
 const formatDate = date => {
-  date = new Date(date);
+  date = new Date( date);
   let year = date.getFullYear();
-  let month = date.getMonth() + 1;
-  let day = date.getDate();
+  let month = date.getMonth()+1;
+  let day = date.getDate()+1;
 
   return `${year} / ${month} / ${day}`;
 };
