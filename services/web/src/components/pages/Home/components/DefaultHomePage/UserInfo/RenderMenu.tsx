@@ -32,9 +32,7 @@ const RenderMenu = ({ onContentChange }) => {
       <Menu.Item key="demographic" onClick={onContentChange}>
         Demographic
       </Menu.Item>
-      <Menu.Item key="income" onClick={onContentChange}>
-        Income
-      </Menu.Item>
+      
     </Menu>
   );
 

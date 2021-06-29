@@ -58,7 +58,7 @@ export default function AdditionalInformation({
             name="unEmp90"
             onChange={handleCheckBoxChange}
           >
-            Been unemployed for 90+ Days?
+            Been unemployed for 90+ consecutive days as of today?
           </Checkbox>
         </Form.Item>
         <Form.Item>
@@ -78,10 +78,12 @@ export default function AdditionalInformation({
             name="covidFH"
             onChange={handleCheckBoxChange}
           >
-            Household has qualified for unemployment or reduction of household income, or incurred additional costs, 
-            or experienced financial hardship due directly or indirectly to coronavirus outbreak
-            AND 
-            Household can demonstrate a risk of experiencing homelessness, or housing instability which may include past due utility or rent notice or eviction notice.
+            <p>Qualified for unemployment or experienced a reduction in household income?</p>
+            <br></br>
+            <p>Incurred new expenses or experienced a financial hardship due to COVID?</p>
+            <br></br>
+            <p>Can demonstrate a risk of being homeless or being displaced because of eviction notices or past due utilities?</p>
+            
           </Checkbox>
         </Form.Item>
 
@@ -91,7 +93,7 @@ export default function AdditionalInformation({
             name="advocate"
             onChange={handleCheckBoxChange}
           >
-            Check this box if you are an Advocate completing this request on the bahalf of somebody else.
+            Check this box if you are an Advocate completing this request on the behalf of somebody else.
           </Checkbox>
         </Form.Item>
 
