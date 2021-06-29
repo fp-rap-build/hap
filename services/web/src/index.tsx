@@ -1,5 +1,5 @@
 import 'antd/dist/antd.less';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import ReactDOM from 'react-dom';
 import ReactGA from 'react-ga';
@@ -34,8 +34,13 @@ import PrivateRoute from './utils/auth/PrivateRoute';
 
 import socket from './config/socket';
 
-import { Button, notification } from 'antd';
+import { Button, notification, Modal } from 'antd';
+
 import { fetchNotifications } from './redux/notifications/notificationActions';
+
+import IdleTimer from './utils/general/idleTimer';
+import { Timer } from '@material-ui/icons';
+import { logOut } from './redux/users/userActions';
 
 const TRACKING_ID = 'G-ZDW3ENHWE7'; // YOUR_OWN_TRACKING_ID
 ReactGA.initialize(TRACKING_ID);
@@ -54,8 +59,7 @@ ReactDOM.render(
 );
 
 function RAP() {
-  // The reason to declare App this way is so that we can use any helper functions we'd need for business logic, in our case auth.
-  // React Router has a nifty useHistory hook we can use at this level to ensure we have security around our routes.
+  const [isTimeout, setIsTimeout] = useState(false);
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -76,6 +80,23 @@ function RAP() {
 
     notification.info({ message: options.message, btn });
   };
+
+  useEffect(() => {
+    const timer = new IdleTimer({
+      timeout: 10, // expire after 10 seconds
+      onTimeout: () => {
+        setIsTimeout(true);
+      },
+      onExpired: () => {
+        //do something if expired on load
+        setIsTimeout(true);
+      },
+    });
+
+    return () => {
+      timer.cleanUp();
+    };
+  }, []);
 
   useEffect(() => {
     socket.on('requestChange', options => {

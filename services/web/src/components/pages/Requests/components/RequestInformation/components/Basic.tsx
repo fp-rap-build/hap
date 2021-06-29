@@ -67,7 +67,7 @@ export default function Basic({ request, setRequest, column = 2 }) {
       </Form.Item>
 
       <Form.Item label="DOB" name="dob" initialValue={formatDate(request.dob)}>
-        <Input disabled={true} />
+        <Input disabled={disabled} />
       </Form.Item>
 
       <Form.Item label="Role" name="role" initialValue={request.role}>

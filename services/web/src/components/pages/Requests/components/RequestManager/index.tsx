@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { message, Select } from 'antd';
 import { axiosWithAuth } from '../../../../../api/axiosWithAuth';
 
