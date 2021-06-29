@@ -29,6 +29,7 @@ const DocumentsTable = ({ request }) => {
 
   useEffect(() => {
     checkDocumentCompletion(tableData, request);
+    //eslint-disable-next-line
   }, [tableData]);
 
   const [uploadModalVisibility, setUploadModalVisibility] = useState(false);

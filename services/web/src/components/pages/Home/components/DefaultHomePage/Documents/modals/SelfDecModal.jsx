@@ -4,11 +4,16 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { axiosWithAuth } from '../../../../../../../api/axiosWithAuth';
 
+import { processDocument } from '../utils/pandaDocUtils';
+
+import SELF_DEC_SCHEMA from '../utils/selfDecSchema';
+
+import RenderSelfDecDocument from './RenderSelfDecDocument';
+
 import { fetchDocuments } from '../../../../../../../redux/requests/requestActions';
 
-import { Modal, Typography, Button, Form, Input } from 'antd';
+import { Modal, Typography, Spin } from 'antd';
 const { Title } = Typography;
-const { TextArea } = Input;
 
 const SelfDecModal = ({
   selfDecModalVisibility,
@@ -24,8 +29,30 @@ const SelfDecModal = ({
   const dispatch = useDispatch();
   const fetchUserDocuments = () => dispatch(fetchDocuments(request.id));
 
-  //Adding place holder doc now as confirmation the user completed this process.
-  //Will be replaced with PDF via panda Doc
+  //sessionId is only truthy once Document has been creaated
+  //sessionId is used to access the embed document as well as toggle necessary UI
+  const [sessionId, setSessionId] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  //----- HELPERS -----//
+  const handleDocCreation = async text => {
+    setLoading(true);
+    try {
+      const sessionIdfromAPI = await processDocument(
+        currentUser,
+        text,
+        selectedCategory,
+        SELF_DEC_SCHEMA
+      );
+      setSessionId(sessionIdfromAPI);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  //Create placeholder Doc and POST when necessary to update UI and track self dec on BE
   const placeHolderDoc = {
     requestId: request.id,
     name: 'self_declaration.pdf',
@@ -49,7 +76,7 @@ const SelfDecModal = ({
     }
   };
 
-  //Post explanation to comments
+  //Post self dec input to comments for staff ease of use
   const postToComments = async userText => {
     const reqBody = {
       requestId: request.id,
@@ -67,14 +94,32 @@ const SelfDecModal = ({
     }
   };
 
-  const onFinish = value => {
+  //----- EVENT HANDLERS -----//
+
+  const handleTextSubmit = text => {
     postToComments(
-      `${selectedCategory.toUpperCase()} Self Declaration explanation: ${
-        value.text
-      }`
+      `${selectedCategory.toUpperCase()} Self Declaration explanation: ${text}`
     );
-    postSelfDecPlaceholder();
-    handleSelfDecAccept();
+    //If the category is children/pregnancy do not continue to panda doc signature
+    if (selectedCategory === 'childrenOrPregnancy') {
+      handleSelfDecAccept();
+      postSelfDecPlaceholder();
+    } else {
+      //builds doc and populates sessionID which opens embeded document view
+      handleDocCreation(text);
+    }
+  };
+
+  const handleModalCloseButton = () => {
+    //If selectedCategory is childrenOrPregnancy or sessionId is falsy  - just close the modal
+    if (selectedCategory === 'childrenOrPregnancy' || !sessionId) {
+      handleCancel();
+    } else {
+      //Else the doc has been started/ completed so we need to post teh self dec placeholder, handel the accept and wipe session ID
+      postSelfDecPlaceholder();
+      handleSelfDecAccept();
+      setSessionId('');
+    }
   };
 
   return (
@@ -82,35 +127,28 @@ const SelfDecModal = ({
       <Modal
         title={<Title level={5}>Self-Declaration</Title>}
         visible={selfDecModalVisibility}
-        bodyStyle={{ height: '16rem' }}
-        onCancel={handleCancel}
+        bodyStyle={sessionId ? { height: '80vh' } : { height: '16rem' }}
+        width={sessionId ? '80vw' : 520}
+        onCancel={handleModalCloseButton}
         maskClosable={false}
         footer={null}
       >
         <div className="selfDecContent">
-          <Form layout="vertical" name="selfDecUserInput" onFinish={onFinish}>
-            <Form.Item
-              name="text"
-              label="Briefly explain why you cannot provide the requested document:"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please explain why you cannot provide a document.',
-                },
-                {
-                  min: 20,
-                  message: 'Explanation must be at least 20 characters.',
-                },
-              ]}
+          {loading ? (
+            <div
+              className="loadingSpinner"
+              style={{ display: 'flex', justifyContent: 'center' }}
             >
-              <TextArea key="fix" rows={5} allowClear />
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
+              <Spin tip="Creating your document..." />
+            </div>
+          ) : (
+            <RenderSelfDecDocument
+              sessionId={sessionId}
+              handleTextSubmit={handleTextSubmit}
+              handleModalCloseButton={handleModalCloseButton}
+              selectedCategory={selectedCategory}
+            />
+          )}
         </div>
       </Modal>
     </>

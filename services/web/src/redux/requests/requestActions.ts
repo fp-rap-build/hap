@@ -145,8 +145,6 @@ export const buildDocumentStatuses = documents => async dispatch => {
     covid: 'missing',
   };
 
-  console.log(documents);
-
   if (documents) {
     documents.forEach(doc => {
       statuses[doc.category] = doc.status;

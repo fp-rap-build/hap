@@ -149,11 +149,7 @@ const Household = ({ requestData, handleRequestChange, disabled }) => {
             },
           ]}
         >
-          <Input
-            disabled={disabled}
-            style={{ width: '100%' }}
-            name="beds"
-          />
+          <Input disabled={disabled} style={{ width: '100%' }} name="beds" />
         </Form.Item>
         {/* <Form.Item
           name="totalChildren"

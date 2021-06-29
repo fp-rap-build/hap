@@ -105,11 +105,7 @@ export default function Household({ request, setRequest, column = 2 }) {
           },
         ]}
       >
-        <Input
-          disabled={disabled}
-          style={{ width: '100%' }}
-          name="beds"
-        />
+        <Input disabled={disabled} style={{ width: '100%' }} name="beds" />
       </Form.Item>
 
       <Form.Item
@@ -235,7 +231,7 @@ export default function Household({ request, setRequest, column = 2 }) {
         />
       </Form.Item>
 
-      <Form.Item  
+      <Form.Item
         label="Program/Budget"
         name="budget"
         initialValue={request.budget}

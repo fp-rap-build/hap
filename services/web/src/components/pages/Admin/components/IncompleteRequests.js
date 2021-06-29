@@ -110,7 +110,10 @@ export default function RequestsTable() {
 
       requests = requests.map(request => {
         request['isSubscribed'] = request.id in subscriptions;
-        request['ami'] = calculateAmi(request.monthlyIncome, request.familySize);
+        request['ami'] = calculateAmi(
+          request.monthlyIncome,
+          request.familySize
+        );
         request['poc'] = doesHouseholdContainPoc(request);
 
         return request;

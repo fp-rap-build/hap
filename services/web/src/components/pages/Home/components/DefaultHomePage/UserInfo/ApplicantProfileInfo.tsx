@@ -2,12 +2,11 @@ import { Form, Input, Typography, Divider, DatePicker } from 'antd';
 
 const { Title, Paragraph } = Typography;
 
-const formatDate = (date) => {
-  date =  new Date(date);
+const formatDate = date => {
+  date = new Date(date);
   let year = date.getFullYear();
-  let month = date.getMonth()+1;
+  let month = date.getMonth() + 1;
   let day = date.getDate();
-
 
   return `${year} / ${month} / ${day}`;
 };
@@ -17,10 +16,9 @@ const ApplicantProfileInfo = ({
   requestData,
   disabled,
   handleApplicantChange,
-  handleDateChange
+  handleDateChange,
 }) => {
   return (
-    
     <div className="addressInformation userInfoContent">
       <div className="userContentHeading">
         <Title level={4}>Applicant Information: </Title>
@@ -60,10 +58,6 @@ const ApplicantProfileInfo = ({
         >
           <Input disabled={true} name="email" />
         </Form.Item>
-
-        
-
-       
 
         <Form.Item label="Role" name="role" initialValue={applicantData.role}>
           <Input disabled={true} name="role" />

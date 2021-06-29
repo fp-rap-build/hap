@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { useSelector, useDispatch } from 'react-redux';
 
 import socket from '../../../../../../config/socket';
@@ -36,9 +34,7 @@ const DocumentUploader = ({
         .get(`/requests/${request.id}/documents`)
         .then(res => res.data.documents);
 
-      let newDoc = docs.filter(doc => {
-        if (doc.id === docId) return doc;
-      });
+      let newDoc = docs.filter(doc => doc.id === docId);
 
       // Update document category and status
       newDoc[0].category = category;
@@ -91,11 +87,8 @@ const DocumentUploader = ({
 
         let documentId = info.file.response.documents[0].id;
 
-        //persist changes on data base
+        //persist changes in data base
         updateDoc(documentId);
-
-        //persist changes on local state
-        //persist changes in store
       } else if (status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
       }
@@ -103,17 +96,17 @@ const DocumentUploader = ({
   };
 
   return (
-    <div style={{ width: '100%', height: '5rem' }}>
+    <div style={{ width: '100%' }}>
       <Dragger
-        style={{ width: '100%' }}
+        style={{ width: '100%', height: '15rem' }}
         {...props}
         className="upload-list-inline"
       >
         <p className="ant-upload-drag-icon">
           <InboxOutlined />
-        </p>
-        <p className="ant-upload-text">
-          Click or drag file to this area to upload
+          <p className="ant-upload-text">
+            Click or drag file to this area to upload
+          </p>
         </p>
       </Dragger>
     </div>

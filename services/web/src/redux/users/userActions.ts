@@ -130,7 +130,7 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
     password: requestValues.password,
     role: requestValues.role,
     dob: requestValues.dob,
-    gender: requestValues.gender
+    gender: requestValues.gender,
   };
 
   // request and address information

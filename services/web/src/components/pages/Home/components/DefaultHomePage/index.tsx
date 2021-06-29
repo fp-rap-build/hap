@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import useWindowDimensions from '../../../../../utils/useWindowDimensions';
@@ -129,8 +129,8 @@ export default function Index() {
             className="dashFooter"
             style={width < 1030 ? { height: '5rem' } : null}
           >
-            {/* eslint-disable-next-line */}
             <div className="footerItem">
+              {/* eslint-disable-next-line */}
               <a href="http://www.familypromiseofspokane.org/" target="_blank">
                 Powered by Family Promise of Spokane
               </a>

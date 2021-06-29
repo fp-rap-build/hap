@@ -9,10 +9,10 @@ const calculateAmi = (monthlyIncome, familySize) => {
     '7': 6400,
     '8': 6812,
     '9': 7000,
-    '10':8000,
-    '11':9000
+    '10': 8000,
+    '11': 9000,
   };
-  let ami = Number(( monthlyIncome / (amiList[familySize])) * 100).toFixed(2);
+  let ami = Number((monthlyIncome / amiList[familySize]) * 100).toFixed(2);
 
   return ami;
 };

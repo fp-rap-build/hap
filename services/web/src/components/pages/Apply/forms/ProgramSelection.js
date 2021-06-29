@@ -8,7 +8,13 @@ import { Divider, Typography, Button, Row, Col, Spin, Card } from 'antd';
 
 // urls
 
-import { SNAP_ERA, SNAP_ERAP, VLP_EDP, LS, OTHER } from '../../../../utils/data/urls';
+import {
+  SNAP_ERA,
+  SNAP_ERAP,
+  VLP_EDP,
+  LS,
+  OTHER,
+} from '../../../../utils/data/urls';
 
 const { Paragraph, Title } = Typography;
 
@@ -113,7 +119,6 @@ const ProgramSelection = ({ formValues }) => {
           </Col>
         </Row>
         <Divider />
-        
 
         <Row>
           <Col span={15}>
@@ -185,7 +190,7 @@ const ProgramSelection = ({ formValues }) => {
           <Col span={15}>
             <Paragraph strong={availablePrograms.OTHER}>
               {' '}
-              Services and Resources Available in Spokane County: {' '}
+              Services and Resources Available in Spokane County:{' '}
             </Paragraph>
           </Col>
           <Col span={1} />
@@ -202,7 +207,6 @@ const ProgramSelection = ({ formValues }) => {
           </Col>
         </Row>
         <Divider />
-
       </Card>
     </Spin>
   );

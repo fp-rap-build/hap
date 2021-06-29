@@ -7,13 +7,12 @@ import EditButton from './components/EditButton';
 export default function Basic({ request, setRequest, column = 2 }) {
   const [disabled, setDisabled] = useState(true);
 
-  const formatDate = (date) => {
+  const formatDate = date => {
     date = new Date(date);
     let year = date.getFullYear();
-    let month = date.getMonth()+1;
+    let month = date.getMonth() + 1;
     let day = date.getDate();
-  
-  
+
     return `${year} / ${month} / ${day}`;
   };
 
