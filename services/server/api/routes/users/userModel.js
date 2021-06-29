@@ -1,7 +1,28 @@
 const db = require('../../../data/db-config');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
+const salt = Number(process.env.BCRYPT_SALT);
+
 const findAll = async (query = {}) => await db('users');
+
+const findAllStaff = async (role) =>
+  await db('users').modify((qb) => {
+    switch (role) {
+      case 'admin':
+        qb.whereIn('role', [
+          'admin',
+          'programManager',
+          'assistantProgramManager',
+        ]);
+        break;
+      case 'programManager':
+        qb.whereIn('role', ['programManager', 'assistantProgramManager']);
+        break;
+      case 'assistantProgramManager':
+        qb.whereIn('role', ['assistantProgramManager']);
+        break;
+    }
+  });
 
 const findBy = async (filter) => await db('users').where(filter);
 
@@ -31,7 +52,7 @@ const findById = async (id) => db('users').where({ id }).first('*');
 
 const findByIdAndUpdate = async (id, payload) => {
   if (payload['password']) {
-    payload['password'] = await bcrypt.hash(user['password'], 12);
+    payload['password'] = await bcrypt.hash(payload['password'], salt);
   }
   return await db('users').where({ id }).update(payload).returning('*');
 };
@@ -63,7 +84,7 @@ const updateAddressById = async (addressId, payload) =>
 const create = async (user) => {
   // Create an empty address for the user and set the addressId
 
-  user['password'] = await bcrypt.hash(user['password'], 12);
+  user['password'] = await bcrypt.hash(user['password'], salt);
 
   return db('users').insert(user).returning('*');
 };
@@ -106,7 +127,10 @@ const readAllNotifications = (userId) =>
     .where({ userId })
     .update({ seen: true })
     .returning('*');
-    
+
+const deleteAllNotifications = (userId) =>
+  db('userNotifications').where({ userId }).del();
+
 const createPasswordResetToken = async (id) => {
   let resetToken = crypto.randomBytes(32).toString('hex');
 
@@ -127,6 +151,7 @@ const createPasswordResetToken = async (id) => {
 
 module.exports = {
   findAll,
+  findAllStaff,
   findBy,
   findById,
   findByIdAndUpdate,
@@ -143,5 +168,6 @@ module.exports = {
   findSubscriptionsById,
   findNotificationsById,
   readAllNotifications,
+  deleteAllNotifications,
   createPasswordResetToken,
 };

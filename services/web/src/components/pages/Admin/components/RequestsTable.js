@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 
 import MaterialTable from '@material-table/core';
 
-import styles from '../../../../styles/pages/admin.module.css';
+import { ExportCsv, ExportPdf } from '@material-table/exporters';
 
 import { tableIcons } from '../../../../utils/tableIcons';
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
@@ -14,14 +14,23 @@ import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 import GavelIcon from '@material-ui/icons/Gavel';
 import MailIcon from '@material-ui/icons/Mail';
 import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
+import ArchiveIcon from '@material-ui/icons/Archive';
+import WarningFilled from '@material-ui/icons/Warning';
 
 import { message, Modal } from 'antd';
-import { Mail } from '@material-ui/icons';
+
 import {
   addSubscription,
   deleteSubscription,
 } from '../../../../redux/users/userActions';
+
 import socket from '../../../../config/socket';
+
+import calculateAmi from '../../../../utils/general/calculateAmi';
+
+import styles from '../../../../styles/pages/admin.module.css';
+import sortRequests from '../utils/sortRequests';
+import doesHouseholdContainPoc from '../../../../utils/general/doesHouseholdContainPoc';
 
 export default function RequestsTable() {
   const history = useHistory();
@@ -31,12 +40,14 @@ export default function RequestsTable() {
 
   const subscriptions = formatSubscriptions(currentUser.subscriptions);
 
-  // const [isOpen, setIsOpen] = useState(false);
-  // const [requestBeingReviewed, setRequestBeingReviewed] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
 
   const [data, setData] = useState([]);
   const [columns, setColumns] = useState([
+    {
+      title: 'Manager',
+      field: 'manager',
+    },
     { title: 'First', field: 'firstName' },
     { title: 'Last ', field: 'lastName' },
     {
@@ -44,32 +55,79 @@ export default function RequestsTable() {
       field: 'email',
     },
     {
+      title: 'AMI',
+      field: 'ami',
+    },
+    {
+      title: 'unEmp90',
+      field: 'unEmp90',
+    },
+    {
+      title: 'BIPOC',
+      field: 'poc',
+    },
+    {
+      title: 'Amount',
+      field: 'amountRequested',
+    },
+    {
+      title: 'Address',
+      field: 'address',
+    },
+    {
+      title: 'City',
+      field: 'cityName',
+    },
+    {
+      title: 'LN',
+      field: 'landlordName',
+    },
+    {
       title: 'Request Status',
       field: 'requestStatus',
       lookup: {
         received: 'Received',
         inReview: 'In Review',
+        documentsNeeded: 'documentsNeeded',
+        verifyingDocuments: 'verifyingDocuments',
+        notResponding: 'Not Responding',
+        readyForReview: 'Ready For Review',
         approved: 'Approved',
         denied: 'Denied',
       },
     },
+
     { title: 'date', field: 'requestDate', type: 'date' },
   ]);
 
-  const fetchUsers = async () => {
+  const fetchRequests = async () => {
     setIsFetching(true);
     try {
       let requests = await axiosWithAuth()
-        .get('/requests/table')
+        .get('/requests/table', {
+          params: {
+            archived: false,
+            incomplete: false,
+          },
+        })
         .then(res => res.data);
 
       requests = requests.map(request => {
         request['isSubscribed'] = request.id in subscriptions;
+        request['ami'] = calculateAmi(
+          request.monthlyIncome,
+          request.familySize
+        );
+        request['poc'] = doesHouseholdContainPoc(request);
+
+        request['manager'] = request['managerFirstName']
+          ? request['managerFirstName'] + ' ' + request['managerLastName']
+          : 'Nobody';
 
         return request;
       });
 
-      let sortedRequests = sortRequestsBySubscriptions(requests);
+      let sortedRequests = sortRequests(requests);
 
       setData(sortedRequests);
     } catch (error) {
@@ -81,7 +139,7 @@ export default function RequestsTable() {
   };
 
   useEffect(() => {
-    fetchUsers();
+    fetchRequests();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -91,8 +149,20 @@ export default function RequestsTable() {
         style={{ width: '100%' }}
         isLoading={isFetching}
         options={{
+          pageSize: 10,
+          pageSizeOptions: [5, 10, 20, 30, 50, 75, 100, 500, 1000],
+
           // Allows users to export the data as a CSV file
-          exportButton: true,
+          exportMenu: [
+            {
+              label: 'Export PDF',
+              exportFunc: (cols, datas) => ExportPdf(cols, datas, 'requests'),
+            },
+            {
+              label: 'Export CSV',
+              exportFunc: (cols, datas) => ExportCsv(cols, datas, 'requests'),
+            },
+          ],
         }}
         editable={{
           isDeleteHidden: () => currentUser.role !== 'admin',
@@ -163,6 +233,54 @@ export default function RequestsTable() {
                     subscribeToRequest(rowData.id, setData, dispatch);
                   },
                 },
+          {
+            icon: ArchiveIcon,
+            tooltip: 'Archive',
+            onClick: async (event, rowData) => {
+              // Update the users request to be in review
+
+              try {
+                setData(requests =>
+                  requests.filter(request => {
+                    if (request.id !== rowData.id) return request;
+                  })
+                );
+
+                await axiosWithAuth().put(`/requests/${rowData.id}`, {
+                  archived: true,
+                });
+
+                message.success('Successfully archived request');
+              } catch (error) {
+                message.error('Unable to archive request');
+              }
+            },
+          },
+
+          {
+            icon: WarningFilled,
+            tooltip: 'Mark Incomplete',
+            onClick: async (event, rowData) => {
+              // Update the users request to be in review
+
+              try {
+                setData(requests =>
+                  requests.filter(request => {
+                    if (request.id !== rowData.id) return request;
+                  })
+                );
+
+                await axiosWithAuth().put(`/requests/${rowData.id}`, {
+                  incomplete: true,
+                });
+
+                message.success('Successfully marked request incomplete');
+              } catch (error) {
+                message.error('Unable to mark request as incomplete');
+              }
+            },
+          },
+
           // {
           //   icon: MailIcon,
           //   tooltip: 'Subscribe',
@@ -217,19 +335,4 @@ const formatSubscriptions = subscriptions => {
   });
 
   return result;
-};
-
-const sortRequestsBySubscriptions = requests => {
-  let subscribed = [];
-  let unsubscribed = [];
-
-  requests.forEach(req => {
-    if (req.isSubscribed) {
-      subscribed.push(req);
-    } else {
-      unsubscribed.push(req);
-    }
-  });
-
-  return [...subscribed, ...unsubscribed];
 };

@@ -40,7 +40,6 @@ const authRequired = async (req, res, next) => {
     req.user = currentUser;
     next();
   } catch (error) {
-    console.log(error);
     if (error.message == 'invalid token' || error.message == 'jwt malformed') {
       return res.status(401).json({ message: 'Invalid token' });
     }

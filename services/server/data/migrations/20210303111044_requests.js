@@ -2,6 +2,7 @@ exports.up = function (knex) {
   return knex.schema.createTable('requests', (tbl) => {
     tbl.increments('id');
     tbl.uuid('userId').notNullable().references('id').inTable('users');
+    
     tbl
       .enu('requestStatus', [
         'received',

@@ -6,7 +6,7 @@ exports.updateAddress = async (req, res) => {
   const { id } = req.params;
   newAddress = req.body;
   try {
-    let request = await Requests.findBy({ id });
+    let request = await Requests.findById(id);
     request = request[0];
 
     // Create the address if it doesn't exist
@@ -19,12 +19,13 @@ exports.updateAddress = async (req, res) => {
     }
 
     let { addressId } = request;
+
     let address = await Addresses.update(addressId, newAddress);
 
     res.status(200).json({ address: address[0] });
   } catch (error) {
     console.log(error);
-    res.json('error');
+    res.status(500).json('error');
   }
 };
 

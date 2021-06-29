@@ -7,6 +7,7 @@ const restrictTo = require('../../middleware/restrictTo');
 // Controllers
 const {
   getAllUsers,
+  getAllStaffUsers,
   createUser,
 
   getUserById,
@@ -19,9 +20,10 @@ const {
   getUserAddressById,
 
   getAllSubscriptions,
+
   getAllNotifications,
   readAllNotifications,
-  
+  deleteAllNotifications,
 } = require('./controllers');
 
 // Global middleware
@@ -31,6 +33,11 @@ router.use(authRequired);
 router.route('/').get(getAllUsers).post(createUser);
 
 router
+  .route('/staff')
+  .all(restrictTo('admin', 'programManager', 'assistantProgramManager'))
+  .get(getAllStaffUsers);
+
+router
   .route('/me')
   .get(getCurrentUser)
   .put(updateCurrentUser)
@@ -38,12 +45,16 @@ router
 
 router.route('/me/subscriptions').get(getAllSubscriptions);
 
-router.route('/me/notifications').get(getAllNotifications);
+router
+  .route('/me/notifications')
+  .get(getAllNotifications)
+  .delete(deleteAllNotifications);
+
 router.route('/me/notifications/read').post(readAllNotifications);
 
 router
   .route('/:id')
-  .all(restrictTo('admin', 'programManager'))
+  // .all(restrictTo('admin', 'programManager'))
   .get(getUserById)
   .put(updateUserById)
   .delete(deleteUserById);

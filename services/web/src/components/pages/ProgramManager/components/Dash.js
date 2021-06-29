@@ -3,7 +3,10 @@ import { useSelector } from 'react-redux';
 
 import ProgramMgrNav from './programMgrNav';
 import RequestsTable from '../../Admin/components/RequestsTable';
+import ArchivedRequests from '../../Admin/components/ArchivedRequests';
+import IncompleteRequests from '../../Admin/components/IncompleteRequests';
 import Analytics from '../../Admin/components/Analytics';
+
 import styles from '../../../../styles/pages/admin.module.css';
 
 import { Typography, Layout } from 'antd';
@@ -38,6 +41,8 @@ const Dash = () => {
       </Header>
       <Content className={styles.dashboard}>
         {activeComponent.current === 'requests' && <RequestsTable />}
+        {activeComponent.current === 'archive' && <ArchivedRequests />}
+        {activeComponent.current === 'incomplete' && <IncompleteRequests />}
         {activeComponent.current === 'analytics' && <Analytics />}
       </Content>
       <Footer className={styles.footer} />

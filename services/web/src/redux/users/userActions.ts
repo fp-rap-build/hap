@@ -10,6 +10,10 @@ export const setErrorMessage = message => {
   return { type: 'SET_ERROR_MESSAGE', payload: message };
 };
 
+export const setUserNameInformation = nameInformation => {
+  return { type: 'SET_USER_NAME_INFO', payload: nameInformation };
+};
+
 export const clearErrorMessage = () => {
   return setErrorMessage('');
 };
@@ -41,6 +45,9 @@ export const fetchCurrentUser = () => async dispatch => {
 export const logOut = (history, orgId, subscriptions) => dispatch => {
   // Remove token from localStorage
   localStorage.removeItem('token');
+
+  //Remove redux persist from localStorage
+  localStorage.removeItem('persist:root');
 
   // Leave rooms
   socket.emit('leaveOrganization', { orgId });
@@ -91,7 +98,7 @@ export const logIn = (user, history) => async dispatch => {
 };
 
 export const registerAndApply = (requestValues, history) => async dispatch => {
-  let tenantEmail, tenantNumber, landlordEmail, landlordNumber;
+  let tenantEmail, tenantNumber, landlordName, landlordEmail, landlordNumber;
 
   // Trim whitespace off strings
   for (let key in requestValues) {
@@ -104,6 +111,7 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
   if (requestValues.role === 'tenant') {
     tenantEmail = requestValues.email;
     tenantNumber = requestValues.phoneNumber;
+    landlordName = requestValues.landlordName;
     landlordEmail = requestValues.landlordEmail;
     landlordNumber = requestValues.landlordNumber;
   } else {
@@ -120,6 +128,8 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
     email: requestValues.email,
     password: requestValues.password,
     role: requestValues.role,
+    dob: requestValues.dob,
+    gender: requestValues.gender,
   };
 
   // request and address information
@@ -127,10 +137,13 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
     familySize: requestValues.familySize,
     monthlyIncome: Number(requestValues.monthlyIncome),
     monthlyRent: Number(requestValues.monthlyRent),
+    owed: Number(requestValues.owed),
     unEmp90: requestValues.unEmp90,
     foodWrkr: requestValues.foodWrkr,
     totalChildren: requestValues.totalChildren,
     amountRequested: requestValues.amountRequested,
+    amountApproved: requestValues.amountApproved,
+    budget: requestValues.budget,
     advocate: requestValues.advocate,
     hispanic: requestValues.hispanic,
     asian: requestValues.asian,
@@ -138,11 +151,28 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
     pacific: requestValues.pacific,
     white: requestValues.white,
     native: requestValues.native,
+    beds: requestValues.beds,
+    hispanicHOH: requestValues.hispanicHOH,
+    asianHOH: requestValues.asianHOH,
+    blackHOH: requestValues.blackHOH,
+    pacificHOH: requestValues.pacificHOH,
+    whiteHOH: requestValues.whiteHOH,
+    nativeHOH: requestValues.nativeHOH,
+    demoNotSayHOH: requestValues.demoNotSayHOH,
     demoNotSay: requestValues.demoNotSay,
+    incomplete: requestValues.incomplete,
     tenantEmail,
     tenantNumber,
+    landlordName,
     landlordEmail,
+    childrenAges: requestValues.childrenAges,
     landlordNumber,
+    landlordAddress: requestValues.landlordAddress,
+    landlordAddress2: requestValues.landlordAddress2,
+    landlordCity: requestValues.landlordCity,
+    landlordState: requestValues.landlordState,
+    landlordZip: requestValues.landlordZip,
+
     address: {
       address: requestValues.address,
       addressLine2: requestValues.addressLine2,
@@ -199,4 +229,18 @@ export const addSubscription = subscription => {
 
 export const deleteSubscription = subscriptionId => {
   return { type: 'DELETE_SUBSCRIPTION', payload: subscriptionId };
+};
+
+export const updateUserNameInfo = nameInfo => async dispatch => {
+  try {
+    const resNameInfo = await axiosWithAuth()
+      .put(`/user/${nameInfo.id}`, nameInfo)
+      .then(res => res.data.user);
+
+    dispatch(setUserNameInformation(resNameInfo));
+  } catch (error) {
+    const message = error?.response?.data?.message || 'Internal server error';
+
+    dispatch(setErrorMessage(message));
+  }
 };

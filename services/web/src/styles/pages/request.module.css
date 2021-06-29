@@ -17,7 +17,8 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   width: 100%;
-  gap: 7px;
+  gap: 1rem;
+  margin-bottom: 5rem;
 }
 
 .document {
@@ -40,6 +41,19 @@
   align-items: flex-start;
 }
 
+.datepicker {
+  width: 50%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+@media (max-width: 1280px) {
+  .documents {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
 
 @media (max-width: 1000px) {
   .contact {
@@ -48,13 +62,20 @@
 }
 
 @media (max-width: 800px) {
+  .documents {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .contact {
     width: 70%;
   }
 }
 
-
 @media (max-width: 620px) {
+  .documents {
+    grid-template-columns: 1fr;
+  }
+
   .checklistsContainer {
     flex-flow: column nowrap;
   }
@@ -64,6 +85,11 @@
   }
 
   .checklist {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .datepicker {
     width: 100%;
     margin-bottom: 1rem;
   }

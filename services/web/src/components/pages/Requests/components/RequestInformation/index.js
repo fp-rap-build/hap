@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useSelector } from 'react-redux';
 
@@ -16,19 +16,34 @@ import {
   Contact,
 } from './components';
 
-import { Card, Input, message, Modal } from 'antd';
+import { Card, message, Modal } from 'antd';
 import { axiosWithAuth } from '../../../../../api/axiosWithAuth';
 
 import socket from '../../../../../config/socket';
+import Address from './components/Address';
+import Household from './components/Household';
+import Demographics from './components/Demographics';
 
 const tabListNoTitle = [
   {
-    key: 'basic',
-    tab: 'Basic',
+    key: 'user',
+    tab: 'User',
+  },
+  {
+    key: 'address',
+    tab: 'Address',
+  },
+  {
+    key: 'household',
+    tab: 'Household',
+  },
+  {
+    key: 'demographics',
+    tab: 'Demographics',
   },
   {
     key: 'contact',
-    tab: 'Contact',
+    tab: 'Landlord',
   },
   {
     key: 'documents',
@@ -49,6 +64,7 @@ export default function Index({
   organizationId,
   programs,
   setPrograms,
+  ages,
 }) {
   const currentUser = useSelector(state => state.user.currentUser);
 
@@ -97,10 +113,6 @@ export default function Index({
     const alreadyReviewed =
       request.requestStatus === 'approved' ||
       request.requestStatus === 'denied';
-
-    if (alreadyReviewed) {
-      return message.error('This request has already been reviewed');
-    }
 
     let completedChecklist = isChecklistCompleted(preChecklistValues);
 
@@ -169,8 +181,10 @@ export default function Index({
     handleReviewSubmit,
     handleCheckboxChange,
     request,
+    setRequest,
     documents,
     setDocuments,
+    ages,
   };
 
   const approveModalProps = {
@@ -191,12 +205,19 @@ export default function Index({
 
       <Card
         className="site-page-header-responsive"
-        title="Review"
+        title={`Reviewing ${request.firstName} ${request.lastName}'s request; The Current Status is: ${request.requestStatus}`}
         tabList={tabListNoTitle}
         onTabChange={onTabChange}
         activeTabKey={tab}
         style={{ minHeight: '450px', width: '100%' }}
-        extra={[<TopActions handleReviewSubmit={props.handleReviewSubmit} />]}
+        key={request.id}
+        extra={[
+          <TopActions
+            handleReviewSubmit={props.handleReviewSubmit}
+            request={request}
+            setRequest={setRequest}
+          />,
+        ]}
       >
         <Content
           extra={
@@ -214,10 +235,20 @@ export default function Index({
 
 const renderContent = props => {
   switch (props.tab) {
-    case 'basic':
-      return <Basic request={props.request} />;
+    case 'user':
+      return <Basic request={props.request} setRequest={props.setRequest} />;
+    case 'address':
+      return <Address request={props.request} setRequest={props.setRequest} />;
+    case 'household':
+      return (
+        <Household request={props.request} setRequest={props.setRequest} />
+      );
+    case 'demographics':
+      return (
+        <Demographics request={props.request} setRequest={props.setRequest} />
+      );
     case 'contact':
-      return <Contact request={props.request} />;
+      return <Contact request={props.request} setRequest={props.setRequest} />;
     case 'checklist':
       return (
         <Checklist
@@ -235,7 +266,7 @@ const renderContent = props => {
     case 'comments':
       return <CommentsContainer request={props.request} />;
     default:
-      return <Basic request={props.request} />;
+      return <Basic request={props.request} setRequest={props.setRequest} />;
   }
 };
 

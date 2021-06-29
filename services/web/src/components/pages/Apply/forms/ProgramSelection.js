@@ -8,7 +8,13 @@ import { Divider, Typography, Button, Row, Col, Spin, Card } from 'antd';
 
 // urls
 
-import { SNAP_ERA, SNAP_ERAP, VLP_EDP } from '../../../../utils/data/urls';
+import {
+  SNAP_ERA,
+  SNAP_ERAP,
+  VLP_EDP,
+  LS,
+  OTHER,
+} from '../../../../utils/data/urls';
 
 const { Paragraph, Title } = Typography;
 
@@ -70,51 +76,6 @@ const ProgramSelection = ({ formValues }) => {
           <CardTitle percentage={100} title="Programs You May Qualify For:" />
         }
       >
-        <Row align="middle">
-          <Col span={15}>
-            <Paragraph strong={availablePrograms.SNAP_ERA}>
-              {' '}
-              Spokane Neighborhood Action Partners (SNAP) : ERA Program{' '}
-            </Paragraph>
-          </Col>
-          <Col span={1} />
-          <Col span={8}>
-            <Button
-              href={SNAP_ERA}
-              target="_blank"
-              type="primary"
-              size="medium"
-              disabled={!availablePrograms.SNAP_ERA}
-            >
-              {availablePrograms.SNAP_ERA ? 'More Info' : 'Not Available'}
-            </Button>
-          </Col>
-        </Row>
-        <Divider />
-
-        <Row>
-          <Col span={15}>
-            <Paragraph strong={availablePrograms.SNAP_ERAP}>
-              {' '}
-              Spokane Neighborhood Action Partners (SNAP) : ERAP Program{' '}
-            </Paragraph>
-          </Col>
-          <Col span={1} />
-          <Col span={8}>
-            <Button
-              href={SNAP_ERAP}
-              target="_blank"
-              type="primary"
-              size="medium"
-              disabled={!availablePrograms.SNAP_ERAP}
-            >
-              {availablePrograms.SNAP_ERAP ? 'More Info' : 'Not Available'}
-            </Button>
-          </Col>
-        </Row>
-        <Divider />
-
-     
         <Row>
           <Col span={15}>
             <Paragraph strong={availablePrograms.FP}>
@@ -130,11 +91,79 @@ const ProgramSelection = ({ formValues }) => {
               htmlType="submit"
               disabled={!availablePrograms.FP}
             >
-              {availablePrograms.FP ? 'Apply Now!' : 'Not Available'}
+              {availablePrograms.FP ? 'Apply Now' : 'Not Available'}
             </Button>
           </Col>
         </Row>
-<Divider />
+
+        <Divider />
+
+        <Row align="middle">
+          <Col span={15}>
+            <Paragraph strong={availablePrograms.LS}>
+              {' '}
+              Live Stories : FORWARD Program{' '}
+            </Paragraph>
+          </Col>
+          <Col span={1} />
+          <Col span={8}>
+            <Button
+              href={LS}
+              target="_blank"
+              type="primary"
+              size="medium"
+              disabled={!availablePrograms.LS}
+            >
+              {availablePrograms.LS ? 'More Info' : 'Not Available'}
+            </Button>
+          </Col>
+        </Row>
+        <Divider />
+
+        <Row>
+          <Col span={15}>
+            <Paragraph strong={availablePrograms.SNAP_ERAP}>
+              {' '}
+              Spokane Neighborhood Action Partners (SNAP) : ERA Program{' '}
+            </Paragraph>
+          </Col>
+          <Col span={1} />
+          <Col span={8}>
+            <Button
+              href={SNAP_ERAP}
+              target="_blank"
+              type="primary"
+              size="medium"
+              disabled={!availablePrograms.SNAP_ERAP}
+            >
+              {availablePrograms.SNAP_ERAP ? 'More Info' : 'Not Available'}
+            </Button>
+          </Col>
+        </Row>
+
+        <Divider />
+        <Row>
+          <Col span={15}>
+            <Paragraph strong={availablePrograms.VLP_EDP}>
+              {' '}
+              NW Mediation Center : Eviction Resolution Program{' '}
+            </Paragraph>
+          </Col>
+          <Col span={1} />
+          <Col span={8}>
+            <Button
+              href={'https://www.nwmediationcenter.com/'}
+              target="_blank"
+              type="primary"
+              size="medium"
+              disabled={!availablePrograms.VLP_EDP}
+            >
+              {availablePrograms.VLP_EDP ? 'More Info' : 'Not Available'}
+            </Button>
+          </Col>
+        </Row>
+
+        <Divider />
         <Row>
           <Col span={15}>
             <Paragraph strong={availablePrograms.VLP_EDP}>
@@ -155,7 +184,29 @@ const ProgramSelection = ({ formValues }) => {
             </Button>
           </Col>
         </Row>
+        <Divider />
 
+        <Row align="middle">
+          <Col span={15}>
+            <Paragraph strong={availablePrograms.OTHER}>
+              {' '}
+              Services and Resources Available in Spokane County:{' '}
+            </Paragraph>
+          </Col>
+          <Col span={1} />
+          <Col span={8}>
+            <Button
+              href={OTHER}
+              target="_blank"
+              type="primary"
+              size="medium"
+              disabled={!availablePrograms.OTHER}
+            >
+              {availablePrograms.OTHER ? 'More Info' : 'Not Available'}
+            </Button>
+          </Col>
+        </Row>
+        <Divider />
       </Card>
     </Spin>
   );

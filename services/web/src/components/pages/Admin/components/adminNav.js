@@ -1,11 +1,15 @@
-import React from 'react';
 import {
   FolderOpenOutlined,
+  FolderOutlined,
   UserAddOutlined,
   UserOutlined,
   DownOutlined,
   LineChartOutlined,
+  WarningFilled,
 } from '@ant-design/icons';
+
+import ArchiveIcon from '@material-ui/icons/Archive';
+
 import { Menu, Dropdown, Button } from 'antd';
 
 import styles from '../../../../styles/pages/admin.module.css';
@@ -21,11 +25,20 @@ const AdminNav = props => {
       <Menu.Item key="requests" icon={<FolderOpenOutlined />}>
         Manage Requests
       </Menu.Item>
+      <Menu.Item key="archive" icon={<FolderOutlined />}>
+        Archived Requests
+      </Menu.Item>
+      <Menu.Item key="incomplete" icon={<WarningFilled />}>
+        Incomplete Requests
+      </Menu.Item>
       <Menu.Item key="user" icon={<UserOutlined />}>
         Manage Users
       </Menu.Item>
       <Menu.Item key="prgMgr" icon={<UserAddOutlined />}>
         Create new user
+      </Menu.Item>
+      <Menu.Item key="payments" icon={<FolderOutlined />}>
+        Payments
       </Menu.Item>
       <Menu.Item key="analytics" icon={<LineChartOutlined />}>
         Analytics

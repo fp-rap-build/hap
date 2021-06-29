@@ -1,35 +1,147 @@
+import React, { useState } from 'react';
+
 //Components
 import CardTitle from '../../CardTitle';
 //Utils
 import { states } from '../../../../../utils/data/states';
-//UI
-import { Card, Form, Select, Input, InputNumber } from 'antd';
-const { Option } = Select;
+import { genders } from '../../../../../utils/data/genders';
 
-const BasicInformation = ({ formValues, onRoleChange, onStateChange }) => {
+//UI
+import {
+  Card,
+  Checkbox,
+  Form,
+  Select,
+  Input,
+  InputNumber,
+  DatePicker,
+  Typography,
+} from 'antd';
+
+const { Option } = Select;
+const { Title } = Typography;
+
+const BasicInformation = ({
+  formValues,
+  handleApplicantChange,
+  handleCheckBoxChange,
+  handleDateChange,
+  handleChange,
+  onRoleChange,
+  onStateChange,
+  onGenderChange,
+  date,
+  datestring,
+}) => {
   return (
     <div>
-      <Card title={<CardTitle percentage={20} title="Basic Information" />}>
+      <Card
+        title={
+          <CardTitle percentage={20} title="Head of Household Information" />
+        }
+      >
+        <p>
+          Please answer the following questions about the Head of the Household
+          (The person responsible for managing the rent and utility payments for
+          this household)
+        </p>
+        <br />
+        <Form.Item name="dob" label="Date of Birth">
+          <DatePicker onChange={handleDateChange}></DatePicker>
+        </Form.Item>
+        <Title level={5}>Head of Household Identifies as:</Title>
+
+        <Form.Item label="Ethnicity:">
+          <Checkbox
+            checked={formValues.hispanic}
+            name="hispanic"
+            onChange={handleCheckBoxChange}
+          >
+            Hispanic / Latinx
+          </Checkbox>
+        </Form.Item>
+
+        <Form.Item label="Race:">
+          <Checkbox
+            checked={formValues.asian}
+            onChange={handleCheckBoxChange}
+            name="asian"
+          >
+            Asian
+          </Checkbox>
+        </Form.Item>
+        <Form.Item>
+          <Checkbox
+            checked={formValues.black}
+            onChange={handleCheckBoxChange}
+            name="black"
+          >
+            Black or African American
+          </Checkbox>
+        </Form.Item>
+        <Form.Item>
+          <Checkbox
+            checked={formValues.pacific}
+            onChange={handleCheckBoxChange}
+            name="pacific"
+          >
+            Native Hawaiian or Other Pacific Islander
+          </Checkbox>
+        </Form.Item>
+        <Form.Item>
+          <Checkbox
+            checked={formValues.white}
+            onChange={handleCheckBoxChange}
+            name="white"
+          >
+            White
+          </Checkbox>
+        </Form.Item>
+        <Form.Item>
+          <Checkbox
+            checked={formValues.native}
+            onChange={handleCheckBoxChange}
+            name="native"
+          >
+            Native American or Alskan Native
+          </Checkbox>
+        </Form.Item>
+        <Form.Item>
+          <Checkbox
+            checked={formValues.demoNotSay}
+            onChange={handleCheckBoxChange}
+            name="demoNotSay"
+          >
+            Rather Not Say
+          </Checkbox>
+        </Form.Item>
+
         <Form.Item
           hasFeedback
-          initialValue={formValues.role}
-          label="Are you a Landlord or Tenant?"
-          name="role"
-          rules={[{ required: true, message: 'required' }]}
-          extra={
-            formValues.role === 'landlord'
-              ? 'Please enter your own address information below'
-              : null
-          }
+          initialValue={formValues.gender}
+          label="Gender"
+          name="gender"
+          rules={[
+            {
+              required: true,
+              message:
+                'Please select the gender you most closely identify with',
+            },
+          ]}
         >
           <Select
-            onChange={onRoleChange}
-            placeholder="Are you a Landlord or Tenant"
+            onChange={onGenderChange}
+            showSearch
+            placeholder="Select a gender you most closely identify with"
           >
-            <Option value="tenant">Tenant</Option>
-            <Option value="landlord">Landlord</Option>
+            {genders.map(gender => (
+              <Option value={gender}>{gender}</Option>
+            ))}
           </Select>
         </Form.Item>
+
+        <Title level={5}>Head of Household's Address:</Title>
+
         <Form.Item
           hasFeedback
           initialValue={formValues.state}

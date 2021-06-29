@@ -33,7 +33,13 @@ const notificationReducer = (state = INITIAL_STATE, action) => {
           if (notif.id !== action.payload.id) return notif;
         }),
       };
+
+    case 'DELETE_ALL_NOTIFICATIONS':
+      return { ...state, isPanalOpen: false, notifications: [] };
+
     case 'OPEN_PANAL':
+      if (state.notifications.length === 0) return { ...state };
+
       return { ...state, isPanalOpen: true };
     case 'CLOSE_PANAL':
       return { ...state, isPanalOpen: false };

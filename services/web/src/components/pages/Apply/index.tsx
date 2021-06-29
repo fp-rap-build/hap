@@ -14,7 +14,9 @@ import Demographics from './forms/Eligibility/Demographics';
 
 import AdditionalInformation from './forms/Eligibility/AdditionalInformation';
 
-import SecondaryContact from './forms/SecondaryContact';
+import SecondaryContact from './forms/LandLordContact';
+
+import Review from './forms/Eligibility/Review';
 
 import CreateAccount from './forms/CreateAccount';
 
@@ -22,7 +24,7 @@ import ProgramSelection from './forms/ProgramSelection';
 
 import Button from 'antd/lib/button';
 
-import styles from '../../../styles/pages/apply.module.css';
+import '../../../styles/pages/apply.less';
 
 import { registerAndApply } from '../../../redux/users/userActions';
 
@@ -30,7 +32,9 @@ import { clearErrorMessage } from '../../../redux/users/userActions';
 
 import { setErrorMessage } from '../../../redux/global/globalActions';
 
-import faker from 'faker';
+const faker = require('faker');
+
+let recentDate = faker.date.recent();
 
 const INITIAL_VALUES_DEV = {
   firstName: faker.name.firstName(),
@@ -41,7 +45,7 @@ const INITIAL_VALUES_DEV = {
   confirmPassword: 'testpassword',
   address: '1211 test St',
   addressLine2: 'Unit 100',
-  cityName: 'test',
+  cityName: 'Spokane',
   zipCode: 99205,
   state: 'Washington',
   role: 'tenant',
@@ -51,26 +55,44 @@ const INITIAL_VALUES_DEV = {
   monthlyRent: 500,
   tenantName: 'tenant',
   tenantEmail: 'tenant@gmail.com',
-  tenantPhoneNumber: '111-222-3333',
+  tenantNumber: '111-222-3333',
   landlordName: 'landlord',
+  landlordAddress: '123 Landlord St',
+  landlordAddress2: 'Unit 2',
+  landlordCity: 'Landlord City',
+  landlordState: 'Washington',
+  landlordZip: 99205,
   landlordEmail: 'landlord@gmail.com',
-  landlordPhoneNumber: '111-222-3333',
+  landlordNumber: '111-222-3333',
+  childrenAges: '4, 2',
   owed: 600,
   amountRequested: 450,
+  amountApproved: 1000,
+  budget: 'Treasury ERA',
   rent: 500,
   advocate: false,
   totalChildren: 2,
   unEmp90: true,
   foodWrkr: false,
-  minorGuest: false,
-  covidFH: false,
-  hispanic: false,
+  minorGuest: true,
+  covidFH: true,
+  hispanicHOH: true,
+  asianHOH: false,
+  blackHOH: false,
+  pacificHOH: false,
+  whiteHOH: true,
+  nativeHOH: false,
+  demoNotSayHOH: false,
+  gender: 'Male',
+  dob: recentDate,
+  hispanic: true,
   asian: false,
   black: false,
-  pacific: true,
-  white: false,
+  pacific: false,
+  white: true,
   native: false,
   demoNotSay: false,
+  incomplete: true,
 };
 
 const INITIAL_VALUES_PROD = {
@@ -84,17 +106,27 @@ const INITIAL_VALUES_PROD = {
   cityName: '',
   zipCode: '',
   state: '',
-  role: '',
+  role: 'tenant',
   familySize: '',
+  beds: null,
+  dob: '',
   monthlyIncome: '',
   tenantName: '',
   tenantEmail: '',
   tenantPhoneNumber: '',
   landlordName: '',
+  landlordAddress: '',
+  landlordAddress2: '',
+  landlordCity: '',
+  landlordState: '',
+  landlordZip: null,
   landlordEmail: '',
-  landlordPhoneNumber: '',
+  landlordNumber: '',
+  childrenAges: '',
   owed: null,
   amountRequested: null,
+  amountApproved: null,
+  budget: '',
   rent: null,
   monthlyRent: null,
   advocate: false,
@@ -110,9 +142,18 @@ const INITIAL_VALUES_PROD = {
   white: false,
   native: false,
   demoNotSay: false,
+  hispanicHOH: false,
+  asianHOH: false,
+  blackHOH: false,
+  pacificHOH: false,
+  whiteHOH: false,
+  nativeHOH: false,
+  demoNotSayHOH: false,
+  gender: '',
+  incomplete: true,
 };
 
-const finalStep = 6;
+const finalStep = 7;
 
 export default function Index() {
   const loading = useSelector(state => state.global.isLoading);
@@ -122,6 +163,7 @@ export default function Index() {
   const dispatch = useDispatch();
 
   const history = useHistory();
+
   const [step, setStep] = useState(0);
 
   const goForward = () => {
@@ -130,7 +172,7 @@ export default function Index() {
 
   const goBackwards = () => setStep(step - 1);
 
-  const [formValues, setFormValues] = useState(INITIAL_VALUES_PROD);
+  const [formValues, setFormValues] = useState(INITIAL_VALUES_DEV);
   const [formConsent, setFormConsent] = useState(false);
 
   const handleChange = e => {
@@ -147,6 +189,21 @@ export default function Index() {
 
   function onStateChange(value) {
     setFormValues({ ...formValues, state: value });
+  }
+
+  const handleDateChange = (value, dateString) => {
+    setFormValues({
+      ...formValues,
+      dob: dateString,
+    });
+  };
+
+  function onDateChange(value) {
+    setFormValues({ ...formValues, dob: value });
+  }
+
+  function onGenderChange(value) {
+    setFormValues({ ...formValues, gender: value });
   }
 
   const onRoleChange = value => {
@@ -182,24 +239,28 @@ export default function Index() {
   let props = {
     formValues,
     step,
+    setStep,
     setFormValues,
     goBackwards,
     goForward,
     loading,
     onStateChange,
+    onGenderChange,
     onRoleChange,
+    onDateChange,
     handleCheckBoxChange,
+    handleDateChange,
     formConsent,
     setFormConsent,
   };
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Form
         layout="vertical"
         onChange={handleChange}
         onFinish={step === finalStep ? handleSubmit : () => goForward()}
-        className={styles.form}
+        className="form"
       >
         <RenderForm {...props} />
         <FormNavigation {...props} />
@@ -218,7 +279,7 @@ const manageFormButton = (step, formConsent) => {
 
 const FormNavigation = ({ step, goBackwards, loading, formConsent }) => {
   return (
-    <div className={styles.formNavigation}>
+    <div className="formNavigation">
       {step > 0 && <Button onClick={() => goBackwards()}>Previous</Button>}
       {step === finalStep ? (
         <Button
@@ -257,6 +318,8 @@ const RenderForm = props => {
     case 5:
       return <SecondaryContact {...props} />;
     case 6:
+      return <Review {...props} />;
+    case 7:
       return <CreateAccount {...props} />;
   }
 };

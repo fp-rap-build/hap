@@ -1,3 +1,4 @@
+import { AcUnitOutlined } from '@material-ui/icons';
 import { setCurrentUser } from './userActions';
 
 const INITIAL_STATE = {
@@ -17,6 +18,15 @@ const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case 'SET_CURRENT_USER':
       return { ...state, currentUser: action.payload, isLoggedIn: true };
+    case 'SET_USER_NAME_INFO':
+      return {
+        ...state,
+        currentUser: {
+          ...state.currentUser,
+          firstName: action.payload.firstName,
+          lastName: action.payload.lastName,
+        },
+      };
     case 'ADD_SUBSCRIPTION':
       return {
         ...state,
@@ -25,7 +35,6 @@ const userReducer = (state = INITIAL_STATE, action) => {
           subscriptions: [...state.currentUser.subscriptions, action.payload],
         },
       };
-
     case 'DELETE_SUBSCRIPTION':
       return {
         ...state,

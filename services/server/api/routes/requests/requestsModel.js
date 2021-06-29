@@ -42,18 +42,27 @@ const findAllActive = () => {
     .whereNot('r.requestStatus', 'denied');
 };
 
-const findForTable = () => {
+const findForTable = (params) => {
   return db('requests as r')
     .join('addresses as a', 'r.addressId', '=', 'a.id')
     .join('users as u', 'r.userId', '=', 'u.id')
+    .fullOuterJoin('users as m', 'r.managerId', '=', 'm.id')
+
     .select(
       'r.id',
+      'r.userId',
+
+      'm.firstName as managerFirstName',
+      'm.lastName as managerLastName',
+      'm.email as managerEmail',
+
       'u.firstName',
       'u.lastName',
       'u.email',
       'u.role',
       'r.familySize',
       'r.monthlyIncome',
+      'r.owed',
       'r.requestStatus',
       'r.requestDate',
       'r.apmApproval',
@@ -61,34 +70,83 @@ const findForTable = () => {
       'r.bookKeeperApproval',
       'r.headAcctApproval',
       'r.adminApproval',
+
+      'r.hispanic',
+      'r.asian',
+      'r.black',
+      'r.pacific',
+      'r.white',
+      'r.native',
+      'r.demoNotSay',
+      'r.amountRequested',
+
+      'r.hispanicHOH',
+      'r.asianHOH',
+      'r.blackHOH',
+      'r.pacificHOH',
+      'r.whiteHOH',
+      'r.nativeHOH',
+      'r.demoNotSayHOH',
+      'r.dob',
+      'r.gender',
+      'r.beds',
+
       'r.verifiedDocuments',
       'r.foodWrkr',
       'r.unEmp90',
       'r.orgId',
+      'r.landlordName',
+      'r.landlordAddress',
+      'r.landlordAddress2',
+      'r.landlordCity',
+      'r.landlordState',
+      'r.landlordZip',
+      'r.childrenAges',
+      'r.incomplete',
       'a.address',
       'a.zipCode',
       'a.cityName',
       'a.state'
-    );
+    )
+    .modify((qb) => {
+      if (params.archived) {
+        qb.where({ archived: params.archived });
+      }
+    })
+    .modify((qb) => {
+      if (params.incomplete) {
+        qb.where({ incomplete: params.incomplete });
+      }
+    });
 };
 
-const findBy = (filter) => {
-  return db('requests').where(filter);
+const requestOnlyById = (id) => {
+  return db('requests').where('id', '=', id).first();
 };
 
 const findById = (id) => {
   return db('requests as r')
     .join('addresses as a', 'r.addressId', '=', 'a.id')
     .join('users as u', 'r.userId', '=', 'u.id')
+    .fullOuterJoin('users as m', 'r.managerId', '=', 'm.id')
     .select(
-      'r.*',
-      'r.id',
       'u.firstName',
       'u.lastName',
       'u.email',
       'u.role',
+      'u.dob',
+      'u.gender',
+
+      'm.firstName as managerFirstName',
+      'm.lastName as managerLastName',
+      'm.email as managerEmail',
+
+      'r.*',
+      'r.userId',
+      'r.id',
       'r.familySize',
       'r.monthlyIncome',
+      'r.owed',
       'r.requestStatus',
       'r.requestDate',
       'r.apmApproval',
@@ -99,12 +157,33 @@ const findById = (id) => {
       'r.verifiedDocuments',
       'r.foodWrkr',
       'r.amountRequested',
+      'r.amountApproved',
+      'r.budget',
       'r.orgId',
       'r.unEmp90',
+      'r.gender',
+      'r.beds',
+      'r.hispanicHOH',
+      'r.asianHOH',
+      'r.blackHOH',
+      'r.pacificHOH',
+      'r.whiteHOH',
+      'r.nativeHOH',
+      'r.demoNotSayHOH',
+      'r.beds',
       'r.tenantEmail',
       'r.tenantNumber',
+      'r.landlordName',
+      'r.landlordAddress',
+      'r.landlordAddress2',
+      'r.landlordCity',
+      'r.landlordState',
+      'r.landlordZip',
       'r.landlordEmail',
       'r.landlordNumber',
+      'r.childrenAges',
+      'r.incomplete',
+
       'a.address',
       'a.zipCode',
       'a.cityName',
@@ -131,7 +210,7 @@ const findAllComments = (requestId) =>
 
 module.exports = {
   findAll,
-  findBy,
+  requestOnlyById,
   create,
   remove,
   removeAllCommentsByRequestId,

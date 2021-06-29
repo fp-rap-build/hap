@@ -1,0 +1,75 @@
+.container {
+  width: 70%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+}
+
+.form {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.formNavigation {
+  display: flex;
+  justify-content: space-between;
+}
+
+.review {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fpCardTitle {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .container {
+    width: 80%;
+  }
+  .form {
+    width: 75%;
+  }
+}
+
+.review {
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 600px) {
+  .container {
+    width: 90%;
+  }
+  .form {
+    width: 85%;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    width: 100%;
+  }
+  .form {
+    width: 98%;
+  }
+}
+
+@media (max-width: 475px) {
+  .container {
+    padding: 0;
+  }
+
+  .form {
+    width: 100%;
+  }
+  .formNavigation {
+    padding: 0 1rem 1rem;
+  }
+}

@@ -6,8 +6,11 @@ const { request } = require('../../../../app');
 const multiUpload = upload.array('document');
 
 const createDocument = async (req, res) => {
+
+
   multiUpload(req, res, async (err) => {
     if (err) {
+      console.log(err);
       return res.json({
         success: false,
         errors: {
@@ -18,7 +21,7 @@ const createDocument = async (req, res) => {
       });
     }
     // Document was successfully saved to the S3 bucket, let's store a reference to that document in our db
-
+    console.log(req)
     try {
       // Format documents to match our schema
       let formattedDocuments = req.files.map((file) =>
@@ -28,10 +31,7 @@ const createDocument = async (req, res) => {
       let documents = await Documents.save(formattedDocuments);
 
       res.status(200).json({ documents });
-
-      console.log(documents);
     } catch (error) {
-      console.log(error);
       res
         .status(500)
         .json({ message: 'Unable to submit document to database' });

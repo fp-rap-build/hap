@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
 
-import Comments from '../../../../../common/Comments';
+import Comments from '../../../../common/Comments';
 
-import styles from '../../../../../../styles/pages/home.module.css';
+import styles from '../../../../../styles/pages/home.module.css';
 
 import { message, Typography } from 'antd';
 
-import socket from '../../../../../../config/socket';
-import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
+import socket from '../../../../../config/socket';
+import { axiosWithAuth } from '../../../../../api/axiosWithAuth';
 
 const { Title } = Typography;
 
@@ -20,6 +20,7 @@ const CommentsContainer = ({ request }) => {
 
   useEffect(() => {
     fetchComments(request.id, setComments);
+    //eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -28,6 +29,7 @@ const CommentsContainer = ({ request }) => {
     return () => {
       socket.emit('leaveChat', request.id);
     };
+    //eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -40,7 +42,7 @@ const CommentsContainer = ({ request }) => {
 
   return (
     <div className={styles.commentsWrapper}>
-      <Title level={4}> Request Comments: </Title>
+      <Title level={4}> Chat with Housing Assistance Team: </Title>
       <Comments
         request={request}
         comments={comments}

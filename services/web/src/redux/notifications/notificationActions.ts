@@ -31,6 +31,16 @@ export const closePanal = () => {
   return { type: 'CLOSE_PANAL' };
 };
 
+export const deleteAllNotifications = () => async dispatch => {
+  dispatch({ type: 'DELETE_ALL_NOTIFICATIONS' });
+
+  try {
+    await axiosWithAuth().delete('/users/me/notifications');
+  } catch (error) {
+    message.error('Unable to delete all notifications');
+  }
+};
+
 export const deleteNotification = notifId => async dispatch => {
   dispatch({ type: 'DELETE_NOTIFICATION', payload: { id: notifId } });
 

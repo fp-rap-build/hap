@@ -1,5 +1,6 @@
 const express = require('express');
 const Requests = require('./requestsModel');
+const Ages = require('../ages/agesModel');
 const restrictTo = require('../../middleware/restrictTo');
 const Addresses = require('../addresses/addr-model');
 // Middlewares
@@ -11,11 +12,18 @@ const { requestStatusChange } = sendMessage;
 const { validateRequestId } = require('./documents/validators');
 
 // Controllers
-const { getAllDocuments, createDocument } = require('./documents/controllers');
+
+const { createRequest } = require('./controllers');
+
+const {
+  getAllDocuments,
+  createDocument,
+  updateDocument,
+} = require('./documents/controllers');
 
 const { sendPayment } = require('./payments/controllers');
 
-const { createAddress, updateAddress } = require('./address/controllers');
+const { updateAddress } = require('./address/controllers');
 
 const { getAllComments } = require('./comments');
 const {
@@ -25,31 +33,7 @@ const {
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
-  try {
-    const request = req.body;
-
-    // Create a new address
-    const addressInfo = request['address'] || {};
-    const address = await Addresses.create(addressInfo);
-
-    // Default to the current users ID if one isn't specified
-    request['userId'] = request['userId'] || req.user.id;
-
-    // Link the new address to the request
-    request['addressId'] = address[0].id;
-
-    // Remove the address before saving to db
-    delete request['address'];
-
-    const newRequest = await Requests.create(request);
-
-    res.status(200).json(newRequest[0]);
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-});
+router.post('/', createRequest);
 
 router.get('/', async (req, res) => {
   try {
@@ -57,7 +41,6 @@ router.get('/', async (req, res) => {
 
     res.status(200).json({ requests: allRequests });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -68,7 +51,6 @@ router.get('/active', async (req, res) => {
     const resRequests = await Requests.findAllActive();
     res.status(200).json(resRequests);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -77,7 +59,7 @@ router.get('/active', async (req, res) => {
 //Updates to shape data should be done in model @ 'findForTable'
 router.get('/table', async (req, res) => {
   try {
-    const resRequests = await Requests.findForTable();
+    const resRequests = await Requests.findForTable(req.query);
     res.status(200).json(resRequests);
   } catch (error) {
     console.log(error);
@@ -85,13 +67,12 @@ router.get('/table', async (req, res) => {
   }
 });
 
-router.get('/find', async (req, res) => {
-  const filter = req.body;
+router.get('/reqOnly/:id', async (req, res) => {
+  const { id } = req.params;
   try {
-    const foundRequests = await Requests.findBy(filter);
-    res.status(200).json(foundRequests);
+    const foundRequest = await Requests.requestOnlyById(id);
+    res.status(200).json(foundRequest);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -115,14 +96,14 @@ router.put('/:id', requestStatusChange, async (req, res) => {
     request = request[0];
 
     if (change['requestStatus'] === 'approved') {
-      sendPromiseToPayEmail(request.landlordEmail);
+      sendPromiseToPayEmail(request,request.landlordEmail);
       sendConfirmationOfApproval(request);
     }
 
     const updatedRequest = await Requests.update(id, change);
     res.status(200).json(updatedRequest);
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 
@@ -137,7 +118,6 @@ router.delete('/:id', async (req, res) => {
       .status(200)
       .json({ message: `Requests with id: ${id} succesfully deleted` });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -148,7 +128,8 @@ router
   .route('/:id/documents')
   .all(validateRequestId)
   .post(createDocument)
-  .get(getAllDocuments);
+  .get(getAllDocuments)
+  .put(updateDocument);
 
 router.route('/:id/payments').all(validateRequestId).post(sendPayment);
 
