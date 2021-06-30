@@ -37,14 +37,11 @@ const SelfDecDocument = ({ document, setDocuments, setOriginalDocuments }) => {
     setEditing(false);
 
     try {
-      const res = await axiosWithAuth().put(
-        `documents/${docState.id}`,
-        docState
-      );
+      await axiosWithAuth().put(`documents/${docState.id}`, docState);
 
       setDocuments(prevState =>
         prevState.map(doc => {
-          if (doc.id == docState.id) {
+          if (doc.id === docState.id) {
             return docState;
           }
           return doc;
@@ -53,7 +50,7 @@ const SelfDecDocument = ({ document, setDocuments, setOriginalDocuments }) => {
 
       setOriginalDocuments(prevState =>
         prevState.map(doc => {
-          if (doc.id == docState.id) {
+          if (doc.id === docState.id) {
             return docState;
           }
           return doc;

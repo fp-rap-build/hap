@@ -167,7 +167,12 @@ const SelfDecModal = ({
           {loading ? (
             <div
               className="loadingSpinner"
-              style={{ display: 'flex', justifyContent: 'center' }}
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                height: '10rem',
+                alignItems: 'center',
+              }}
             >
               <Spin tip="Creating your document..." />
             </div>
