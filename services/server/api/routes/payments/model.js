@@ -18,11 +18,9 @@ exports.findForTable = () =>
       'r.familySize',
       'r.totalChildren',
       'r.monthlyIncome',
-
+      'r.monthlyRent',
       'r.requestDate',
-
       'r.beds',
-
       'r.hispanic',
       'r.asian',
       'r.black',
@@ -39,9 +37,8 @@ exports.findForTable = () =>
       'r.nativeHOH',
       'r.demoNotSayHOH',
       'r.beds',
-
       'r.childrenAges'
-    );
+    )
 
 exports.findById = (id) => db('payments').where({ id }).first();
 

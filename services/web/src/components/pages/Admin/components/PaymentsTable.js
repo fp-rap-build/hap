@@ -21,7 +21,8 @@ export default function PaymentsTable() {
     { title: 'Household Size', field: 'familySize' },
     { title: 'Total Children', field: 'totalChildren' },
     { title: 'Children Ages', field: 'childrenAges' },
-
+    { title: 'Monthly Income', field: 'monthlyIncome' },
+    { title: 'Monthly Rent', field: 'monthlyRent' },
     {
       title: 'Program',
       field: 'program',
