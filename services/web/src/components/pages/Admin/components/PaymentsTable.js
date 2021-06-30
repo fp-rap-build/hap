@@ -7,6 +7,7 @@ import { ExportCsv, ExportPdf } from '@material-table/exporters';
 import { tableIcons } from '../../../../utils/tableIcons';
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 import { message } from 'antd';
+import calculateAmi from '../../../../utils/general/calculateAmi';
 
 export default function PaymentsTable() {
   const [isFetching, setIsFetching] = useState(false);
@@ -23,6 +24,8 @@ export default function PaymentsTable() {
     { title: 'Children Ages', field: 'childrenAges' },
     { title: 'Monthly Income', field: 'monthlyIncome' },
     { title: 'Monthly Rent', field: 'monthlyRent' },
+    { title: 'AMI', field: 'ami' },
+
     {
       title: 'Program',
       field: 'program',
@@ -73,6 +76,11 @@ export default function PaymentsTable() {
             payment['race'] += ' ' + race;
           }
         }
+
+        payment['ami'] = calculateAmi(
+          payment.monthlyIncome,
+          payment.familySize
+        );
 
         return payment;
       });
