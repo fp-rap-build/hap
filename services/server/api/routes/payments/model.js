@@ -10,11 +10,35 @@ exports.findForTable = () =>
       'u.firstName',
       'u.lastName',
       'u.email',
+      'u.gender',
       'pr.name as program',
       'p.amount',
       'p.createdAt as approveDate',
-      'r.requestDate as requestDate'
-    );
+      'r.requestDate as requestDate',
+      'r.familySize',
+      'r.totalChildren',
+      'r.monthlyIncome',
+      'r.monthlyRent',
+      'r.requestDate',
+      'r.beds',
+      'r.hispanic',
+      'r.asian',
+      'r.black',
+      'r.pacific',
+      'r.white',
+      'r.native',
+      'r.demoNotSay',
+
+      'r.hispanicHOH',
+      'r.asianHOH',
+      'r.blackHOH',
+      'r.pacificHOH',
+      'r.whiteHOH',
+      'r.nativeHOH',
+      'r.demoNotSayHOH',
+      'r.beds',
+      'r.childrenAges'
+    )
 
 exports.findById = (id) => db('payments').where({ id }).first();
 
