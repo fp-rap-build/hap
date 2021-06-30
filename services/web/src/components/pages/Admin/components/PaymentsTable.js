@@ -15,6 +15,13 @@ export default function PaymentsTable() {
     { title: 'First', field: 'firstName', editable: 'never' },
     { title: 'Last ', field: 'lastName', editable: 'never' },
     { title: 'Email', field: 'email', type: 'string', editable: 'never' },
+    { title: 'Gender', field: 'gender' },
+    { title: 'Race', field: 'race' },
+    { title: 'Ethnicity', field: 'ethnicity' },
+    { title: 'Household Size', field: 'familySize' },
+    { title: 'Total Children', field: 'totalChildren' },
+    { title: 'Children Ages', field: 'childrenAges' },
+
     {
       title: 'Program',
       field: 'program',
@@ -44,8 +51,34 @@ export default function PaymentsTable() {
     setIsFetching(true);
     try {
       let res = await axiosWithAuth().get('/payments/table');
+
+      let payments = res.data.payments.map(payment => {
+        payment['race'] = '';
+        payment['ethnicity'] = '';
+
+        let races = {
+          black: payment.black,
+          white: payment.white,
+          asian: payment.asian,
+          pacific: payment.pacific,
+        };
+
+        if (payment['hispanic']) {
+          payment['ethnicity'] = 'hispanic';
+        }
+
+        for (let race in races) {
+          if (races[race]) {
+            payment['race'] += ' ' + race;
+          }
+        }
+
+        return payment;
+      });
+
       setData(res.data.payments);
     } catch (error) {
+      console.log(error);
       alert('Unable to fetch payments');
     } finally {
       setIsFetching(false);
