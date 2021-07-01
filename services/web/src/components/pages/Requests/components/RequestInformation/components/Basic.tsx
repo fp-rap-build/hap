@@ -8,7 +8,7 @@ export default function Basic({ request, setRequest, column = 2 }) {
   const [disabled, setDisabled] = useState(true);
 
   const formatDate = date => {
-    if (!date) return;
+    if (!date) return 'YYYY / MM / DD';
 
     const splitDate = date.split('T');
     return splitDate[0];

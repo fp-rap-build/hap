@@ -3,12 +3,10 @@ import { Form, Input, Typography, Divider, DatePicker } from 'antd';
 const { Title, Paragraph } = Typography;
 
 const formatDate = date => {
-  date = new Date( date);
-  let year = date.getFullYear();
-  let month = date.getMonth()+1;
-  let day = date.getDate()+1;
+  if (!date) return 'YYYY / MM / DD';
 
-  return `${year} / ${month} / ${day}`;
+  const splitDate = date.split('T');
+  return splitDate[0];
 };
 
 const ApplicantProfileInfo = ({
@@ -50,7 +48,13 @@ const ApplicantProfileInfo = ({
           <Input disabled={disabled} name="lastName" />
         </Form.Item>
 
-      
+        <Form.Item
+          label="Date Of Birth"
+          name="dob"
+          initialValue={formatDate(applicantData.dob)}
+        >
+          <Input disabled={disabled} name="dob" />
+        </Form.Item>
 
         <Form.Item
           label="Email"
