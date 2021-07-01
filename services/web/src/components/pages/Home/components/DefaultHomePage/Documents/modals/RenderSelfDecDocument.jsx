@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { Input, Form, Button } from 'antd';
 const { TextArea } = Input;
 
@@ -13,9 +15,65 @@ const RenderSelfDecDocument = ({
     handleTextSubmit(values.text);
   };
 
-  const UserTextInput = () => {
-    return (
-      <div>
+  // const UserTextInput = () => {
+  //   return (
+  //     <div>
+  //       <Form layout="vertical" name="selfDecUserInput" onFinish={onFinish}>
+  //         <Form.Item
+  //           name="text"
+  //           label="Briefly explain why you cannot provide a document:"
+  //           initialValue={''}
+  //           rules={[
+  //             {
+  //               required: true,
+  //               message: 'Please explain why you cannot provide a document!',
+  //             },
+  //             {
+  //               min: 20,
+  //               message: 'Explanation must be at least 20 characters!',
+  //             },
+  //           ]}
+  //         >
+  //           <TextArea key="fix1" rows={5} allowClear />
+  //         </Form.Item>
+  //         {sessionId ? null : (
+  //           <Form.Item>
+  //             <Button type="primary" htmlType="submit">
+  //               {selectedCategory === 'childrenOrPregnancy'
+  //                 ? 'Submit'
+  //                 : 'Create Document'}
+  //             </Button>
+  //           </Form.Item>
+  //         )}
+  //       </Form>
+  //     </div>
+  //   );
+  // };
+
+  // const SelfDecPandaView = () => {
+  //   return (
+  //     <div className="documentContainer">
+  //       <iframe
+  //         title="Self Dec Embed"
+  //         src={docUrl}
+  //         style={{ height: '70vh', width: '75vw' }}
+  //       ></iframe>
+  //     </div>
+  //   );
+  // };
+
+  return (
+    <div>
+      {/* sessionId is generated from handle doc creation  */}
+      {sessionId ? (
+        <div className="documentContainer">
+          <iframe
+            title="Self Dec Embed"
+            src={docUrl}
+            style={{ height: '70vh', width: '75vw' }}
+          ></iframe>
+        </div>
+      ) : (
         <Form layout="vertical" name="selfDecUserInput" onFinish={onFinish}>
           <Form.Item
             name="text"
@@ -32,7 +90,7 @@ const RenderSelfDecDocument = ({
               },
             ]}
           >
-            <TextArea key="fix" rows={5} allowClear />
+            <TextArea key="fix1" rows={5} allowClear />
           </Form.Item>
           {sessionId ? null : (
             <Form.Item>
@@ -44,23 +102,6 @@ const RenderSelfDecDocument = ({
             </Form.Item>
           )}
         </Form>
-      </div>
-    );
-  };
-
-  return (
-    <div>
-      {/* sessionId is generated from handle doc creation  */}
-      {sessionId ? (
-        <div className="documentContainer">
-          <iframe
-            title="Self Dec Embed"
-            src={docUrl}
-            style={{ height: '70vh', width: '75vw' }}
-          ></iframe>
-        </div>
-      ) : (
-        <UserTextInput />
       )}
     </div>
   );

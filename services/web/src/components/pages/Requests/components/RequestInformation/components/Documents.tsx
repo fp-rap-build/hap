@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import Document from './Document';
+import SelfDecDocument from './SelfDecDocument';
 
 import { Select } from 'antd';
 
@@ -60,14 +61,23 @@ const ChangeCategoryButton = ({ handleChange }) => {
 const RenderDocuments = ({ documents, setDocuments, setOriginalDocuments }) => {
   return (
     <div className={styles.documents}>
-      {documents.map(d => (
-        <Document
-          key={d.id}
-          document={d}
-          setDocuments={setDocuments}
-          setOriginalDocuments={setOriginalDocuments}
-        />
-      ))}
+      {documents.map(d =>
+        d.status === 'optOut' ? (
+          <SelfDecDocument
+            key={d.id}
+            document={d}
+            setDocuments={setDocuments}
+            setOriginalDocuments={setOriginalDocuments}
+          />
+        ) : (
+          <Document
+            key={d.id}
+            document={d}
+            setDocuments={setDocuments}
+            setOriginalDocuments={setOriginalDocuments}
+          />
+        )
+      )}
     </div>
   );
 };

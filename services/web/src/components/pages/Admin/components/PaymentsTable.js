@@ -7,6 +7,7 @@ import { ExportCsv, ExportPdf } from '@material-table/exporters';
 import { tableIcons } from '../../../../utils/tableIcons';
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 import { message } from 'antd';
+import calculateAmi from '../../../../utils/general/calculateAmi';
 
 export default function PaymentsTable() {
   const [isFetching, setIsFetching] = useState(false);
@@ -15,6 +16,16 @@ export default function PaymentsTable() {
     { title: 'First', field: 'firstName', editable: 'never' },
     { title: 'Last ', field: 'lastName', editable: 'never' },
     { title: 'Email', field: 'email', type: 'string', editable: 'never' },
+    { title: 'Gender', field: 'gender', editable: 'never' },
+    { title: 'Race', field: 'race', editable: 'never' },
+    { title: 'Ethnicity', field: 'ethnicity', editable: 'never' },
+    { title: 'Household Size', field: 'familySize', editable: 'never' },
+    { title: 'Total Children', field: 'totalChildren', editable: 'never' },
+    { title: 'Children Ages', field: 'childrenAges', editable: 'never' },
+    { title: 'Monthly Income', field: 'monthlyIncome', editable: 'never' },
+    { title: 'Monthly Rent', field: 'monthlyRent', editable: 'never' },
+    { title: 'AMI', field: 'ami', editable: 'never' },
+
     {
       title: 'Program',
       field: 'program',
@@ -44,8 +55,39 @@ export default function PaymentsTable() {
     setIsFetching(true);
     try {
       let res = await axiosWithAuth().get('/payments/table');
+
+      let payments = res.data.payments.map(payment => {
+        payment['race'] = '';
+        payment['ethnicity'] = '';
+
+        let races = {
+          black: payment.black,
+          white: payment.white,
+          asian: payment.asian,
+          pacific: payment.pacific,
+        };
+
+        if (payment['hispanic']) {
+          payment['ethnicity'] = 'hispanic';
+        }
+
+        for (let race in races) {
+          if (races[race]) {
+            payment['race'] += ' ' + race;
+          }
+        }
+
+        payment['ami'] = calculateAmi(
+          payment.monthlyIncome,
+          payment.familySize
+        );
+
+        return payment;
+      });
+
       setData(res.data.payments);
     } catch (error) {
+      console.log(error);
       alert('Unable to fetch payments');
     } finally {
       setIsFetching(false);
