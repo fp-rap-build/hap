@@ -7,14 +7,14 @@ import EditButton from './components/EditButton';
 export default function Basic({ request, setRequest, column = 2 }) {
   const [disabled, setDisabled] = useState(true);
 
-  const formatDate = date => {
-    date = new Date(date);
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
+  // const formatDate = date => {
+  //   date = new Date(date);
+  //   let year = date.getFullYear();
+  //   let month = date.getMonth() + 1;
+  //   let day = date.getDate();
 
-    return `${year} / ${month} / ${day}`;
-  };
+  //   return `${year} / ${month} / ${day}`;
+  // };
 
   const [form] = Form.useForm();
 
@@ -24,6 +24,8 @@ export default function Basic({ request, setRequest, column = 2 }) {
   };
 
   const handleUserEditSubmit = async values => {
+    console.log(values);
+
     setRequest({ ...request, ...values });
 
     setDisabled(true);
@@ -66,7 +68,7 @@ export default function Basic({ request, setRequest, column = 2 }) {
         <Input disabled={true} />
       </Form.Item>
 
-      <Form.Item label="DOB" name="dob" initialValue={formatDate(request.dob)}>
+      <Form.Item label="DOB" name="dob" initialValue={request.dob}>
         <Input disabled={disabled} />
       </Form.Item>
 
