@@ -103,7 +103,7 @@ const BasicInformation = ({
             onChange={handleCheckBoxChange}
             name="native"
           >
-            Native American or Alskan Native
+            Native American or Alaskan Native
           </Checkbox>
         </Form.Item>
         <Form.Item>
