@@ -32,6 +32,7 @@ const buildApplicantData = currentUser => {
     lastName: currentUser.lastName,
     email: currentUser.email,
     role: currentUser.role,
+    dob: currentUser.dob,
   };
 };
 
