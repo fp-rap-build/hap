@@ -60,6 +60,9 @@ const findForTable = (params) => {
       'u.lastName',
       'u.email',
       'u.role',
+      'u.dob', 
+      'u.gender',
+
       'r.familySize',
       'r.monthlyIncome',
       'r.owed',
@@ -87,8 +90,6 @@ const findForTable = (params) => {
       'r.whiteHOH',
       'r.nativeHOH',
       'r.demoNotSayHOH',
-      'r.dob',
-      'r.gender',
       'r.beds',
 
       'r.verifiedDocuments',
@@ -161,7 +162,6 @@ const findById = (id) => {
       'r.budget',
       'r.orgId',
       'r.unEmp90',
-      'r.gender',
       'r.beds',
       'r.hispanicHOH',
       'r.asianHOH',

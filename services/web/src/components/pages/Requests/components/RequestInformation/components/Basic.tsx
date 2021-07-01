@@ -8,12 +8,10 @@ export default function Basic({ request, setRequest, column = 2 }) {
   const [disabled, setDisabled] = useState(true);
 
   const formatDate = date => {
-    date = new Date(date);
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
+    if (!date) return;
 
-    return `${year} / ${month} / ${day}`;
+    const splitDate = date.split('T');
+    return splitDate[0];
   };
 
   const [form] = Form.useForm();
