@@ -8,7 +8,10 @@ import checkDocumentCompletion from './utils/checkDocumentCompletion';
 import UploadDocModal from './modals/UploadDocModal';
 import SelfDecModal from './modals/SelfDecModal';
 
-import { Tag, Table, Button } from 'antd';
+import { InfoCircleOutlined, MinusOutlined } from '@ant-design/icons';
+import { Tag, Table, Button, Typography } from 'antd';
+
+const { Text } = Typography;
 
 const DocumentsTable = ({ request }) => {
   const storeStatuses = useSelector(state => state.requests.documentStatuses);
@@ -137,7 +140,28 @@ const DocumentsTable = ({ request }) => {
 
   return (
     <div className="documentsTable">
-      <Table columns={columns} dataSource={tableData} pagination={false} />
+      <Table
+        columns={columns}
+        dataSource={tableData}
+        pagination={false}
+        expandable={{
+          expandedRowRender: record => (
+            <Text type="secondary">{record.blurb}</Text>
+          ),
+          expandIcon: ({ expanded, onExpand, record }) =>
+            expanded ? (
+              <MinusOutlined
+                onClick={e => onExpand(record, e)}
+                style={{ color: '#1890FF' }}
+              />
+            ) : (
+              <InfoCircleOutlined
+                onClick={e => onExpand(record, e)}
+                style={{ color: '#1890FF' }}
+              />
+            ),
+        }}
+      />
       <UploadDocModal {...props} />
       <SelfDecModal {...props} />
     </div>
