@@ -18,7 +18,7 @@ const fileFilter = (req, file, cb) => {
   } else {
     cb(
       new Error('Invalid file type, only images and pdfs are allowed!'),
-      false
+      false,
     );
   }
 };
