@@ -38,7 +38,7 @@ const StatusBar = ({ request }) => {
     }
   };
 
-  const decsionDescription = status => {
+  const decisionDescription = status => {
     if (status === 'approved') {
       return 'Approved - Check e-mail for next steps';
     } else if (status === 'denied') {
@@ -73,7 +73,7 @@ const StatusBar = ({ request }) => {
         <Step
           icon={<AuditOutlined />}
           title="Ready for Decision"
-          description={decsionDescription(request?.requestStatus)}
+          description={decisionDescription(request?.requestStatus)}
         />
       </Steps>
     </div>

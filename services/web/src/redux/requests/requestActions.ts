@@ -42,6 +42,8 @@ export const fetchRequest = () => async dispatch => {
     }
   } catch (error) {
     console.log('error fetching request redux');
+  } finally {
+    dispatch(setLoading(false));
   }
 };
 
