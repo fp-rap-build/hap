@@ -30,10 +30,10 @@ const DocumentsTable = ({ request }) => {
     setTableData(newTableData);
   };
 
-  useEffect(() => {
-    checkDocumentCompletion(tableData, request);
-    //eslint-disable-next-line
-  }, [tableData]);
+  // useEffect(() => {
+  //   checkDocumentCompletion(tableData, request);
+  //   //eslint-disable-next-line
+  // }, [tableData]);
 
   const [uploadModalVisibility, setUploadModalVisibility] = useState(false);
   const [selfDecModalVisibility, setSelfDecModalVisibility] = useState(false);

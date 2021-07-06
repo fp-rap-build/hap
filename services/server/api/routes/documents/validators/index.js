@@ -20,13 +20,7 @@ const checkIfDocumentExists = async (req, res, next) => {
 };
 
 const checkDocumentCompletion = async (req, res, next) => {
-  /* 
-  Take in the new document (req.body)
-  Fetch all the documents for request - check to see if each category is uploaded 
-  If category is other continue 
-  */
-
-  const { requestId } = req.body;
+  const { requestId, category } = req.body;
 
   const docChecks = {
     childrenOrPregnancy: false,
@@ -37,14 +31,14 @@ const checkDocumentCompletion = async (req, res, next) => {
   };
 
   //Update status of current document being processed
-  docChecks[req.body.category] = true;
+  docChecks[category] = true;
 
   //Check agains other docs assigned to req - skipping any 'other' docs
   try {
     const request = await Requests.findById(requestId);
 
     if (request.requestStatus !== 'documentsNeeded') {
-      console.log(`Request status: ${request.status} -- next`);
+      console.log(`Request status: ${request.requestStatus} -- next`);
       next();
     }
 
@@ -59,19 +53,21 @@ const checkDocumentCompletion = async (req, res, next) => {
       }
     });
 
-    console.log(docChecks);
-
     //Check to see if docChecks has any false values
     var hasFalseDocs = Object.keys(docChecks).some((key) => !docChecks[key]);
 
     //No false's --> update doc status
     if (!hasFalseDocs) {
-      Request.update(requestId, { status: 'verifyingDocuments' });
+      console.log('No Falses Reached');
+      await Requests.update(requestId, {
+        requestStatus: 'verifyingDocuments',
+        incomplete: false,
+      });
     }
 
     next();
   } catch (error) {
-    console.log(error);
+    console.log('Error in status middleware', error);
     next();
   }
 };

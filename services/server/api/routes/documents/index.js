@@ -10,7 +10,10 @@ const {
 } = require('./controllers');
 
 // Validators
-const { checkIfDocumentExists, checkDocumentCompletion } = require('./validators');
+const {
+  checkIfDocumentExists,
+  checkDocumentCompletion,
+} = require('./validators');
 
 router.route('/').get(getAllDocuments).post(createDocument);
 

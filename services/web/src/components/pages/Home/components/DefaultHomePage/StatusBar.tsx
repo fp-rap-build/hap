@@ -14,8 +14,6 @@ const { Step } = Steps;
 const StatusBar = ({ request }) => {
   const isMobile = useMediaQuery('(min-width:700px)');
 
-  const { requestStatus } = request;
-
   const statusToNum = status => {
     switch (status) {
       case 'received':
