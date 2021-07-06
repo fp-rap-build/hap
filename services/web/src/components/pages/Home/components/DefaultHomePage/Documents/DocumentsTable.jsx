@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import { useSelector } from 'react-redux';
 
 import buildTableData from './utils/buildTableData';
-import checkDocumentCompletion from './utils/checkDocumentCompletion';
 
 import UploadDocModal from './modals/UploadDocModal';
 import SelfDecModal from './modals/SelfDecModal';
@@ -29,11 +28,6 @@ const DocumentsTable = ({ request }) => {
 
     setTableData(newTableData);
   };
-
-  // useEffect(() => {
-  //   checkDocumentCompletion(tableData, request);
-  //   //eslint-disable-next-line
-  // }, [tableData]);
 
   const [uploadModalVisibility, setUploadModalVisibility] = useState(false);
   const [selfDecModalVisibility, setSelfDecModalVisibility] = useState(false);

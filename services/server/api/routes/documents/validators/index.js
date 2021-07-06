@@ -19,6 +19,8 @@ const checkIfDocumentExists = async (req, res, next) => {
   }
 };
 
+//Checks if all necessary documents have been submitted by applicant
+//If all documents submitted we update requestStatus to verifyingDocuments and
 const checkDocumentCompletion = async (req, res, next) => {
   const { requestId, category } = req.body;
 
@@ -33,15 +35,17 @@ const checkDocumentCompletion = async (req, res, next) => {
   //Update status of current document being processed
   docChecks[category] = true;
 
-  //Check agains other docs assigned to req - skipping any 'other' docs
   try {
     const request = await Requests.findById(requestId);
 
+    //NEXT if request isn't in docuemntsNeeded status
+    //do not want to use the middleware if application is further down the review process
     if (request.requestStatus !== 'documentsNeeded') {
       console.log(`Request status: ${request.requestStatus} -- next`);
       next();
     }
 
+    //Check other request documents and update docChecks accordingly
     const requestDocs = await Documents.findByRequestId(requestId);
 
     requestDocs.forEach((doc) => {
@@ -56,7 +60,7 @@ const checkDocumentCompletion = async (req, res, next) => {
     //Check to see if docChecks has any false values
     var hasFalseDocs = Object.keys(docChecks).some((key) => !docChecks[key]);
 
-    //No false's --> update doc status
+    //No false's? --> update doc status
     if (!hasFalseDocs) {
       console.log('No Falses Reached');
       await Requests.update(requestId, {
@@ -67,7 +71,7 @@ const checkDocumentCompletion = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.log('Error in status middleware', error);
+    console.log('Error id document status middleware', error);
     next();
   }
 };
