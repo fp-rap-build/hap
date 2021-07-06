@@ -16,10 +16,7 @@ const fileFilter = (req, file, cb) => {
   if (mimetype && extname) {
     cb(null, true);
   } else {
-    cb(
-      new Error('Invalid file type, only images and pdfs are allowed!'),
-      false
-    );
+    cb(new Error('Invalid file type, only images and pdfs are allowed'), false);
   }
 };
 

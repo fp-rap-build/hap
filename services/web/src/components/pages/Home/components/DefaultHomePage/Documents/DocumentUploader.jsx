@@ -90,7 +90,11 @@ const DocumentUploader = ({
         //persist changes in data base
         updateDoc(documentId);
       } else if (status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
+        if (info.file?.response?.errors) {
+          message.error(info.file.response.errors.detail);
+        } else {
+          message.error(`${info.file.name} file upload failed.`);
+        }
       }
     },
   };

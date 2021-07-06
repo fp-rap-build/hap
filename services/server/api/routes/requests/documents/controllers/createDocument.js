@@ -6,12 +6,9 @@ const { request } = require('../../../../app');
 const multiUpload = upload.array('document');
 
 const createDocument = async (req, res) => {
-
-
   multiUpload(req, res, async (err) => {
     if (err) {
-      console.log(err);
-      return res.json({
+      return res.status(400).json({
         success: false,
         errors: {
           title: 'Image Upload Error',
