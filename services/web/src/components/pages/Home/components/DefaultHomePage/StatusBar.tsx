@@ -14,14 +14,16 @@ const { Step } = Steps;
 const StatusBar = ({ request }) => {
   const isMobile = useMediaQuery('(min-width:700px)');
 
+  const { requestStatus } = request;
+
   const statusToNum = status => {
     switch (status) {
       case 'received':
         return 0;
       case 'notResponding':
-        return 1;
+        return 0;
       case 'documentsNeeded':
-        return 1;
+        return 0;
       case 'verifyingDocuments':
         return 1;
       case 'readyForReview':
@@ -62,7 +64,7 @@ const StatusBar = ({ request }) => {
           icon={<FileDoneOutlined />}
           className={styles.completed}
           title="Document Collection"
-          description="Your application has been started and will soon be ready for review by our Housing Assistance Team; please begin uploading any documentation by clicking on the 'Documents' tab on the sidebar.  We cannot begin processing your request until all documents have been submitted."
+          description="Your request has been moved to 'Not Responding' - please contact us in the 'Chat with us!' tab of your dashboard to resume the application process."
         />
         <Step
           icon={<FolderOpenOutlined />}
@@ -78,5 +80,23 @@ const StatusBar = ({ request }) => {
     </div>
   );
 };
+
+// const statusTexts = {
+//   notResponding: {
+//     title: 'Not Responding',
+//     description:
+//       "Your request has been moved to 'Not Responding' - please contact us in the 'Chat with us!' tab of your dashboard to resume the application process.",
+//   },
+//   documentsNeeded: {
+//     title: 'Document Collection',
+//     description:
+//       "Your application has been started and will soon be ready for review by our Housing Assistance Team; please begin uploading any documentation by clicking on the 'Documents' tab on the sidebar.  We cannot begin processing your request until all documents have been submitted.",
+//   },
+//   verifyingDocuments: {
+//     title: 'Verification of Documentation',
+//     description:
+//       'Your application is being reviewed by the Housing Assistance Team, please check back often to see if any further action is needed or if specific documents are required.',
+//   },
+// };
 
 export default StatusBar;
