@@ -40,7 +40,7 @@ const checkDocumentCompletion = async (req, res, next) => {
 
     //NEXT if request isn't in docuemntsNeeded status
     //do not want to use the middleware if application is further down the review process
-    if (request.requestStatus !== 'documentsNeeded') {
+    if (request[0].requestStatus !== 'documentsNeeded') {
       console.log(`Request status: ${request.requestStatus} -- next`);
       next();
     }
