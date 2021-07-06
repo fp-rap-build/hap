@@ -63,7 +63,7 @@ const StatusBar = ({ request }) => {
           icon={<FileDoneOutlined />}
           className={styles.completed}
           title="Document Collection"
-          description="Your request has been moved to 'Not Responding' - please contact us in the 'Chat with us!' tab of your dashboard to resume the application process."
+          description="Your application has been started and will soon be ready for review by our Housing Assistance Team; please begin uploading any documentation by clicking on the 'Documents' tab on the sidebar.  We cannot begin processing your request until all documents have been submitted."
         />
         <Step
           icon={<FolderOpenOutlined />}
