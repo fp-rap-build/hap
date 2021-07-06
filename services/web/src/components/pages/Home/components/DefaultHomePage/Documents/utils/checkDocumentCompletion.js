@@ -1,3 +1,5 @@
+//NO LONGER BEING USED - FUNCTIONALITY DUPLICATED AND RUNNING ON SERVER AS DOC MIDDLEWARE
+
 import { axiosWithAuth } from '../../../../../../../api/axiosWithAuth';
 
 const checkDocumentCompletion = async (tableData, request) => {

@@ -21,7 +21,6 @@ const createDocument = async (req, res) => {
       });
     }
     // Document was successfully saved to the S3 bucket, let's store a reference to that document in our db
-    console.log(req)
     try {
       // Format documents to match our schema
       let formattedDocuments = req.files.map((file) =>

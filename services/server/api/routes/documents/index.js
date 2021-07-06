@@ -10,14 +10,17 @@ const {
 } = require('./controllers');
 
 // Validators
-const { checkIfDocumentExists } = require('./validators');
+const {
+  checkIfDocumentExists,
+  checkDocumentCompletion,
+} = require('./validators');
 
 router.route('/').get(getAllDocuments).post(createDocument);
 
 router
   .route('/:id')
   .all(checkIfDocumentExists)
-  .put(updateDocument)
+  .put(checkDocumentCompletion, updateDocument)
   .delete(deleteDocument);
 
 module.exports = router;

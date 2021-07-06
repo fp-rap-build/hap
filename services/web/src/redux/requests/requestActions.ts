@@ -22,6 +22,31 @@ export const setDocumentStatuses = statuses => {
   return { type: 'SET_DOCUMENT_STATUSES', payload: statuses };
 };
 
+export const fetchRequest = () => async dispatch => {
+  dispatch(setLoading(true));
+  try {
+    //Need current user to pull their requests
+    let currentUser = await axiosWithAuth()
+      .get('/users/me')
+      .then(res => res.data.user);
+
+    if (currentUser.role === 'tenant' || currentUser.role === 'landlord') {
+      const { id } = currentUser.requests[0];
+
+      //Fetch request and dispatch
+      let request = await axiosWithAuth()
+        .get(`requests/reqOnly/${id}`)
+        .then(res => res.data);
+
+      dispatch(setCurrentRequest(request));
+    }
+  } catch (error) {
+    console.log('error fetching request redux');
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
+
 export const setRequestAddressAndDocuments = () => async dispatch => {
   dispatch(setLoading(true));
   try {
