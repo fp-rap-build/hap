@@ -44,6 +44,11 @@ export default function RequestsTable() {
 
   const [data, setData] = useState([]);
   const [columns, setColumns] = useState([
+
+    {
+      title: 'HAP ID',
+      field: 'id',
+    },
     {
       title: 'Manager',
       field: 'manager',
