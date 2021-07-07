@@ -45,6 +45,10 @@ export default function RequestsTable() {
   const [isFetching, setIsFetching] = useState(false);
   const [data, setData] = useState([]);
   const [columns, setColumns] = useState([
+    {
+      title: 'HAP ID',
+      field: 'id',
+    },
     { title: 'First', field: 'firstName' },
     { title: 'Last ', field: 'lastName' },
     {
