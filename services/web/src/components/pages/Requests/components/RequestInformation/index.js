@@ -23,6 +23,7 @@ import socket from '../../../../../config/socket';
 import Address from './components/Address';
 import Household from './components/Household';
 import Demographics from './components/Demographics';
+import FinalReviewModal from './components/FinalReviewModal';
 
 const tabListNoTitle = [
   {
@@ -88,6 +89,14 @@ export default function Index({
 
   const [isApprovedModalVisible, setIsApprovedModalVisible] = useState(false);
 
+  const [isFinalReviewModalVisible, setIsFinalReviewModalVisible] = useState(
+    false
+  );
+
+  const showFinalReviewModal = () => {
+    setIsFinalReviewModalVisible(true);
+  };
+
   const showApprovedModal = () => {
     setIsApprovedModalVisible(true);
   };
@@ -138,7 +147,7 @@ export default function Index({
       }
     };
 
-    if (status === 'approved') return showApprovedModal();
+    if (status === 'approved') return showFinalReviewModal();
     if (status === 'denied') return deniedModal(handleDenial);
   };
 
@@ -201,6 +210,14 @@ export default function Index({
 
   return (
     <div>
+      <FinalReviewModal
+        visible={isFinalReviewModalVisible}
+        setVisible={setIsFinalReviewModalVisible}
+        showApprovedModal={showApprovedModal}
+        request={request}
+        setRequest={setRequest}
+      />
+
       <ApproveRequestModal {...approveModalProps} />
 
       <Card

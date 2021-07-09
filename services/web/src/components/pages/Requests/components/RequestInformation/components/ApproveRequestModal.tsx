@@ -3,6 +3,7 @@ import { Modal, Input, message } from 'antd';
 import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 
 import { useSelector } from 'react-redux';
+
 import socket from '../../../../../../config/socket';
 
 export default function ApproveRequestModal({
@@ -34,8 +35,6 @@ export default function ApproveRequestModal({
       programId: selectedProgram.id,
       amount: amountToSend,
     };
-
-    console.log(payment);
 
     try {
       await axiosWithAuth().post(`/requests/${request.id}/payments`, payment);
