@@ -216,6 +216,7 @@ export default function Index({
         showApprovedModal={showApprovedModal}
         request={request}
         setRequest={setRequest}
+        programs={programs}
       />
 
       <ApproveRequestModal {...approveModalProps} />
