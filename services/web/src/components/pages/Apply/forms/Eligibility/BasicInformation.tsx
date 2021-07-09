@@ -46,7 +46,7 @@ const BasicInformation = ({
           this household)
         </p>
         <br />
-        <Form.Item name="dob" label="Date of Birth">
+        <Form.Item name="dob" label="Date of Birth (YYYY-MM-DD)" rules={[{ required: true, message: 'Date of Birth is required' }]}>
           <DatePicker onChange={handleDateChange}></DatePicker>
         </Form.Item>
         <Title level={5}>Head of Household Identifies as:</Title>
