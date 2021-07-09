@@ -44,10 +44,34 @@ export default function RequestsTable() {
 
   const [data, setData] = useState([]);
   const [columns, setColumns] = useState([
-
     {
       title: 'HAP ID',
       field: 'id',
+    },
+    {
+      title: 'Activity',
+      field: 'latestAction',
+      render: rowData => {
+        console.log(rowData);
+        return (
+          <svg
+            viewBox="0 0 100 100"
+            height="30px"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{ marginLeft: '10px' }}
+          >
+            <circle
+              cx="50"
+              cy="50"
+              r="48"
+              fill="#B1EEC6"
+              stroke="grey"
+              stroke-width="4"
+            />
+            {/* colors: #B1EEC6 #EDE988 #F0B0AE */}
+          </svg>
+        );
+      },
     },
     {
       title: 'Manager',
@@ -128,6 +152,8 @@ export default function RequestsTable() {
         request['manager'] = request['managerFirstName']
           ? request['managerFirstName'] + ' ' + request['managerLastName']
           : 'Nobody';
+
+        request['latestAction'] = 'green';
 
         return request;
       });
