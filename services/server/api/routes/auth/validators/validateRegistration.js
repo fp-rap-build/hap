@@ -5,16 +5,8 @@ const User = require('../../users/userModel');
 const validRoles = ['tenant', 'landlord'];
 
 module.exports = [
-  check('firstName')
-    .notEmpty()
-    .withMessage('First name is required')
-    .isAlpha()
-    .withMessage('Must be only alphabetical chars'),
-  check('lastName')
-    .notEmpty()
-    .withMessage('Last name is required')
-    .isAlpha()
-    .withMessage('Must be only alphabetical chars'),
+  check('firstName').notEmpty().withMessage('First name is required'),
+  check('lastName').notEmpty().withMessage('Last name is required'),
   check('email')
     .notEmpty()
     .withMessage('Email is required')
