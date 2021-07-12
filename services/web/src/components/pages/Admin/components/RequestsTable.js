@@ -49,8 +49,8 @@ export default function RequestsTable() {
       field: 'id',
     },
     {
-      title: 'Activity',
-      field: 'latestAction',
+      title: 'Applicant Activity',
+      field: 'latestTenantAction',
       render: rowData => {
         console.log(rowData);
         return (
