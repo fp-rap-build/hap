@@ -56,6 +56,16 @@ const Comments = ({
     socket.emit('comment', socketPayload);
     try {
       await axiosWithAuth().post('/comments', commentToPOST);
+
+      if (currentUser.role === 'tenant') {
+        await axiosWithAuth().put(`/requests/${requestId}`, {
+          latestTenantActivity: new Date().toISOString(),
+        });
+      } else {
+        await axiosWithAuth().put(`/requests/${requestId}`, {
+          latestStaffActivity: new Date().toISOString(),
+        });
+      }
       setNewComment({ text: '' });
     } catch (error) {
       console.error(error);

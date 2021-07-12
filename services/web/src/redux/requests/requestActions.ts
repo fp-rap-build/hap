@@ -2,8 +2,6 @@ import { axiosWithAuth } from '../../api/axiosWithAuth';
 
 import { setLoading } from '../global/globalActions';
 
-import calcCurrentTime from '../../utils/dates/calcCurrentTime';
-
 export const setCurrentRequest = currentRequest => {
   return { type: 'SET_REQUEST', payload: currentRequest };
 };
@@ -101,8 +99,17 @@ export const updateAddress = updatedAddress => async dispatch => {
   }
 };
 
-export const updateRequest = updatedRequest => async dispatch => {
+export const updateRequest = (
+  updatedRequest,
+  currentUser
+) => async dispatch => {
   const { id } = updatedRequest;
+
+  if (currentUser.role === 'tenant') {
+    updatedRequest.latestTenantActivity = new Date().toISOString();
+  } else {
+    updatedRequest.latestUserActivity = new Date().toISOString();
+  }
 
   try {
     const resRequest = await axiosWithAuth()

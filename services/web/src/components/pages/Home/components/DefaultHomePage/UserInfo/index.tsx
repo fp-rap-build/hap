@@ -102,8 +102,7 @@ const UserInfo = () => {
   };
 
   const postRequest = () => {
-    dispatch(updateRequest(requestData));
-    handleRequestActivity(currentUser.role, requestData);
+    dispatch(updateRequest(requestData, currentUser));
   };
 
   const postApplicant = async () => {
