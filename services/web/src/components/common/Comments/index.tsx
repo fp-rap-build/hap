@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { axiosWithAuth } from '../../../api/axiosWithAuth';
-import { checkCommentLength, fetchComments } from './utils';
+import { checkCommentLength } from './utils';
 
 import RenderComment from './components/RenderComment';
 import CreateComment from './components/CreateComment';

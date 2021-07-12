@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 
+import handleRequestActivity from '../../../../../../utils/handleRequestActivity';
+
 import { updateUserNameInfo } from '../../../../../../redux/users/userActions';
 
 import {
@@ -101,6 +103,7 @@ const UserInfo = () => {
 
   const postRequest = () => {
     dispatch(updateRequest(requestData));
+    handleRequestActivity(currentUser.role, requestData);
   };
 
   const postApplicant = async () => {

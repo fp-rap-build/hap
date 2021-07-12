@@ -2,6 +2,7 @@ const express = require('express');
 const Requests = require('./requestsModel');
 const Ages = require('../ages/agesModel');
 const restrictTo = require('../../middleware/restrictTo');
+const updateRequestActivity = require('../../middleware/updateRequestActivity')
 const Addresses = require('../addresses/addr-model');
 // Middlewares
 const utils = require('./documents/utils');

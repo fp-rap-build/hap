@@ -2,6 +2,8 @@ import { axiosWithAuth } from '../../api/axiosWithAuth';
 
 import { setLoading } from '../global/globalActions';
 
+import calcCurrentTime from '../../utils/dates/calcCurrentTime';
+
 export const setCurrentRequest = currentRequest => {
   return { type: 'SET_REQUEST', payload: currentRequest };
 };
