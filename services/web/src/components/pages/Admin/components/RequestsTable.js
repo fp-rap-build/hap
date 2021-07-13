@@ -50,9 +50,16 @@ export default function RequestsTable() {
     },
     {
       title: 'Applicant Activity',
-      field: 'latestTenantActivity',
+      field: 'tenantDifference',
       render: rowData => {
-        return <RenderActivityCell difference={rowData.latestTenantActivity} />;
+        return <RenderActivityCell difference={rowData.tenantDifference} />;
+      },
+    },
+    {
+      title: 'FP Activity',
+      field: 'staffDifference',
+      render: rowData => {
+        return <RenderActivityCell difference={rowData.staffDifference} />;
       },
     },
     {
@@ -135,10 +142,10 @@ export default function RequestsTable() {
           ? request['managerFirstName'] + ' ' + request['managerLastName']
           : 'Nobody';
 
-        request['latestTenantActivity'] =
+        request['tenantDifference'] =
           (new Date() - new Date(request.latestTenantActivity)) / 3600000;
 
-        request['latestStaffActivity'] =
+        request['staffDifference'] =
           (new Date() - new Date(request.latestStaffActivity)) / 3600000;
 
         return request;
