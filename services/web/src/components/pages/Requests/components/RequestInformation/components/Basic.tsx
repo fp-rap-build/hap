@@ -8,7 +8,7 @@ export default function Basic({ request, setRequest, column = 2 }) {
   const [disabled, setDisabled] = useState(true);
 
   const formatDate = date => {
-    if (!date) return 'YYYY / MM / DD';
+    // if (!date) return 'YYYY / MM / DD';
 
     const splitDate = date.split('T');
     return splitDate[0];
@@ -24,6 +24,7 @@ export default function Basic({ request, setRequest, column = 2 }) {
   const handleUserEditSubmit = async values => {
     setRequest({ ...request, ...values });
 
+    console.log(values);
     setDisabled(true);
 
     try {
@@ -64,7 +65,12 @@ export default function Basic({ request, setRequest, column = 2 }) {
         <Input disabled={true} />
       </Form.Item>
 
-      <Form.Item label="DOB" name="dob" initialValue={formatDate(request.dob)}>
+      <Form.Item
+        label="DOB"
+        name="dob"
+        initialValue={formatDate(request.dob)}
+        tooltip="YYYY / MM / DD"
+      >
         <Input disabled={disabled} />
       </Form.Item>
 
