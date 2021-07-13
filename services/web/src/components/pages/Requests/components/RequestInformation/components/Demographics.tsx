@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import { Descriptions, Button, Form, Input, Checkbox, message } from 'antd';
+import { useDispatch } from 'react-redux';
+
+import { updateRequest } from '../../../../../../redux/requests/requestActions';
+
 import EditButton from './components/EditButton';
-import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 
-export default function Address({ request, setRequest, column = 2 }) {
+import { Button, Form, Checkbox } from 'antd';
+
+export default function Address({ request, setRequest, currentUser }) {
+  const dispatch = useDispatch();
+
   const [disabled, setDisabled] = useState(true);
 
   const [form] = Form.useForm();
@@ -34,16 +40,14 @@ export default function Address({ request, setRequest, column = 2 }) {
     demoNotSay: request.demoNotSay,
   });
 
-  const handleDemograpicSubmit = async () => {
+  const handleDemograpicSubmit = () => {
     setRequest({ ...request, ...checkboxValues });
 
-    setDisabled(true);
+    checkboxValues['id'] = request.id;
 
-    try {
-      await axiosWithAuth().put(`/requests/${request.id}`, checkboxValues);
-    } catch (error) {
-      message.error('Unable to edit demographics');
-    }
+    dispatch(updateRequest(checkboxValues, currentUser));
+
+    setDisabled(true);
   };
 
   const handleCheckboxChange = e => {

@@ -185,6 +185,7 @@ export default function Index({
     documents,
     setDocuments,
     ages,
+    currentUser,
   };
 
   const approveModalProps = {
@@ -241,11 +242,19 @@ const renderContent = props => {
       return <Address request={props.request} setRequest={props.setRequest} />;
     case 'household':
       return (
-        <Household request={props.request} setRequest={props.setRequest} />
+        <Household
+          request={props.request}
+          setRequest={props.setRequest}
+          currentUser={props.currentUser}
+        />
       );
     case 'demographics':
       return (
-        <Demographics request={props.request} setRequest={props.setRequest} />
+        <Demographics
+          request={props.request}
+          setRequest={props.setRequest}
+          currentUser={props.currentUser}
+        />
       );
     case 'contact':
       return <Contact request={props.request} setRequest={props.setRequest} />;

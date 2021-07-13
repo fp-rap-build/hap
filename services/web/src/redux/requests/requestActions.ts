@@ -108,7 +108,7 @@ export const updateRequest = (
   if (currentUser.role === 'tenant') {
     updatedRequest.latestTenantActivity = new Date();
   } else {
-    updatedRequest.latestUserActivity = new Date();
+    updatedRequest.latestStaffActivity = new Date();
   }
 
   try {
