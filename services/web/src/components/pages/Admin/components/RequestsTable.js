@@ -50,27 +50,9 @@ export default function RequestsTable() {
     },
     {
       title: 'Applicant Activity',
-      field: 'latestTenantAction',
+      field: 'latestTenantActivity',
       render: rowData => {
-        console.log(rowData);
-        return (
-          <svg
-            viewBox="0 0 100 100"
-            height="30px"
-            xmlns="http://www.w3.org/2000/svg"
-            style={{ marginLeft: '10px' }}
-          >
-            <circle
-              cx="50"
-              cy="50"
-              r="48"
-              fill="#B1EEC6"
-              stroke="grey"
-              stroke-width="4"
-            />
-            {/* colors: #B1EEC6 #EDE988 #F0B0AE */}
-          </svg>
-        );
+        return <RenderActivityCell difference={rowData.latestTenantActivity} />;
       },
     },
     {
@@ -153,7 +135,11 @@ export default function RequestsTable() {
           ? request['managerFirstName'] + ' ' + request['managerLastName']
           : 'Nobody';
 
-        request['latestAction'] = 'green';
+        request['latestTenantActivity'] =
+          (new Date() - new Date(request.latestTenantActivity)) / 3600000;
+
+        request['latestStaffActivity'] =
+          (new Date() - new Date(request.latestStaffActivity)) / 3600000;
 
         return request;
       });
@@ -366,4 +352,37 @@ const formatSubscriptions = subscriptions => {
   });
 
   return result;
+};
+
+const RenderActivityCell = ({ difference }) => {
+  if (!difference) {
+    return <StatusCircle color="#AAAAAA" />;
+  } else if (difference <= 24) {
+    return <StatusCircle color="#B1EEC6" />;
+  } else if (difference <= 48) {
+    return <StatusCircle color="#EDE988" />;
+  } else {
+    return <StatusCircle color="#F0B0AE" />;
+  }
+};
+
+const StatusCircle = ({ color }) => {
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      height="30px"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ marginLeft: '10px' }}
+    >
+      <circle
+        cx="50"
+        cy="50"
+        r="48"
+        fill={color}
+        stroke="grey"
+        stroke-width="4"
+      />
+      {/* colors: #B1EEC6 #EDE988 #F0B0AE */}
+    </svg>
+  );
 };

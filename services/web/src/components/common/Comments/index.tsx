@@ -59,11 +59,11 @@ const Comments = ({
 
       if (currentUser.role === 'tenant') {
         await axiosWithAuth().put(`/requests/${requestId}`, {
-          latestTenantActivity: new Date().toISOString(),
+          latestTenantActivity: new Date(),
         });
       } else {
         await axiosWithAuth().put(`/requests/${requestId}`, {
-          latestStaffActivity: new Date().toISOString(),
+          latestStaffActivity: new Date(),
         });
       }
       setNewComment({ text: '' });
