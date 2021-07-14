@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { axiosWithAuth } from '../../../api/axiosWithAuth';
-import { checkCommentLength, fetchComments } from './utils';
+import { checkCommentLength } from './utils';
 
 import RenderComment from './components/RenderComment';
 import CreateComment from './components/CreateComment';
@@ -56,6 +56,16 @@ const Comments = ({
     socket.emit('comment', socketPayload);
     try {
       await axiosWithAuth().post('/comments', commentToPOST);
+
+      if (currentUser.role === 'tenant') {
+        await axiosWithAuth().put(`/requests/${requestId}`, {
+          latestTenantActivity: new Date(),
+        });
+      } else {
+        await axiosWithAuth().put(`/requests/${requestId}`, {
+          latestStaffActivity: new Date(),
+        });
+      }
       setNewComment({ text: '' });
     } catch (error) {
       console.error(error);

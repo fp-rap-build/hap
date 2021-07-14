@@ -67,9 +67,9 @@ export default function Index({
   ages,
 }) {
   const currentUser = useSelector(state => state.user.currentUser);
-
-  const [loading, setLoading] = useState(false);
   //eslint-disable-next-line
+  const [loading, setLoading] = useState(false);
+
   const [tab, setTab] = useState('basic');
 
   const [modalContent, setModalContent] = useState('programSelection');
@@ -110,9 +110,9 @@ export default function Index({
   };
 
   const handleReviewSubmit = status => {
-    const alreadyReviewed =
-      request.requestStatus === 'approved' ||
-      request.requestStatus === 'denied';
+    // const alreadyReviewed =
+    //   request.requestStatus === 'approved' ||
+    //   request.requestStatus === 'denied';
 
     let completedChecklist = isChecklistCompleted(preChecklistValues);
 
@@ -185,6 +185,7 @@ export default function Index({
     documents,
     setDocuments,
     ages,
+    currentUser,
   };
 
   const approveModalProps = {
@@ -241,11 +242,19 @@ const renderContent = props => {
       return <Address request={props.request} setRequest={props.setRequest} />;
     case 'household':
       return (
-        <Household request={props.request} setRequest={props.setRequest} />
+        <Household
+          request={props.request}
+          setRequest={props.setRequest}
+          currentUser={props.currentUser}
+        />
       );
     case 'demographics':
       return (
-        <Demographics request={props.request} setRequest={props.setRequest} />
+        <Demographics
+          request={props.request}
+          setRequest={props.setRequest}
+          currentUser={props.currentUser}
+        />
       );
     case 'contact':
       return <Contact request={props.request} setRequest={props.setRequest} />;

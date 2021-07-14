@@ -1,20 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import {
-  Descriptions,
-  Button,
-  Form,
-  Input,
-  Select,
-  Checkbox,
-  message,
-} from 'antd';
+import { useDispatch } from 'react-redux';
+
+import { updateRequest } from '../../../../../../redux/requests/requestActions';
+
+import { Form, Input, Select, Checkbox } from 'antd';
+
 import EditButton from './components/EditButton';
-import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 
 const { Option } = Select;
 
-export default function Household({ request, setRequest, column = 2 }) {
+export default function Household({ request, setRequest, currentUser }) {
+  const dispatch = useDispatch();
+
   const [disabled, setDisabled] = useState(true);
 
   const [form] = Form.useForm();
@@ -37,7 +35,7 @@ export default function Household({ request, setRequest, column = 2 }) {
     setCheckboxValues({ ...checkboxValues, [name]: checked });
   };
 
-  const handleHouseholdSubmit = async values => {
+  const handleHouseholdSubmit = values => {
     const updatedHousehold = {
       ...values,
       ...checkboxValues,
@@ -45,13 +43,12 @@ export default function Household({ request, setRequest, column = 2 }) {
 
     setRequest({ ...request, ...updatedHousehold });
 
-    setDisabled(true);
+    //add request id - needed for redux action updateRequest
+    updatedHousehold['id'] = request.id;
 
-    try {
-      await axiosWithAuth().put(`/requests/${request.id}`, updatedHousehold);
-    } catch (error) {
-      message.error('Unable to edit household information');
-    }
+    dispatch(updateRequest(updatedHousehold, currentUser));
+
+    setDisabled(true);
   };
 
   return (

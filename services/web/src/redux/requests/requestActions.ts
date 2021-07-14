@@ -99,8 +99,17 @@ export const updateAddress = updatedAddress => async dispatch => {
   }
 };
 
-export const updateRequest = updatedRequest => async dispatch => {
+export const updateRequest = (
+  updatedRequest,
+  currentUser
+) => async dispatch => {
   const { id } = updatedRequest;
+
+  if (currentUser.role === 'tenant') {
+    updatedRequest.latestTenantActivity = new Date();
+  } else {
+    updatedRequest.latestStaffActivity = new Date();
+  }
 
   try {
     const resRequest = await axiosWithAuth()

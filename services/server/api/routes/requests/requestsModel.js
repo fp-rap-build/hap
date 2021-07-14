@@ -73,6 +73,8 @@ const findForTable = (params) => {
       'r.bookKeeperApproval',
       'r.headAcctApproval',
       'r.adminApproval',
+      'r.latestTenantActivity', 
+      'r.latestStaffActivity',
 
       'r.hispanic',
       'r.asian',
