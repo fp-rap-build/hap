@@ -34,7 +34,9 @@ import { setErrorMessage } from '../../../redux/global/globalActions';
 
 const faker = require('faker');
 
-let recentDate = faker.date.recent();
+// create a fake date to use for date of birth on application
+
+const dob = new Date("2015-03-25");
 
 const INITIAL_VALUES_DEV = {
   firstName: faker.name.firstName(),
@@ -51,8 +53,8 @@ const INITIAL_VALUES_DEV = {
   role: 'tenant',
   familySize: 4,
   beds: 4,
-  monthlyIncome: 1000,
-  monthlyRent: 500,
+  monthlyIncome: 1000.13,
+  monthlyRent: 500.45,
   tenantName: 'tenant',
   tenantEmail: 'tenant@gmail.com',
   tenantNumber: '111-222-3333',
@@ -65,11 +67,11 @@ const INITIAL_VALUES_DEV = {
   landlordEmail: 'landlord@gmail.com',
   landlordNumber: '111-222-3333',
   childrenAges: '4, 2',
-  owed: 600,
-  amountRequested: 450,
-  amountApproved: 1000,
+  owed: 600.45,
+  amountRequested: 450.12,
+  amountApproved: 1000.87,
   budget: 'Treasury ERA',
-  rent: 500,
+  rent: 500.45,
   advocate: false,
   totalChildren: 2,
   unEmp90: true,
@@ -84,7 +86,7 @@ const INITIAL_VALUES_DEV = {
   nativeHOH: false,
   demoNotSayHOH: false,
   gender: 'Male',
-  dob: recentDate,
+  dob: dob,
   hispanic: true,
   asian: false,
   black: false,
