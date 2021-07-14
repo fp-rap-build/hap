@@ -93,6 +93,7 @@ router.put('/:id', requestStatusChange, async (req, res) => {
 
   try {
     let request = await Requests.findById(id);
+    
     request = request[0];
 
     if (change['requestStatus'] === 'approved') {

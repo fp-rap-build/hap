@@ -22,7 +22,8 @@ export default function ApproveRequestModal({
     id: null,
     budget: 0,
   });
-  const [amountToSend, setAmountToSend] = useState(request.amountRequested);
+
+  const [amountToSend, setAmountToSend] = useState(0);
 
   const currentUser = useSelector(state => state.user.currentUser);
 
@@ -37,6 +38,10 @@ export default function ApproveRequestModal({
     };
 
     try {
+      await axiosWithAuth().put(`/requests/${request.id}`, {
+        amountApproved: amountToSend,
+      });
+
       await axiosWithAuth().post(`/requests/${request.id}/payments`, payment);
 
       await axiosWithAuth().put(`/requests/${request.id}`, {
@@ -52,7 +57,11 @@ export default function ApproveRequestModal({
       });
 
       setRequest(prevState => {
-        return { ...prevState, requestStatus: 'approved' };
+        return {
+          ...prevState,
+          amountApproved: amountToSend,
+          requestStatus: 'approved',
+        };
       });
 
       setPrograms(prevState =>
@@ -131,7 +140,7 @@ const SubmitPayment = ({ selectedProgram, amountToSend, setAmountToSend }) => {
   const onChange = e => {
     const { value } = e.target;
 
-    const newBudget = selectedProgram.budget - value;
+    const newBudget = selectedProgram.budget - e.target.value;
 
     if (newBudget < 0) return;
 

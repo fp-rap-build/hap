@@ -93,22 +93,6 @@ export default function FinalReviewModal({
     >
       <Form onFinish={handleFinalReview} layout="vertical" form={form}>
         <Form.Item
-          initialValue={request.budget}
-          name="budget"
-          label="Budget"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Select defaultValue={request.budget}>
-            {programs.map(program => (
-              <Option value={program.name}>{program.name}</Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item
           name="landlordName"
           label="Landlord Name"
           initialValue={request.landlordName}
@@ -200,18 +184,7 @@ export default function FinalReviewModal({
         >
           <Input defaultValue={request.landlordEmail} />
         </Form.Item>
-        <Form.Item
-          name="amountApproved"
-          initialValue={request.amountApproved}
-          label="Amount Approved"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input defaultValue={request.amountApproved} />
-        </Form.Item>
+
         <Form.Item
           name="firstName"
           initialValue={request.firstName}

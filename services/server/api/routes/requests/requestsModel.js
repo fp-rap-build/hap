@@ -60,7 +60,7 @@ const findForTable = (params) => {
       'u.lastName',
       'u.email',
       'u.role',
-      'u.dob', 
+      'u.dob',
       'u.gender',
 
       'r.familySize',
@@ -129,6 +129,8 @@ const findById = (id) => {
   return db('requests as r')
     .join('addresses as a', 'r.addressId', '=', 'a.id')
     .join('users as u', 'r.userId', '=', 'u.id')
+    .join('payments as p', 'r.id', '=', 'p.requestId')
+    .join('programs as pr', 'p.programId', '=', 'pr.id')
     .fullOuterJoin('users as m', 'r.managerId', '=', 'm.id')
     .select(
       'u.firstName',
@@ -158,7 +160,6 @@ const findById = (id) => {
       'r.verifiedDocuments',
       'r.foodWrkr',
       'r.amountRequested',
-      'r.amountApproved',
       'r.budget',
       'r.orgId',
       'r.unEmp90',
@@ -187,9 +188,14 @@ const findById = (id) => {
       'a.address',
       'a.zipCode',
       'a.cityName',
-      'a.state'
+      'a.state',
+
+      'p.amount as amountApproved',
+      'pr.name as budget',
+      'pr.id as pid'
     )
-    .where('r.id', '=', id);
+    .where('r.id', '=', id)
+    .orderBy('p.createdAt', 'desc');
 };
 
 const findAllComments = (requestId) =>
