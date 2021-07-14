@@ -190,9 +190,9 @@ const Household = ({ requestData, handleRequestChange, disabled }) => {
             {
               required: true,
               pattern: RegExp(
-                // forgive me
-                /^(\b([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9][0-9])\b)\s*?$/
-              ),
+                // looks for at least 1 digit with optional decimal point
+                /\d+(?:\.\d+)?/
+                ),
               message: 'Invalid income',
             },
           ]}
@@ -212,9 +212,9 @@ const Household = ({ requestData, handleRequestChange, disabled }) => {
             {
               required: true,
               pattern: RegExp(
-                // forgive me
-                /^(\b([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9][0-9])\b)\s*?$/
-              ),
+                // looks for at least 1 digit with optional decimal point
+                /\d+(?:\.\d+)?/
+                ),
               message: 'Invalid rent',
             },
           ]}
@@ -234,9 +234,9 @@ const Household = ({ requestData, handleRequestChange, disabled }) => {
             {
               required: true,
               pattern: RegExp(
-                // forgive me
-                /^(\b([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9][0-9])\b)\s*?$/
-              ),
+                // looks for at least 1 digit with optional decimal point
+                /\d+(?:\.\d+)?/
+                ),
               message: 'Invalid total',
             },
           ]}
@@ -252,9 +252,9 @@ const Household = ({ requestData, handleRequestChange, disabled }) => {
             {
               required: true,
               pattern: RegExp(
-                // forgive me
-                /^(\b([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9][0-9])\b)\s*?$/
-              ),
+                // looks for at least 1 digit with optional decimal point
+                /\d+(?:\.\d+)?/
+                ),
               message: 'Invalid total',
             },
           ]}
