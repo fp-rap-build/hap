@@ -133,9 +133,8 @@ export default function Household({ request, setRequest, currentUser }) {
         rules={[
           {
             pattern: RegExp(
-              // forgive me
-              /^(\b([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9][0-9])\b)\s*?$/
-            ),
+              // looks for at least 1 digit with optional decimal point
+              /\d+(?:\.\d+)?/),
             message: 'Invalid income',
           },
         ]}
@@ -154,9 +153,8 @@ export default function Household({ request, setRequest, currentUser }) {
         rules={[
           {
             pattern: RegExp(
-              // forgive me
-              /^(\b([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9][0-9])\b)\s*?$/
-            ),
+              // looks for at least 1 digit with optional decimal point
+              /\d+(?:\.\d+)?/),
             message: 'Invalid rent',
           },
         ]}
@@ -175,9 +173,8 @@ export default function Household({ request, setRequest, currentUser }) {
         rules={[
           {
             pattern: RegExp(
-              // forgive me
-              /^(\b([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9][0-9])\b)\s*?$/
-            ),
+              // looks for at least 1 digit with optional decimal point
+              /\d+(?:\.\d+)?/),
             message: 'Invalid total',
           },
         ]}
@@ -192,9 +189,8 @@ export default function Household({ request, setRequest, currentUser }) {
         rules={[
           {
             pattern: RegExp(
-              // forgive me
-              /^(\b([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9][0-9])\b)\s*?$/
-            ),
+              // looks for at least 1 digit with optional decimal point
+              /\d+(?:\.\d+)?/),
             message: 'Invalid total',
           },
         ]}
