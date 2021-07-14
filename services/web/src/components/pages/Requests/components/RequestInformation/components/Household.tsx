@@ -206,36 +206,6 @@ export default function Household({ request, setRequest, currentUser }) {
         />
       </Form.Item>
 
-      <Form.Item
-        hasFeedback
-        name="amountApproved"
-        initialValue={request.amountApproved}
-        label={'Enter Amount of Approval before Approving Request'}
-        rules={[
-          {
-            pattern: RegExp(
-              // forgive me
-              /^(\b([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9][0-9])\b)\s*?$/
-            ),
-            message: 'Invalid total',
-          },
-        ]}
-      >
-        <Input
-          disabled={disabled}
-          name="amountApproved"
-          style={{ width: '100%' }}
-        />
-      </Form.Item>
-
-      <Form.Item
-        label="Program/Budget"
-        name="budget"
-        initialValue={request.budget}
-      >
-        <Input disabled={disabled} />
-      </Form.Item>
-
       <Form.Item>
         <Checkbox
           onChange={handleCheckboxChange}
