@@ -4,6 +4,9 @@ const multerS3 = require('multer-s3');
 const multer = require('multer');
 const path = require('path');
 const { v4 } = require('uuid');
+const { mainModule } = require('process');
+
+let mimetype = undefined;
 
 const fileFilter = (req, file, cb) => {
   const filetypes = /jpeg|jpg|png|pdf/;
@@ -11,9 +14,11 @@ const fileFilter = (req, file, cb) => {
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
 
   // Check mime
-  const mimetype = filetypes.test(file.mimetype);
+  const doesMimetypeExist = filetypes.test(file.mimetype);
 
-  if (mimetype && extname) {
+  mimetype = file.mimetype;
+
+  if (doesMimetypeExist && extname) {
     cb(null, true);
   } else {
     cb(new Error('Invalid file type, only images and pdfs are allowed'), false);
@@ -29,6 +34,10 @@ const upload = multer({
     key: function (req, file, cb) {
       cb(null, Date.now() + '-' + file.originalname);
     },
+    contentType: function (req, file, cb) {
+      cb(null, file.mimetype);
+    },
+    contentDisposition: 'inline',
   }),
 });
 
