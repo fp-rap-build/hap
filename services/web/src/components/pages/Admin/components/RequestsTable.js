@@ -43,6 +43,7 @@ export default function RequestsTable() {
   const [isFetching, setIsFetching] = useState(false);
 
   const [data, setData] = useState([]);
+
   const [columns, setColumns] = useState([
     {
       title: 'HAP ID',
@@ -52,14 +53,14 @@ export default function RequestsTable() {
       title: 'Applicant Activity',
       field: 'tenantDifference',
       render: rowData => {
-        return <RenderActivityCell difference={rowData.tenantDifference} />;
+        return <RenderActivityCell timeDifference={rowData.tenantDifference} />;
       },
     },
     {
       title: 'FP Activity',
       field: 'staffDifference',
       render: rowData => {
-        return <RenderActivityCell difference={rowData.staffDifference} />;
+        return <RenderActivityCell timeDifference={rowData.staffDifference} />;
       },
     },
     {
@@ -361,12 +362,13 @@ const formatSubscriptions = subscriptions => {
   return result;
 };
 
-const RenderActivityCell = ({ difference }) => {
-  if (!difference) {
+const RenderActivityCell = ({ timeDifference }) => {
+  //timeDifference is measured in hours
+  if (!timeDifference) {
     return <StatusCircle color="#AAAAAA" />;
-  } else if (difference <= 24) {
+  } else if (timeDifference <= 24) {
     return <StatusCircle color="#B1EEC6" />;
-  } else if (difference <= 48) {
+  } else if (timeDifference <= 48) {
     return <StatusCircle color="#EDE988" />;
   } else {
     return <StatusCircle color="#F0B0AE" />;
@@ -387,7 +389,7 @@ const StatusCircle = ({ color }) => {
         r="48"
         fill={color}
         stroke="grey"
-        stroke-width="4"
+        strokeWidth="4"
       />
       {/* colors: #B1EEC6 #EDE988 #F0B0AE */}
     </svg>

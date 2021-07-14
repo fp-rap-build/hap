@@ -67,9 +67,9 @@ export default function Index({
   ages,
 }) {
   const currentUser = useSelector(state => state.user.currentUser);
-
-  const [loading, setLoading] = useState(false);
   //eslint-disable-next-line
+  const [loading, setLoading] = useState(false);
+
   const [tab, setTab] = useState('basic');
 
   const [modalContent, setModalContent] = useState('programSelection');
@@ -110,9 +110,9 @@ export default function Index({
   };
 
   const handleReviewSubmit = status => {
-    const alreadyReviewed =
-      request.requestStatus === 'approved' ||
-      request.requestStatus === 'denied';
+    // const alreadyReviewed =
+    //   request.requestStatus === 'approved' ||
+    //   request.requestStatus === 'denied';
 
     let completedChecklist = isChecklistCompleted(preChecklistValues);
 

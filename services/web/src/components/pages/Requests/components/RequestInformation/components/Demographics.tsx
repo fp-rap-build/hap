@@ -6,7 +6,7 @@ import { updateRequest } from '../../../../../../redux/requests/requestActions';
 
 import EditButton from './components/EditButton';
 
-import { Button, Form, Checkbox } from 'antd';
+import { Form, Checkbox } from 'antd';
 
 export default function Address({ request, setRequest, currentUser }) {
   const dispatch = useDispatch();
@@ -146,14 +146,14 @@ export default function Address({ request, setRequest, currentUser }) {
   );
 }
 
-const RenderEditButton = ({ editing, setEditing }) => {
-  if (!editing) {
-    return <h1 onClick={() => setEditing(true)}>Editing</h1>;
-  }
+// const RenderEditButton = ({ editing, setEditing }) => {
+//   if (!editing) {
+//     return <h1 onClick={() => setEditing(true)}>Editing</h1>;
+//   }
 
-  return (
-    <Button type="primary" htmlType="submit" onClick={() => setEditing(false)}>
-      Edit
-    </Button>
-  );
-};
+//   return (
+//     <Button type="primary" htmlType="submit" onClick={() => setEditing(false)}>
+//       Edit
+//     </Button>
+//   );
+// };
