@@ -3,10 +3,6 @@ const s3 = new aws.S3();
 const multerS3 = require('multer-s3');
 const multer = require('multer');
 const path = require('path');
-const { v4 } = require('uuid');
-const { mainModule } = require('process');
-
-let mimetype = undefined;
 
 const fileFilter = (req, file, cb) => {
   const filetypes = /jpeg|jpg|png|pdf/;
@@ -15,8 +11,6 @@ const fileFilter = (req, file, cb) => {
 
   // Check mime
   const doesMimetypeExist = filetypes.test(file.mimetype);
-
-  mimetype = file.mimetype;
 
   if (doesMimetypeExist && extname) {
     cb(null, true);
