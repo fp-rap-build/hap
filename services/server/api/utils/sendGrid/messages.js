@@ -105,7 +105,7 @@ const sendConfirmationOfApproval = (request) => {
       'dpeabody@familypromiseofspokane.org',
     ];
   } else {
-    mailingList = ['isaiahjfowler7@gmail.com'];
+    mailingList = ['hap@familypromiseofspokane.org'];
   }
 
   mailingList.forEach((email) => {
