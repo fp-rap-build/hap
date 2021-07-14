@@ -23,12 +23,12 @@ export default function ApproveRequestModal({
     budget: 0,
   });
 
-  const [amountToSend, setAmountToSend] = useState(0);
+  const [amountToSend, setAmountToSend] = useState(null);
 
   const currentUser = useSelector(state => state.user.currentUser);
 
   const handlePaymentSubmit = async () => {
-    if (!amountToSend) return;
+    if (!amountToSend) return message.error('Please enter a valid amount');
 
     const payment = {
       payerId: currentUser.id,
@@ -154,7 +154,7 @@ const SubmitPayment = ({ selectedProgram, amountToSend, setAmountToSend }) => {
       <Input
         onChange={onChange}
         name="payment"
-        placeholder="Amount to pay"
+        placeholder="Amount approved"
         value={amountToSend}
       />
     </div>

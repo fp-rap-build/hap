@@ -85,6 +85,8 @@ export default function FinalReviewModal({
   useEffect(() => {
     if (visible) {
       form.validateFields();
+
+      form.resetFields(); // Reset fields to get the latest state
     }
   }, [visible]);
 
