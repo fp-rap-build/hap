@@ -24,9 +24,13 @@ export default function FinalReviewModal({
 
     for (let field in values) {
       if (!values[field]) {
-        form.scrollToField(field);
+        let error = form.getFieldError(field);
 
-        return message.error('Please fill out all fields');
+        if (error.length !== 0) {
+          form.scrollToField(field);
+
+          return message.error('Please fill out all required fields');
+        }
       }
     }
 
@@ -78,6 +82,12 @@ export default function FinalReviewModal({
     }
   };
 
+  useEffect(() => {
+    if (visible) {
+      form.validateFields();
+    }
+  }, [visible]);
+
   return (
     <Modal
       title={'Final Review'}
@@ -123,11 +133,6 @@ export default function FinalReviewModal({
           name="landlordAddress2"
           initialValue={request.landlordAddress2}
           label="Landlord Address Line 2"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
         >
           <Input defaultValue={request.landlordAddress2} />
         </Form.Item>
@@ -153,7 +158,7 @@ export default function FinalReviewModal({
             },
           ]}
         >
-          <Select defaultValue={request.landlordState}>
+          <Select defaultValue={request.landlordState} showSearch>
             {states.map(state => (
               <Option value={state}>{state}</Option>
             ))}

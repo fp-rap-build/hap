@@ -129,8 +129,8 @@ const findById = (id) => {
   return db('requests as r')
     .join('addresses as a', 'r.addressId', '=', 'a.id')
     .join('users as u', 'r.userId', '=', 'u.id')
-    .join('payments as p', 'r.id', '=', 'p.requestId')
-    .join('programs as pr', 'p.programId', '=', 'pr.id')
+    .fullOuterJoin('payments as p', 'r.id', '=', 'p.requestId')
+    .fullOuterJoin('programs as pr', 'p.programId', '=', 'pr.id')
     .fullOuterJoin('users as m', 'r.managerId', '=', 'm.id')
     .select(
       'u.firstName',
