@@ -93,7 +93,7 @@ router.put('/:id', requestStatusChange, async (req, res) => {
 
   try {
     let request = await Requests.findById(id);
-    
+
     request = request[0];
 
     if (change['requestStatus'] === 'approved') {
@@ -104,6 +104,7 @@ router.put('/:id', requestStatusChange, async (req, res) => {
     const updatedRequest = await Requests.update(id, change);
     res.status(200).json(updatedRequest);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });

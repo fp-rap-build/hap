@@ -43,7 +43,6 @@ export default function FinalReviewModal({
       landlordState: values.landlordState,
       landlordZip: values.landlordZip,
       landlordEmail: values.landlordEmail,
-      amountApproved: values.amountApproved,
     };
 
     const userValues = {

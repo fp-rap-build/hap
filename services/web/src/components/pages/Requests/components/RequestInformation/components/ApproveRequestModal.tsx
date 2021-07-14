@@ -38,10 +38,6 @@ export default function ApproveRequestModal({
     };
 
     try {
-      await axiosWithAuth().put(`/requests/${request.id}`, {
-        amountApproved: amountToSend,
-      });
-
       await axiosWithAuth().post(`/requests/${request.id}/payments`, payment);
 
       await axiosWithAuth().put(`/requests/${request.id}`, {
@@ -59,7 +55,6 @@ export default function ApproveRequestModal({
       setRequest(prevState => {
         return {
           ...prevState,
-          amountApproved: amountToSend,
           requestStatus: 'approved',
         };
       });
