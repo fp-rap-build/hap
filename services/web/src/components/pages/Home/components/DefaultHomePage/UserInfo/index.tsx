@@ -100,7 +100,7 @@ const UserInfo = () => {
   };
 
   const postRequest = () => {
-    dispatch(updateRequest(requestData));
+    dispatch(updateRequest(requestData, currentUser));
   };
 
   const postApplicant = async () => {
