@@ -6,6 +6,7 @@
   "repository": "github:Lambda-School-Labs/labs-spa-starter",
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
+    "auto-changelog": "*",
     "@craco/craco": "^5.9.0",
     "@material-table/core": "^2.3.33",
     "@material-table/exporters": "^1.0.7",
@@ -57,7 +58,8 @@
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,css,scss}'",
     "storybook": "start-storybook",
-    "deploy-storybook": "storybook-to-ghpages"
+    "deploy-storybook": "storybook-to-ghpages",
+    "version": "auto-changelog -p && git add CHANGELOG.md"
   },
   "eslintConfig": {
     "extends": "react-app"
