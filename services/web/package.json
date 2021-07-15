@@ -45,7 +45,8 @@
     "redux-thunk": "^2.3.0",
     "socket.io-client": "^4.1.1",
     "styled-components": "^5.2.3",
-    "typescript": "^4.2.4"
+    "typescript": "^4.2.4",
+    "yarn": "^1.22.10"
   },
   "scripts": {
     "start": "craco start",
@@ -99,6 +100,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^10.4.9",
     "@testing-library/user-event": "^7.2.1",
+    "auto": "^10.29.3",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^4.3.8",
@@ -110,5 +112,16 @@
     "prettier-eslint-cli": "^5.0.1",
     "prompts": "^2.4.0",
     "yaml": "^1.10.0"
+  },
+  "author": "iesous-kurios <j.wylie.81@gmail.com>",
+  "auto": {
+    "plugins": [
+      "npm",
+      "all-contributors",
+      "conventional-commits",
+      "first-time-contributor",
+      "released",
+      "slack"
+    ]
   }
 }

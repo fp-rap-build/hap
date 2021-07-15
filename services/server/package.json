@@ -30,6 +30,7 @@
     "@okta/jwt-verifier": "^2.0.1",
     "@okta/okta-sdk-nodejs": "^4.4.0",
     "@sendgrid/mail": "^7.4.2",
+    "auto": "^10.29.3",
     "aws-sdk": "^2.858.0",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
