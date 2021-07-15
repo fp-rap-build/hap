@@ -15,7 +15,7 @@ export default function PaymentsTable() {
   const [columns, setColumns] = useState([
     {
       title: 'HAP ID',
-      field: 'id',
+      field: 'requestId',
     },
     { title: 'First', field: 'firstName', editable: 'never' },
     { title: 'Last ', field: 'lastName', editable: 'never' },
