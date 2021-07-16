@@ -67,6 +67,17 @@ router.get('/table', async (req, res) => {
   }
 });
 
+router.get('/table/:managerId', async (req, res) => {
+  const { managerId } = req.params;
+  try {
+    const resRequests = await Requests.findForManagerTable(managerId);
+    res.status(200).json(resRequests);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 router.get('/reqOnly/:id', async (req, res) => {
   const { id } = req.params;
   try {

@@ -135,7 +135,7 @@ function RAP() {
         />
         <PrivateRoute
           path="/program_manager"
-          roles={['programManager']}
+          roles={['programManager', 'assistantProgramManager']}
           component={ProgramManager}
         />
         <PrivateRoute path="/organizations/:id/programs" component={Programs} />

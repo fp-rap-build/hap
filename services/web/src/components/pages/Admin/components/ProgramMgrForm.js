@@ -155,6 +155,9 @@ const ProgramMgrForm = () => {
             placeholder="Select a role"
           >
             <Option value={'programManager'}>Program Manager</Option>
+            <Option value={'assistantProgramManager'}>
+              Assistant Program Manager
+            </Option>
             <Option value={'orgAdmin'}>Organization Admin</Option>
             <Option value={'admin'}>Admin</Option>
           </Select>
