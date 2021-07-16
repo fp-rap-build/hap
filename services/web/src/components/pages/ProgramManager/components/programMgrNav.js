@@ -18,6 +18,9 @@ const AdminNav = props => {
       <Menu.Item key="requests" icon={<FolderOpenOutlined />}>
         Manage Requests
       </Menu.Item>
+      <Menu.Item key="yourRequests" icon={<FolderOutlined />}>
+        Your Requests
+      </Menu.Item>
       <Menu.Item key="archive" icon={<FolderOutlined />}>
         Archived Requests
       </Menu.Item>

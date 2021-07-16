@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 
 import ProgramMgrNav from './programMgrNav';
 import RequestsTable from '../../Admin/components/RequestsTable';
+import ManagedRequestsTable from '../../Admin/components/ManagedRequestsTable';
 import ArchivedRequests from '../../Admin/components/ArchivedRequests';
 import IncompleteRequests from '../../Admin/components/IncompleteRequests';
 import Analytics from '../../Admin/components/Analytics';
@@ -41,6 +42,7 @@ const Dash = () => {
       </Header>
       <Content className={styles.dashboard}>
         {activeComponent.current === 'requests' && <RequestsTable />}
+        {activeComponent.current === 'yourRequests' && <ManagedRequestsTable />}
         {activeComponent.current === 'archive' && <ArchivedRequests />}
         {activeComponent.current === 'incomplete' && <IncompleteRequests />}
         {activeComponent.current === 'analytics' && <Analytics />}

@@ -13,6 +13,8 @@ function RenderHomePage(props) {
       return <Redirect to="/admin" />;
     case 'programManager':
       return <Redirect to="/program_manager" />;
+    case 'assistantProgramManager':
+      return <Redirect to="/program_manager" />;
     default:
       return <DefaultHomePage />;
   }
