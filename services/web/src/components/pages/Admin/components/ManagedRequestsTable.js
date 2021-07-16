@@ -49,7 +49,13 @@ export default function ManagedRequestsTable() {
     setIsFetching(true);
     try {
       let requests = await axiosWithAuth()
-        .get(`/requests/table/${currentUser.id}`)
+        .get('/requests/table', {
+          params: {
+            archived: false,
+            incomplete: false,
+            managerId: currentUser.id,
+          },
+        })
         .then(res => res.data);
 
       requests = requests.map(request => {

@@ -112,6 +112,11 @@ const findForTable = (params) => {
       'a.state'
     )
     .modify((qb) => {
+      if (params.managerId) {
+        qb.where({ managerId: params.managerId });
+      }
+    })
+    .modify((qb) => {
       if (params.archived) {
         qb.where({ archived: params.archived });
       }
@@ -121,88 +126,6 @@ const findForTable = (params) => {
         qb.where({ incomplete: params.incomplete });
       }
     });
-};
-
-const findForManagerTable = (managerId) => {
-  return db('requests as r')
-    .join('addresses as a', 'r.addressId', '=', 'a.id')
-    .join('users as u', 'r.userId', '=', 'u.id')
-    .fullOuterJoin('users as m', 'r.managerId', '=', 'm.id')
-
-    .select(
-      'r.id',
-      'r.userId',
-
-      'm.firstName as managerFirstName',
-      'm.lastName as managerLastName',
-      'm.email as managerEmail',
-
-      'u.firstName',
-      'u.lastName',
-      'u.email',
-      'u.role',
-      'u.dob',
-      'u.gender',
-
-      'r.familySize',
-      'r.monthlyIncome',
-      'r.owed',
-      'r.requestStatus',
-      'r.requestDate',
-      'r.apmApproval',
-      'r.pmApproval',
-      'r.bookKeeperApproval',
-      'r.headAcctApproval',
-      'r.adminApproval',
-      'r.latestTenantActivity',
-      'r.latestStaffActivity',
-
-      'r.hispanic',
-      'r.asian',
-      'r.black',
-      'r.pacific',
-      'r.white',
-      'r.native',
-      'r.demoNotSay',
-      'r.amountRequested',
-
-      'r.hispanicHOH',
-      'r.asianHOH',
-      'r.blackHOH',
-      'r.pacificHOH',
-      'r.whiteHOH',
-      'r.nativeHOH',
-      'r.demoNotSayHOH',
-      'r.beds',
-
-      'r.verifiedDocuments',
-      'r.foodWrkr',
-      'r.unEmp90',
-      'r.orgId',
-      'r.landlordName',
-      'r.landlordAddress',
-      'r.landlordAddress2',
-      'r.landlordCity',
-      'r.landlordState',
-      'r.landlordZip',
-      'r.childrenAges',
-      'r.incomplete',
-      'a.address',
-      'a.zipCode',
-      'a.cityName',
-      'a.state'
-    )
-    .where('r.managerId', '=', managerId);
-  // .modify((qb) => {
-  //   if (params.archived) {
-  //     qb.where({ archived: params.archived });
-  //   }
-  // })
-  // .modify((qb) => {
-  //   if (params.incomplete) {
-  //     qb.where({ incomplete: params.incomplete });
-  //   }
-  // });
 };
 
 const requestOnlyById = (id) => {
@@ -308,6 +231,5 @@ module.exports = {
   findAllActive,
   findForTable,
   findById,
-  findAllComments,
-  findForManagerTable,
+  findAllComments
 };
