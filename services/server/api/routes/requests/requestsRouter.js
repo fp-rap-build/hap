@@ -30,6 +30,7 @@ const {
   sendPromiseToPayEmail,
   sendConfirmationOfApproval,
 } = require('../../utils/sendGrid/messages');
+const formatRequestsTable = require('./utils/formatRequestsTable');
 
 const router = express.Router();
 
@@ -59,8 +60,11 @@ router.get('/active', async (req, res) => {
 //Updates to shape data should be done in model @ 'findForTable'
 router.get('/table', async (req, res) => {
   try {
-    const resRequests = await Requests.findForTable(req.query);
-    res.status(200).json(resRequests);
+    const requests = formatRequestsTable(
+      await Requests.findForTable(req.query)
+    );
+
+    res.status(200).json(requests);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Internal server error' });

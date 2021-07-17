@@ -46,7 +46,8 @@ const findForTable = (params) => {
   return db('requests as r')
     .join('addresses as a', 'r.addressId', '=', 'a.id')
     .join('users as u', 'r.userId', '=', 'u.id')
-    .fullOuterJoin('users as m', 'r.managerId', '=', 'm.id')
+    .leftOuterJoin('documents as d', 'r.id', '=', 'd.requestId')
+    .leftOuterJoin('users as m', 'r.managerId', '=', 'm.id')
 
     .select(
       'r.id',
@@ -109,7 +110,11 @@ const findForTable = (params) => {
       'a.address',
       'a.zipCode',
       'a.cityName',
-      'a.state'
+      'a.state',
+
+      'd.category',
+      'd.location',
+      'd.status'
     )
     .modify((qb) => {
       if (params.managerId) {
@@ -231,5 +236,5 @@ module.exports = {
   findAllActive,
   findForTable,
   findById,
-  findAllComments
+  findAllComments,
 };
