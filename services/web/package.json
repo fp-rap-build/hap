@@ -6,7 +6,6 @@
   "repository": "github:Lambda-School-Labs/labs-spa-starter",
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
-    "auto-changelog": "*",
     "@craco/craco": "^5.9.0",
     "@material-table/core": "^2.3.33",
     "@material-table/exporters": "^1.0.7",
@@ -19,6 +18,7 @@
     "@types/react": "^17.0.5",
     "@types/react-dom": "^17.0.3",
     "antd": "^4.15.2",
+    "auto-changelog": "*",
     "axios": "^0.21.1",
     "craco-less": "^1.17.1",
     "emailjs-com": "^2.6.4",
@@ -34,6 +34,7 @@
     "react-dom": "^16.14.0",
     "react-ga": "^3.3.0",
     "react-modal": "^3.13.1",
+    "react-pdf": "^5.3.2",
     "react-plotly.js": "^2.5.1",
     "react-redux": "^7.2.2",
     "react-router": "^5.2.0",

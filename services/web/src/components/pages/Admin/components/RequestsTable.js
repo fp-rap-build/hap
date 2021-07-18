@@ -17,6 +17,8 @@ import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import WarningFilled from '@material-ui/icons/Warning';
 
+import AttachmentViewer from './components/AttachmentViewer';
+
 import { message, Modal } from 'antd';
 
 import {
@@ -42,12 +44,25 @@ export default function RequestsTable() {
 
   const [isFetching, setIsFetching] = useState(false);
 
+  const [visible, setVisible] = useState(false);
+
   const [data, setData] = useState([]);
 
   const [columns, setColumns] = useState([
     {
       title: 'HAP ID',
       field: 'id',
+    },
+
+    {
+      title: 'Manager',
+      field: 'manager',
+    },
+    { title: 'First', field: 'firstName' },
+    { title: 'Last ', field: 'lastName' },
+    {
+      title: 'email',
+      field: 'email',
     },
     {
       title: 'Applicant Activity',
@@ -64,14 +79,67 @@ export default function RequestsTable() {
       },
     },
     {
-      title: 'Manager',
-      field: 'manager',
+      title: 'RES',
+      field: 'residency',
+      render: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            status={rowData.residency}
+            openDocument={openDocument}
+          />
+        );
+      },
     },
-    { title: 'First', field: 'firstName' },
-    { title: 'Last ', field: 'lastName' },
     {
-      title: 'email',
-      field: 'email',
+      title: 'INC',
+      field: 'income',
+      render: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            status={rowData.income}
+            openDocument={openDocument}
+          />
+        );
+      },
+    },
+
+    {
+      title: 'COV',
+      field: 'covid',
+      render: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            status={rowData.covid}
+            openDocument={openDocument}
+          />
+        );
+      },
+    },
+
+    {
+      title: 'CHI',
+      field: 'childrenOrPregnancy',
+      render: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            status={rowData.childrenOrPregnancy}
+            openDocument={openDocument}
+          />
+        );
+      },
+    },
+
+    {
+      title: 'HI',
+      field: 'housingInstability',
+      render: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            status={rowData.housingInstability}
+            openDocument={openDocument}
+          />
+        );
+      },
     },
     {
       title: 'AMI',
@@ -133,6 +201,7 @@ export default function RequestsTable() {
 
       requests = requests.map(request => {
         request['isSubscribed'] = request.id in subscriptions;
+
         request['ami'] = calculateAmi(
           request.monthlyIncome,
           request.familySize
@@ -148,6 +217,20 @@ export default function RequestsTable() {
 
         request['staffDifference'] =
           (new Date() - new Date(request.latestStaffActivity)) / 3600000;
+
+        request['income'] = null;
+
+        request['residency'] = null;
+
+        request['housingInstability'] = null;
+
+        request['covid'] = null;
+
+        request['childrenOrPregnancy'] = null;
+
+        request['documents'].forEach(doc => {
+          request[doc.category] = doc.status;
+        });
 
         return request;
       });
@@ -168,8 +251,11 @@ export default function RequestsTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const openDocument = () => setVisible(true);
+
   return (
     <div className={styles.container}>
+      <AttachmentViewer visible={visible} setVisible={setVisible} />
       <MaterialTable
         style={{ width: '100%' }}
         isLoading={isFetching}
@@ -375,9 +461,25 @@ const RenderActivityCell = ({ timeDifference }) => {
   }
 };
 
-const StatusCircle = ({ color }) => {
+const RenderDocumentStatusCell = ({ status, openDocument }) => {
+  switch (status) {
+    case 'received':
+      return <StatusCircle onClick={openDocument} color="#f6c28e" />;
+    case 'verified':
+      return <StatusCircle onClick={openDocument} color="#B1EEC6" />;
+    case 'actionsRequired':
+      return <StatusCircle onClick={openDocument} color="#EDE988" />;
+    case 'denied':
+      return <StatusCircle onClick={openDocument} color="#F0B0AE" />;
+    default:
+      return <StatusCircle onClick={openDocument} color="#AAAAAA" />;
+  }
+};
+
+const StatusCircle = ({ color, onClick }) => {
   return (
     <svg
+      onClick={onClick}
       viewBox="0 0 100 100"
       height="30px"
       xmlns="http://www.w3.org/2000/svg"
