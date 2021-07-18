@@ -12,12 +12,7 @@ export default function PdfViewer({ pdfLocation }) {
 
   return (
     <div>
-      <Document
-        file={
-          'https://housing-assistance-portal.s3.us-east-2.amazonaws.com/1626261124376-testpdf.pdf'
-        }
-        onLoadSuccess={onDocumentLoadSuccess}
-      >
+      <Document file={pdfLocation} onLoadSuccess={onDocumentLoadSuccess}>
         <Page pageNumber={pageNumber} />
       </Document>
       <p>

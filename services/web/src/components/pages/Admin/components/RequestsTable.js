@@ -265,6 +265,8 @@ export default function RequestsTable() {
         setVisible={setVisible}
         currentDocument={currentDocument}
         setCurrentDocument={setCurrentDocument}
+        setRequests={setData}
+        requests={data}
       />
       <MaterialTable
         style={{ width: '100%' }}

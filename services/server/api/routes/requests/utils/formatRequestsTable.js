@@ -18,6 +18,7 @@ const formatRequestsTable = (requests) => {
       requests[currentIdx].category = undefined;
       requests[currentIdx].location = undefined;
       requests[currentIdx].status = undefined;
+      requests[currentIdx].docId = undefined;
 
       currentIdx = idx;
     }
@@ -28,6 +29,7 @@ const formatRequestsTable = (requests) => {
 
     if (requests[currentIdx].category) {
       requests[currentIdx]['documents'].push({
+        docId: request.docId,
         category: request.category,
         status: request.status,
         location: request.location,

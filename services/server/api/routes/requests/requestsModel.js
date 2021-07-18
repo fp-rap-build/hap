@@ -112,6 +112,7 @@ const findForTable = (params) => {
       'a.cityName',
       'a.state',
 
+      'd.id as docId',
       'd.category',
       'd.location',
       'd.status'

@@ -61,14 +61,9 @@ router.get('/active', async (req, res) => {
 router.get('/table', async (req, res) => {
   try {
 
-
-
     const requests = formatRequestsTable(
       await Requests.findForTable(req.query)
     );
-
-      
-
 
     res.status(200).json(requests);
   } catch (error) {
