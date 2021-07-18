@@ -1,5 +1,6 @@
 import { Modal } from 'antd';
 import PdfViewer from './components/PdfViewer';
+import ImageViewer from './components/ImageViewer';
 import Status from './components/Status';
 
 export default function Index({
@@ -19,10 +20,13 @@ export default function Index({
       visible={visible}
       onCancel={closeDocument}
     >
-      <div>
-        <Status document={currentDocument} setRequests={setRequests} />
+      <Status document={currentDocument} setRequests={setRequests} />
+
+      {currentDocument.type === 'application/pdf' ? (
         <PdfViewer pdfLocation={currentDocument.location} />
-      </div>
+      ) : (
+        <ImageViewer imgLocation={currentDocument.location} />
+      )}
     </Modal>
   );
 }

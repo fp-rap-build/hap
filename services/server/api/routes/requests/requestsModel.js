@@ -115,7 +115,8 @@ const findForTable = (params) => {
       'd.id as docId',
       'd.category',
       'd.location',
-      'd.status'
+      'd.status',
+      'd.type'
     )
     .modify((qb) => {
       if (params.managerId) {

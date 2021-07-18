@@ -17,6 +17,7 @@ const formatRequestsTable = (requests) => {
       requests[currentIdx].location = undefined;
       requests[currentIdx].status = undefined;
       requests[currentIdx].docId = undefined;
+      requests[currentIdx].type = undefined;
 
       currentIdx = idx;
     }
@@ -32,6 +33,7 @@ const formatRequestsTable = (requests) => {
         category: request.category,
         status: request.status,
         location: request.location,
+        type: request.type,
       });
     }
 

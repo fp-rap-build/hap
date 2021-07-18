@@ -49,6 +49,7 @@ export default function Status({ document, setRequests }) {
 
   return (
     <Dropdown.Button
+      style={{ marginBottom: '1rem' }}
       icon={loading ? <LoadingOutlined /> : <EllipsisOutlined />}
       onClick={handleButtonClick}
       overlay={menu}
