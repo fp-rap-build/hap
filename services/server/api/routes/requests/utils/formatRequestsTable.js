@@ -1,8 +1,6 @@
 // Merges all the documents into a single array
 
 const formatRequestsTable = (requests) => {
-  console.log(requests);
-
   const formattedRequests = [];
 
   let idx = 0;
@@ -30,6 +28,7 @@ const formatRequestsTable = (requests) => {
     if (requests[currentIdx].category) {
       requests[currentIdx]['documents'].push({
         docId: request.docId,
+        requestId: request.id,
         category: request.category,
         status: request.status,
         location: request.location,

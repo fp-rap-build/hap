@@ -19,6 +19,8 @@ export default function Index({
     >
       <Status
         docStatus={currentDocument.status}
+        category={currentDocument.category}
+        requestId={currentDocument.requestId}
         docId={currentDocument.docId}
         setRequests={setRequests}
       />

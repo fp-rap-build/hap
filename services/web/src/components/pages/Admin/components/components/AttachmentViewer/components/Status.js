@@ -3,14 +3,28 @@ import { useState } from 'react';
 import { Menu, Dropdown, Button, message } from 'antd';
 import { axiosWithAuth } from '../../../../../../../api/axiosWithAuth';
 
-export default function Status({ docStatus, docId, setRequests }) {
+export default function Status({
+  docStatus,
+  docId,
+  category,
+  setRequests,
+  requestId,
+}) {
   const [status, setStatus] = useState(docStatus);
 
   const handleButtonClick = () => {
     axiosWithAuth()
       .put(`/documents/${docId}`, { status })
       .then(() => {
-        console.log('success');
+        setRequests(prevState =>
+          prevState.map(request => {
+            if (request.id === requestId) {
+              request[category] = { ...request[category], status };
+            }
+
+            return request;
+          })
+        );
       })
       .catch(() => message.error('Unable to update status'));
   };
