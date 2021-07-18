@@ -1,11 +1,12 @@
 import { Modal } from 'antd';
+import PdfViewer from './components/PdfViewer';
 
-export default function Index({ visible, setVisible }) {
+export default function Index({ visible, setVisible, currentDocument }) {
   const closeDocument = () => setVisible(false);
 
   return (
     <Modal title={'Review Document'} visible={visible} onCancel={closeDocument}>
-      <h1>Hello world</h1>
+      <PdfViewer pdfLocation={currentDocument.location} />
     </Modal>
   );
 }

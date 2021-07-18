@@ -48,7 +48,7 @@ const findForTable = (params) => {
     .join('users as u', 'r.userId', '=', 'u.id')
     .leftOuterJoin('documents as d', 'r.id', '=', 'd.requestId')
     .leftOuterJoin('users as m', 'r.managerId', '=', 'm.id')
-
+    .orderBy('r.id', 'asc')
     .select(
       'r.id',
       'r.userId',

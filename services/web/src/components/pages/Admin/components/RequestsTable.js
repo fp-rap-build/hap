@@ -46,6 +46,8 @@ export default function RequestsTable() {
 
   const [visible, setVisible] = useState(false);
 
+  const [currentDocument, setCurrentDocument] = useState({});
+
   const [data, setData] = useState([]);
 
   const [columns, setColumns] = useState([
@@ -84,8 +86,8 @@ export default function RequestsTable() {
       render: rowData => {
         return (
           <RenderDocumentStatusCell
-            status={rowData.residency}
-            openDocument={openDocument}
+            status={rowData.residency.status}
+            openDocument={() => openDocument(rowData.residency)}
           />
         );
       },
@@ -96,8 +98,8 @@ export default function RequestsTable() {
       render: rowData => {
         return (
           <RenderDocumentStatusCell
-            status={rowData.income}
-            openDocument={openDocument}
+            status={rowData.income.status}
+            openDocument={() => openDocument(rowData.income)}
           />
         );
       },
@@ -109,8 +111,8 @@ export default function RequestsTable() {
       render: rowData => {
         return (
           <RenderDocumentStatusCell
-            status={rowData.covid}
-            openDocument={openDocument}
+            status={rowData.covid.status}
+            openDocument={() => openDocument(rowData.covid)}
           />
         );
       },
@@ -122,8 +124,8 @@ export default function RequestsTable() {
       render: rowData => {
         return (
           <RenderDocumentStatusCell
-            status={rowData.childrenOrPregnancy}
-            openDocument={openDocument}
+            status={rowData.childrenOrPregnancy.status}
+            openDocument={() => openDocument(rowData.childrenOrPregnancy)}
           />
         );
       },
@@ -135,8 +137,8 @@ export default function RequestsTable() {
       render: rowData => {
         return (
           <RenderDocumentStatusCell
-            status={rowData.housingInstability}
-            openDocument={openDocument}
+            status={rowData.housingInstability.status}
+            openDocument={() => openDocument(rowData.housingInstability)}
           />
         );
       },
@@ -218,18 +220,18 @@ export default function RequestsTable() {
         request['staffDifference'] =
           (new Date() - new Date(request.latestStaffActivity)) / 3600000;
 
-        request['income'] = null;
+        request['income'] = { status: null };
 
-        request['residency'] = null;
+        request['residency'] = { status: null };
 
-        request['housingInstability'] = null;
+        request['housingInstability'] = { status: null };
 
-        request['covid'] = null;
+        request['covid'] = { status: null };
 
-        request['childrenOrPregnancy'] = null;
+        request['childrenOrPregnancy'] = { status: null };
 
         request['documents'].forEach(doc => {
-          request[doc.category] = doc.status;
+          request[doc.category] = doc;
         });
 
         return request;
@@ -251,11 +253,19 @@ export default function RequestsTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const openDocument = () => setVisible(true);
+  const openDocument = doc => {
+    setCurrentDocument(doc);
+    setVisible(true);
+  };
 
   return (
     <div className={styles.container}>
-      <AttachmentViewer visible={visible} setVisible={setVisible} />
+      <AttachmentViewer
+        visible={visible}
+        setVisible={setVisible}
+        currentDocument={currentDocument}
+        setCurrentDocument={setCurrentDocument}
+      />
       <MaterialTable
         style={{ width: '100%' }}
         isLoading={isFetching}
