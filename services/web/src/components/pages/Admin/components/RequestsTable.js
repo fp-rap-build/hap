@@ -46,7 +46,7 @@ export default function RequestsTable() {
 
   const [visible, setVisible] = useState(false);
 
-  const [currentDocument, setCurrentDocument] = useState({});
+  const [documents, setDocuments] = useState({});
 
   const [data, setData] = useState([]);
 
@@ -86,7 +86,7 @@ export default function RequestsTable() {
       render: rowData => {
         return (
           <RenderDocumentStatusCell
-            status={rowData.residency.status}
+            status={rowData.residency[0]?.status}
             openDocument={() => openDocument(rowData.residency)}
           />
         );
@@ -98,7 +98,7 @@ export default function RequestsTable() {
       render: rowData => {
         return (
           <RenderDocumentStatusCell
-            status={rowData.income.status}
+            status={rowData.income[0]?.status}
             openDocument={() => openDocument(rowData.income)}
           />
         );
@@ -111,7 +111,7 @@ export default function RequestsTable() {
       render: rowData => {
         return (
           <RenderDocumentStatusCell
-            status={rowData.covid.status}
+            status={rowData.covid[0]?.status}
             openDocument={() => openDocument(rowData.covid)}
           />
         );
@@ -124,7 +124,7 @@ export default function RequestsTable() {
       render: rowData => {
         return (
           <RenderDocumentStatusCell
-            status={rowData.childrenOrPregnancy.status}
+            status={rowData.childrenOrPregnancy[0]?.status}
             openDocument={() => openDocument(rowData.childrenOrPregnancy)}
           />
         );
@@ -137,7 +137,7 @@ export default function RequestsTable() {
       render: rowData => {
         return (
           <RenderDocumentStatusCell
-            status={rowData.housingInstability.status}
+            status={rowData.housingInstability[0]?.status}
             openDocument={() => openDocument(rowData.housingInstability)}
           />
         );
@@ -220,18 +220,20 @@ export default function RequestsTable() {
         request['staffDifference'] =
           (new Date() - new Date(request.latestStaffActivity)) / 3600000;
 
-        request['income'] = { status: null };
+        request['other'] = [];
 
-        request['residency'] = { status: null };
+        request['income'] = [];
 
-        request['housingInstability'] = { status: null };
+        request['residency'] = [];
 
-        request['covid'] = { status: null };
+        request['housingInstability'] = [];
 
-        request['childrenOrPregnancy'] = { status: null };
+        request['covid'] = [];
+
+        request['childrenOrPregnancy'] = [];
 
         request['documents'].forEach(doc => {
-          request[doc.category] = doc;
+          request[doc.category].unshift(doc);
         });
 
         return request;
@@ -241,7 +243,7 @@ export default function RequestsTable() {
 
       setData(sortedRequests);
     } catch (error) {
-      console.error(error.response);
+      console.error(error);
       alert('error');
     } finally {
       setIsFetching(false);
@@ -254,8 +256,12 @@ export default function RequestsTable() {
   }, []);
 
   const openDocument = doc => {
-    setCurrentDocument(doc);
-    setVisible(true);
+    console.log(doc);
+    if (doc[0].status) {
+      setDocuments(doc);
+
+      setVisible(true);
+    }
   };
 
   return (
@@ -263,8 +269,8 @@ export default function RequestsTable() {
       <AttachmentViewer
         visible={visible}
         setVisible={setVisible}
-        currentDocument={currentDocument}
-        setCurrentDocument={setCurrentDocument}
+        documents={documents}
+        setDocuments={documents}
         setRequests={setData}
         requests={data}
       />

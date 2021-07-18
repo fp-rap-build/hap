@@ -12,9 +12,14 @@ export default function PdfViewer({ pdfLocation }) {
 
   return (
     <div>
-      <Document file={pdfLocation} onLoadSuccess={onDocumentLoadSuccess}>
-        <Page pageNumber={pageNumber} />
-      </Document>
+      <div
+        style={{ cursor: 'pointer' }}
+        onClick={() => window.open(pdfLocation, '_blank')}
+      >
+        <Document file={pdfLocation} onLoadSuccess={onDocumentLoadSuccess}>
+          <Page width={616} pageNumber={pageNumber} />
+        </Document>
+      </div>
       <p>
         Page {pageNumber} of {numPages}
       </p>

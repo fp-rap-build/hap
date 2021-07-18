@@ -61,6 +61,13 @@ const DocumentsTable = ({ request }) => {
     setSelfDecModalVisibility(false);
   };
 
+  const validStatuses = {
+    received: 1,
+    verified: 1,
+    actionsRequired: 1,
+    denied: 1,
+  };
+
   const columns = [
     {
       title: 'Document Type',
@@ -72,8 +79,8 @@ const DocumentsTable = ({ request }) => {
       dataIndex: 'status',
       key: 'status',
       render: (status, row, index) => {
-        let color = status === 'received' ? 'success' : 'error';
-        let text = status === 'received' ? 'Received' : 'Missing';
+        let color = status in validStatuses ? 'success' : 'error';
+        let text = status in validStatuses ? 'Received' : 'Missing';
 
         if (status === 'optOut') {
           color = 'warning';

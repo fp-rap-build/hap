@@ -22,7 +22,12 @@ export default function Status({ document, setRequests }) {
         setRequests(prevState =>
           prevState.map(request => {
             if (request.id === requestId) {
-              request[category] = { ...request[category], status };
+              request[category] = request[category].map(doc => {
+                if (doc.docId == docId) {
+                  doc.status = status;
+                }
+                return doc;
+              });
             }
 
             return request;
