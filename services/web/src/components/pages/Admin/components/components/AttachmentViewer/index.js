@@ -10,6 +10,8 @@ export default function Index({
 }) {
   const closeDocument = () => setVisible(false);
 
+  if (!visible) return <></>;
+
   return (
     <Modal
       title={'Review Document'}
@@ -17,14 +19,10 @@ export default function Index({
       visible={visible}
       onCancel={closeDocument}
     >
-      <Status
-        docStatus={currentDocument.status}
-        category={currentDocument.category}
-        requestId={currentDocument.requestId}
-        docId={currentDocument.docId}
-        setRequests={setRequests}
-      />
-      <PdfViewer pdfLocation={currentDocument.location} />
+      <div>
+        <Status document={currentDocument} setRequests={setRequests} />
+        <PdfViewer pdfLocation={currentDocument.location} />
+      </div>
     </Modal>
   );
 }

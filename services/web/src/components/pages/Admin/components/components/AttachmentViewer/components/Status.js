@@ -1,21 +1,24 @@
 import { useState } from 'react';
 
-import { Menu, Dropdown, Button, message } from 'antd';
+import { Menu, Dropdown, message, Spin, Space } from 'antd';
 import { axiosWithAuth } from '../../../../../../../api/axiosWithAuth';
 
-export default function Status({
-  docStatus,
-  docId,
-  category,
-  setRequests,
-  requestId,
-}) {
+import { LoadingOutlined, EllipsisOutlined } from '@ant-design/icons';
+
+export default function Status({ document, setRequests }) {
+  const { status: docStatus, requestId, docId, category } = document;
+
   const [status, setStatus] = useState(docStatus);
 
+  const [loading, setLoading] = useState(false);
+
   const handleButtonClick = () => {
+    setLoading(true);
     axiosWithAuth()
       .put(`/documents/${docId}`, { status })
       .then(() => {
+        message.success(`Successfully updated document status to ${status}`);
+
         setRequests(prevState =>
           prevState.map(request => {
             if (request.id === requestId) {
@@ -26,7 +29,8 @@ export default function Status({
           })
         );
       })
-      .catch(() => message.error('Unable to update status'));
+      .catch(() => message.error('Unable to update status'))
+      .finally(() => setLoading(false));
   };
 
   const handleMenuClick = e => {
@@ -44,7 +48,11 @@ export default function Status({
   );
 
   return (
-    <Dropdown.Button onClick={handleButtonClick} overlay={menu}>
+    <Dropdown.Button
+      icon={loading ? <LoadingOutlined /> : <EllipsisOutlined />}
+      onClick={handleButtonClick}
+      overlay={menu}
+    >
       {camelCaseToSentenceCase(status)}
     </Dropdown.Button>
   );
