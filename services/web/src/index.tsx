@@ -16,6 +16,7 @@ import {
 import Layout from './components/Layout';
 import Admin from './components/pages/Admin';
 import Apply from './components/pages/Apply';
+import Landlord from './components/pages/Landlord';
 import { HomePage } from './components/pages/Home';
 import LandingPage from './components/pages/Landing';
 import LoginPage from './components/pages/Login';
@@ -137,6 +138,11 @@ function RAP() {
           path="/program_manager"
           roles={['programManager', 'assistantProgramManager']}
           component={ProgramManager}
+        />
+        <PrivateRoute
+          path="/landlord"
+          roles={['landlord']}
+          component={Landlord}
         />
         <PrivateRoute path="/organizations/:id/programs" component={Programs} />
         <Route component={NotFoundPage} />
