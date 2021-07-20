@@ -13,10 +13,11 @@ export default function Index({ visible, setVisible, documents, setRequests }) {
     setCurrentDocument(documents[0]);
   }, [documents]);
 
-  if (!visible || !currentDocument) return <></>;
+  if (!visible) return <></>;
+
+  if (!currentDocument) return <></>;
 
   const changeDocument = page => {
-    console.log(documents);
     setCurrentDocument(documents[page - 1]);
   };
 

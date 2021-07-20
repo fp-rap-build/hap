@@ -257,7 +257,7 @@ export default function RequestsTable() {
 
   const openDocument = doc => {
     console.log(doc);
-    if (doc[0].status) {
+    if (doc[0]?.status) {
       setDocuments(doc);
 
       setVisible(true);

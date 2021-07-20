@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Menu, Dropdown, message, Spin, Space } from 'antd';
 import { axiosWithAuth } from '../../../../../../../api/axiosWithAuth';
@@ -41,6 +41,10 @@ export default function Status({ document, setRequests }) {
   const handleMenuClick = e => {
     setStatus(e.key);
   };
+
+  useEffect(() => {
+    setStatus(document.status);
+  }, [document]);
 
   const menu = (
     <Menu onClick={handleMenuClick}>
