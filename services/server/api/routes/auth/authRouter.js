@@ -10,10 +10,7 @@ const {
 } = require('./controllers');
 
 // Validators
-const {
-  validateRegistration,
-  validateLogin,
-} = require('./validators');
+const { validateRegistration, validateLogin } = require('./validators');
 
 // Routes
 

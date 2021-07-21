@@ -8,5 +8,5 @@ const findByIdAndUpdate = (id, payload) =>
 
 module.exports = {
   findByIdAndDelete,
-  findByIdAndUpdate
+  findByIdAndUpdate,
 };

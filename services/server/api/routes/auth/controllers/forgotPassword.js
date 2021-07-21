@@ -13,7 +13,7 @@ const forgotPassword = async (req, res, next) => {
     }
 
     let userId = user[0].id;
-    
+
     let userEmail = user[0].email;
 
     let passwordResetToken = await User.createPasswordResetToken(userId);

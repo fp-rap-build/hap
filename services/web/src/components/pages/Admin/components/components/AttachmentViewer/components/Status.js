@@ -4,6 +4,7 @@ import { Menu, Dropdown, message, Spin, Space } from 'antd';
 import { axiosWithAuth } from '../../../../../../../api/axiosWithAuth';
 
 import { LoadingOutlined, EllipsisOutlined } from '@ant-design/icons';
+import checkIfAllDocumentsInCategoryAreDenied from '../../../../../Home/components/DefaultHomePage/Documents/utils/checkIfAllDocumentsInCategoryAreDenied';
 
 export default function Status({ document, setRequests }) {
   const { status: docStatus, requestId, docId, category } = document;
@@ -13,9 +14,11 @@ export default function Status({ document, setRequests }) {
   const [loading, setLoading] = useState(false);
 
   const handleButtonClick = () => {
+    if (status === docStatus) return;
+
     setLoading(true);
     axiosWithAuth()
-      .put(`/documents/${docId}`, { status })
+      .put(`/documents/${docId}/status`, { status })
       .then(() => {
         message.success(`Successfully updated document status to ${status}`);
 

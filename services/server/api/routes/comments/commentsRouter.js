@@ -36,7 +36,7 @@ router.get('/find/request/:id', async (req, res) => {
 
 router.post('/find/request/:id/category', async (req, res) => {
   const { id } = req.params;
-  const {category} = req.body;
+  const { category } = req.body;
   try {
     const comments = await Comments.findByRequestIdAndCategory(id, category);
     res.status(200).json(comments);

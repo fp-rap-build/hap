@@ -56,6 +56,7 @@ const findForTable = (params) => {
       'm.firstName as managerFirstName',
       'm.lastName as managerLastName',
       'm.email as managerEmail',
+      'r.managerId',
 
       'u.firstName',
       'u.lastName',
@@ -120,6 +121,7 @@ const findForTable = (params) => {
     )
     .modify((qb) => {
       if (params.managerId) {
+        console.log('hello');
         qb.where({ managerId: params.managerId });
       }
     })
@@ -228,6 +230,12 @@ const findAllComments = (requestId) =>
     )
     .orderBy('c.createdAt', 'asc');
 
+const findTenantByRequestId = (requestId) =>
+  db('requests as r')
+    .join('users as u', 'r.userId', '=', 'u.id')
+    .select('u.email')
+    .where('r.id', '=', requestId)
+      .first()
 module.exports = {
   findAll,
   requestOnlyById,
@@ -238,5 +246,6 @@ module.exports = {
   findAllActive,
   findForTable,
   findById,
+  findTenantByRequestId,
   findAllComments,
 };

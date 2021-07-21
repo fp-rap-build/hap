@@ -23,7 +23,7 @@ const validateResetToken = async (req, res, next) => {
 
     res.status(200).json('Your token is valid');
   } catch (error) {
-      res.status(500).json({ message: "Unable to validate reset token" })
+    res.status(500).json({ message: 'Unable to validate reset token' });
   }
 };
 

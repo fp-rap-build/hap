@@ -7,6 +7,7 @@ const {
   deleteDocument,
   updateDocument,
   createDocument,
+  updateDocumentStatus,
 } = require('./controllers');
 
 // Validators
@@ -16,6 +17,11 @@ const {
 } = require('./validators');
 
 router.route('/').get(getAllDocuments).post(createDocument);
+
+router
+  .route('/:id/status')
+  .all(checkIfDocumentExists)
+  .put(updateDocumentStatus);
 
 router
   .route('/:id')

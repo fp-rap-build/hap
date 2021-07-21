@@ -9,11 +9,14 @@ import SelfDecModal from './modals/SelfDecModal';
 
 import { InfoCircleOutlined, MinusOutlined } from '@ant-design/icons';
 import { Tag, Table, Button, Typography } from 'antd';
+import checkIfAllDocumentsInCategoryAreDenied from './utils/checkIfAllDocumentsInCategoryAreDenied';
 
 const { Text } = Typography;
 
 const DocumentsTable = ({ request }) => {
   const storeStatuses = useSelector(state => state.requests.documentStatuses);
+
+  const { documents } = useSelector(state => state.requests);
 
   const [tableData, setTableData] = useState(buildTableData(storeStatuses));
 
@@ -82,9 +85,17 @@ const DocumentsTable = ({ request }) => {
         let color = status in validStatuses ? 'success' : 'error';
         let text = status in validStatuses ? 'Received' : 'Missing';
 
+        let allDocumentsInCategoryAreDenied = checkIfAllDocumentsInCategoryAreDenied(
+          documents,
+          row.category
+        );
+
         if (status === 'optOut') {
           color = 'warning';
           text = 'Self Declaration';
+        } else if (allDocumentsInCategoryAreDenied) {
+          color = 'warning';
+          text = 'denied';
         }
 
         return (
