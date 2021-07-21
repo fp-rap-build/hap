@@ -11,14 +11,7 @@ import { ExportCsv, ExportPdf } from '@material-table/exporters';
 import { tableIcons } from '../../../../utils/tableIcons';
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
-import MailIcon from '@material-ui/icons/Mail';
-import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
-import ArchiveIcon from '@material-ui/icons/Archive';
-import WarningFilled from '@material-ui/icons/Warning';
-
 import { FolderOpenOutlined } from '@ant-design/icons';
-
-import { message, Modal } from 'antd';
 
 export default function ActiveRequestsTable() {
   const history = useHistory();

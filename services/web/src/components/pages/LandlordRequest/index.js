@@ -12,6 +12,7 @@ import { Card } from 'antd';
 const tabList = [
   { key: 'information', tab: 'Request Information' },
   { key: 'documents', tab: 'Documents' },
+  { key: 'comments', tab: 'Comments' },
 ];
 
 export default function Index() {
@@ -52,6 +53,8 @@ const renderContent = props => {
       return <RequestInfo {...props} />;
     case 'documents':
       return <Documents />;
+    case 'comments':
+      return null;
     default:
       return <RequestInfo />;
   }
