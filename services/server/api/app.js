@@ -39,7 +39,6 @@ const incomesRouter = require('./routes/incomes/incomes-router');
 const agesRouter = require('./routes/ages');
 const paymentsRouter = require('./routes/payments');
 
-
 const app = express();
 
 process.on('unhandledRejection', (reason, p) => {
@@ -84,10 +83,9 @@ app.use('/documents', authRequired, documentsRouter);
 app.use('/analytics', authRequired, analyticsRouter);
 app.use('/subscriptions', subscriptionsRouter);
 app.use('/notifications', notificationsRouter);
-app.use('/incomes', incomesRouter)
+app.use('/incomes', incomesRouter);
 app.use('/ages', agesRouter);
 app.use('/payments', paymentsRouter);
-
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

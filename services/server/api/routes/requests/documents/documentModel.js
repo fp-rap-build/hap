@@ -18,5 +18,5 @@ module.exports = {
   findAll,
   findAllByRequestId,
   update,
-  findByName
+  findByName,
 };

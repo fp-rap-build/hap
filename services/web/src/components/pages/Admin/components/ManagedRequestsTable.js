@@ -29,7 +29,13 @@ import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import WarningFilled from '@material-ui/icons/Warning';
 
-import { message, Modal, Button } from 'antd';
+import { message, Modal, Tooltip } from 'antd';
+
+import AttachmentViewer from './components/AttachmentViewer';
+
+import StatusCircle from './components/Requests/StatusCircle';
+
+import RenderDocumentStatusCell from './components/Requests/RenderDocumentStatusCell';
 
 import styles from '../../../../styles/pages/admin.module.css';
 
@@ -45,6 +51,10 @@ export default function ManagedRequestsTable() {
 
   const [data, setData] = useState([]);
 
+  const [visible, setVisible] = useState(false);
+
+  const [documents, setDocuments] = useState({});
+
   const fetchRequests = async () => {
     setIsFetching(true);
     try {
@@ -52,7 +62,6 @@ export default function ManagedRequestsTable() {
         .get('/requests/table', {
           params: {
             archived: false,
-            incomplete: false,
             managerId: currentUser.id,
           },
         })
@@ -76,16 +85,29 @@ export default function ManagedRequestsTable() {
         request['staffDifference'] =
           (new Date() - new Date(request.latestStaffActivity)) / 3600000;
 
+        request['other'] = [];
+
+        request['income'] = [];
+
+        request['residency'] = [];
+
+        request['housingInstability'] = [];
+
+        request['covid'] = [];
+
+        request['childrenOrPregnancy'] = [];
+
+        request['documents'].forEach(doc => {
+          request[doc.category].unshift(doc);
+        });
+
         return request;
       });
 
-      console.log(requests);
       let sortedRequests = sortRequests(requests);
-      console.log(sortedRequests);
 
       setData(sortedRequests);
     } catch (error) {
-      console.error(error.response);
       alert('error');
     } finally {
       setIsFetching(false);
@@ -96,6 +118,16 @@ export default function ManagedRequestsTable() {
     {
       title: 'HAP ID',
       field: 'id',
+    },
+    {
+      title: 'Manager',
+      field: 'manager',
+    },
+    { title: 'First', field: 'firstName' },
+    { title: 'Last ', field: 'lastName' },
+    {
+      title: 'email',
+      field: 'email',
     },
     {
       title: 'Applicant Activity',
@@ -112,14 +144,67 @@ export default function ManagedRequestsTable() {
       },
     },
     {
-      title: 'Manager',
-      field: 'manager',
+      title: 'RES',
+      field: 'residency',
+      render: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            docs={rowData.residency}
+            openDocument={() => openDocument(rowData.residency)}
+          />
+        );
+      },
     },
-    { title: 'First', field: 'firstName' },
-    { title: 'Last ', field: 'lastName' },
     {
-      title: 'email',
-      field: 'email',
+      title: 'INC',
+      field: 'income',
+      render: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            docs={rowData.income}
+            openDocument={() => openDocument(rowData.income)}
+          />
+        );
+      },
+    },
+
+    {
+      title: 'COV',
+      field: 'covid',
+      render: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            docs={rowData.covid}
+            openDocument={() => openDocument(rowData.covid)}
+          />
+        );
+      },
+    },
+
+    {
+      title: 'CHI',
+      field: 'childrenOrPregnancy',
+      render: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            docs={rowData.childrenOrPregnancy}
+            openDocument={() => openDocument(rowData.childrenOrPregnancy)}
+          />
+        );
+      },
+    },
+
+    {
+      title: 'HI',
+      field: 'housingInstability',
+      render: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            docs={rowData.housingInstability}
+            openDocument={() => openDocument(rowData.housingInstability)}
+          />
+        );
+      },
     },
     {
       title: 'AMI',
@@ -172,9 +257,25 @@ export default function ManagedRequestsTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const openDocument = doc => {
+    if (doc.length !== 0) {
+      setDocuments(doc);
+
+      setVisible(true);
+    }
+  };
+
   return (
     <div>
       <div className={styles.container}>
+        <AttachmentViewer
+          visible={visible}
+          setVisible={setVisible}
+          documents={documents}
+          setDocuments={documents}
+          setRequests={setData}
+          requests={data}
+        />
         <MaterialTable
           style={{ width: '100%' }}
           isLoading={isFetching}
@@ -294,7 +395,6 @@ export default function ManagedRequestsTable() {
               tooltip: 'Mark Incomplete',
               onClick: async (event, rowData) => {
                 // Update the users request to be in review
-
                 try {
                   setData(requests =>
                     requests.filter(request => {
@@ -312,15 +412,6 @@ export default function ManagedRequestsTable() {
                 }
               },
             },
-
-            // {
-            //   icon: MailIcon,
-            //   tooltip: 'Subscribe',
-            //   onClick: async (event, rowData) => {
-            //     // Update the users request to be in review
-            //     subscribeToRequest(rowData.id);
-            //   },
-            // },
           ]}
           icons={tableIcons}
           title="Requests for Rental Assistance"
@@ -355,7 +446,6 @@ const subscribeToRequest = async (requestId, setData, dispatch) => {
     // Lastly, update current users state
     dispatch(addSubscription(subscription));
   } catch (error) {
-    console.log(error.response);
     message.error('Unable to subscribe to request');
   }
 };
@@ -381,25 +471,4 @@ const RenderActivityCell = ({ timeDifference }) => {
   } else {
     return <StatusCircle color="#F0B0AE" />;
   }
-};
-
-const StatusCircle = ({ color }) => {
-  return (
-    <svg
-      viewBox="0 0 100 100"
-      height="30px"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ marginLeft: '10px' }}
-    >
-      <circle
-        cx="50"
-        cy="50"
-        r="48"
-        fill={color}
-        stroke="grey"
-        strokeWidth="4"
-      />
-      {/* colors: #B1EEC6 #EDE988 #F0B0AE */}
-    </svg>
-  );
 };

@@ -13,7 +13,6 @@ import styles from '../../../../styles/pages/admin.module.css';
 import { tableIcons } from '../../../../utils/tableIcons';
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
-import ArchiveIcon from '@material-ui/icons/Archive';
 import UnarchiveIcon from '@material-ui/icons/Unarchive';
 import GavelIcon from '@material-ui/icons/Gavel';
 
@@ -125,7 +124,6 @@ export default function RequestsTable() {
 
               history.push(`/requests/${rowData.id}`);
             },
-
           },
 
           {

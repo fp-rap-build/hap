@@ -17,7 +17,9 @@ import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import WarningFilled from '@material-ui/icons/Warning';
 
-import { message, Modal } from 'antd';
+import AttachmentViewer from './components/AttachmentViewer';
+
+import { message, Modal, Tooltip } from 'antd';
 
 import {
   addSubscription,
@@ -49,6 +51,17 @@ export default function RequestsTable() {
       title: 'HAP ID',
       field: 'id',
     },
+
+    {
+      title: 'Manager',
+      field: 'manager',
+    },
+    { title: 'First', field: 'firstName' },
+    { title: 'Last ', field: 'lastName' },
+    {
+      title: 'email',
+      field: 'email',
+    },
     {
       title: 'Applicant Activity',
       field: 'tenantDifference',
@@ -63,16 +76,7 @@ export default function RequestsTable() {
         return <RenderActivityCell timeDifference={rowData.staffDifference} />;
       },
     },
-    {
-      title: 'Manager',
-      field: 'manager',
-    },
-    { title: 'First', field: 'firstName' },
-    { title: 'Last ', field: 'lastName' },
-    {
-      title: 'email',
-      field: 'email',
-    },
+
     {
       title: 'AMI',
       field: 'ami',
@@ -133,6 +137,7 @@ export default function RequestsTable() {
 
       requests = requests.map(request => {
         request['isSubscribed'] = request.id in subscriptions;
+
         request['ami'] = calculateAmi(
           request.monthlyIncome,
           request.familySize
@@ -156,7 +161,7 @@ export default function RequestsTable() {
 
       setData(sortedRequests);
     } catch (error) {
-      console.error(error.response);
+      console.error(error);
       alert('error');
     } finally {
       setIsFetching(false);
@@ -375,23 +380,119 @@ const RenderActivityCell = ({ timeDifference }) => {
   }
 };
 
-const StatusCircle = ({ color }) => {
-  return (
-    <svg
-      viewBox="0 0 100 100"
-      height="30px"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ marginLeft: '10px' }}
-    >
-      <circle
-        cx="50"
-        cy="50"
-        r="48"
-        fill={color}
-        stroke="grey"
-        strokeWidth="4"
+const RenderDocumentStatusCell = ({ docs, openDocument }) => {
+  let colors = {
+    grey: '#AAAAAA',
+    green: '#B1EEC6',
+    lightgreen: '#f0fff5',
+    red: '#F0B0AE',
+    yellow: '#EDE988',
+    orange: '#f6c28e',
+  };
+
+  let noDocsSubmitted = docs.length === 0;
+
+  let allVerified = true;
+
+  let allDenied = true;
+
+  let unReviewedDocuments = false;
+
+  let unFinishedDocuments = false;
+
+  docs.forEach(doc => {
+    if (doc.status !== 'denied') allDenied = false;
+
+    if (doc.status !== 'verified') allVerified = false;
+
+    if (doc.status === 'received') unReviewedDocuments = true;
+
+    if (doc.status === 'actionsRequired') unFinishedDocuments = true;
+  });
+
+  if (noDocsSubmitted)
+    return (
+      <StatusCircle
+        onClick={openDocument}
+        tooltip={'No documents submitted'}
+        color={colors.grey}
+        clickable
       />
-      {/* colors: #B1EEC6 #EDE988 #F0B0AE */}
-    </svg>
+    );
+
+  if (unReviewedDocuments)
+    return (
+      <StatusCircle
+        onClick={openDocument}
+        tooltip={'Documents pending for review'}
+        color={colors.orange}
+        clickable
+      />
+    );
+
+  if (unFinishedDocuments)
+    return (
+      <StatusCircle
+        onClick={openDocument}
+        tooltip={'Additional actions required'}
+        color={colors.yellow}
+        clickable
+      />
+    );
+
+  if (allVerified)
+    return (
+      <StatusCircle
+        onClick={openDocument}
+        tooltip={'All documents received and verified'}
+        color={colors.green}
+        clickable
+      />
+    );
+
+  if (allDenied)
+    return (
+      <StatusCircle
+        onClick={openDocument}
+        tooltip={'All documents denied'}
+        color={colors.red}
+        clickable
+      />
+    );
+
+  if (!allVerified && !allDenied)
+    return (
+      <StatusCircle
+        onClick={openDocument}
+        tooltip={'Some documents verified'}
+        color={colors.lightgreen}
+        clickable
+      />
+    );
+
+  return <StatusCircle onClick={openDocument} color={'white'} />;
+};
+
+const StatusCircle = ({ color, tooltip, clickable, onClick }) => {
+  return (
+    <Tooltip title={tooltip}>
+      <svg
+        onClick={onClick}
+        viewBox="0 0 100 100"
+        height="30px"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{ marginLeft: '10px', cursor: clickable ? 'pointer' : '' }}
+      >
+        <circle
+          cx="50"
+          cy="50"
+          r="48"
+          fill={color}
+          stroke="grey"
+          strokeWidth="4"
+        />
+        {/* colors: #B1EEC6 #EDE988 #F0B0AE */}
+      </svg>
+    </Tooltip>
   );
 };

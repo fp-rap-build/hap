@@ -39,7 +39,7 @@ exports.findForTable = () =>
       'r.demoNotSayHOH',
       'r.beds',
       'r.childrenAges'
-    )
+    );
 
 exports.findById = (id) => db('payments').where({ id }).first();
 

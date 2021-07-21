@@ -49,7 +49,6 @@ io.on('connection', (socket) => {
   socket.on('comment', async (comment) => {
     const { requestId, authorId, notificationMessage } = comment;
 
-
     let subscribedUsers = await db('subscriptions as s')
       .join('users as u', 's.userId', '=', 'u.id')
       .where('s.requestId', '=', requestId)
@@ -62,7 +61,7 @@ io.on('connection', (socket) => {
       return row;
     });
 
-    if(notifications.length !== 0) {
+    if (notifications.length !== 0) {
       await db('userNotifications').insert(notifications);
     }
 
@@ -94,7 +93,9 @@ io.on('connection', (socket) => {
       return row;
     });
 
-    await db('userNotifications').insert(notifications);
+    if (notifications.length !== 0) {
+      await db('userNotifications').insert(notifications);
+    }
 
     io.to(genRoom.request(requestId)).emit('requestChange', payload);
   });
