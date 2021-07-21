@@ -65,6 +65,10 @@ export default function Basic({ request, setRequest, column = 2 }) {
         <Input disabled={true} />
       </Form.Item>
 
+      <Form.Item label="Phone" name="tenantNumber" initialValue={request.tenantNumber}>
+        <Input disabled={true} />
+      </Form.Item>
+
       <Form.Item
         label="DOB"
         name="dob"

@@ -98,6 +98,10 @@ export default function RequestsTable() {
       field: 'address',
     },
     {
+      title: 'Address Line Two',
+      field: 'addressLine2',
+    },
+    {
       title: 'City',
       field: 'cityName',
     },

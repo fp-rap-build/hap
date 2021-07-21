@@ -42,6 +42,7 @@ const findRequestsByUserId = (userId) =>
       'r.orgId',
       'r.adminApproval',
       'a.address',
+      'a.addressLine2',
       'a.zipCode',
       'a.cityName',
       'a.state'
@@ -65,6 +66,7 @@ const findAddressByUserId = async (id) =>
     .join('addresses', 'users.addressId', '=', 'addresses.id')
     .select(
       'addresses.address',
+      'addresses.addressLine2',
       'addresses.state',
       'addresses.cityName',
       'addresses.zipCode'
