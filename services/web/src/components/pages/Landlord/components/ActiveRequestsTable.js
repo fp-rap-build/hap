@@ -11,11 +11,12 @@ import { ExportCsv, ExportPdf } from '@material-table/exporters';
 import { tableIcons } from '../../../../utils/tableIcons';
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
-import GavelIcon from '@material-ui/icons/Gavel';
 import MailIcon from '@material-ui/icons/Mail';
 import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import WarningFilled from '@material-ui/icons/Warning';
+
+import { FolderOpenOutlined } from '@ant-design/icons';
 
 import { message, Modal } from 'antd';
 
@@ -34,6 +35,7 @@ export default function ActiveRequestsTable() {
     { title: 'First Name', field: 'firstName' },
     { title: 'Last Name', field: 'lastName' },
     { title: 'Address', field: 'address' },
+    { title: 'Status', field: 'requestStatus' },
     {
       title: 'Applicant Activity',
       field: 'tenantDifference',
@@ -46,6 +48,14 @@ export default function ActiveRequestsTable() {
       field: 'staffDifference',
       render: rowData => {
         return <RenderActivityCell timeDifference={rowData.staffDifference} />;
+      },
+    },
+    {
+      title: 'Submission Date',
+      field: 'requestDate',
+      render: rowData => {
+        const date = rowData.requestDate.split('T')[0];
+        return <p>{date}</p>;
       },
     },
   ];
@@ -72,12 +82,10 @@ export default function ActiveRequestsTable() {
         }}
         actions={[
           {
-            icon: GavelIcon,
+            icon: FolderOpenOutlined,
             tooltip: 'Review',
-            onClick: async (event, rowData) => {
-              // Update the users request to be in review
-
-              history.push(`/requests/${rowData.id}`);
+            onClick: (event, rowData) => {
+              history.push(`/landlord/request/${rowData.id}`);
             },
           },
         ]}
