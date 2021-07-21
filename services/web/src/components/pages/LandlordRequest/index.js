@@ -1,13 +1,16 @@
 import { useState } from 'react';
 
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 
 import RequestInfo from './components/RequestInfo';
 import Documents from './components/Documents';
+import CommentsContainer from './components/CommentsContainer';
 
-import { Card } from 'antd';
+import { Card, Typography, Button } from 'antd';
+
+const { Title } = Typography;
 
 const tabList = [
   { key: 'information', tab: 'Request Information' },
@@ -18,7 +21,9 @@ const tabList = [
 export default function Index() {
   const { id } = useParams();
 
-  // console.log(parseInt(useSelector(state => state.requests.requests[0].id)));
+  const history = useHistory();
+
+  let currentUser = useSelector(state => state.user.currentUser);
 
   let initalRequest = useSelector(state => state.requests.requests).filter(
     request => request.id === parseInt(id)
@@ -32,7 +37,7 @@ export default function Index() {
     setCurrentTab(key);
   };
 
-  const props = { request, currentTab };
+  const props = { request, currentTab, currentUser };
 
   return (
     <div>
@@ -40,6 +45,16 @@ export default function Index() {
         tabList={tabList}
         activeTabKey={currentTab}
         onTabChange={onTabChange}
+        title={
+          <Title level={3}>
+            {request.firstName} {request.lastName}'s Request
+          </Title>
+        }
+        extra={[
+          <Button type="primary" onClick={() => history.push('/landlord')}>
+            Return To Dash
+          </Button>,
+        ]}
       >
         {renderContent(props)}
       </Card>
@@ -54,7 +69,7 @@ const renderContent = props => {
     case 'documents':
       return <Documents />;
     case 'comments':
-      return null;
+      return <CommentsContainer {...props} />;
     default:
       return <RequestInfo />;
   }
