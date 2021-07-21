@@ -109,6 +109,7 @@ const findForTable = (params) => {
       'r.childrenAges',
       'r.incomplete',
       'a.address',
+      'a.addressLine2',
       'a.zipCode',
       'a.cityName',
       'a.state',
@@ -202,6 +203,7 @@ const findById = (id) => {
       'r.incomplete',
 
       'a.address',
+      'a.addressLine2',
       'a.zipCode',
       'a.cityName',
       'a.state',
