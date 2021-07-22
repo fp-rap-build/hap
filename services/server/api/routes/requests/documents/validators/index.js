@@ -1,5 +1,8 @@
 const Requests = require('../../requestsModel');
 
+const Documents = require('../../documents/documentModel');
+const checkIfDocumentsAreMissing = require('../../../documents/utils/checkIfAllDocumentsAreSubmitted');
+
 const validateRequestId = async (req, res, next) => {
   const { id } = req.params;
 
@@ -18,4 +21,14 @@ const validateRequestId = async (req, res, next) => {
   }
 };
 
-module.exports = { validateRequestId };
+const checkIfAllDocumentsAreSubmitted = (req, res, next) => {
+  const docsMissing = checkIfAllDocumentsAreMissing();
+
+  if (docsMissing) {
+  }
+
+  try {
+  } catch (error) {}
+};
+
+module.exports = { validateRequestId, checkIfAllDocumentsAreSubmitted };

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import { Descriptions, Button, Form, Input, message } from 'antd';
+import { Form, Input, message } from 'antd';
 import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 import EditButton from './components/EditButton';
 
@@ -8,12 +8,10 @@ export default function Basic({ request, setRequest, column = 2 }) {
   const [disabled, setDisabled] = useState(true);
 
   const formatDate = date => {
-    date = new Date(date);
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
+    if (!date) return;
 
-    return `${year} / ${month} / ${day}`;
+    const splitDate = date.split('T');
+    return splitDate[0];
   };
 
   const [form] = Form.useForm();
@@ -26,6 +24,7 @@ export default function Basic({ request, setRequest, column = 2 }) {
   const handleUserEditSubmit = async values => {
     setRequest({ ...request, ...values });
 
+    console.log(values);
     setDisabled(true);
 
     try {
@@ -66,7 +65,16 @@ export default function Basic({ request, setRequest, column = 2 }) {
         <Input disabled={true} />
       </Form.Item>
 
-      <Form.Item label="DOB" name="dob" initialValue={formatDate(request.dob)}>
+      <Form.Item label="Phone" name="tenantNumber" initialValue={request.tenantNumber}>
+        <Input disabled={true} />
+      </Form.Item>
+
+      <Form.Item
+        label="DOB"
+        name="dob"
+        initialValue={formatDate(request.dob)}
+        tooltip="YYYY / MM / DD"
+      >
         <Input disabled={disabled} />
       </Form.Item>
 
@@ -80,67 +88,4 @@ export default function Basic({ request, setRequest, column = 2 }) {
       />
     </Form>
   );
-}
-
-{
-  /* <Form.Item
-        label="First Name"
-        name="firstName"
-        initialValue={request.firstName}
-      >
-        <Input disabled={disabled} />
-      </Form.Item>
-
-      <Form.Item
-        label="Last Name"
-        name="lastName"
-        initialValue={request.lastName}
-      >
-        <Input disabled={disabled} defaultValue={request.lastName} />
-      </Form.Item>
-
-      <Form.Item label="State" name="state" initialValue={request.state}>
-        <Input disabled={disabled} defaultValue={request.state} />
-      </Form.Item>
-      <Form.Item label="Email" name="email" initialValue={request.email}>
-        <Input disabled={disabled} defaultValue={request.email} />
-      </Form.Item>
-
-      <Form.Item label="City" name="cityName" initialValue={request.cityName}>
-        <Input disabled={disabled} defaultValue={request.cityName} />
-      </Form.Item>
-      <Form.Item
-        label="Phone Number"
-        name="tenantNumber"
-        initialValue={request.tenantNumber}
-      >
-        <Input disabled={disabled} defaultValue={request.tenantNumber} />
-      </Form.Item>
-
-      <Form.Item label="Role" name="role" initialValue={request.role}>
-        <Input disabled={disabled} defaultValue={request.role} />
-      </Form.Item>
-      <Form.Item label="Zip" name="zipCode" initialValue={request.zipCode}>
-        <Input disabled={disabled} defaultValue={request.zipCode} />
-      </Form.Item>
-
-      <Form.Item label="Address" name="address" initialValue={request.address}>
-        <Input disabled={disabled} defaultValue={request.address} />
-      </Form.Item>
-
-      <Form.Item
-        label="Food Worker"
-        name="foodWrkr"
-        initialValue={request.foodWrkr}
-      >
-        <Input disabled={disabled} defaultValue={request.foodWrkr} />
-      </Form.Item>
-      <Form.Item
-        label="Unemployed for 90+ days"
-        name="unEmp90"
-        initialValue={request.unEmp90}
-      >
-        <Input disabled={disabled} defaultValue={request.unEmp90} />
-      </Form.Item>
-      <Button htmlType="submit">Submit</Button> */
 }

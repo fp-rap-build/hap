@@ -32,6 +32,7 @@ const buildApplicantData = currentUser => {
     lastName: currentUser.lastName,
     email: currentUser.email,
     role: currentUser.role,
+    dob: currentUser.dob,
   };
 };
 
@@ -99,7 +100,7 @@ const UserInfo = () => {
   };
 
   const postRequest = () => {
-    dispatch(updateRequest(requestData));
+    dispatch(updateRequest(requestData, currentUser));
   };
 
   const postApplicant = async () => {

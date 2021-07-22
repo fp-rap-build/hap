@@ -231,13 +231,13 @@ export const deleteSubscription = subscriptionId => {
   return { type: 'DELETE_SUBSCRIPTION', payload: subscriptionId };
 };
 
-export const updateUserNameInfo = nameInfo => async dispatch => {
+export const updateUserNameInfo = userInfo => async dispatch => {
   try {
-    const resNameInfo = await axiosWithAuth()
-      .put(`/user/${nameInfo.id}`, nameInfo)
+    const resUserInfo = await axiosWithAuth()
+      .put(`/user/${userInfo.id}`, userInfo)
       .then(res => res.data.user);
 
-    dispatch(setUserNameInformation(resNameInfo));
+    dispatch(setUserNameInformation(resUserInfo));
   } catch (error) {
     const message = error?.response?.data?.message || 'Internal server error';
 

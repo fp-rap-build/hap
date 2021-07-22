@@ -1,17 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import { useSelector } from 'react-redux';
 
 import buildTableData from './utils/buildTableData';
-import checkDocumentCompletion from './utils/checkDocumentCompletion';
 
 import UploadDocModal from './modals/UploadDocModal';
 import SelfDecModal from './modals/SelfDecModal';
 
-import { Tag, Table, Button } from 'antd';
+import { InfoCircleOutlined, MinusOutlined } from '@ant-design/icons';
+import { Tag, Table, Button, Typography } from 'antd';
+import checkIfAllDocumentsInCategoryAreDenied from './utils/checkIfAllDocumentsInCategoryAreDenied';
+
+const { Text } = Typography;
 
 const DocumentsTable = ({ request }) => {
   const storeStatuses = useSelector(state => state.requests.documentStatuses);
+
+  const { documents } = useSelector(state => state.requests);
 
   const [tableData, setTableData] = useState(buildTableData(storeStatuses));
 
@@ -26,11 +31,6 @@ const DocumentsTable = ({ request }) => {
 
     setTableData(newTableData);
   };
-
-  useEffect(() => {
-    checkDocumentCompletion(tableData, request);
-    //eslint-disable-next-line
-  }, [tableData]);
 
   const [uploadModalVisibility, setUploadModalVisibility] = useState(false);
   const [selfDecModalVisibility, setSelfDecModalVisibility] = useState(false);
@@ -64,6 +64,13 @@ const DocumentsTable = ({ request }) => {
     setSelfDecModalVisibility(false);
   };
 
+  const validStatuses = {
+    received: 1,
+    verified: 1,
+    actionsRequired: 1,
+    denied: 1,
+  };
+
   const columns = [
     {
       title: 'Document Type',
@@ -75,12 +82,20 @@ const DocumentsTable = ({ request }) => {
       dataIndex: 'status',
       key: 'status',
       render: (status, row, index) => {
-        let color = status === 'received' ? 'success' : 'error';
-        let text = status === 'received' ? 'Received' : 'Missing';
+        let color = status in validStatuses ? 'success' : 'error';
+        let text = status in validStatuses ? 'Received' : 'Missing';
+
+        let allDocumentsInCategoryAreDenied = checkIfAllDocumentsInCategoryAreDenied(
+          documents,
+          row.category
+        );
 
         if (status === 'optOut') {
           color = 'warning';
           text = 'Self Declaration';
+        } else if (allDocumentsInCategoryAreDenied) {
+          color = 'warning';
+          text = 'denied';
         }
 
         return (
@@ -137,7 +152,28 @@ const DocumentsTable = ({ request }) => {
 
   return (
     <div className="documentsTable">
-      <Table columns={columns} dataSource={tableData} pagination={false} />
+      <Table
+        columns={columns}
+        dataSource={tableData}
+        pagination={false}
+        expandable={{
+          expandedRowRender: record => (
+            <Text type="secondary">{record.blurb}</Text>
+          ),
+          expandIcon: ({ expanded, onExpand, record }) =>
+            expanded ? (
+              <MinusOutlined
+                onClick={e => onExpand(record, e)}
+                style={{ color: '#1890FF' }}
+              />
+            ) : (
+              <InfoCircleOutlined
+                onClick={e => onExpand(record, e)}
+                style={{ color: '#1890FF' }}
+              />
+            ),
+        }}
+      />
       <UploadDocModal {...props} />
       <SelfDecModal {...props} />
     </div>

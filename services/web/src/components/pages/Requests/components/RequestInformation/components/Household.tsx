@@ -1,20 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import {
-  Descriptions,
-  Button,
-  Form,
-  Input,
-  Select,
-  Checkbox,
-  message,
-} from 'antd';
+import { useDispatch } from 'react-redux';
+
+import { updateRequest } from '../../../../../../redux/requests/requestActions';
+
+import { Form, Input, Select, Checkbox } from 'antd';
+
 import EditButton from './components/EditButton';
-import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 
 const { Option } = Select;
 
-export default function Household({ request, setRequest, column = 2 }) {
+export default function Household({ request, setRequest, currentUser }) {
+  const dispatch = useDispatch();
+
   const [disabled, setDisabled] = useState(true);
 
   const [form] = Form.useForm();
@@ -37,7 +35,7 @@ export default function Household({ request, setRequest, column = 2 }) {
     setCheckboxValues({ ...checkboxValues, [name]: checked });
   };
 
-  const handleHouseholdSubmit = async values => {
+  const handleHouseholdSubmit = values => {
     const updatedHousehold = {
       ...values,
       ...checkboxValues,
@@ -45,13 +43,12 @@ export default function Household({ request, setRequest, column = 2 }) {
 
     setRequest({ ...request, ...updatedHousehold });
 
-    setDisabled(true);
+    //add request id - needed for redux action updateRequest
+    updatedHousehold['id'] = request.id;
 
-    try {
-      await axiosWithAuth().put(`/requests/${request.id}`, updatedHousehold);
-    } catch (error) {
-      message.error('Unable to edit household information');
-    }
+    dispatch(updateRequest(updatedHousehold, currentUser));
+
+    setDisabled(true);
   };
 
   return (
@@ -136,9 +133,8 @@ export default function Household({ request, setRequest, column = 2 }) {
         rules={[
           {
             pattern: RegExp(
-              // forgive me
-              /^(\b([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9][0-9])\b)\s*?$/
-            ),
+              // looks for at least 1 digit with optional decimal point
+              /\d+(?:\.\d+)?/),
             message: 'Invalid income',
           },
         ]}
@@ -157,9 +153,8 @@ export default function Household({ request, setRequest, column = 2 }) {
         rules={[
           {
             pattern: RegExp(
-              // forgive me
-              /^(\b([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9][0-9])\b)\s*?$/
-            ),
+              // looks for at least 1 digit with optional decimal point
+              /\d+(?:\.\d+)?/),
             message: 'Invalid rent',
           },
         ]}
@@ -178,9 +173,8 @@ export default function Household({ request, setRequest, column = 2 }) {
         rules={[
           {
             pattern: RegExp(
-              // forgive me
-              /^(\b([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9][0-9])\b)\s*?$/
-            ),
+              // looks for at least 1 digit with optional decimal point
+              /\d+(?:\.\d+)?/),
             message: 'Invalid total',
           },
         ]}
@@ -195,9 +189,8 @@ export default function Household({ request, setRequest, column = 2 }) {
         rules={[
           {
             pattern: RegExp(
-              // forgive me
-              /^(\b([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9][0-9])\b)\s*?$/
-            ),
+              // looks for at least 1 digit with optional decimal point
+              /\d+(?:\.\d+)?/),
             message: 'Invalid total',
           },
         ]}
@@ -207,36 +200,6 @@ export default function Household({ request, setRequest, column = 2 }) {
           name="amountRequested"
           style={{ width: '100%' }}
         />
-      </Form.Item>
-
-      <Form.Item
-        hasFeedback
-        name="amountApproved"
-        initialValue={request.amountApproved}
-        label={'Enter Amount of Approval before Approving Request'}
-        rules={[
-          {
-            pattern: RegExp(
-              // forgive me
-              /^(\b([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9][0-9])\b)\s*?$/
-            ),
-            message: 'Invalid total',
-          },
-        ]}
-      >
-        <Input
-          disabled={disabled}
-          name="amountApproved"
-          style={{ width: '100%' }}
-        />
-      </Form.Item>
-
-      <Form.Item
-        label="Program/Budget"
-        name="budget"
-        initialValue={request.budget}
-      >
-        <Input disabled={disabled} />
       </Form.Item>
 
       <Form.Item>

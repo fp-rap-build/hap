@@ -13,6 +13,10 @@ export default function PaymentsTable() {
   const [isFetching, setIsFetching] = useState(false);
 
   const [columns, setColumns] = useState([
+    {
+      title: 'HAP ID',
+      field: 'requestId',
+    },
     { title: 'First', field: 'firstName', editable: 'never' },
     { title: 'Last ', field: 'lastName', editable: 'never' },
     { title: 'Email', field: 'email', type: 'string', editable: 'never' },

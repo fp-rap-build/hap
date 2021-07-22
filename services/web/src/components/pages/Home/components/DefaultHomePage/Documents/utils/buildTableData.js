@@ -1,38 +1,44 @@
 export default function builtTableData(statuses) {
   const docDescriptions = [
     {
+      key: 'childrenOrPregnancy',
       category: 'childrenOrPregnancy',
       title: 'Proof of Children/Minors or Pregnancy',
-      blurb: 'Proof of Children/Minors in the Household or Pregnancy',
+      blurb: 'Award letter from government agency with child’s name included as part of the household (TANF, Food benefits, SSI/SSA) , a School enrollment form, or proof of pregnancy.',
       status: statuses.childrenOrPregnancy
         ? statuses.childrenOrPregnancy
         : 'missing',
     },
     {
+      key: 'residency',
       category: 'residency',
-      title: 'Proof of Identity/Residency',
+      title: 'Identity and City of Spokane City residency',
       blurb:
-        'Document that shows proof of ID and/or that you currently reside within Spokane City.',
+        'At least one of the following: a. Driver’s license/ State ID with Spokane city address,  b. Work or school ID,  c. Public benefit award letter  ( Supplemental Nutrition assistance Program (SNAP) award letter or Temporary Assistance for Needy Families (TANF) award letter),  d. Utility bill,   e. Lease agreement, f. Other reasonable sources ',
       status: statuses.residency ? statuses.residency : 'missing',
     },
     {
+      key: 'income',
       category: 'income',
-      title: 'Proof of Income',
-      blurb: 'Document that confirms your current Income.',
+      title: 'Proof of all gross income for the last sixty (60) days',
+      blurb: 'Acceptable documents include: a. Current year Social Security award letters, b. Pay Stubs, c. Self-Employment Ledger, d. Child Support, e. Other sources of income',
       status: statuses.income ? statuses.income : 'missing',
+      description: '',
     },
     {
+      key: 'housingInstability',
       category: 'housingInstability',
       title: 'Proof of Rent Owed',
-      blurb: 'Proof of risk of homelesssness or housing instability',
+      blurb: 'One or more individuals in the household must demonstrate a risk of experiencing homelessness or currently experiencing housing instability. This must be documented and may include: A past due utility notice or eviction notice, or Statement from the landlord that verifies the household’s housing instability (currently late on rent and/or has rental arrears).',
       status: statuses.housingInstability
         ? statuses.housingInstability
         : 'missing',
     },
     {
+      key: 'covid',
       category: 'covid',
-      title: 'COVID-19 Hardship',
-      blurb: 'Document showing hardships caused by COVID-19',
+      title: 'Proof of financial impact caused by COVID 19 pandemic',
+      blurb: 'Acceptable Documents include: a. Letter from employer showing termination of employment or reduced hours, b. Medical documentation from a doctor, c. Childcare costs that were paid',
       status: statuses.covid ? statuses.covid : 'missing',
     },
   ];

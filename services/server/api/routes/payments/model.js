@@ -7,6 +7,7 @@ exports.findForTable = () =>
     .join('programs as pr', 'p.programId', '=', 'pr.id')
     .select(
       'p.id',
+      'p.requestId',
       'u.firstName',
       'u.lastName',
       'u.email',
@@ -38,7 +39,7 @@ exports.findForTable = () =>
       'r.demoNotSayHOH',
       'r.beds',
       'r.childrenAges'
-    )
+    );
 
 exports.findById = (id) => db('payments').where({ id }).first();
 

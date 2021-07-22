@@ -8,6 +8,8 @@ const findByName = (name) => db('documents').where({ name: name }).first();
 
 const findByIdAndDelete = (id) => db('documents').where({ id }).del();
 
+const findByRequestId = (reqId) => db('documents').where({ requestId: reqId });
+
 const findByIdAndUpdate = (id, document) =>
   db('documents').where({ id }).update(document).returning('*');
 
@@ -19,5 +21,6 @@ module.exports = {
   findByIdAndDelete,
   findByIdAndUpdate,
   findByName,
-  createPlaceholder
+  createPlaceholder,
+  findByRequestId,
 };

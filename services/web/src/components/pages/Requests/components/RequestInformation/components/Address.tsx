@@ -47,6 +47,10 @@ export default function Address({ request, setRequest, column = 2 }) {
         <Input disabled={disabled} />
       </Form.Item>
 
+      <Form.Item label="Address Line Two" name="addressLine2" initialValue={request.addressLine2}>
+        <Input disabled={disabled} />
+      </Form.Item>
+
       <Form.Item
         hasFeedback
         initialValue={request.state}

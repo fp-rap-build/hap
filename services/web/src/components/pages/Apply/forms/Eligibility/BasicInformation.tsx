@@ -17,6 +17,7 @@ import {
   DatePicker,
   Typography,
 } from 'antd';
+import { DoubleArrow } from '@material-ui/icons';
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -46,8 +47,14 @@ const BasicInformation = ({
           this household)
         </p>
         <br />
-        <Form.Item name="dob" label="Date of Birth">
-          <DatePicker onChange={handleDateChange}></DatePicker>
+        <Form.Item 
+        
+        name="dob" 
+        label="Date of Birth (YYYY-MM-DD)" 
+        rules={[{ required: true, 
+        message: 'Date of Birth is required'
+         }]}>
+          <DatePicker placeholder='1981-02-13' onChange={handleDateChange}></DatePicker>
         </Form.Item>
         <Title level={5}>Head of Household Identifies as:</Title>
 
@@ -103,7 +110,7 @@ const BasicInformation = ({
             onChange={handleCheckBoxChange}
             name="native"
           >
-            Native American or Alskan Native
+            Native American or Alaskan Native
           </Checkbox>
         </Form.Item>
         <Form.Item>

@@ -30,6 +30,7 @@ const {
   sendPromiseToPayEmail,
   sendConfirmationOfApproval,
 } = require('../../utils/sendGrid/messages');
+const formatRequestsTable = require('./utils/formatRequestsTable');
 
 const router = express.Router();
 
@@ -59,7 +60,21 @@ router.get('/active', async (req, res) => {
 //Updates to shape data should be done in model @ 'findForTable'
 router.get('/table', async (req, res) => {
   try {
-    const resRequests = await Requests.findForTable(req.query);
+    const requests = formatRequestsTable(
+      await Requests.findForTable(req.query)
+    );
+
+    res.status(200).json(requests);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.get('/table/:managerId', async (req, res) => {
+  const { managerId } = req.params;
+  try {
+    const resRequests = await Requests.findForManagerTable(managerId);
     res.status(200).json(resRequests);
   } catch (error) {
     console.log(error);
@@ -93,16 +108,18 @@ router.put('/:id', requestStatusChange, async (req, res) => {
 
   try {
     let request = await Requests.findById(id);
+
     request = request[0];
 
     if (change['requestStatus'] === 'approved') {
-      sendPromiseToPayEmail(request,request.landlordEmail);
+      sendPromiseToPayEmail(request, request.landlordEmail);
       sendConfirmationOfApproval(request);
     }
 
     const updatedRequest = await Requests.update(id, change);
     res.status(200).json(updatedRequest);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });

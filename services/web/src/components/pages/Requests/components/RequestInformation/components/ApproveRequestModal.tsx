@@ -3,6 +3,7 @@ import { Modal, Input, message } from 'antd';
 import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 
 import { useSelector } from 'react-redux';
+
 import socket from '../../../../../../config/socket';
 
 export default function ApproveRequestModal({
@@ -21,12 +22,13 @@ export default function ApproveRequestModal({
     id: null,
     budget: 0,
   });
-  const [amountToSend, setAmountToSend] = useState(request.amountRequested);
+
+  const [amountToSend, setAmountToSend] = useState(null);
 
   const currentUser = useSelector(state => state.user.currentUser);
 
   const handlePaymentSubmit = async () => {
-    if (!amountToSend) return;
+    if (!amountToSend) return message.error('Please enter a valid amount');
 
     const payment = {
       payerId: currentUser.id,
@@ -34,8 +36,6 @@ export default function ApproveRequestModal({
       programId: selectedProgram.id,
       amount: amountToSend,
     };
-
-    console.log(payment);
 
     try {
       await axiosWithAuth().post(`/requests/${request.id}/payments`, payment);
@@ -53,7 +53,10 @@ export default function ApproveRequestModal({
       });
 
       setRequest(prevState => {
-        return { ...prevState, requestStatus: 'approved' };
+        return {
+          ...prevState,
+          requestStatus: 'approved',
+        };
       });
 
       setPrograms(prevState =>
@@ -132,7 +135,7 @@ const SubmitPayment = ({ selectedProgram, amountToSend, setAmountToSend }) => {
   const onChange = e => {
     const { value } = e.target;
 
-    const newBudget = selectedProgram.budget - value;
+    const newBudget = selectedProgram.budget - e.target.value;
 
     if (newBudget < 0) return;
 
@@ -151,7 +154,7 @@ const SubmitPayment = ({ selectedProgram, amountToSend, setAmountToSend }) => {
       <Input
         onChange={onChange}
         name="payment"
-        placeholder="Amount to pay"
+        placeholder="Amount approved"
         value={amountToSend}
       />
     </div>

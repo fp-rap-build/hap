@@ -1,6 +1,23 @@
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
+const sendDocumentsDenied = (emailAddress) => {
+  const msg = {
+    to: emailAddress,
+    from: 'hap@familypromiseofspokane.org',
+    subject: 'Denied documents',
+    html: `<p>Some of your documents have been denied. Please login to your portal and check the comments for further instruction ${process.env.REACT_APP_URI}/login</p>`,
+  };
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log('Email sent');
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
 const requestStatusChange = (requestStatus, emailAddress) => {
   let text;
 
@@ -113,8 +130,34 @@ const sendConfirmationOfApproval = (request) => {
       to: email,
       from: 'hap@familypromiseofspokane.org',
       subject: 'Rental Assistance',
-      text: `Subject: Rental Assistance,  Funding Source: ${request.budget} , Payment Method: Check, Payee: Landlord, Payee Name: ${request.landlordName} , Payee Address: ${request.landlordAddress}  ${request.landlordAddress2}  ${request.landlordCity}  ${request.landlordState}  ${request.landlordZip} ,  Payee Email:  ${request.landlordEmail} Payment Amount: ${request.amountApproved} ,  Check Memo: Rent,  ${request.firstName} ${request.lastName} ${request.address}   ${request.cityName}, ${request.state} ${request.zipCode} `,
-      html: `<p>Rental Assistance</p> <p> Funding Source: ${request.budget} </p> <p>Payment Method: Check </p>  <p>Payee: Landlord</p> <p>Payee Name: ${request.landlordName}</p> <p>Payee Address: ${request.landlordAddress}  ${request.landlordAddress2}  ${request.landlordCity}  ${request.landlordState}  ${request.landlordZip} </p> <p> Payee Email:  ${request.landlordEmail} </p><p>Payment Amount: ${request.amountApproved}</p>  <p> Check Memo: Rent,  ${request.firstName} ${request.lastName} ${request.address}   ${request.cityName}, ${request.state} ${request.zipCode} </p> `,
+      text: `Subject: Rental Assistance,  Funding Source: ${
+        request.budget
+      } , Payment Method: Check, Payee: Landlord, Payee Name: ${
+        request.landlordName
+      } , Payee Address: ${request.landlordAddress}  ${
+        request.landlordAddress2 ? request.landlordAddress2 : ''
+      }  ${request.landlordCity}  ${request.landlordState}  ${
+        request.landlordZip
+      } ,  Payee Email:  ${request.landlordEmail} Payment Amount: ${
+        request.amountApproved
+      } ,  Check Memo: Rent,  ${request.firstName} ${request.lastName} ${
+        request.address
+      }   ${request.cityName}, ${request.state} ${request.zipCode} `,
+      html: `<p>Rental Assistance</p> <p> Funding Source: ${
+        request.budget
+      } </p> <p>Payment Method: Check </p>  <p>Payee: Landlord</p> <p>Payee Name: ${
+        request.landlordName
+      }</p> <p>Payee Address: ${request.landlordAddress}  ${
+        request.landlordAddress2 ? request.landlordAddress2 : ''
+      }  ${request.landlordCity}  ${request.landlordState}  ${
+        request.landlordZip
+      } </p> <p> Payee Email:  ${
+        request.landlordEmail
+      } </p><p>Payment Amount: ${
+        request.amountApproved
+      }</p>  <p> Check Memo: Rent,  ${request.firstName} ${request.lastName} ${
+        request.address
+      }   ${request.cityName}, ${request.state} ${request.zipCode} </p> `,
     };
 
     sgMail
@@ -133,4 +176,5 @@ module.exports = {
   sendResetPasswordLink,
   sendPromiseToPayEmail,
   sendConfirmationOfApproval,
+  sendDocumentsDenied,
 };

@@ -34,7 +34,9 @@ import { setErrorMessage } from '../../../redux/global/globalActions';
 
 const faker = require('faker');
 
-let recentDate = faker.date.recent();
+// create a fake date to use for date of birth on application
+
+const dob = new Date('2015-03-25');
 
 const INITIAL_VALUES_DEV = {
   firstName: faker.name.firstName(),
@@ -67,9 +69,8 @@ const INITIAL_VALUES_DEV = {
   childrenAges: '4, 2',
   owed: 600,
   amountRequested: 450,
-  amountApproved: 1000,
   budget: 'Treasury ERA',
-  rent: 500,
+  rent: 500.45,
   advocate: false,
   totalChildren: 2,
   unEmp90: true,
@@ -84,7 +85,7 @@ const INITIAL_VALUES_DEV = {
   nativeHOH: false,
   demoNotSayHOH: false,
   gender: 'Male',
-  dob: recentDate,
+  dob: dob,
   hispanic: true,
   asian: false,
   black: false,
@@ -172,6 +173,11 @@ export default function Index() {
 
   const goBackwards = () => setStep(step - 1);
 
+  const [formValues, setFormValues] = useState(
+    process.env.NODE_ENV === 'development'
+      ? INITIAL_VALUES_DEV
+      : INITIAL_VALUES_PROD
+  );
   const [formValues, setFormValues] = useState(INITIAL_VALUES_DEV);
   const [formConsent, setFormConsent] = useState(false);
 

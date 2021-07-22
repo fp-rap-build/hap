@@ -13,8 +13,8 @@ import styles from '../../../../styles/pages/admin.module.css';
 import { tableIcons } from '../../../../utils/tableIcons';
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
-import ArchiveIcon from '@material-ui/icons/Archive';
 import UnarchiveIcon from '@material-ui/icons/Unarchive';
+import GavelIcon from '@material-ui/icons/Gavel';
 
 import { message, Modal } from 'antd';
 
@@ -30,6 +30,10 @@ export default function RequestsTable() {
 
   const [data, setData] = useState([]);
   const [columns, setColumns] = useState([
+    {
+      title: 'HAP ID',
+      field: 'id',
+    },
     { title: 'First', field: 'firstName' },
     { title: 'Last ', field: 'lastName' },
     {
@@ -112,6 +116,16 @@ export default function RequestsTable() {
             }),
         }}
         actions={[
+          {
+            icon: GavelIcon,
+            tooltip: 'Review',
+            onClick: async (event, rowData) => {
+              // Update the users request to be in review
+
+              history.push(`/requests/${rowData.id}`);
+            },
+          },
+
           {
             icon: UnarchiveIcon,
             tooltip: 'unarchive',

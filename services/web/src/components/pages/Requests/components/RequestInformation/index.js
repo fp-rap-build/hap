@@ -23,6 +23,7 @@ import socket from '../../../../../config/socket';
 import Address from './components/Address';
 import Household from './components/Household';
 import Demographics from './components/Demographics';
+import FinalReviewModal from './components/FinalReviewModal';
 
 const tabListNoTitle = [
   {
@@ -67,9 +68,9 @@ export default function Index({
   ages,
 }) {
   const currentUser = useSelector(state => state.user.currentUser);
-
-  const [loading, setLoading] = useState(false);
   //eslint-disable-next-line
+  const [loading, setLoading] = useState(false);
+
   const [tab, setTab] = useState('basic');
 
   const [modalContent, setModalContent] = useState('programSelection');
@@ -87,6 +88,14 @@ export default function Index({
   });
 
   const [isApprovedModalVisible, setIsApprovedModalVisible] = useState(false);
+
+  const [isFinalReviewModalVisible, setIsFinalReviewModalVisible] = useState(
+    false
+  );
+
+  const showFinalReviewModal = () => {
+    setIsFinalReviewModalVisible(true);
+  };
 
   const showApprovedModal = () => {
     setIsApprovedModalVisible(true);
@@ -110,9 +119,9 @@ export default function Index({
   };
 
   const handleReviewSubmit = status => {
-    const alreadyReviewed =
-      request.requestStatus === 'approved' ||
-      request.requestStatus === 'denied';
+    // const alreadyReviewed =
+    //   request.requestStatus === 'approved' ||
+    //   request.requestStatus === 'denied';
 
     let completedChecklist = isChecklistCompleted(preChecklistValues);
 
@@ -138,7 +147,7 @@ export default function Index({
       }
     };
 
-    if (status === 'approved') return showApprovedModal();
+    if (status === 'approved') return showFinalReviewModal();
     if (status === 'denied') return deniedModal(handleDenial);
   };
 
@@ -185,6 +194,7 @@ export default function Index({
     documents,
     setDocuments,
     ages,
+    currentUser,
   };
 
   const approveModalProps = {
@@ -201,6 +211,15 @@ export default function Index({
 
   return (
     <div>
+      <FinalReviewModal
+        visible={isFinalReviewModalVisible}
+        setVisible={setIsFinalReviewModalVisible}
+        showApprovedModal={showApprovedModal}
+        request={request}
+        setRequest={setRequest}
+        programs={programs}
+      />
+
       <ApproveRequestModal {...approveModalProps} />
 
       <Card
@@ -241,11 +260,19 @@ const renderContent = props => {
       return <Address request={props.request} setRequest={props.setRequest} />;
     case 'household':
       return (
-        <Household request={props.request} setRequest={props.setRequest} />
+        <Household
+          request={props.request}
+          setRequest={props.setRequest}
+          currentUser={props.currentUser}
+        />
       );
     case 'demographics':
       return (
-        <Demographics request={props.request} setRequest={props.setRequest} />
+        <Demographics
+          request={props.request}
+          setRequest={props.setRequest}
+          currentUser={props.currentUser}
+        />
       );
     case 'contact':
       return <Contact request={props.request} setRequest={props.setRequest} />;

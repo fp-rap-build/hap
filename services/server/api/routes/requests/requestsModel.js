@@ -46,8 +46,9 @@ const findForTable = (params) => {
   return db('requests as r')
     .join('addresses as a', 'r.addressId', '=', 'a.id')
     .join('users as u', 'r.userId', '=', 'u.id')
-    .fullOuterJoin('users as m', 'r.managerId', '=', 'm.id')
-
+    .leftOuterJoin('documents as d', 'r.id', '=', 'd.requestId')
+    .leftOuterJoin('users as m', 'r.managerId', '=', 'm.id')
+    .orderBy('r.id', 'asc')
     .select(
       'r.id',
       'r.userId',
@@ -55,11 +56,15 @@ const findForTable = (params) => {
       'm.firstName as managerFirstName',
       'm.lastName as managerLastName',
       'm.email as managerEmail',
+      'r.managerId',
 
       'u.firstName',
       'u.lastName',
       'u.email',
       'u.role',
+      'u.dob',
+      'u.gender',
+
       'r.familySize',
       'r.monthlyIncome',
       'r.owed',
@@ -70,6 +75,8 @@ const findForTable = (params) => {
       'r.bookKeeperApproval',
       'r.headAcctApproval',
       'r.adminApproval',
+      'r.latestTenantActivity',
+      'r.latestStaffActivity',
 
       'r.hispanic',
       'r.asian',
@@ -87,8 +94,6 @@ const findForTable = (params) => {
       'r.whiteHOH',
       'r.nativeHOH',
       'r.demoNotSayHOH',
-      'r.dob',
-      'r.gender',
       'r.beds',
 
       'r.verifiedDocuments',
@@ -104,10 +109,23 @@ const findForTable = (params) => {
       'r.childrenAges',
       'r.incomplete',
       'a.address',
+      'a.addressLine2',
       'a.zipCode',
       'a.cityName',
-      'a.state'
+      'a.state',
+
+      'd.id as docId',
+      'd.category',
+      'd.location',
+      'd.status',
+      'd.type'
     )
+    .modify((qb) => {
+      if (params.managerId) {
+        console.log('hello');
+        qb.where({ managerId: params.managerId });
+      }
+    })
     .modify((qb) => {
       if (params.archived) {
         qb.where({ archived: params.archived });
@@ -128,6 +146,8 @@ const findById = (id) => {
   return db('requests as r')
     .join('addresses as a', 'r.addressId', '=', 'a.id')
     .join('users as u', 'r.userId', '=', 'u.id')
+    .fullOuterJoin('payments as p', 'r.id', '=', 'p.requestId')
+    .fullOuterJoin('programs as pr', 'p.programId', '=', 'pr.id')
     .fullOuterJoin('users as m', 'r.managerId', '=', 'm.id')
     .select(
       'u.firstName',
@@ -157,11 +177,9 @@ const findById = (id) => {
       'r.verifiedDocuments',
       'r.foodWrkr',
       'r.amountRequested',
-      'r.amountApproved',
       'r.budget',
       'r.orgId',
       'r.unEmp90',
-      'r.gender',
       'r.beds',
       'r.hispanicHOH',
       'r.asianHOH',
@@ -185,11 +203,17 @@ const findById = (id) => {
       'r.incomplete',
 
       'a.address',
+      'a.addressLine2',
       'a.zipCode',
       'a.cityName',
-      'a.state'
+      'a.state',
+
+      'p.amount as amountApproved',
+      'pr.name as budget',
+      'pr.id as pid'
     )
-    .where('r.id', '=', id);
+    .where('r.id', '=', id)
+    .orderBy('p.createdAt', 'desc');
 };
 
 const findAllComments = (requestId) =>
@@ -208,6 +232,12 @@ const findAllComments = (requestId) =>
     )
     .orderBy('c.createdAt', 'asc');
 
+const findTenantByRequestId = (requestId) =>
+  db('requests as r')
+    .join('users as u', 'r.userId', '=', 'u.id')
+    .select('u.email')
+    .where('r.id', '=', requestId)
+      .first()
 module.exports = {
   findAll,
   requestOnlyById,
@@ -218,5 +248,6 @@ module.exports = {
   findAllActive,
   findForTable,
   findById,
+  findTenantByRequestId,
   findAllComments,
 };
