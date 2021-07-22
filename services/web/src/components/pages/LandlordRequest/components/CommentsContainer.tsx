@@ -24,6 +24,7 @@ export default function CommentsContainer({ request, currentUser }) {
 
   useEffect(() => {
     fetchComments();
+    //eslint-diasble-next-line
   }, []);
 
   useEffect(() => {
