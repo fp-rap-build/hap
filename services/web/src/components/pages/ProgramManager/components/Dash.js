@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import ProgramMgrNav from './programMgrNav';
@@ -22,8 +22,26 @@ const Dash = () => {
   });
 
   const handleClick = e => {
+    localStorage.setItem('lastVisitedPage', e.key);
+
     setActiveComponent({ current: e.key });
   };
+
+  useEffect(() => {
+    const lastVisitiedPage = localStorage.getItem('lastVisitedPage');
+
+    const validPages = {
+      requests: 1,
+      yourRequests: 1,
+      archive: 1,
+      incomplete: 1,
+      analytics: 1,
+    };
+
+    if (lastVisitiedPage in validPages) {
+      setActiveComponent({ current: lastVisitiedPage });
+    }
+  }, []);
 
   return (
     <Layout>
