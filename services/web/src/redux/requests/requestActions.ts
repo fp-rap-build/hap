@@ -6,6 +6,11 @@ export const setCurrentRequest = currentRequest => {
   return { type: 'SET_REQUEST', payload: currentRequest };
 };
 
+//consider renaming @ time of refactore
+export const setMultipleRequests = currentRequests => {
+  return { type: 'SET_REQUESTS', payload: currentRequests };
+};
+
 export const setCurrentAddress = currentAddress => {
   return { type: 'SET_ADDRESS', payload: currentAddress };
 };
@@ -40,6 +45,30 @@ export const fetchRequest = () => async dispatch => {
 
       dispatch(setCurrentRequest(request));
     }
+  } catch (error) {
+    console.log('error fetching request redux');
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
+
+export const fetchMultiRequests = queryInfo => async dispatch => {
+  //when dispatching set queryInfo as { key: value}
+  const { landlordEmail } = queryInfo;
+
+  dispatch(setLoading(true));
+
+  try {
+    let requests = await axiosWithAuth()
+      .get('/requests/table', {
+        params: {
+          archived: false,
+          landlordEmail: landlordEmail,
+        },
+      })
+      .then(res => res.data);
+
+    dispatch(setMultipleRequests(requests));
   } catch (error) {
     console.log('error fetching request redux');
   } finally {
