@@ -1,5 +1,3 @@
-
-
 exports.up = function (knex) {
   return knex.schema.table('documents', (tbl) => {
     tbl.enu('category', [

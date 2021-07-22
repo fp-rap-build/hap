@@ -1,6 +1,23 @@
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
+const sendDocumentsDenied = (emailAddress) => {
+  const msg = {
+    to: emailAddress,
+    from: 'hap@familypromiseofspokane.org',
+    subject: 'Denied documents',
+    html: `<p>Some of your documents have been denied. Please login to your portal and check the comments for further instruction ${process.env.REACT_APP_URI}/login</p>`,
+  };
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log('Email sent');
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
 const requestStatusChange = (requestStatus, emailAddress) => {
   let text;
 
@@ -159,4 +176,5 @@ module.exports = {
   sendResetPasswordLink,
   sendPromiseToPayEmail,
   sendConfirmationOfApproval,
+  sendDocumentsDenied,
 };
