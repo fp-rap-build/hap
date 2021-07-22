@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -22,21 +22,25 @@ const { Title } = Typography;
 const { Content, Header, Footer } = Layout;
 
 const Dash = () => {
-  const history = useHistory();
-
   const currentUser = useSelector(state => state.user.currentUser);
-
-  const notifications = useSelector(state => state.notifications.notifications);
-
-  const unseen = notifications.filter(notif => notif.seen === false).length;
 
   const [activeComponent, setActiveComponent] = useState({
     current: 'requests',
   });
 
   const handleClick = e => {
+    localStorage.setItem('lastVisitedPage', e.key);
+
     setActiveComponent({ current: e.key });
   };
+
+  useEffect(() => {
+    const lastVisitiedPage = localStorage.getItem('lastVisitedPage');
+
+    if (lastVisitiedPage) {
+      setActiveComponent({ current: lastVisitiedPage });
+    }
+  }, []);
 
   return (
     <Layout>
