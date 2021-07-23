@@ -414,7 +414,7 @@ export default function ManagedRequestsTable() {
             },
           ]}
           icons={tableIcons}
-          title="Requests for Rental Assistance"
+          title="Your Managed Requests for Rental Assistance"
           columns={columns}
           data={data}
         />
