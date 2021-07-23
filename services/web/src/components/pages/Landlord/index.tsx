@@ -7,7 +7,7 @@ import { fetchMultiRequests } from '../../../redux/requests/requestActions';
 
 import ActiveRequestsTable from './components/ActiveRequestsTable';
 
-import { Typography, Layout, Badge } from 'antd';
+import { Typography, Layout } from 'antd';
 const { Content, Header, Footer } = Layout;
 const { Title } = Typography;
 

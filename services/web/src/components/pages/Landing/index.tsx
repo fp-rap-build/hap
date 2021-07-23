@@ -33,6 +33,12 @@ export default function Index() {
               Login to view your status
             </Link>
           </Button>
+          <h5>Landlord who needs access to tenant requests? </h5>
+          <Button>
+            <Link style={{ color: '#FFFFFF' }} to="/login/landlord">
+              Create Landlord Account
+            </Link>
+          </Button>
         </div>
       </header>
     </div>
