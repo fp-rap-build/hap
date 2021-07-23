@@ -98,7 +98,9 @@ export default function ManagedRequestsTable() {
         request['childrenOrPregnancy'] = [];
 
         request['documents'].forEach(doc => {
-          request[doc.category].unshift(doc);
+          if (doc.category) {
+            request[doc.category].unshift(doc);
+          }
         });
 
         return request;
