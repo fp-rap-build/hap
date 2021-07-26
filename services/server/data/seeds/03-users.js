@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 
-const salt = Number(process.env.BCRYPT_SALT)
+const salt = Number(process.env.BCRYPT_SALT);
 
 exports.seed = function (knex) {
   return knex('users')

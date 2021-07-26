@@ -46,8 +46,9 @@ const findForTable = (params) => {
   return db('requests as r')
     .join('addresses as a', 'r.addressId', '=', 'a.id')
     .join('users as u', 'r.userId', '=', 'u.id')
-    .fullOuterJoin('users as m', 'r.managerId', '=', 'm.id')
-
+    .leftOuterJoin('documents as d', 'r.id', '=', 'd.requestId')
+    .leftOuterJoin('users as m', 'r.managerId', '=', 'm.id')
+    .orderBy('r.id', 'asc')
     .select(
       'r.id',
       'r.userId',
@@ -55,6 +56,7 @@ const findForTable = (params) => {
       'm.firstName as managerFirstName',
       'm.lastName as managerLastName',
       'm.email as managerEmail',
+      'r.managerId',
 
       'u.firstName',
       'u.lastName',
@@ -108,12 +110,20 @@ const findForTable = (params) => {
       'r.childrenAges',
       'r.incomplete',
       'a.address',
+      'a.addressLine2',
       'a.zipCode',
       'a.cityName',
-      'a.state'
+      'a.state',
+
+      'd.id as docId',
+      'd.category',
+      'd.location',
+      'd.status',
+      'd.type'
     )
     .modify((qb) => {
       if (params.managerId) {
+        console.log('hello');
         qb.where({ managerId: params.managerId });
       }
     })
@@ -199,6 +209,7 @@ const findById = (id) => {
       'r.incomplete',
 
       'a.address',
+      'a.addressLine2',
       'a.zipCode',
       'a.cityName',
       'a.state',
@@ -227,6 +238,12 @@ const findAllComments = (requestId) =>
     )
     .orderBy('c.createdAt', 'asc');
 
+const findTenantByRequestId = (requestId) =>
+  db('requests as r')
+    .join('users as u', 'r.userId', '=', 'u.id')
+    .select('u.email')
+    .where('r.id', '=', requestId)
+      .first()
 module.exports = {
   findAll,
   requestOnlyById,
@@ -237,5 +254,6 @@ module.exports = {
   findAllActive,
   findForTable,
   findById,
+  findTenantByRequestId,
   findAllComments,
 };

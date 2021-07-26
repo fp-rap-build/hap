@@ -24,11 +24,21 @@ export default function Basic({ request, setRequest, column = 2 }) {
   const handleUserEditSubmit = async values => {
     setRequest({ ...request, ...values });
 
-    console.log(values);
     setDisabled(true);
 
+    const requestValues = {
+      tenantNumber: values.tenantNumber,
+    };
+
+    const userValues = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      dob: values.dob,
+    };
+
     try {
-      await axiosWithAuth().put(`/users/${request.userId}`, values);
+      await axiosWithAuth().put(`/users/${request.userId}`, userValues);
+      await axiosWithAuth().put(`/requests/${request.id}`, requestValues);
     } catch (error) {
       message.error('Unable to edit user');
     }
@@ -63,6 +73,14 @@ export default function Basic({ request, setRequest, column = 2 }) {
 
       <Form.Item label="Email" name="email" initialValue={request.email}>
         <Input disabled={true} />
+      </Form.Item>
+
+      <Form.Item
+        label="Phone"
+        name="tenantNumber"
+        initialValue={request.tenantNumber}
+      >
+        <Input disabled={disabled} />
       </Form.Item>
 
       <Form.Item

@@ -49,5 +49,3 @@ exports.updateById = (req, res) => {
 
   res.status(200).json({ message: 'Ages Updated' });
 };
-
-
