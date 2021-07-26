@@ -5,8 +5,12 @@ const User = require('../../users/userModel');
 const registerUser = async (req, res, next) => {
   let payload = req.body;
 
+  console.log(payload);
+
   try {
     let user = await User.create(payload);
+
+    console.log(user);
 
     user = user[0];
 
@@ -21,7 +25,7 @@ const registerUser = async (req, res, next) => {
       user,
     });
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: 'Server Error Registering User' });
   }
 };
 

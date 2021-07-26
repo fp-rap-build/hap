@@ -15,7 +15,6 @@ import useWindowDimensions from '../../../utils/useWindowDimensions';
 import goldStar from '../../../assets/FP-star-gold.png';
 
 import { Form, Input, Typography, Card, Image, Button } from 'antd';
-import userEvent from '@testing-library/user-event';
 
 const { Title, Text } = Typography;
 
@@ -26,7 +25,7 @@ const initialValues = {
   password: '',
   confirmPassword: '',
   role: 'landlord',
-  orgId: 1,
+  organizationId: 1,
 };
 
 export default function Index() {
@@ -57,13 +56,13 @@ export default function Index() {
 
     // Check if passwords match
     if (formValues.password !== formValues.confirmPassword) {
-      return dispatch(setErrorMessage('Passwords must match'));
+      dispatch(setErrorMessage('Passwords must match'));
+      return;
     }
 
     if (formValues.password.length < 10) {
-      return dispatch(
-        setErrorMessage('Password must be at least 10 characters')
-      );
+      dispatch(setErrorMessage('Password must be at least 10 characters'));
+      return;
     }
 
     dispatch(register(formValues, history));
@@ -81,7 +80,7 @@ export default function Index() {
   return (
     <div>
       <Card
-        title={<FPTitle title="Sign Up - Landlord Account" />}
+        title={<FPTitle title="Landlord Account Registration" />}
         headStyle={{ background: ' #472D5B' }}
         style={{ width: '40rem', margin: '2rem auto 0' }}
       >

@@ -234,7 +234,9 @@ export const register = (userInfo, history) => async dispatch => {
   }
 
   console.log(userInfo);
+
   dispatch(setLoading(true));
+
   try {
     // Register an account
     let res = await axiosWithAuth().post('/auth/register', userInfo);
@@ -250,7 +252,8 @@ export const register = (userInfo, history) => async dispatch => {
     // Redirect to the homepage
     history.push('/');
   } catch (error) {
-    const message = error?.response?.data?.message || 'Internal server error';
+    const message =
+      error?.response?.data?.message || 'Internal Server Error - Register';
 
     dispatch(setErrorMessage(message));
   } finally {

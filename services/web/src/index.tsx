@@ -124,7 +124,7 @@ function RAP() {
 
         <Route exact path="/login" component={LoginPage} />
 
-        <Route path="/login/landlord" component={LandlordLogin} />
+        <Route path="/register/landlord" component={LandlordLogin} />
 
         <Route path="/forgot" exact component={ForgotPassword} />
 
