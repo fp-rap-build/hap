@@ -1,4 +1,4 @@
-import { axiosForPanda } from '../../../../../../../api/axiosForPanda';
+import { axiosForPanda } from '../api/axiosForPanda';
 
 //Takes built out document info
 const createDocument = async documentInfo => {
@@ -13,6 +13,7 @@ const createDocument = async documentInfo => {
   }
 };
 
+//Wait helper to avoid issue as PD processes the document and moves it into an editable status
 const wait = async s => {
   return new Promise(resolve => {
     setTimeout(resolve, s * 1000);
@@ -21,7 +22,7 @@ const wait = async s => {
 
 const sendDocument = async documentId => {
   try {
-    //Need to wait 5s for pandaDoc to process the doc before sending
+    //Need to wait 5s (the uppper limit of their processing time) for pandaDoc to process the doc before sending
     await wait(5);
     await axiosForPanda().post(`/documents/${documentId}/send`, {
       message: 'Hello! This document was sent from the PandaDoc API.',
@@ -115,7 +116,7 @@ const processDocument = async (
     const document = await createDocument(docPayload);
     //set document to sent - aka ready to be edited
     await sendDocument(document.id);
-    //create document link - may run into issue if document status hasn't been updated yet
+    //create document link
     const sessionId = await createDocumentLink(document.id, currentUser.email);
 
     return {
@@ -128,19 +129,27 @@ const processDocument = async (
   }
 };
 
-export { processDocument };
+const processW9 = async docPayload => {
+  try {
+    let document = await createDocument(docPayload);
 
-// const fetchTemplateId = async templateName => {
-//   try {
-//     const templateId = await axiosForPanda()
-//       .get('/templates', {
-//         params: { q: templateName },
-//       })
-//       .then(res => res.data);
+    console.log(document);
 
-//     return templateId.results[0].id;
-//   } catch (error) {
-//     alert('Error fetching template Id');
-//     console.log(error);
-//   }
-// };
+    await sendDocument(document.id);
+    //create document link
+    let sessionId = await createDocumentLink(
+      document.id,
+      docPayload.recipients[0].email
+    );
+
+    return {
+      sessionId: sessionId,
+      docId: document.id,
+      docName: document.name,
+    };
+  } catch (error) {
+    console.log('Error processing PD w9', error);
+  }
+};
+
+export { processDocument, processW9 };

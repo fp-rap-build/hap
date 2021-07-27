@@ -67,10 +67,10 @@ const renderContent = props => {
     case 'information':
       return <RequestInfo {...props} />;
     case 'documents':
-      return <Documents />;
+      return <Documents {...props} />;
     case 'comments':
       return <CommentsContainer {...props} />;
     default:
-      return <RequestInfo />;
+      return <RequestInfo {...props} />;
   }
 };

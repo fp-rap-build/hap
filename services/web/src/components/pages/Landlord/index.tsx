@@ -35,7 +35,8 @@ const RenderDash = ({ currentUser }) => {
     <Layout>
       <Header style={{ backgroundColor: '#472d5b' }}>
         <Title level={3} style={{ color: '#FFFFFF' }}>
-          Hello {currentUser.firstName}, welcome to you HAP Portal!{' '}
+          Hello {currentUser.firstName}, welcome to your HAP Portal! Center Me
+          Vertically!{' '}
         </Title>
       </Header>
       <Content>

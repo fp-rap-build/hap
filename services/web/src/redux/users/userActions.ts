@@ -223,8 +223,6 @@ export const register = (userInfo, history) => async dispatch => {
     delete userInfo.confirmPassword;
   }
 
-  console.log(userInfo);
-
   //trim white space
   for (let key in userInfo) {
     let value = userInfo[key];
@@ -232,8 +230,6 @@ export const register = (userInfo, history) => async dispatch => {
       userInfo[key] = userInfo[key].trim();
     }
   }
-
-  console.log(userInfo);
 
   dispatch(setLoading(true));
 

@@ -5,12 +5,8 @@ const User = require('../../users/userModel');
 const registerUser = async (req, res, next) => {
   let payload = req.body;
 
-  console.log(payload);
-
   try {
     let user = await User.create(payload);
-
-    console.log(user);
 
     user = user[0];
 

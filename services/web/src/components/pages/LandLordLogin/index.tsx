@@ -33,8 +33,6 @@ export default function Index() {
 
   const history = useHistory();
 
-  const isLoading = useSelector(state => state.global.isLoading);
-
   const errorMessage = useSelector(state => state.user.errorMessage);
 
   const [formValues, setFormValues] = useState(initialValues);
@@ -67,15 +65,6 @@ export default function Index() {
 
     dispatch(register(formValues, history));
   };
-
-  //Plan
-  /* 
-  - Build out login and signup components w/ intuitive API
-  - Set up state to handle succesful login/ register (test on login first)
-  - Create middleware to check by email --- so they can only register if one of their 
-    tenants includes their email?
-  - 
-  */
 
   return (
     <div>

@@ -1,8 +1,6 @@
 import { Card, Descriptions } from 'antd';
 
 export default function RequestInfo({ request }) {
-  console.log(request);
-
   const addressCardData = {
     title: 'Address',
     descriptions: [
