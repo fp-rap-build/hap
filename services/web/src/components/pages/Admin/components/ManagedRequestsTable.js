@@ -37,6 +37,8 @@ import StatusCircle from './components/Requests/StatusCircle';
 
 import RenderDocumentStatusCell from './components/Requests/RenderDocumentStatusCell';
 
+import UploadDocModal from '../../../common/DocumentUploaderModal';
+
 import styles from '../../../../styles/pages/admin.module.css';
 
 export default function ManagedRequestsTable() {
@@ -52,6 +54,12 @@ export default function ManagedRequestsTable() {
   const [data, setData] = useState([]);
 
   const [visible, setVisible] = useState(false);
+
+  const [category, setSelectedCategory] = useState(false);
+
+  const [request, setRequest] = useState({});
+
+  const [docModalVisible, setDocModalVisible] = useState(false);
 
   const [documents, setDocuments] = useState({});
 
@@ -96,6 +104,8 @@ export default function ManagedRequestsTable() {
         request['covid'] = [];
 
         request['childrenOrPregnancy'] = [];
+
+        request['identity'] = [];
 
         request['documents'].forEach(doc => {
           if (doc.category) {
@@ -153,7 +163,9 @@ export default function ManagedRequestsTable() {
         return (
           <RenderDocumentStatusCell
             docs={rowData.residency}
-            openDocument={() => openDocument(rowData.residency)}
+            openDocument={() =>
+              openDocument(rowData.residency, 'residency', rowData)
+            }
           />
         );
       },
@@ -164,8 +176,9 @@ export default function ManagedRequestsTable() {
       render: rowData => {
         return (
           <RenderDocumentStatusCell
+            category="income"
             docs={rowData.income}
-            openDocument={() => openDocument(rowData.income)}
+            openDocument={() => openDocument(rowData.income, 'income', rowData)}
           />
         );
       },
@@ -177,8 +190,9 @@ export default function ManagedRequestsTable() {
       render: rowData => {
         return (
           <RenderDocumentStatusCell
+            category="covid"
             docs={rowData.covid}
-            openDocument={() => openDocument(rowData.covid)}
+            openDocument={() => openDocument(rowData.covid, 'covid', rowData)}
           />
         );
       },
@@ -190,8 +204,15 @@ export default function ManagedRequestsTable() {
       render: rowData => {
         return (
           <RenderDocumentStatusCell
+            category="childrenOrPregnancy"
             docs={rowData.childrenOrPregnancy}
-            openDocument={() => openDocument(rowData.childrenOrPregnancy)}
+            openDocument={() =>
+              openDocument(
+                rowData.childrenOrPregnancy,
+                'childrenOrPregnancy',
+                rowData
+              )
+            }
           />
         );
       },
@@ -203,8 +224,15 @@ export default function ManagedRequestsTable() {
       render: rowData => {
         return (
           <RenderDocumentStatusCell
+            category="housingInstability"
             docs={rowData.housingInstability}
-            openDocument={() => openDocument(rowData.housingInstability)}
+            openDocument={() =>
+              openDocument(
+                rowData.housingInstability,
+                'housingInstability',
+                rowData
+              )
+            }
           />
         );
       },
@@ -260,9 +288,16 @@ export default function ManagedRequestsTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const openDocument = doc => {
-    if (doc.length !== 0) {
-      setDocuments(doc);
+  const openDocument = (docs, category, currentRequest) => {
+    let noDocumentsSubmitted = docs.length === 0;
+
+    setRequest(currentRequest);
+    setSelectedCategory(category);
+
+    if (noDocumentsSubmitted) {
+      setDocModalVisible(true);
+    } else {
+      setDocuments(docs);
 
       setVisible(true);
     }
@@ -271,6 +306,13 @@ export default function ManagedRequestsTable() {
   return (
     <div>
       <div className={styles.container}>
+        <UploadDocModal
+          isOpen={docModalVisible}
+          setIsOpen={setDocModalVisible}
+          category={category}
+          request={request}
+          setRequests={setData}
+        />
         <AttachmentViewer
           visible={visible}
           setVisible={setVisible}
