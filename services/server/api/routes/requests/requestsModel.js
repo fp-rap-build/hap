@@ -101,6 +101,7 @@ const findForTable = (params) => {
       'r.unEmp90',
       'r.orgId',
       'r.landlordName',
+      'r.landlordEmail',
       'r.landlordAddress',
       'r.landlordAddress2',
       'r.landlordCity',
@@ -134,6 +135,11 @@ const findForTable = (params) => {
     .modify((qb) => {
       if (params.incomplete) {
         qb.where({ incomplete: params.incomplete });
+      }
+    })
+    .modify((qb) => {
+      if (params.landlordEmail) {
+        qb.where({ landlordEmail: params.landlordEmail });
       }
     });
 };
@@ -226,6 +232,7 @@ const findAllComments = (requestId) =>
       'c.authorId',
       'u.firstName',
       'u.lastName',
+      'u.role',
       'c.comment',
       'c.category',
       'c.createdAt'
@@ -237,7 +244,7 @@ const findTenantByRequestId = (requestId) =>
     .join('users as u', 'r.userId', '=', 'u.id')
     .select('u.email')
     .where('r.id', '=', requestId)
-      .first()
+    .first();
 module.exports = {
   findAll,
   requestOnlyById,

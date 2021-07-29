@@ -3,7 +3,10 @@ import { formatUTC } from '../../../../utils/dates';
 import { Comment } from 'antd';
 
 const RenderComment = ({ comm }) => {
-  const author = comm.firstName + ' ' + comm.lastName;
+  const author =
+    comm.role === 'tenant' || comm.role === 'landlord'
+      ? comm.firstName + ' ' + comm.lastName
+      : comm.firstName;
 
   return (
     <Comment

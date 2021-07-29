@@ -1,10 +1,21 @@
 import { useState, useEffect } from 'react';
-import { Modal, Pagination } from 'antd';
+import { Button, Modal, Pagination } from 'antd';
 import PdfViewer from './components/PdfViewer';
 import ImageViewer from './components/ImageViewer';
 import Status from './components/Status';
+import SubmitDocument from './components/SubmitDocument';
+import { setDocuments } from '../../../../../../redux/requests/requestActions';
+import Category from './components/Category';
 
-export default function Index({ visible, setVisible, documents, setRequests }) {
+export default function Index({
+  visible,
+  setVisible,
+  documents,
+  setDocuments,
+  setRequests,
+  category,
+  request,
+}) {
   const closeDocument = () => setVisible(false);
 
   const [currentDocument, setCurrentDocument] = useState(null);
@@ -13,9 +24,7 @@ export default function Index({ visible, setVisible, documents, setRequests }) {
     setCurrentDocument(documents[0]);
   }, [documents]);
 
-  if (!visible) return <></>;
-
-  if (!currentDocument) return <></>;
+  if (!visible) return <div />;
 
   const changeDocument = page => {
     setCurrentDocument(documents[page - 1]);
@@ -36,7 +45,20 @@ export default function Index({ visible, setVisible, documents, setRequests }) {
         />,
       ]}
     >
-      <Status document={currentDocument} setRequests={setRequests} />
+      <div style={{ display: 'flex', gap: '1rem' }}>
+        {currentDocument && (
+          <>
+            <Status document={currentDocument} setRequests={setRequests} />
+            <Category document={currentDocument} setRequests={setRequests} setDocuments={setDocuments} />
+          </>
+        )}
+        <SubmitDocument
+          request={request}
+          setRequests={setRequests}
+          category={category}
+          setDocuments={setDocuments}
+        />
+      </div>
 
       {currentDocument?.type === 'application/pdf' ? (
         <PdfViewer pdfLocation={currentDocument?.location} />

@@ -16,11 +16,13 @@ import {
 import Layout from './components/Layout';
 import Admin from './components/pages/Admin';
 import Apply from './components/pages/Apply';
+import Landlord from './components/pages/Landlord';
 import { HomePage } from './components/pages/Home';
 import LandingPage from './components/pages/Landing';
 import LoginPage from './components/pages/Login';
 import ForgotPassword from './components/pages/ForgotPassword';
 import ResetPassword from './components/pages/ResetPassword';
+import LandlordRequest from './components/pages/LandlordRequest';
 
 import { NotFoundPage } from './components/pages/NotFound';
 import ProgramManager from './components/pages/ProgramManager';
@@ -137,6 +139,17 @@ function RAP() {
           path="/program_manager"
           roles={['programManager', 'assistantProgramManager']}
           component={ProgramManager}
+        />
+        <PrivateRoute
+          exact
+          path="/landlord"
+          roles={['landlord']}
+          component={Landlord}
+        />
+        <PrivateRoute
+          path="/landlord/request/:id"
+          roles={['landlord']}
+          component={LandlordRequest}
         />
         <PrivateRoute path="/organizations/:id/programs" component={Programs} />
         <Route component={NotFoundPage} />
