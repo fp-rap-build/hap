@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 
 import { Modal, Typography } from 'antd';
 
@@ -51,10 +50,13 @@ const UploadDocModal = ({
     <div className="uploadDocModal">
       <Modal
         title={<Title level={5}>Upload Document</Title>}
+        style={{
+          zIndex: 2000
+        }}
         visible={isOpen}
         onCancel={() => setIsOpen(false)}
         onOk={() => setIsOpen(false)}
-        bodyStyle={{ height: '30vh' }}
+        bodyStyle={{ height: '30vh'}}
       >
         <Uploader
           actionUrl={uploadUrl}

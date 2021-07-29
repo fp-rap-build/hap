@@ -3,13 +3,17 @@ import { Button, Modal, Pagination } from 'antd';
 import PdfViewer from './components/PdfViewer';
 import ImageViewer from './components/ImageViewer';
 import Status from './components/Status';
+import SubmitDocument from './components/SubmitDocument';
+import { setDocuments } from '../../../../../../redux/requests/requestActions';
 
 export default function Index({
   visible,
   setVisible,
   documents,
+  setDocuments,
   setRequests,
-  openDocModal,
+  category,
+  request
 }) {
   const closeDocument = () => setVisible(false);
 
@@ -19,9 +23,7 @@ export default function Index({
     setCurrentDocument(documents[0]);
   }, [documents]);
 
-  if (!visible) return <></>;
-
-  if (!currentDocument) return <></>;
+  if (!visible) return <div />;
 
   const changeDocument = page => {
     setCurrentDocument(documents[page - 1]);
@@ -43,8 +45,11 @@ export default function Index({
       ]}
     >
       <div style={{ display: 'flex', gap: '1rem' }}>
-        <Status document={currentDocument} setRequests={setRequests} />
-        <Button onClick={openDocModal}>Upload</Button>
+        {
+          currentDocument &&
+        <Status document={currentDocument} setRequests={setRequests} /> 
+        }
+        <SubmitDocument  request={request} setRequests={setRequests} category={category} setDocuments={setDocuments} />
       </div>
 
       {currentDocument?.type === 'application/pdf' ? (
