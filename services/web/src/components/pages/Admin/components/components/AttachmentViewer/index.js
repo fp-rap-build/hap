@@ -5,6 +5,7 @@ import ImageViewer from './components/ImageViewer';
 import Status from './components/Status';
 import SubmitDocument from './components/SubmitDocument';
 import { setDocuments } from '../../../../../../redux/requests/requestActions';
+import Category from './components/Category';
 
 export default function Index({
   visible,
@@ -13,7 +14,7 @@ export default function Index({
   setDocuments,
   setRequests,
   category,
-  request
+  request,
 }) {
   const closeDocument = () => setVisible(false);
 
@@ -45,11 +46,18 @@ export default function Index({
       ]}
     >
       <div style={{ display: 'flex', gap: '1rem' }}>
-        {
-          currentDocument &&
-        <Status document={currentDocument} setRequests={setRequests} /> 
-        }
-        <SubmitDocument  request={request} setRequests={setRequests} category={category} setDocuments={setDocuments} />
+        {currentDocument && (
+          <>
+            <Status document={currentDocument} setRequests={setRequests} />
+            <Category document={currentDocument} setRequests={setRequests} setDocuments={setDocuments} />
+          </>
+        )}
+        <SubmitDocument
+          request={request}
+          setRequests={setRequests}
+          category={category}
+          setDocuments={setDocuments}
+        />
       </div>
 
       {currentDocument?.type === 'application/pdf' ? (

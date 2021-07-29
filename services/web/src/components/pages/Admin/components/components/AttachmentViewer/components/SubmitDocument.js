@@ -68,7 +68,10 @@ const Uploader = ({ actionUrl, headers, onFinish }) => {
 
 	return (
 		<Upload {...props}>
-			<Button>Click to Upload</Button>
+			<div style={{ display: 'flex', flexDirection: 'column' }}>
+				Upload:
+				<Button>Click to Upload</Button>
+			</div>
 		</Upload>
 	);
 };
