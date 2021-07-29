@@ -49,6 +49,7 @@ export default function RequestInfo({ request }) {
           {request.zipCode}
         </Descriptions.Item>
       </Descriptions>
+      <p style={{ color: 'red' }}>Still to add: amount owed by month</p>
     </div>
   );
 }

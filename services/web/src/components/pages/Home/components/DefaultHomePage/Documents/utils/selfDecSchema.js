@@ -3,6 +3,8 @@ const templateId = process.env.REACT_APP_SELF_DEC_TEMPLATE_ID;
 const SELF_DEC_SCHEMA = {
   name: '',
   template_uuid: templateId,
+  //folder id's found on panda doc portal under documents
+  folder_uuid: 'iSx4By5SBUBTdyRjXTC4ZK',
   recipients: [
     {
       email: '',

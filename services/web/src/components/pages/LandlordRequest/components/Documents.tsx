@@ -20,6 +20,7 @@ export default function Documents({ request, currentUser }) {
   const w9DocumentPayload = {
     name: `${currentUser.lastName}_W9`,
     template_uuid: templateId,
+    folder_uuid: 'GCinaN9f6mK2PscC3N32ac',
     recipients: [
       {
         email: currentUser.email,
