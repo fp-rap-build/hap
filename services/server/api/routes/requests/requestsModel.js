@@ -226,6 +226,7 @@ const findAllComments = (requestId) =>
       'c.authorId',
       'u.firstName',
       'u.lastName',
+      'u.role',
       'c.comment',
       'c.category',
       'c.createdAt'
@@ -237,7 +238,7 @@ const findTenantByRequestId = (requestId) =>
     .join('users as u', 'r.userId', '=', 'u.id')
     .select('u.email')
     .where('r.id', '=', requestId)
-      .first()
+    .first();
 module.exports = {
   findAll,
   requestOnlyById,
