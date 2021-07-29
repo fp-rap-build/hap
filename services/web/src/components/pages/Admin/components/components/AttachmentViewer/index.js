@@ -1,10 +1,16 @@
 import { useState, useEffect } from 'react';
-import { Modal, Pagination } from 'antd';
+import { Button, Modal, Pagination } from 'antd';
 import PdfViewer from './components/PdfViewer';
 import ImageViewer from './components/ImageViewer';
 import Status from './components/Status';
 
-export default function Index({ visible, setVisible, documents, setRequests }) {
+export default function Index({
+  visible,
+  setVisible,
+  documents,
+  setRequests,
+  openDocModal,
+}) {
   const closeDocument = () => setVisible(false);
 
   const [currentDocument, setCurrentDocument] = useState(null);
@@ -36,7 +42,10 @@ export default function Index({ visible, setVisible, documents, setRequests }) {
         />,
       ]}
     >
-      <Status document={currentDocument} setRequests={setRequests} />
+      <div style={{ display: 'flex', gap: '1rem' }}>
+        <Status document={currentDocument} setRequests={setRequests} />
+        <Button onClick={openDocModal}>Upload</Button>
+      </div>
 
       {currentDocument?.type === 'application/pdf' ? (
         <PdfViewer pdfLocation={currentDocument?.location} />

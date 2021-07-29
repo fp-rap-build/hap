@@ -303,6 +303,8 @@ export default function ManagedRequestsTable() {
     }
   };
 
+  const openDocModal = () => setDocModalVisible(true);
+
   return (
     <div>
       <div className={styles.container}>
@@ -320,6 +322,7 @@ export default function ManagedRequestsTable() {
           setDocuments={documents}
           setRequests={setData}
           requests={data}
+          openDocModal={openDocModal}
         />
         <MaterialTable
           style={{ width: '100%' }}
