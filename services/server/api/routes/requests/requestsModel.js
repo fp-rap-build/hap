@@ -101,6 +101,7 @@ const findForTable = (params) => {
       'r.unEmp90',
       'r.orgId',
       'r.landlordName',
+      'r.landlordEmail',
       'r.landlordAddress',
       'r.landlordAddress2',
       'r.landlordCity',
@@ -134,6 +135,11 @@ const findForTable = (params) => {
     .modify((qb) => {
       if (params.incomplete) {
         qb.where({ incomplete: params.incomplete });
+      }
+    })
+    .modify((qb) => {
+      if (params.landlordEmail) {
+        qb.where({ landlordEmail: params.landlordEmail });
       }
     });
 };
