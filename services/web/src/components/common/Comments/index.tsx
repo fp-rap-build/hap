@@ -61,7 +61,10 @@ const Comments = ({
         await axiosWithAuth().put(`/requests/${requestId}`, {
           latestTenantActivity: new Date(),
         });
-      } else {
+      } else if (
+        currentUser.role === 'programManger' ||
+        currentUser.role === 'admin'
+      ) {
         await axiosWithAuth().put(`/requests/${requestId}`, {
           latestStaffActivity: new Date(),
         });
@@ -74,9 +77,9 @@ const Comments = ({
 
   return (
     <div>
-      {filteredComments ? (
-        filteredComments.map(comm => (
-          <RenderComment key={comm.id} comm={comm} />
+      {filteredComments.length > 0 ? (
+        filteredComments.map(comment => (
+          <RenderComment key={comment.id} comm={comment} />
         ))
       ) : (
         <NoComment />
