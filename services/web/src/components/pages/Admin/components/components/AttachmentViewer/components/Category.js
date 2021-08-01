@@ -22,7 +22,7 @@ export default function Category({ document, setRequests, setDocuments }) {
 			.put(`/documents/${docId}`, { category })
 			.then((res) => {
 				setDocuments((prevState) => prevState.filter((doc) => doc.docId !== docId));
-                
+
 				setRequests((prevState) =>
 					prevState.map((req) => {
 						if (req.id === requestId) {
@@ -63,6 +63,11 @@ export default function Category({ document, setRequests, setDocuments }) {
 			<Menu.Item key="income">income</Menu.Item>
 			<Menu.Item key="housingInstability">Housing Instability</Menu.Item>
 			<Menu.Item key="covid">Covid</Menu.Item>
+			<Menu.Item key="lateNotice">Late Notice</Menu.Item>
+			<Menu.Item key="landlordW9">landlord W9</Menu.Item>
+			<Menu.Item key="identity">Identity</Menu.Item>
+			<Menu.Item key="lease">Lease</Menu.Item>
+			<Menu.Item key="rpaf">rpaf</Menu.Item>
 		</Menu>
 	);
 
