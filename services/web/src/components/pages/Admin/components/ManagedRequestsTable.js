@@ -89,6 +89,16 @@ export default function ManagedRequestsTable() {
 
 				request['other'] = [];
 
+				request['rpaf'] = [];
+
+				request['identity'] = [];
+
+				request['lease'] = [];
+
+				request['lateNotice'] = [];
+
+				request['landlordW9'] = [];
+
 				request['income'] = [];
 
 				request['residency'] = [];
@@ -191,6 +201,20 @@ export default function ManagedRequestsTable() {
 		},
 
 		{
+			title: 'ID',
+			field: 'identity',
+			render: (rowData) => {
+				return (
+					<RenderDocumentStatusCell
+						category="identity"
+						docs={rowData.identity}
+						openDocument={() => openDocument(rowData.identity, 'identity', rowData)}
+					/>
+				);
+			}
+		},
+
+		{
 			title: 'CHI',
 			field: 'childrenOrPregnancy',
 			render: (rowData) => {
@@ -199,6 +223,62 @@ export default function ManagedRequestsTable() {
 						category="childrenOrPregnancy"
 						docs={rowData.childrenOrPregnancy}
 						openDocument={() => openDocument(rowData.childrenOrPregnancy, 'childrenOrPregnancy', rowData)}
+					/>
+				);
+			}
+		},
+
+		{
+			title: 'LEASE',
+			field: 'lease',
+			render: (rowData) => {
+				return (
+					<RenderDocumentStatusCell
+						category="lease"
+						docs={rowData.lease}
+						openDocument={() => openDocument(rowData.lease, 'lease', rowData)}
+					/>
+				);
+			}
+		},
+
+		{
+			title: 'LLW9',
+			field: 'landlordW9',
+			render: (rowData) => {
+				return (
+					<RenderDocumentStatusCell
+						category="landlordW9"
+						docs={rowData.landlordW9}
+						openDocument={() => openDocument(rowData.landlordW9, 'landlordW9', rowData)}
+					/>
+				);
+			}
+		},
+
+		{
+			title: 'LATE',
+			field: 'lateNotice',
+			render: (rowData) => {
+				return (
+					<RenderDocumentStatusCell
+						category="lateNotice"
+						docs={rowData.lateNotice}
+						openDocument={() => openDocument(rowData.landlordW9, 'lateNotice', rowData)}
+					/>
+				);
+			}
+		},
+
+		{
+			title: 'RPAF',
+			field: 'rpaf',
+			render: (rowData) => {
+				return (
+					<RenderDocumentStatusCell
+						category="rpaf"
+						docs={rowData.rpaf}
+						openDocument={() => openDocument(rowData.landlordW9, 'rpaf', rowData)}
 					/>
 				);
 			}
@@ -278,8 +358,6 @@ export default function ManagedRequestsTable() {
 		setVisible(true);
 	};
 
-	const openDocModal = () => setDocModalVisible(true);
-
 	return (
 		<div>
 			<div className={styles.container}>
@@ -296,7 +374,6 @@ export default function ManagedRequestsTable() {
 				<MaterialTable
 					style={{ width: '100%' }}
 					detailPanel={(rowData) => {
-						console.log(rowData);
 						return <CommentsContainer request={rowData} />;
 					}}
 					isLoading={isFetching}
