@@ -39,6 +39,7 @@ import UploadDocModal from '../../../common/DocumentUploaderModal';
 import styles from '../../../../styles/pages/admin.module.css';
 import CommentsContainer from '../../Requests/components/RequestInformation/components/CommentsContainer';
 import Comments from '../../../common/Comments';
+import EmailedLLCheckbox from './components/Requests/EmailedLLCheckbox';
 
 export default function ManagedRequestsTable() {
 	const history = useHistory();
@@ -297,6 +298,15 @@ export default function ManagedRequestsTable() {
 				);
 			}
 		},
+
+		{
+			title: 'EMLL',
+			field: 'emailedLandlord',
+			render: (rowData) => {
+				return <EmailedLLCheckbox emailedLandlord={rowData.emailedLandlord} requestId={rowData.id} />;
+			}
+		},
+
 		{
 			title: 'AMI',
 			field: 'ami'
