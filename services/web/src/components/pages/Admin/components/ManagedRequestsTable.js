@@ -40,6 +40,8 @@ import styles from '../../../../styles/pages/admin.module.css';
 import CommentsContainer from '../../Requests/components/RequestInformation/components/CommentsContainer';
 import Comments from '../../../common/Comments';
 import EmailedLLCheckbox from './components/Requests/EmailedLLCheckbox';
+import { formatDate } from '../../../../utils/dates/date';
+import { formatUTC } from '../../../../utils/dates';
 
 export default function ManagedRequestsTable() {
 	const history = useHistory();
@@ -87,6 +89,8 @@ export default function ManagedRequestsTable() {
 				request['tenantDifference'] = (new Date() - new Date(request.latestTenantActivity)) / 3600000;
 
 				request['staffDifference'] = (new Date() - new Date(request.latestStaffActivity)) / 3600000;
+
+				request['lastReply'] = formatUTC(request.latestTenantActivity);
 
 				request['other'] = [];
 
@@ -305,6 +309,11 @@ export default function ManagedRequestsTable() {
 			render: (rowData) => {
 				return <EmailedLLCheckbox emailedLandlord={rowData.emailedLandlord} requestId={rowData.id} />;
 			}
+		},
+
+		{
+			title: 'Last Reply',
+			field: 'lastReply'
 		},
 
 		{
