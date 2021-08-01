@@ -37,6 +37,8 @@ import RenderDocumentStatusCell from './components/Requests/RenderDocumentStatus
 import UploadDocModal from '../../../common/DocumentUploaderModal';
 
 import styles from '../../../../styles/pages/admin.module.css';
+import CommentsContainer from '../../Requests/components/RequestInformation/components/CommentsContainer';
+import Comments from '../../../common/Comments';
 
 export default function ManagedRequestsTable() {
 	const history = useHistory();
@@ -293,6 +295,10 @@ export default function ManagedRequestsTable() {
 				/>
 				<MaterialTable
 					style={{ width: '100%' }}
+					detailPanel={(rowData) => {
+						console.log(rowData);
+						return <CommentsContainer request={rowData} />;
+					}}
 					isLoading={isFetching}
 					options={{
 						pageSize: 10,
