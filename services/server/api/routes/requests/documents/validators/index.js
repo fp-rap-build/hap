@@ -4,31 +4,30 @@ const Documents = require('../../documents/documentModel');
 const checkIfDocumentsAreMissing = require('../../../documents/utils/checkIfAllDocumentsAreSubmitted');
 
 const validateRequestId = async (req, res, next) => {
-  const { id } = req.params;
 
-  try {
-    const request = await Requests.findById(id);
+	const { id } = req.params;
 
-    if (request.length === 0) {
-      return res
-        .status(404)
-        .json({ message: `Request with id of ${id} does not exist` });
-    }
+	try {
+		const request = await Requests.findById(id);
 
-    next();
-  } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
-  }
+		if (request.length === 0) {
+			return res.status(404).json({ message: `Request with id of ${id} does not exist` });
+		}
+
+		next();
+	} catch (error) {
+		res.status(500).json({ message: 'Internal server error' });
+	}
 };
 
 const checkIfAllDocumentsAreSubmitted = (req, res, next) => {
-  const docsMissing = checkIfAllDocumentsAreMissing();
+	const docsMissing = checkIfAllDocumentsAreMissing();
 
-  if (docsMissing) {
-  }
+	if (docsMissing) {
+	}
 
-  try {
-  } catch (error) {}
+	try {
+	} catch (error) {}
 };
 
 module.exports = { validateRequestId, checkIfAllDocumentsAreSubmitted };

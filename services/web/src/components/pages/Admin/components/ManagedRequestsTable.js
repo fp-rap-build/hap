@@ -90,7 +90,7 @@ export default function ManagedRequestsTable() {
 
 				request['staffDifference'] = (new Date() - new Date(request.latestStaffActivity)) / 3600000;
 
-				request['lastReply'] = formatUTC(request.latestTenantActivity);
+				request['lastAction'] = formatUTC(request.latestTenantActivity);
 
 				request['other'] = [];
 
@@ -269,7 +269,7 @@ export default function ManagedRequestsTable() {
 					<RenderDocumentStatusCell
 						category="lateNotice"
 						docs={rowData.lateNotice}
-						openDocument={() => openDocument(rowData.landlordW9, 'lateNotice', rowData)}
+						openDocument={() => openDocument(rowData.lateNotice, 'lateNotice', rowData)}
 					/>
 				);
 			}
@@ -283,7 +283,7 @@ export default function ManagedRequestsTable() {
 					<RenderDocumentStatusCell
 						category="rpaf"
 						docs={rowData.rpaf}
-						openDocument={() => openDocument(rowData.landlordW9, 'rpaf', rowData)}
+						openDocument={() => openDocument(rowData.rpaf, 'rpaf', rowData)}
 					/>
 				);
 			}
@@ -312,8 +312,8 @@ export default function ManagedRequestsTable() {
 		},
 
 		{
-			title: 'Last Reply',
-			field: 'lastReply'
+			title: 'Last Action',
+			field: 'lastAction'
 		},
 
 		{
