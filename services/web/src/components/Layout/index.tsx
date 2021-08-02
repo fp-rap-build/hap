@@ -16,7 +16,7 @@ export default function index({ children }) {
       <NotificationsPanal />
       <Watermark />
 
-      <h5>HAP v1.4.5</h5>
+      <h5>HAP v1.5.5</h5>
       </div>
   );
 }
