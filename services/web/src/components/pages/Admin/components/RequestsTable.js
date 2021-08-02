@@ -17,8 +17,6 @@ import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import WarningFilled from '@material-ui/icons/Warning';
 
-import AttachmentViewer from './components/AttachmentViewer';
-
 import { message, Modal, Tooltip } from 'antd';
 
 import {

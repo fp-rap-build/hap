@@ -57,6 +57,13 @@ const Comments = ({
     try {
       await axiosWithAuth().post('/comments', commentToPOST);
 
+      //update comment for local state update
+      commentToPOST['firstName'] = currentUser.firstName;
+      commentToPOST['lastName'] = currentUser.lastName;
+      commentToPOST['role'] = currentUser.role;
+      //update local state so comment displays immediately
+      setComments([...comments, commentToPOST]);
+
       if (currentUser.role === 'tenant') {
         await axiosWithAuth().put(`/requests/${requestId}`, {
           latestTenantActivity: new Date(),
@@ -79,7 +86,7 @@ const Comments = ({
     <div>
       {filteredComments.length > 0 ? (
         filteredComments.map(comment => (
-          <RenderComment key={comment.id} comment={comment} />
+          <RenderComment key={comment.id} comm={comment} />
         ))
       ) : (
         <NoComment />

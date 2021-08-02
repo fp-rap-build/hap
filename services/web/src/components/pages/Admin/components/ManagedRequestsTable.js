@@ -37,7 +37,14 @@ import StatusCircle from './components/Requests/StatusCircle';
 
 import RenderDocumentStatusCell from './components/Requests/RenderDocumentStatusCell';
 
+import UploadDocModal from '../../../common/DocumentUploaderModal';
+
 import styles from '../../../../styles/pages/admin.module.css';
+import CommentsContainer from '../../Requests/components/RequestInformation/components/CommentsContainer';
+import Comments from '../../../common/Comments';
+import EmailedLLCheckbox from './components/Requests/EmailedLLCheckbox';
+import { formatDate } from '../../../../utils/dates/date';
+import { formatUTC } from '../../../../utils/dates';
 
 export default function ManagedRequestsTable() {
   const history = useHistory();
@@ -52,6 +59,12 @@ export default function ManagedRequestsTable() {
   const [data, setData] = useState([]);
 
   const [visible, setVisible] = useState(false);
+
+  const [category, setSelectedCategory] = useState(false);
+
+  const [request, setRequest] = useState({});
+
+  const [docModalVisible, setDocModalVisible] = useState(false);
 
   const [documents, setDocuments] = useState({});
 
@@ -85,7 +98,19 @@ export default function ManagedRequestsTable() {
         request['staffDifference'] =
           (new Date() - new Date(request.latestStaffActivity)) / 3600000;
 
+        request['lastAction'] = formatUTC(request.latestTenantActivity);
+
         request['other'] = [];
+
+        request['rpaf'] = [];
+
+        request['identity'] = [];
+
+        request['lease'] = [];
+
+        request['lateNotice'] = [];
+
+        request['landlordW9'] = [];
 
         request['income'] = [];
 
@@ -96,6 +121,8 @@ export default function ManagedRequestsTable() {
         request['covid'] = [];
 
         request['childrenOrPregnancy'] = [];
+
+        request['identity'] = [];
 
         request['documents'].forEach(doc => {
           if (doc.category) {
@@ -153,7 +180,9 @@ export default function ManagedRequestsTable() {
         return (
           <RenderDocumentStatusCell
             docs={rowData.residency}
-            openDocument={() => openDocument(rowData.residency)}
+            openDocument={() =>
+              openDocument(rowData.residency, 'residency', rowData)
+            }
           />
         );
       },
@@ -164,8 +193,9 @@ export default function ManagedRequestsTable() {
       render: rowData => {
         return (
           <RenderDocumentStatusCell
+            category="income"
             docs={rowData.income}
-            openDocument={() => openDocument(rowData.income)}
+            openDocument={() => openDocument(rowData.income, 'income', rowData)}
           />
         );
       },
@@ -177,8 +207,25 @@ export default function ManagedRequestsTable() {
       render: rowData => {
         return (
           <RenderDocumentStatusCell
+            category="covid"
             docs={rowData.covid}
-            openDocument={() => openDocument(rowData.covid)}
+            openDocument={() => openDocument(rowData.covid, 'covid', rowData)}
+          />
+        );
+      },
+    },
+
+    {
+      title: 'ID',
+      field: 'identity',
+      render: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            category="identity"
+            docs={rowData.identity}
+            openDocument={() =>
+              openDocument(rowData.identity, 'identity', rowData)
+            }
           />
         );
       },
@@ -190,8 +237,75 @@ export default function ManagedRequestsTable() {
       render: rowData => {
         return (
           <RenderDocumentStatusCell
+            category="childrenOrPregnancy"
             docs={rowData.childrenOrPregnancy}
-            openDocument={() => openDocument(rowData.childrenOrPregnancy)}
+            openDocument={() =>
+              openDocument(
+                rowData.childrenOrPregnancy,
+                'childrenOrPregnancy',
+                rowData
+              )
+            }
+          />
+        );
+      },
+    },
+
+    {
+      title: 'LEASE',
+      field: 'lease',
+      render: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            category="lease"
+            docs={rowData.lease}
+            openDocument={() => openDocument(rowData.lease, 'lease', rowData)}
+          />
+        );
+      },
+    },
+
+    {
+      title: 'LLW9',
+      field: 'landlordW9',
+      render: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            category="landlordW9"
+            docs={rowData.landlordW9}
+            openDocument={() =>
+              openDocument(rowData.landlordW9, 'landlordW9', rowData)
+            }
+          />
+        );
+      },
+    },
+
+    {
+      title: 'LATE',
+      field: 'lateNotice',
+      render: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            category="lateNotice"
+            docs={rowData.lateNotice}
+            openDocument={() =>
+              openDocument(rowData.lateNotice, 'lateNotice', rowData)
+            }
+          />
+        );
+      },
+    },
+
+    {
+      title: 'RPAF',
+      field: 'rpaf',
+      render: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            category="rpaf"
+            docs={rowData.rpaf}
+            openDocument={() => openDocument(rowData.rpaf, 'rpaf', rowData)}
           />
         );
       },
@@ -203,12 +317,38 @@ export default function ManagedRequestsTable() {
       render: rowData => {
         return (
           <RenderDocumentStatusCell
+            category="housingInstability"
             docs={rowData.housingInstability}
-            openDocument={() => openDocument(rowData.housingInstability)}
+            openDocument={() =>
+              openDocument(
+                rowData.housingInstability,
+                'housingInstability',
+                rowData
+              )
+            }
           />
         );
       },
     },
+
+    {
+      title: 'EMLL',
+      field: 'emailedLandlord',
+      render: rowData => {
+        return (
+          <EmailedLLCheckbox
+            emailedLandlord={rowData.emailedLandlord}
+            requestId={rowData.id}
+          />
+        );
+      },
+    },
+
+    {
+      title: 'Last Action',
+      field: 'lastAction',
+    },
+
     {
       title: 'AMI',
       field: 'ami',
@@ -260,12 +400,14 @@ export default function ManagedRequestsTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const openDocument = doc => {
-    if (doc.length !== 0) {
-      setDocuments(doc);
+  const openDocument = (docs, category, currentRequest) => {
+    setRequest(currentRequest);
 
-      setVisible(true);
-    }
+    setSelectedCategory(category);
+
+    setDocuments(docs);
+
+    setVisible(true);
   };
 
   return (
@@ -275,12 +417,17 @@ export default function ManagedRequestsTable() {
           visible={visible}
           setVisible={setVisible}
           documents={documents}
-          setDocuments={documents}
+          setDocuments={setDocuments}
           setRequests={setData}
           requests={data}
+          request={request}
+          category={category}
         />
         <MaterialTable
           style={{ width: '100%' }}
+          detailPanel={rowData => {
+            return <CommentsContainer request={rowData} />;
+          }}
           isLoading={isFetching}
           options={{
             pageSize: 10,

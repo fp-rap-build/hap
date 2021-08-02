@@ -60,14 +60,17 @@ export default function Status({ document, setRequests }) {
   );
 
   return (
-    <Dropdown.Button
-      style={{ marginBottom: '1rem' }}
-      icon={loading ? <LoadingOutlined /> : <EllipsisOutlined />}
-      onClick={handleButtonClick}
-      overlay={menu}
-    >
-      {camelCaseToSentenceCase(status)}
-    </Dropdown.Button>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      Status:
+      <Dropdown.Button
+        style={{ marginBottom: '1rem' }}
+        icon={loading ? <LoadingOutlined /> : <EllipsisOutlined />}
+        onClick={handleButtonClick}
+        overlay={menu}
+      >
+        {camelCaseToSentenceCase(status)}
+      </Dropdown.Button>
+    </div>
   );
 }
 

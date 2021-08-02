@@ -178,6 +178,7 @@ export default function Index() {
       ? INITIAL_VALUES_DEV
       : INITIAL_VALUES_PROD
   );
+
   const [formConsent, setFormConsent] = useState(false);
 
   const handleChange = e => {
