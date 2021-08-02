@@ -35,14 +35,14 @@ const CommentsContainer = ({ request }) => {
   }, []);
 
   return (
-    <Collapse defaultActiveKey={['1']}>
+    <Collapse>
       <Panel header="Applicant Comments" key="1">
         <Comments
           request={request}
           comments={comments}
           setComments={setComments}
           category="external"
-          notification={`${currentUser.firstName} left a comment on ${request.firstName}'s request`}
+          notification={`${currentUser?.firstName} left a comment on ${request?.firstName}'s request`}
         />
       </Panel>
       <Panel header="Internal Case Notes" key="2">
@@ -51,7 +51,7 @@ const CommentsContainer = ({ request }) => {
           comments={comments}
           setComments={setComments}
           category="internal"
-          notification={`${currentUser.firstName} left a comment on ${request.firstName}'s request`}
+          notification={`${currentUser?.firstName} left a comment on ${request?.firstName}'s request`}
         />
       </Panel>
     </Collapse>
