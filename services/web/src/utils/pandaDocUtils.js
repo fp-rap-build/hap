@@ -129,7 +129,7 @@ const processDocument = async (
   }
 };
 
-const processW9 = async docPayload => {
+const processLLDoc = async docPayload => {
   try {
     let document = await createDocument(docPayload);
 
@@ -152,4 +152,4 @@ const processW9 = async docPayload => {
   }
 };
 
-export { processDocument, processW9 };
+export { processDocument, processLLDoc };

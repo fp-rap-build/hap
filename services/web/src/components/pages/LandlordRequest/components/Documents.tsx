@@ -1,10 +1,11 @@
 import { useState } from 'react';
 
-import { processW9 } from '../../../../utils/pandaDocUtils';
+import { processLLDoc } from '../../../../utils/pandaDocUtils';
 
 import { Button } from 'antd';
 
-const templateId = process.env.REACT_APP_W9_TEMPLATE_ID;
+const w9TemplateId = process.env.REACT_APP_W9_TEMPLATE_ID;
+const pafTemplateId = process.env.REACT_APP_PAF_TEMPLATE_ID;
 
 export default function Documents({ request, currentUser }) {
   const [documentURL, setDocumentURL] = useState('');
@@ -13,13 +14,17 @@ export default function Documents({ request, currentUser }) {
   const date =
     today.getMonth() + 1 + '-' + today.getDate() + '-' + today.getFullYear();
 
-  const address = request.landlordAddress2
+  const llStreetAddress = request.landlordAddress2
     ? `${request.landlordAddress}, ${request.landlordAddress2}`
     : request.landlordAddress;
 
+  const tenantStreetAddress = request.addressLine2
+    ? `${request.address} ${request.addressLine2}`
+    : request.address;
+
   const w9DocumentPayload = {
     name: `${currentUser.lastName}_W9`,
-    template_uuid: templateId,
+    template_uuid: w9TemplateId,
     folder_uuid: 'GCinaN9f6mK2PscC3N32ac',
     recipients: [
       {
@@ -37,7 +42,7 @@ export default function Documents({ request, currentUser }) {
         value: date,
       },
       address: {
-        value: address,
+        value: llStreetAddress,
       },
       cityStateZip: {
         value: `${request.landlordCity} ${request.landlordState}, ${request.landlordZip}`,
@@ -45,9 +50,47 @@ export default function Documents({ request, currentUser }) {
     },
   };
 
-  const createPandaW9 = async docPayload => {
+  const pafDocumentPayload = {
+    name: `${currentUser.lastName}_W9`,
+    template_uuid: pafTemplateId,
+    folder_uuid: 'qWs5jN6q6ZBXNz65zPhLrS',
+    recipients: [
+      {
+        email: currentUser.email,
+        first_name: currentUser.firstName,
+        last_name: currentUser.lastName,
+        role: 'landlord',
+      },
+    ],
+    fields: {
+      householdId: {
+        value: request.id,
+      },
+      tenantName: {
+        value: `${request.firstName} ${request.lastName}`,
+      },
+      rentalAddress: {
+        //street, city, state, zip
+        value: `${tenantStreetAddress}, ${request.cityName}, ${request.state}, ${request.zipCode}`,
+      },
+      landlordName: {
+        value: `${currentUser.firstName} ${currentUser.lastName}`,
+      },
+      paymentAddress: {
+        value: llStreetAddress,
+      },
+      landlordCityState: {
+        value: `${request.landlordCity} / ${request.landlordState}`,
+      },
+      landlordZip: {
+        value: request.landlordZip,
+      },
+    },
+  };
+
+  const createPandaDoc = async docPayload => {
     try {
-      const res = await processW9(docPayload);
+      const res = await processLLDoc(docPayload);
       setDocumentURL(`https://app.pandadoc.com/s/${res.sessionId}`);
     } catch (error) {
       console.log(error);
@@ -57,8 +100,12 @@ export default function Documents({ request, currentUser }) {
 
   return (
     <div>
-      <Button onClick={() => createPandaW9(w9DocumentPayload)}>
+      <Button onClick={() => createPandaDoc(w9DocumentPayload)}>
         Create W9
+      </Button>
+      <Button onClick={() => createPandaDoc(pafDocumentPayload)}>
+        {' '}
+        Create PAF
       </Button>
       {documentURL ? (
         <div className="documentContainer">
