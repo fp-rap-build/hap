@@ -7,11 +7,10 @@
 
 .docCardContainer {
   display: flex;
-  flex-flow: row wrap;
-  justify-content: flex-start;
+  flex-direction: column;
 }
 
 .documentCard {
   width: 35rem;
-  margin-top: 5%;
+  margin-bottom: 3%;
 }

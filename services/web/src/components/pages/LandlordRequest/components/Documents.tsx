@@ -4,14 +4,17 @@ import { processLLDoc } from '../../../../utils/pandaDocUtils';
 
 import styles from '../../../../styles/pages/landlord.module.css';
 
-import { Button, Card, Typography, Tag } from 'antd';
+import { Button, Card, Typography, Tag, Modal, Spin } from 'antd';
 const { Text, Title } = Typography;
 
 const w9TemplateId = process.env.REACT_APP_W9_TEMPLATE_ID;
 const pafTemplateId = process.env.REACT_APP_PAF_TEMPLATE_ID;
 
 export default function Documents({ request, currentUser }) {
-  const [documentURL, setDocumentURL] = useState('');
+  const [documentInfo, setDocumentInfo] = useState({});
+
+  const [loadingDoc, setLoadingDoc] = useState(false);
+  const [displayModal, setDisplayModal] = useState(false);
 
   const today = new Date();
   const date =
@@ -95,22 +98,38 @@ export default function Documents({ request, currentUser }) {
   };
 
   const createPandaDoc = async docPayload => {
+    setLoadingDoc(true);
+    setDisplayModal(true);
     try {
       const res = await processLLDoc(docPayload);
       // RETURNS:
       // sessionId
       // docId
       // docName
-      setDocumentURL(`https://app.pandadoc.com/s/${res.sessionId}`);
+      setDocumentInfo(res);
     } catch (error) {
       console.log(error);
       console.log(error);
+    } finally {
+      setLoadingDoc(false);
     }
+  };
+
+  const handleModalClose = () => {
+    setDocumentInfo({});
+    setDisplayModal(false);
+  };
+
+  const props = {
+    loadingDoc,
+    documentInfo,
+    displayModal,
+    handleModalClose,
   };
 
   return (
     <div>
-      {documentURL ? (
+      {/* {documentURL ? (
         <div className="documentContainer">
           <iframe
             title="Self Dec Embed"
@@ -118,7 +137,7 @@ export default function Documents({ request, currentUser }) {
             style={{ height: '70vh', width: '75vw' }}
           ></iframe>
         </div>
-      ) : null}
+      ) : null} */}
       <div className={styles.docCardContainer}>
         <Card
           className={styles.documentCard}
@@ -177,6 +196,39 @@ export default function Documents({ request, currentUser }) {
           </Text>
         </Card>
       </div>
+      <DocModal {...props} />
     </div>
   );
 }
+
+const DocModal = ({
+  loadingDoc,
+  documentInfo,
+  displayModal,
+  handleModalClose,
+}) => {
+  return (
+    <>
+      <Modal
+        maskClosable={false}
+        footer={null}
+        visible={displayModal}
+        bodyStyle={documentInfo ? { height: '80vh' } : { height: '16rem' }}
+        width={documentInfo ? '80vw' : 520}
+        onCancel={handleModalClose}
+      >
+        {loadingDoc ? (
+          <Spin tip="Creating your document..." />
+        ) : (
+          <div className="documentContainer">
+            <iframe
+              title="Self Dec Embed"
+              src={`https://app.pandadoc.com/s/${documentInfo.sessionId}`}
+              style={{ height: '70vh', width: '75vw' }}
+            ></iframe>
+          </div>
+        )}
+      </Modal>
+    </>
+  );
+};
