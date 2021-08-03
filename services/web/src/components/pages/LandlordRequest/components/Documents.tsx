@@ -143,6 +143,8 @@ export default function Documents({ request, currentUser, requestDocuments }) {
       await axiosWithAuth()
         .post('/documents', document)
         .then(res => res.data);
+
+      setDocumentStatuses({ ...documentStatuses, [selectedCategory]: 1 });
     } catch (error) {
       alert('Error saving document');
     }
