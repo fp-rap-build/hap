@@ -1,0 +1,17 @@
+.tag {
+  font-size: 0.9rem;
+  width: 5rem;
+  text-align: center;
+  padding: 2% 0;
+}
+
+.docCardContainer {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  border: 1px solid green;
+}
+
+.documentCard {
+  width: 35rem;
+}

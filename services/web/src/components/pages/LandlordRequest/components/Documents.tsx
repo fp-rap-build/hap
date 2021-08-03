@@ -2,7 +2,10 @@ import { useState } from 'react';
 
 import { processLLDoc } from '../../../../utils/pandaDocUtils';
 
-import { Button } from 'antd';
+import styles from '../../../../styles/pages/landlord.module.css';
+
+import { Button, Card, Typography, Tag } from 'antd';
+const { Text, Title } = Typography;
 
 const w9TemplateId = process.env.REACT_APP_W9_TEMPLATE_ID;
 const pafTemplateId = process.env.REACT_APP_PAF_TEMPLATE_ID;
@@ -94,6 +97,10 @@ export default function Documents({ request, currentUser }) {
   const createPandaDoc = async docPayload => {
     try {
       const res = await processLLDoc(docPayload);
+      // RETURNS:
+      // sessionId
+      // docId
+      // docName
       setDocumentURL(`https://app.pandadoc.com/s/${res.sessionId}`);
     } catch (error) {
       console.log(error);
@@ -103,13 +110,6 @@ export default function Documents({ request, currentUser }) {
 
   return (
     <div>
-      <Button onClick={() => createPandaDoc(w9DocumentPayload)}>
-        Create W9
-      </Button>
-      <Button onClick={() => createPandaDoc(pafDocumentPayload)}>
-        {' '}
-        Create PAF
-      </Button>
       {documentURL ? (
         <div className="documentContainer">
           <iframe
@@ -119,20 +119,64 @@ export default function Documents({ request, currentUser }) {
           ></iframe>
         </div>
       ) : null}
-      <p>LL Documents</p>
-      <ul>
-        <li>Will need status for LL required docs similar to user dash</li>
-        <li>Need a fillable W9 - at launch</li>
-        <li>
-          Need a fillable PAF - this will require input from LL and Tenant and
-          needs new info (amounts owed and requests by month)
-        </li>
-        <li>Additional Docs needed? Upload only vs. PD</li>
-        <li>
-          Refactor doc state managment?? - will need to plan to see if it's
-          worth the time at this stage
-        </li>
-      </ul>
+      <div className={styles.docCardContainer}>
+        <Card
+          className={styles.documentCard}
+          title={
+            <Button
+              type="link"
+              onClick={() => createPandaDoc(w9DocumentPayload)}
+              style={{ fontSize: '1.25rem', fontWeight: 'bold' }}
+            >
+              Create a W9
+            </Button>
+          }
+          extra={
+            <div>
+              <Text strong style={{ marginRight: '.5rem' }}>
+                Status:
+              </Text>
+              <Tag color="red" className={styles.tag}>
+                Missing
+              </Tag>
+            </div>
+          }
+        >
+          <Text>
+            We will need a valid W9 with your signature to process and send
+            payments. Clink the link above to create, sign, and submit a W9!
+          </Text>
+        </Card>
+
+        <Card
+          className={styles.documentCard}
+          title={
+            <Button
+              type="link"
+              onClick={() => createPandaDoc(pafDocumentPayload)}
+              style={{ fontSize: '1.25rem', fontWeight: 'bold' }}
+            >
+              Create a Payment Agreement Form
+            </Button>
+          }
+          extra={
+            <div>
+              <Text strong style={{ marginRight: '.5rem' }}>
+                Status:
+              </Text>
+              <Tag color="red" className={styles.tag}>
+                Missing
+              </Tag>
+            </div>
+          }
+        >
+          <Text>
+            Rent Payment Agreement Form Version 2. Once complete we will contact
+            the tenant to determine elgibility. Submitting this form does not
+            guarantee payment.
+          </Text>
+        </Card>
+      </div>
     </div>
   );
 }
