@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { axiosWithAuth } from '../../../../api/axiosWithAuth';
+
 import { processLLDoc } from '../../../../utils/pandaDocUtils';
 
 import styles from '../../../../styles/pages/landlord.module.css';
@@ -11,11 +13,17 @@ const w9TemplateId = process.env.REACT_APP_W9_TEMPLATE_ID;
 const pafTemplateId = process.env.REACT_APP_PAF_TEMPLATE_ID;
 
 export default function Documents({ request, currentUser }) {
-  const [documentInfo, setDocumentInfo] = useState({});
-
+  //Document info populated with resonse from panda docs after creating a document
+  const [documentInfo, setDocumentInfo] = useState({
+    sessionId: null,
+    docId: null,
+    docName: null,
+  });
+  //manages spin component vs. document viewport
   const [loadingDoc, setLoadingDoc] = useState(false);
-  const [displayModal, setDisplayModal] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('');
 
+  // ----------- Organize / Build info for documents ----------------
   const today = new Date();
   const date =
     today.getMonth() + 1 + '-' + today.getDate() + '-' + today.getFullYear();
@@ -97,114 +105,161 @@ export default function Documents({ request, currentUser }) {
     },
   };
 
+  //--------------- HELPERS -----------------
+
   const createPandaDoc = async docPayload => {
     setLoadingDoc(true);
-    setDisplayModal(true);
     try {
       const res = await processLLDoc(docPayload);
-      // RETURNS:
-      // sessionId
-      // docId
-      // docName
       setDocumentInfo(res);
     } catch (error) {
       console.log(error);
-      console.log(error);
+      alert('Error creating document');
     } finally {
       setLoadingDoc(false);
     }
   };
 
-  const handleModalClose = () => {
-    setDocumentInfo({});
-    setDisplayModal(false);
+  const postDocumentToDB = async () => {
+    const document = {
+      requestId: request.id,
+      name: documentInfo.docName,
+      type: 'application/pdf',
+      location: process.env.REACT_APP_PLACEHOLDER_LOCATION,
+      key: process.env.REACT_APP_PLACEHOLDER_KEY,
+      category: selectedCategory,
+      status: 'received',
+      pandaId: documentInfo.docId,
+    };
+
+    try {
+      await axiosWithAuth()
+        .post('/documents', document)
+        .then(res => res.data);
+    } catch (error) {
+      alert('Error saving document');
+    }
   };
 
-  const props = {
+  const handleModalClose = () => {
+    postDocumentToDB();
+    setDocumentInfo({ sessionId: null, docId: null, docName: null });
+    setSelectedCategory('');
+  };
+
+  const modalProps = {
     loadingDoc,
     documentInfo,
-    displayModal,
     handleModalClose,
+    selectedCategory,
   };
 
   return (
     <div>
-      {/* {documentURL ? (
-        <div className="documentContainer">
-          <iframe
-            title="Self Dec Embed"
-            src={documentURL}
-            style={{ height: '70vh', width: '75vw' }}
-          ></iframe>
-        </div>
-      ) : null} */}
       <div className={styles.docCardContainer}>
-        <Card
-          className={styles.documentCard}
-          title={
-            <Button
-              type="link"
-              onClick={() => createPandaDoc(w9DocumentPayload)}
-              style={{ fontSize: '1.25rem', fontWeight: 'bold' }}
-            >
-              Create a W9
-            </Button>
-          }
-          extra={
-            <div>
-              <Text strong style={{ marginRight: '.5rem' }}>
-                Status:
-              </Text>
-              <Tag color="red" className={styles.tag}>
-                Missing
-              </Tag>
-            </div>
-          }
-        >
-          <Text>
-            We will need a valid W9 with your signature to process and send
-            payments. Clink the link above to create, sign, and submit a W9!
-          </Text>
-        </Card>
-
-        <Card
-          className={styles.documentCard}
-          title={
-            <Button
-              type="link"
-              onClick={() => createPandaDoc(pafDocumentPayload)}
-              style={{ fontSize: '1.25rem', fontWeight: 'bold' }}
-            >
-              Create a Payment Agreement Form
-            </Button>
-          }
-          extra={
-            <div>
-              <Text strong style={{ marginRight: '.5rem' }}>
-                Status:
-              </Text>
-              <Tag color="red" className={styles.tag}>
-                Missing
-              </Tag>
-            </div>
-          }
-        >
-          <Text>
-            Rent Payment Agreement Form Version 2. Once complete we will contact
-            the tenant to determine elgibility. Submitting this form does not
-            guarantee payment.
-          </Text>
-        </Card>
+        <W9DocumentCard
+          createPandaDoc={createPandaDoc}
+          w9DocumentPayload={w9DocumentPayload}
+          setSelectedCategory={setSelectedCategory}
+        />
+        <PAFDocumentCard
+          createPandaDoc={createPandaDoc}
+          pafDocumentPayload={pafDocumentPayload}
+          setSelectedCategory={setSelectedCategory}
+        />
       </div>
-      <DocModal {...props} />
+      <DocumentModal {...modalProps} />
     </div>
   );
 }
 
-const DocModal = ({
+const W9DocumentCard = ({
+  createPandaDoc,
+  w9DocumentPayload,
+  setSelectedCategory,
+}) => {
+  const handleClick = () => {
+    createPandaDoc(w9DocumentPayload);
+    setSelectedCategory('rpaf');
+  };
+
+  return (
+    <Card
+      className={styles.documentCard}
+      title={
+        <Button
+          type="link"
+          onClick={handleClick}
+          style={{ fontSize: '1.25rem', fontWeight: 'bold' }}
+        >
+          Create a W9
+        </Button>
+      }
+      extra={
+        <div>
+          <Text strong style={{ marginRight: '.5rem' }}>
+            Status:
+          </Text>
+          <Tag color="red" className={styles.tag}>
+            Missing
+          </Tag>
+        </div>
+      }
+    >
+      <Text>
+        We will need a valid W9 with your signature to process and send
+        payments. Clink the link above to create, sign, and submit a W9!
+      </Text>
+    </Card>
+  );
+};
+
+const PAFDocumentCard = ({
+  createPandaDoc,
+  pafDocumentPayload,
+  setSelectedCategory,
+}) => {
+  const handleClick = () => {
+    createPandaDoc(pafDocumentPayload);
+    setSelectedCategory('rpaf');
+  };
+
+  return (
+    <Card
+      className={styles.documentCard}
+      title={
+        <Button
+          type="link"
+          onClick={handleClick}
+          style={{ fontSize: '1.25rem', fontWeight: 'bold' }}
+        >
+          Create a Payment Agreement Form
+        </Button>
+      }
+      extra={
+        <div>
+          <Text strong style={{ marginRight: '.5rem' }}>
+            Status:
+          </Text>
+          <Tag color="red" className={styles.tag}>
+            Missing
+          </Tag>
+        </div>
+      }
+    >
+      <Text>
+        Rent Payment Agreement Form Version 2. Once complete we will contact the
+        tenant to determine elgibility. Submitting this form does not guarantee
+        payment.
+      </Text>
+    </Card>
+  );
+};
+
+const DocumentModal = ({
   loadingDoc,
   documentInfo,
-  displayModal,
+  selectedCategory,
   handleModalClose,
 }) => {
   return (
@@ -212,13 +267,15 @@ const DocModal = ({
       <Modal
         maskClosable={false}
         footer={null}
-        visible={displayModal}
-        bodyStyle={documentInfo ? { height: '80vh' } : { height: '16rem' }}
-        width={documentInfo ? '80vw' : 520}
+        visible={selectedCategory}
+        bodyStyle={{ height: '80vh' }}
+        width={'80vw'}
         onCancel={handleModalClose}
       >
         {loadingDoc ? (
-          <Spin tip="Creating your document..." />
+          <div className={styles.spinContainer}>
+            <Spin tip="Creating your document..." size="large" />
+          </div>
         ) : (
           <div className="documentContainer">
             <iframe
@@ -232,3 +289,6 @@ const DocModal = ({
     </>
   );
 };
+
+//Notes:
+// Doc Categories landlordW9 & rpaf
