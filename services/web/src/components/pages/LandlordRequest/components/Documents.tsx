@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
@@ -7,21 +7,28 @@ import { processLLDoc } from '../../../../utils/pandaDocUtils';
 import styles from '../../../../styles/pages/landlord.module.css';
 
 import { Button, Card, Typography, Tag, Modal, Spin } from 'antd';
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 const w9TemplateId = process.env.REACT_APP_W9_TEMPLATE_ID;
 const pafTemplateId = process.env.REACT_APP_PAF_TEMPLATE_ID;
 
-export default function Documents({ request, currentUser }) {
+export default function Documents({ request, currentUser, requestDocuments }) {
   //Document info populated with resonse from panda docs after creating a document
   const [documentInfo, setDocumentInfo] = useState({
     sessionId: null,
     docId: null,
     docName: null,
   });
+
   //manages spin component vs. document viewport
   const [loadingDoc, setLoadingDoc] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
+
+  //manage document statuses
+  const [documentStatuses, setDocumentStatuses] = useState({
+    landlordW9: 0,
+    rpaf: 0,
+  });
 
   // ----------- Organize / Build info for documents ----------------
   const today = new Date();
@@ -65,7 +72,7 @@ export default function Documents({ request, currentUser }) {
   };
 
   const pafDocumentPayload = {
-    name: `${currentUser.lastName}_W9`,
+    name: `${currentUser.lastName}_payment_agreement_form`,
     template_uuid: pafTemplateId,
     folder_uuid: 'qWs5jN6q6ZBXNz65zPhLrS',
     recipients: [
@@ -147,6 +154,22 @@ export default function Documents({ request, currentUser }) {
     setSelectedCategory('');
   };
 
+  const updateDocStatuses = () => {
+    const res = { landlordW9: 0, rpaf: 0 };
+    requestDocuments.forEach(document => {
+      const { category } = document;
+      if (category === 'landlordW9' || category === 'rpaf') {
+        res[category] = 1;
+      }
+    });
+    setDocumentStatuses(res);
+  };
+  //-------- Side Effects -------------
+
+  useEffect(() => {
+    updateDocStatuses();
+    //eslint-disable-next-line
+  }, []);
   const modalProps = {
     loadingDoc,
     documentInfo,
@@ -161,11 +184,13 @@ export default function Documents({ request, currentUser }) {
           createPandaDoc={createPandaDoc}
           w9DocumentPayload={w9DocumentPayload}
           setSelectedCategory={setSelectedCategory}
+          status={documentStatuses.landlordW9}
         />
         <PAFDocumentCard
           createPandaDoc={createPandaDoc}
           pafDocumentPayload={pafDocumentPayload}
           setSelectedCategory={setSelectedCategory}
+          status={documentStatuses.rpaf}
         />
       </div>
       <DocumentModal {...modalProps} />
@@ -173,14 +198,17 @@ export default function Documents({ request, currentUser }) {
   );
 }
 
+//--------- Components ----------------
+
 const W9DocumentCard = ({
   createPandaDoc,
   w9DocumentPayload,
   setSelectedCategory,
+  status,
 }) => {
   const handleClick = () => {
     createPandaDoc(w9DocumentPayload);
-    setSelectedCategory('rpaf');
+    setSelectedCategory('landlordW9');
   };
 
   return (
@@ -200,8 +228,8 @@ const W9DocumentCard = ({
           <Text strong style={{ marginRight: '.5rem' }}>
             Status:
           </Text>
-          <Tag color="red" className={styles.tag}>
-            Missing
+          <Tag color={status ? 'green' : 'red'} className={styles.tag}>
+            {status ? 'Received' : 'Missing'}
           </Tag>
         </div>
       }
@@ -218,6 +246,7 @@ const PAFDocumentCard = ({
   createPandaDoc,
   pafDocumentPayload,
   setSelectedCategory,
+  status,
 }) => {
   const handleClick = () => {
     createPandaDoc(pafDocumentPayload);
@@ -241,8 +270,8 @@ const PAFDocumentCard = ({
           <Text strong style={{ marginRight: '.5rem' }}>
             Status:
           </Text>
-          <Tag color="red" className={styles.tag}>
-            Missing
+          <Tag color={status ? 'green' : 'red'} className={styles.tag}>
+            {status ? 'Received' : 'Missing'}
           </Tag>
         </div>
       }
@@ -289,6 +318,3 @@ const DocumentModal = ({
     </>
   );
 };
-
-//Notes:
-// Doc Categories landlordW9 & rpaf

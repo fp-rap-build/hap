@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { useParams, useHistory } from 'react-router-dom';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+
+import { axiosWithAuth } from '../../../api/axiosWithAuth';
 
 import RequestInfo from './components/RequestInfo';
 import Documents from './components/Documents';
@@ -33,11 +35,30 @@ export default function Index() {
 
   const [currentTab, setCurrentTab] = useState('information');
 
+  const [requestDocuments, setRequestDocuments] = useState([]);
+
   const onTabChange = (key, type) => {
     setCurrentTab(key);
   };
 
-  const props = { request, currentTab, currentUser };
+  const fetchDocuments = async () => {
+    try {
+      const documents = await axiosWithAuth()
+        .get(`/requests/${request.id}/documents`)
+        .then(res => res.data.documents);
+
+      setRequestDocuments(documents);
+    } catch (error) {
+      console.log('Error fetching Documents', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDocuments();
+    //eslint-disable-next-line
+  }, []);
+
+  const props = { request, currentTab, currentUser, requestDocuments };
 
   return (
     <div>
