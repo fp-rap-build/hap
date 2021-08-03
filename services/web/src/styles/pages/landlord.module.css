@@ -9,9 +9,9 @@
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
-  border: 1px solid green;
 }
 
 .documentCard {
   width: 35rem;
+  margin-top: 5%;
 }
