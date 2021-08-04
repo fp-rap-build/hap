@@ -218,6 +218,45 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
   }
 };
 
+export const register = (userInfo, history) => async dispatch => {
+  if (userInfo.confirmPassword) {
+    delete userInfo.confirmPassword;
+  }
+
+  //trim white space
+  for (let key in userInfo) {
+    let value = userInfo[key];
+    if (typeof value === 'string') {
+      userInfo[key] = userInfo[key].trim();
+    }
+  }
+
+  dispatch(setLoading(true));
+
+  try {
+    // Register an account
+    let res = await axiosWithAuth().post('/auth/register', userInfo);
+
+    // Login
+    const token = res.data.token;
+    const currentUser = res.data.user;
+
+    localStorage.setItem('token', token);
+
+    dispatch(setCurrentUser(currentUser));
+
+    // Redirect to the homepage
+    history.push('/');
+  } catch (error) {
+    const message =
+      error?.response?.data?.message || 'Internal Server Error - Register';
+
+    dispatch(setErrorMessage(message));
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
+
 export const setCurrentUserStatic = (user, history) => {
   history.push('/');
   return { type: 'SET_CURRENT_USER', payload: user };

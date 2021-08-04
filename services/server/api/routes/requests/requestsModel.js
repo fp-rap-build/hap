@@ -235,15 +235,15 @@ const findTenantByRequestId = (requestId) =>
 		.where('r.id', '=', requestId)
 		.first();
 module.exports = {
-	findAll,
-	requestOnlyById,
-	create,
-	remove,
-	removeAllCommentsByRequestId,
-	update,
-	findAllActive,
-	findForTable,
-	findById,
-	findTenantByRequestId,
-	findAllComments
+  findAll,
+  requestOnlyById,
+  create,
+  remove,
+  removeAllCommentsByRequestId,
+  update,
+  findAllActive,
+  findForTable,
+  findById,
+  findTenantByRequestId,
+  findAllComments,
 };
