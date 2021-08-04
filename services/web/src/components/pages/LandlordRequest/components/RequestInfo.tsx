@@ -1,33 +1,16 @@
-import { Card, Descriptions, Typography } from 'antd';
+import { Descriptions, Typography } from 'antd';
 
 const { Title } = Typography;
 
 export default function RequestInfo({ request }) {
-  const addressCardData = {
-    title: 'Address',
-    descriptions: [
-      { label: 'Street', data: request.address },
-      { label: 'City & State', data: request.cityName + ', ' + request.state },
-      { label: 'Zip Code', data: request.zipCode },
-    ],
-  };
-
-  const applicantCardData = {
-    title: 'Tenant Information',
-    descriptions: [
-      { label: 'Name', data: request.firstName + ' ' + request.lastName },
-      { label: 'Email', data: request.email },
-      { label: 'Amount Owed', data: request.owed },
-      { label: 'Amount Requested', data: request.amountRequested },
-    ],
-  };
+  console.log(request);
 
   return (
     <div>
       <Title level={3} underline>
         Request Information
       </Title>
-      <Descriptions title="User Info">
+      <Descriptions title="Tenant Information:">
         <Descriptions.Item label="Tenant Name">
           {request.firstName} {request.lastName}
         </Descriptions.Item>
@@ -35,8 +18,11 @@ export default function RequestInfo({ request }) {
         <Descriptions.Item label="Phone Number">
           {request.email}
         </Descriptions.Item>
+        <Descriptions.Item label="Amount Owed/ Requested">
+          ${request.amountRequested}
+        </Descriptions.Item>
       </Descriptions>
-      <Descriptions title="Address Info">
+      <Descriptions title="Address/ Unit Information:">
         <Descriptions.Item label="Address">{request.address}</Descriptions.Item>
         {request.addressLine2 ? (
           <Descriptions.Item label="Address Line Two">
@@ -48,24 +34,10 @@ export default function RequestInfo({ request }) {
         <Descriptions.Item label="Zip Code">
           {request.zipCode}
         </Descriptions.Item>
+        <Descriptions.Item label="Number of Bedrooms">
+          {request.beds}
+        </Descriptions.Item>
       </Descriptions>
-      <p style={{ color: 'red' }}>Still to add: amount owed by month</p>
     </div>
   );
 }
-
-const ContentCard = ({ cardData }) => {
-  const { title, descriptions } = cardData;
-
-  return (
-    <Card title={title} style={{ width: '18rem' }}>
-      <Descriptions column={1}>
-        {descriptions.map(description => (
-          <Descriptions.Item label={description.label}>
-            {description.data}
-          </Descriptions.Item>
-        ))}
-      </Descriptions>
-    </Card>
-  );
-};
