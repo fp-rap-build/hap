@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 import { Document, Page, pdfjs } from 'react-pdf/dist/esm/entry.webpack';
 
+import { Button } from 'antd';
+
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 export default function PdfViewer({ pdfLocation }) {
@@ -11,6 +13,18 @@ export default function PdfViewer({ pdfLocation }) {
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
   }
+
+  const nextPage = () => {
+    if (pageNumber === numPages || !numPages) return;
+
+    setPageNumber(pageNumber + 1);
+  };
+
+  const previousPage = () => {
+    if (pageNumber === 1) return;
+
+    setPageNumber(pageNumber - 1);
+  };
 
   return (
     <div>
@@ -25,6 +39,9 @@ export default function PdfViewer({ pdfLocation }) {
       <p>
         Page {pageNumber} of {numPages}
       </p>
+
+      <Button onClick={previousPage}>Previous</Button>
+      <Button onClick={nextPage}>Next</Button>
     </div>
   );
 }
