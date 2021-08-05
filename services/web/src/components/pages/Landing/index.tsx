@@ -22,6 +22,19 @@ export default function Index() {
           <h1 className={styles.title}>
             Are you in need of Housing Assistance?
           </h1>
+          <h3 className={styles.title}>
+            Funding for the first round of Housing Assistance has been
+            exhausted.{' '}
+          </h3>
+          <h3 className={styles.title}>
+            You may still apply for Housing Assistance through a planned second
+            round of funding.
+          </h3>
+          <h3 className={styles.title}>
+            Please be aware that due to the volume of requests it may take 4+
+            weeks to receive a response.
+          </h3>
+
           <p></p>
           <Button onClick={redirectToRentalAssistanceForm}>
             Check Eligibility and Apply
