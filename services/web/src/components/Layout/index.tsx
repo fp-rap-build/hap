@@ -15,8 +15,7 @@ export default function index({ children }) {
       <main>{children}</main>
       <NotificationsPanal />
       <Watermark />
-
-      <h5>HAP v1.5.7</h5>
-      </div>
+      <h5>{process.env.HAP_VERSION || ''}</h5>
+    </div>
   );
 }
