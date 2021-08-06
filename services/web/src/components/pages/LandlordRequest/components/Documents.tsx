@@ -97,6 +97,9 @@ export default function Documents({ request, currentUser, requestDocuments }) {
         //street, city, state, zip
         value: `${tenantStreetAddress}, ${request.cityName}, ${request.state}, ${request.zipCode}`,
       },
+      bedrooms: {
+        value: request.beds,
+      },
       landlordName: {
         value: `${currentUser.firstName} ${currentUser.lastName}`,
       },
@@ -238,7 +241,7 @@ const W9DocumentCard = ({
     >
       <Text>
         We will need a valid W9 with your signature to process and send
-        payments. Clink the link above to create, sign, and submit a W9!
+        payments. Click the link above to create, sign, and submit a W9!
       </Text>
     </Card>
   );
@@ -299,7 +302,7 @@ const DocumentModal = ({
         maskClosable={false}
         footer={null}
         visible={selectedCategory}
-        bodyStyle={{ height: '80vh' }}
+        bodyStyle={{ height: '85vh', paddingTop: '6%' }}
         width={'80vw'}
         onCancel={handleModalClose}
       >
@@ -312,7 +315,7 @@ const DocumentModal = ({
             <iframe
               title="Self Dec Embed"
               src={`https://app.pandadoc.com/s/${documentInfo.sessionId}`}
-              style={{ height: '70vh', width: '75vw' }}
+              style={{ height: '77vh', width: '75vw' }}
             ></iframe>
           </div>
         )}
