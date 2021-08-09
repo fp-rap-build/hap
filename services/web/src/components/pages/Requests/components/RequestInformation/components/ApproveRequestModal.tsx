@@ -42,6 +42,7 @@ export default function ApproveRequestModal({
 
       await axiosWithAuth().put(`/requests/${request.id}`, {
         requestStatus: 'approved',
+        pmApproval: false,
       });
 
       const newBudget = selectedProgram.budget - amountToSend;
