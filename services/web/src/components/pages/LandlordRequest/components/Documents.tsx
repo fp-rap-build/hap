@@ -154,8 +154,10 @@ export default function Documents({ request, currentUser, requestDocuments }) {
   };
 
   const handleModalClose = () => {
-    postDocumentToDB();
-    setDocumentInfo({ sessionId: null, docId: null, docName: null });
+    if (documentInfo.sessionId) {
+      postDocumentToDB();
+      setDocumentInfo({ sessionId: null, docId: null, docName: null });
+    }
     setSelectedCategory('');
   };
 
@@ -302,7 +304,7 @@ const DocumentModal = ({
         maskClosable={false}
         footer={null}
         visible={selectedCategory}
-        bodyStyle={{ height: '85vh', paddingTop: '6%' }}
+        bodyStyle={{ height: '85vh', paddingTop: '3rem' }}
         width={'80vw'}
         onCancel={handleModalClose}
       >

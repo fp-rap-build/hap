@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-
 import { useSelector, useDispatch } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
@@ -9,7 +7,6 @@ import MaterialTable from '@material-table/core';
 import { ExportCsv, ExportPdf } from '@material-table/exporters';
 
 import { tableIcons } from '../../../../utils/tableIcons';
-import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
 import { FolderOpenOutlined } from '@ant-design/icons';
 

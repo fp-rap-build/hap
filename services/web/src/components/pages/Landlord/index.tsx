@@ -33,10 +33,15 @@ export default function Index() {
 const RenderDash = ({ currentUser }) => {
   return (
     <Layout>
-      <Header style={{ backgroundColor: '#472d5b' }}>
+      <Header
+        style={{
+          backgroundColor: '#472d5b',
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
         <Title level={3} style={{ color: '#FFFFFF' }}>
-          Hello {currentUser.firstName}, welcome to your HAP Portal! Center Me
-          Vertically!{' '}
+          Hello {currentUser.firstName}, welcome to your HAP Portal!
         </Title>
       </Header>
       <Content>
