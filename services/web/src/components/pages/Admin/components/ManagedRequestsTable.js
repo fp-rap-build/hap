@@ -46,6 +46,8 @@ import EmailedLLCheckbox from './components/Requests/EmailedLLCheckbox';
 import { formatDate } from '../../../../utils/dates/date';
 import { formatUTC } from '../../../../utils/dates';
 
+import { XGrid, GridRowsProp } from '@material-ui/x-grid';
+
 export default function ManagedRequestsTable() {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -146,42 +148,58 @@ export default function ManagedRequestsTable() {
 
   const [columns, setColumns] = useState([
     {
+      field: 'review',
+      renderCell: params => {
+        return <h1 onClick={() => console.log(params)}>test</h1>;
+      },
+    },
+
+    {
       title: 'HAP ID',
       field: 'id',
     },
     {
       title: 'Manager',
       field: 'manager',
+      width: 150,
     },
-    { title: 'First', field: 'firstName' },
-    { title: 'Last ', field: 'lastName' },
+    { title: 'First', field: 'firstName', width: 150 },
+    { title: 'Last ', field: 'lastName', width: 150 },
     {
       title: 'email',
       field: 'email',
+      width: 150,
     },
     {
       title: 'Applicant Activity',
       field: 'tenantDifference',
-      render: rowData => {
-        return <RenderActivityCell timeDifference={rowData.tenantDifference} />;
+      width: 200,
+      renderCell: rowData => {
+        return (
+          <RenderActivityCell timeDifference={rowData.row.tenantDifference} />
+        );
       },
     },
     {
       title: 'FP Activity',
       field: 'staffDifference',
-      render: rowData => {
-        return <RenderActivityCell timeDifference={rowData.staffDifference} />;
+      width: 200,
+      renderCell: rowData => {
+        return (
+          <RenderActivityCell timeDifference={rowData.row.staffDifference} />
+        );
       },
     },
     {
       title: 'RES',
       field: 'residency',
-      render: rowData => {
+      width: 150,
+      renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
-            docs={rowData.residency}
+            docs={rowData.row.residency}
             openDocument={() =>
-              openDocument(rowData.residency, 'residency', rowData)
+              openDocument(rowData.row.residency, 'residency', rowData.row)
             }
           />
         );
@@ -190,12 +208,15 @@ export default function ManagedRequestsTable() {
     {
       title: 'INC',
       field: 'income',
-      render: rowData => {
+      width: 150,
+      renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
             category="income"
-            docs={rowData.income}
-            openDocument={() => openDocument(rowData.income, 'income', rowData)}
+            docs={rowData.row.income}
+            openDocument={() =>
+              openDocument(rowData.row.income, 'income', rowData.row)
+            }
           />
         );
       },
@@ -204,12 +225,15 @@ export default function ManagedRequestsTable() {
     {
       title: 'COV',
       field: 'covid',
-      render: rowData => {
+      width: 150,
+      renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
             category="covid"
-            docs={rowData.covid}
-            openDocument={() => openDocument(rowData.covid, 'covid', rowData)}
+            docs={rowData.row.covid}
+            openDocument={() =>
+              openDocument(rowData.row.covid, 'covid', rowData.row)
+            }
           />
         );
       },
@@ -218,13 +242,14 @@ export default function ManagedRequestsTable() {
     {
       title: 'ID',
       field: 'identity',
-      render: rowData => {
+      width: 150,
+      renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
             category="identity"
-            docs={rowData.identity}
+            docs={rowData.row.identity}
             openDocument={() =>
-              openDocument(rowData.identity, 'identity', rowData)
+              openDocument(rowData.row.identity, 'identity', rowData.row)
             }
           />
         );
@@ -234,16 +259,17 @@ export default function ManagedRequestsTable() {
     {
       title: 'CHI',
       field: 'childrenOrPregnancy',
-      render: rowData => {
+      width: 150,
+      renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
             category="childrenOrPregnancy"
-            docs={rowData.childrenOrPregnancy}
+            docs={rowData.row.childrenOrPregnancy}
             openDocument={() =>
               openDocument(
-                rowData.childrenOrPregnancy,
+                rowData.row.childrenOrPregnancy,
                 'childrenOrPregnancy',
-                rowData
+                rowData.row
               )
             }
           />
@@ -254,12 +280,14 @@ export default function ManagedRequestsTable() {
     {
       title: 'LEASE',
       field: 'lease',
-      render: rowData => {
+      renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
             category="lease"
-            docs={rowData.lease}
-            openDocument={() => openDocument(rowData.lease, 'lease', rowData)}
+            docs={rowData.row.lease}
+            openDocument={() =>
+              openDocument(rowData.row.lease, 'lease', rowData.row)
+            }
           />
         );
       },
@@ -268,13 +296,13 @@ export default function ManagedRequestsTable() {
     {
       title: 'LLW9',
       field: 'landlordW9',
-      render: rowData => {
+      renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
             category="landlordW9"
-            docs={rowData.landlordW9}
+            docs={rowData.row.landlordW9}
             openDocument={() =>
-              openDocument(rowData.landlordW9, 'landlordW9', rowData)
+              openDocument(rowData.row.landlordW9, 'landlordW9', rowData.row)
             }
           />
         );
@@ -284,13 +312,13 @@ export default function ManagedRequestsTable() {
     {
       title: 'LATE',
       field: 'lateNotice',
-      render: rowData => {
+      renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
             category="lateNotice"
-            docs={rowData.lateNotice}
+            docs={rowData.row.lateNotice}
             openDocument={() =>
-              openDocument(rowData.lateNotice, 'lateNotice', rowData)
+              openDocument(rowData.row.lateNotice, 'lateNotice', rowData.row)
             }
           />
         );
@@ -300,12 +328,14 @@ export default function ManagedRequestsTable() {
     {
       title: 'RPAF',
       field: 'rpaf',
-      render: rowData => {
+      renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
             category="rpaf"
-            docs={rowData.rpaf}
-            openDocument={() => openDocument(rowData.rpaf, 'rpaf', rowData)}
+            docs={rowData.row.rpaf}
+            openDocument={() =>
+              openDocument(rowData.row.rpaf, 'rpaf', rowData.row)
+            }
           />
         );
       },
@@ -314,16 +344,16 @@ export default function ManagedRequestsTable() {
     {
       title: 'HI',
       field: 'housingInstability',
-      render: rowData => {
+      renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
             category="housingInstability"
-            docs={rowData.housingInstability}
+            docs={rowData.row.housingInstability}
             openDocument={() =>
               openDocument(
-                rowData.housingInstability,
+                rowData.row.housingInstability,
                 'housingInstability',
-                rowData
+                rowData.row
               )
             }
           />
@@ -334,11 +364,11 @@ export default function ManagedRequestsTable() {
     {
       title: 'EMLL',
       field: 'emailedLandlord',
-      render: rowData => {
+      renderCell: rowData => {
         return (
           <EmailedLLCheckbox
-            emailedLandlord={rowData.emailedLandlord}
-            requestId={rowData.id}
+            emailedLandlord={rowData.row.emailedLandlord}
+            requestId={rowData.row.id}
           />
         );
       },
@@ -347,39 +377,54 @@ export default function ManagedRequestsTable() {
     {
       title: 'Last Action',
       field: 'lastAction',
+      width: 150,
     },
 
     {
       title: 'AMI',
       field: 'ami',
+      width: 150,
     },
     {
       title: 'unEmp90',
       field: 'unEmp90',
+      width: 150,
     },
     {
       title: 'BIPOC',
       field: 'poc',
+      width: 150,
     },
     {
       title: 'Amount',
       field: 'amountRequested',
+      width: 150,
     },
     {
       title: 'Address',
       field: 'address',
+      width: 150,
     },
     {
       title: 'City',
       field: 'cityName',
+      width: 150,
+    },
+    {
+      title: 'hello',
+      field: 'hello',
+      width: 150,
     },
     {
       title: 'LN',
       field: 'landlordName',
+      width: 200,
     },
     {
       title: 'Request Status',
       field: 'requestStatus',
+      width: 200,
+
       lookup: {
         received: 'Received',
         inReview: 'In Review',
@@ -400,6 +445,12 @@ export default function ManagedRequestsTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // useEffect(() => {
+  //   const tableColumns = JSON.parse(localStorage.getItem('tableColumns'));
+
+  //   setColumns(tableColumns);
+  // }, []);
+
   const openDocument = (docs, category, currentRequest) => {
     setRequest(currentRequest);
 
@@ -409,6 +460,12 @@ export default function ManagedRequestsTable() {
 
     setVisible(true);
   };
+
+  const rows = [
+    { id: 1, col1: 'Hello', col2: 'World' },
+    { id: 2, col1: 'XGrid', col2: 'is Awesome' },
+    { id: 3, col1: 'Material-UI', col2: 'is Amazing' },
+  ];
 
   return (
     <div>
@@ -423,7 +480,22 @@ export default function ManagedRequestsTable() {
           request={request}
           category={category}
         />
-        <MaterialTable
+
+        <XGrid
+          onColumnVisibilityChange={e => {
+            console.log(e.api.current.getAllColumns());
+
+            localStorage.setItem(
+              'tableColumns',
+              JSON.stringify(e.api.current.getAllColumns())
+            );
+          }}
+          style={{ height: 700 }}
+          rows={data}
+          columns={columns}
+        />
+
+        {/* <MaterialTable
           style={{ width: '100%' }}
           detailPanel={rowData => {
             return <CommentsContainer request={rowData} />;
@@ -567,7 +639,7 @@ export default function ManagedRequestsTable() {
           title="Your Managed Requests for Rental Assistance"
           columns={columns}
           data={data}
-        />
+        /> */}
       </div>
     </div>
   );

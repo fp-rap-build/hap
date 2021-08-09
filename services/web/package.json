@@ -11,6 +11,7 @@
     "@material-table/exporters": "^1.0.7",
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
+    "@material-ui/x-grid": "^4.0.0-alpha.36",
     "@okta/okta-react": "^3.0.10",
     "@okta/okta-signin-widget": "^5.8.2",
     "@types/jest": "^26.0.24",
@@ -27,7 +28,7 @@
     "insert-css": "^2.0.0",
     "install": "^0.13.0",
     "material-table": "^1.69.3",
-    "npm": "^7.19.1",
+    "npm": "^7.20.5",
     "plotly.js": "^1.58.5",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
@@ -49,7 +50,7 @@
     "typescript": "^4.3.5"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "BROWSER='firefox-developer-edition' craco start",
     "build": "craco build",
     "test": "craco test --env=jest-environment-jsdom-sixteen",
     "eject": "react-scripts eject",
