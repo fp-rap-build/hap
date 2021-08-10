@@ -44,7 +44,6 @@ export default function RequestsTable() {
         return <Review requestId={params.row.id} />;
       },
     },
-
     {
       field: 'Subscribe',
       width: 50,
@@ -150,11 +149,6 @@ export default function RequestsTable() {
     {
       title: 'City',
       field: 'cityName',
-      width: 150,
-    },
-    {
-      title: 'hello',
-      field: 'hello',
       width: 150,
     },
     {

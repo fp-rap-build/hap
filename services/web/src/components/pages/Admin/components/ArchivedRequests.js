@@ -4,45 +4,72 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
 
-import MaterialTable from '@material-table/core';
-
-import { ExportCsv, ExportPdf } from '@material-table/exporters';
-
 import styles from '../../../../styles/pages/admin.module.css';
 
-import { tableIcons } from '../../../../utils/tableIcons';
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
-import UnarchiveIcon from '@material-ui/icons/Unarchive';
-import GavelIcon from '@material-ui/icons/Gavel';
+import {
+  Review,
+  Archive,
+  Delete,
+  Subscribe,
+  MarkIncomplete,
+  UnArchive,
+} from './components/Requests/Actions';
 
-import { message, Modal } from 'antd';
+import { XGrid } from '@material-ui/x-grid';
 
 export default function RequestsTable() {
-  const history = useHistory();
-  const dispatch = useDispatch();
-
-  const currentUser = useSelector(state => state.user.currentUser);
-
-  // const [isOpen, setIsOpen] = useState(false);
-  // const [requestBeingReviewed, setRequestBeingReviewed] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
 
   const [data, setData] = useState([]);
+
   const [columns, setColumns] = useState([
+    {
+      field: 'Review',
+      width: 50,
+      renderCell: params => {
+        return <Review requestId={params.row.id} />;
+      },
+    },
+
+    {
+      field: 'Archive',
+      width: 50,
+      renderCell: params => {
+        return <UnArchive setRequests={setData} requestId={params.row.id} />;
+      },
+    },
+
+    {
+      field: 'Delete',
+      width: 50,
+      renderCell: params => {
+        return <Delete setRequests={setData} requestId={params.row.id} />;
+      },
+    },
+
     {
       title: 'HAP ID',
       field: 'id',
     },
-    { title: 'First', field: 'firstName' },
-    { title: 'Last ', field: 'lastName' },
+    {
+      title: 'Manager',
+      field: 'manager',
+      width: 300,
+    },
+    { title: 'First', field: 'firstName', width: 150 },
+    { title: 'Last ', field: 'lastName', width: 150 },
     {
       title: 'email',
       field: 'email',
+      width: 300,
     },
     {
       title: 'Request Status',
       field: 'requestStatus',
+      width: 300,
+
       lookup: {
         received: 'Received',
         inReview: 'In Review',
@@ -54,7 +81,8 @@ export default function RequestsTable() {
         denied: 'Denied',
       },
     },
-    { title: 'date', field: 'requestDate', type: 'date' },
+
+    { title: 'date', field: 'requestDate', type: 'date', width: 300 },
   ]);
 
   const fetchArchivedRequests = async () => {
@@ -84,76 +112,11 @@ export default function RequestsTable() {
 
   return (
     <div className={styles.container}>
-      <MaterialTable
-        style={{ width: '100%' }}
-        isLoading={isFetching}
-        options={{
-          pageSize: 10,
-          pageSizeOptions: [5, 10, 20, 30, 50, 75, 100, 1000],
-          // Allows users to export the data as a CSV file
-          exportMenu: [
-            {
-              label: 'Export PDF',
-              exportFunc: (cols, datas) => ExportPdf(cols, datas, 'archived'),
-            },
-            {
-              label: 'Export CSV',
-              exportFunc: (cols, datas) => ExportCsv(cols, datas, 'archived'),
-            },
-          ],
-        }}
-        editable={{
-          isDeleteHidden: () => currentUser.role !== 'admin',
-          onRowDelete: oldData =>
-            new Promise((resolve, reject) => {
-              axiosWithAuth()
-                .delete(`/requests/${oldData.id}`)
-                .then(() => {
-                  setData(data.filter(row => row.id !== oldData.id));
-                })
-                .catch(err => message.error('Unable to delete request'))
-                .finally(() => resolve());
-            }),
-        }}
-        actions={[
-          {
-            icon: GavelIcon,
-            tooltip: 'Review',
-            onClick: async (event, rowData) => {
-              // Update the users request to be in review
-
-              history.push(`/requests/${rowData.id}`);
-            },
-          },
-
-          {
-            icon: UnarchiveIcon,
-            tooltip: 'unarchive',
-            onClick: async (event, rowData) => {
-              // Update the users request to be in review
-
-              try {
-                setData(requests =>
-                  requests.filter(request => {
-                    if (request.id !== rowData.id) return request;
-                  })
-                );
-
-                await axiosWithAuth().put(`/requests/${rowData.id}`, {
-                  archived: false,
-                });
-
-                message.success('Successfully unarchived request');
-              } catch (error) {
-                message.error('Unable to unarchive request');
-              }
-            },
-          },
-        ]}
-        icons={tableIcons}
-        title="Archived Requests"
+      <XGrid
+        style={{ height: 700 }}
+        rows={data}
         columns={columns}
-        data={data}
+        loading={isFetching}
       />
     </div>
   );

@@ -8,4 +8,6 @@ import MarkIncomplete from './MarkIncomplete';
 
 import Review from './Review';
 
-export { Archive, Delete, Subscribe, MarkIncomplete, Review };
+import UnArchive from './UnArchive';
+
+export { Archive, Delete, Subscribe, MarkIncomplete, Review, UnArchive };
