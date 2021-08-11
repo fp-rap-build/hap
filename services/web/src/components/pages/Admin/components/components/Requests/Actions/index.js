@@ -10,4 +10,14 @@ import Review from './Review';
 
 import UnArchive from './UnArchive';
 
-export { Archive, Delete, Subscribe, MarkIncomplete, Review, UnArchive };
+import MarkComplete from './MarkComplete';
+
+export {
+  Archive,
+  Delete,
+  Subscribe,
+  MarkIncomplete,
+  Review,
+  UnArchive,
+  MarkComplete,
+};

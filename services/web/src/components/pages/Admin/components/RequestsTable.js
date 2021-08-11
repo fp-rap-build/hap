@@ -65,7 +65,11 @@ export default function RequestsTable() {
       width: 50,
       renderCell: params => {
         return (
-          <MarkIncomplete setRequests={setData} requestId={params.row.id} />
+          <MarkIncomplete
+            setRequests={setData}
+            requestId={params.row.id}
+            hideRequest
+          />
         );
       },
     },

@@ -6,54 +6,102 @@ import { ExportCsv, ExportPdf } from '@material-table/exporters';
 
 import { tableIcons } from '../../../../utils/tableIcons';
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
-import { message } from 'antd';
+import { message, Modal } from 'antd';
 import calculateAmi from '../../../../utils/general/calculateAmi';
+
+import Container from './components/Requests/Actions/Container';
+
+import DeleteIcon from '@material-ui/icons/Delete';
+
+import { XGrid } from '@material-ui/x-grid';
 
 export default function PaymentsTable() {
   const [isFetching, setIsFetching] = useState(false);
 
+  const [data, setData] = useState([]);
+
   const [columns, setColumns] = useState([
+    {
+      title: 'Delete',
+      field: 'delete',
+      renderCell: params => (
+        <DeletePayment row={params.row} setData={setData} />
+      ),
+    },
+
     {
       title: 'HAP ID',
       field: 'requestId',
+      width: 170,
     },
-    { title: 'First', field: 'firstName', editable: 'never' },
-    { title: 'Last ', field: 'lastName', editable: 'never' },
-    { title: 'Email', field: 'email', type: 'string', editable: 'never' },
-    { title: 'Gender', field: 'gender', editable: 'never' },
-    { title: 'Race', field: 'race', editable: 'never' },
-    { title: 'Ethnicity', field: 'ethnicity', editable: 'never' },
-    { title: 'Household Size', field: 'familySize', editable: 'never' },
-    { title: 'Total Children', field: 'totalChildren', editable: 'never' },
-    { title: 'Children Ages', field: 'childrenAges', editable: 'never' },
-    { title: 'Monthly Income', field: 'monthlyIncome', editable: 'never' },
-    { title: 'Monthly Rent', field: 'monthlyRent', editable: 'never' },
-    { title: 'AMI', field: 'ami', editable: 'never' },
+    { title: 'First', field: 'firstName', width: 170 },
+    { title: 'Last ', field: 'lastName', width: 170 },
+    {
+      title: 'Email',
+      field: 'email',
+      type: 'string',
+
+      width: 170,
+    },
+    { title: 'Gender', field: 'gender', width: 170 },
+    { title: 'Race', field: 'race', width: 170 },
+    { title: 'Ethnicity', field: 'ethnicity', width: 170 },
+    {
+      title: 'Household Size',
+      field: 'familySize',
+
+      width: 170,
+    },
+    {
+      title: 'Total Children',
+      field: 'totalChildren',
+
+      width: 170,
+    },
+    {
+      title: 'Children Ages',
+      field: 'childrenAges',
+
+      width: 170,
+    },
+    {
+      title: 'Monthly Income',
+      field: 'monthlyIncome',
+
+      width: 170,
+    },
+    { title: 'Monthly Rent', field: 'monthlyRent', width: 170 },
+    { title: 'AMI', field: 'ami', width: 170 },
 
     {
       title: 'Program',
       field: 'program',
       type: 'string',
-      editable: 'never',
+
+      width: 170,
     },
+
     {
       title: 'Amount',
       field: 'amount',
-      type: 'integer',
+      width: 170,
+      editable: true,
     },
+
     {
       title: 'Date Requested',
       field: 'requestDate',
       type: 'date',
+      width: 170,
     },
+
     {
       title: 'Date Approved',
       field: 'approveDate',
       type: 'date',
+      width: 170,
     },
   ]);
-
-  const [data, setData] = useState([]);
 
   const fetchPayments = async () => {
     setIsFetching(true);
@@ -105,72 +153,53 @@ export default function PaymentsTable() {
 
   return (
     <>
-      <MaterialTable
-        isLoading={isFetching}
-        options={{
-          pageSize: 10,
-          pageSizeOptions: [5, 10, 20, 30, 50, 75, 100, 1000],
-          // Allows users to export the data as a CSV file
-          exportMenu: [
-            {
-              label: 'Export PDF',
-              exportFunc: (cols, datas) => ExportPdf(cols, datas, 'payments'),
-            },
-            {
-              label: 'Export CSV',
-              exportFunc: (cols, datas) => ExportCsv(cols, datas, 'payments'),
-            },
-          ],
-        }}
-        editable={{
-          // Disable deleting and editing if the user is an Admin
-
-          isDeletable: rowData => rowData.role !== 'admin',
-          isEditable: rowData => rowData.role !== 'admin',
-          onRowDelete: oldData =>
-            new Promise((resolve, reject) => {
-              axiosWithAuth()
-                .delete(`/payments/${oldData.id}`)
-                .then(() => {
-                  setData(data.filter(row => row.id !== oldData.id));
-                })
-                .catch(err => message.error('Unable to delete request'))
-                .finally(() => resolve());
-            }),
-          onRowUpdate: (newData, oldData) =>
-            new Promise((resolve, reject) => {
-              resolve();
-
-              if (isNaN(newData.amount))
-                return message.error('Please input a valid number');
-
-              // Set the state first to instantly update the table
-
-              setData(
-                data.map(row => {
-                  if (row.id === oldData.id) {
-                    return newData;
-                  }
-                  return row;
-                })
-              );
-
-              // Persist those changes
-
-              const updatedPayment = {
-                amount: newData.amount,
-              };
-
-              axiosWithAuth()
-                .put(`/payments/${oldData.id}`, updatedPayment)
-                .catch(err => alert('Failed to update payment'));
-            }),
-        }}
-        icons={tableIcons}
-        title="Payments"
+      <XGrid
+        style={{ height: 700 }}
+        rows={data}
         columns={columns}
-        data={data}
+        loading={isFetching}
+        onCellEditCommit={e => updatePayment(e)}
       />
     </>
   );
 }
+
+const DeletePayment = ({ row, setData }) => {
+  const onPaymentDelete = (row, setData) => {
+    const deletedRowId = row.id;
+
+    setData(data => data.filter(row => row.id !== deletedRowId));
+
+    axiosWithAuth()
+      .delete(`/payments/${row.id}`)
+      .then(() => {
+        setData(data => data.filter(row => row.id !== deletedRowId));
+      })
+      .catch(err => message.error('Unable to delete request'));
+  };
+
+  const Confirm = () =>
+    Modal.confirm({
+      title: 'Delete payment',
+      content: 'Are you sure you want to delete this payment',
+      onOk: () => onPaymentDelete(row, setData),
+    });
+
+  return (
+    <Container onClick={Confirm}>
+      <DeleteIcon />
+    </Container>
+  );
+};
+
+const updatePayment = e => {
+  if (isNaN(e.value)) return message.error('Please input a valid number');
+
+  const updatedPayment = {
+    amount: e.value,
+  };
+
+  axiosWithAuth()
+    .put(`/payments/${e.id}`, updatedPayment)
+    .catch(err => alert('Failed to update payment'));
+};
