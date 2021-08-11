@@ -49,7 +49,7 @@
     "typescript": "^4.3.5"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "BROWSER='firefox-developer-edition' craco start",
     "build": "craco build",
     "test": "craco test --env=jest-environment-jsdom-sixteen",
     "eject": "react-scripts eject",
