@@ -173,7 +173,7 @@ const DeletePayment = ({ row, setData }) => {
       .then(() => {
         setData(data => data.filter(row => row.id !== deletedRowId));
       })
-      .catch(err => message.error('Unable to delete request'));
+      .catch(err => message.error('Unable to delete payment'));
   };
 
   const Confirm = () =>
