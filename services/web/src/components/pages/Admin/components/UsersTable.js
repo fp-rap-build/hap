@@ -11,6 +11,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { message, Modal } from 'antd';
 
 import { XGrid } from '@material-ui/x-grid';
+import ExportCsv from './components/ExportCsv';
 
 export default function UsersTable() {
   const currentUserRole = useSelector(state => state.user.currentUser.role);
@@ -73,6 +74,9 @@ export default function UsersTable() {
           return props.row.role !== 'admin';
         }}
         loading={isFetching}
+        components={{
+          Toolbar: ExportCsv,
+        }}
       />
     </>
   );

@@ -1,10 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
-import MaterialTable from '@material-table/core';
-
-import { ExportCsv, ExportPdf } from '@material-table/exporters';
-
-import { tableIcons } from '../../../../utils/tableIcons';
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 import { message, Modal } from 'antd';
 import calculateAmi from '../../../../utils/general/calculateAmi';
@@ -14,6 +8,7 @@ import Container from './components/Requests/Actions/Container';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import { XGrid } from '@material-ui/x-grid';
+import ExportCsv from './components/ExportCsv';
 
 export default function PaymentsTable() {
   const [isFetching, setIsFetching] = useState(false);
@@ -159,6 +154,9 @@ export default function PaymentsTable() {
         columns={columns}
         loading={isFetching}
         onCellEditCommit={e => updatePayment(e)}
+        components={{
+          Toolbar: ExportCsv,
+        }}
       />
     </>
   );

@@ -4,28 +4,11 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
 
-import socket from '../../../../config/socket';
-
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
-
-import {
-  addSubscription,
-  deleteSubscription,
-} from '../../../../redux/users/userActions';
 
 import sortRequests from '../utils/sortRequests';
 import doesHouseholdContainPoc from '../../../../utils/general/doesHouseholdContainPoc';
 import calculateAmi from '../../../../utils/general/calculateAmi';
-
-import MaterialTable from '@material-table/core';
-
-import { ExportCsv, ExportPdf } from '@material-table/exporters';
-
-import { tableIcons } from '../../../../utils/tableIcons';
-
-import GavelIcon from '@material-ui/icons/Gavel';
-
-import { message, Modal, Tooltip } from 'antd';
 
 import AttachmentViewer from './components/AttachmentViewer';
 
@@ -36,13 +19,12 @@ import RenderDocumentStatusCell from './components/Requests/RenderDocumentStatus
 import UploadDocModal from '../../../common/DocumentUploaderModal';
 
 import styles from '../../../../styles/pages/admin.module.css';
-import CommentsContainer from '../../Requests/components/RequestInformation/components/CommentsContainer';
-import Comments from '../../../common/Comments';
+
 import EmailedLLCheckbox from './components/Requests/EmailedLLCheckbox';
 import { formatDate } from '../../../../utils/dates/date';
 import { formatUTC } from '../../../../utils/dates';
 
-import TableActions from './components/Requests/Actions/Container';
+import ExportCsv from './components/ExportCsv';
 
 import {
   Review,
@@ -56,7 +38,6 @@ import { XGrid, GridRowsProp } from '@material-ui/x-grid';
 
 export default function ManagedRequestsTable() {
   const history = useHistory();
-  const dispatch = useDispatch();
 
   const currentUser = useSelector(state => state.user.currentUser);
 
@@ -524,6 +505,9 @@ export default function ManagedRequestsTable() {
           rows={data}
           columns={columns}
           loading={isFetching}
+          components={{
+            Toolbar: ExportCsv,
+          }}
         />
       </div>
     </div>

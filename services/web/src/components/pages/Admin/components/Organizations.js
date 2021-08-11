@@ -21,6 +21,7 @@ import Container from './components/Requests/Actions/Container';
 import AppsIcon from '@material-ui/icons/Apps';
 
 import { XGrid } from '@material-ui/x-grid';
+import ExportCsv from './components/ExportCsv';
 
 export default function Organizations() {
   const history = useHistory();

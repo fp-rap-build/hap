@@ -22,6 +22,7 @@ import {
 } from './components/Requests/Actions';
 
 import { XGrid } from '@material-ui/x-grid';
+import ExportCsv from './components/ExportCsv';
 
 export default function RequestsTable() {
   const history = useHistory();
@@ -197,6 +198,9 @@ export default function RequestsTable() {
         rows={data}
         columns={columns}
         loading={isFetching}
+        components={{
+          Toolbar: ExportCsv,
+        }}
       />
     </div>
   );
