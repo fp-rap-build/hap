@@ -159,6 +159,11 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
     whiteHOH: requestValues.whiteHOH,
     nativeHOH: requestValues.nativeHOH,
     demoNotSayHOH: requestValues.demoNotSayHOH,
+
+    covidFH: requestValues.covidFH,
+    qualifiedForUnemployment: requestValues.qualifiedForUnemployment,
+    proofOfRisk: requestValues.proofOfRisk,
+
     demoNotSay: requestValues.demoNotSay,
     incomplete: requestValues.incomplete,
     tenantEmail,

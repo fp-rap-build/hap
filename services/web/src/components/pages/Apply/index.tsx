@@ -77,6 +77,8 @@ const INITIAL_VALUES_DEV = {
   foodWrkr: false,
   minorGuest: true,
   covidFH: true,
+  qualifiedForUnemployment: true,
+  proofOfRisk: true,
   hispanicHOH: true,
   asianHOH: false,
   blackHOH: false,
@@ -136,6 +138,8 @@ const INITIAL_VALUES_PROD = {
   foodWrkr: false,
   minorGuest: false,
   covidFH: false,
+  qualifiedForUnemployment: false,
+  proofOfRisk: false,
   hispanic: false,
   asian: false,
   black: false,
@@ -154,7 +158,7 @@ const INITIAL_VALUES_PROD = {
   incomplete: true,
 };
 
-const finalStep = 7;
+const finalStep = 6;
 
 export default function Index() {
   const loading = useSelector(state => state.global.isLoading);
@@ -276,7 +280,7 @@ export default function Index() {
 }
 
 const manageFormButton = (step, formConsent) => {
-  if (step === 3 && formConsent === false) {
+  if (step === 2 && formConsent === false) {
     return true;
   } else {
     return false;
@@ -297,7 +301,7 @@ const FormNavigation = ({ step, goBackwards, loading, formConsent }) => {
         </Button>
       ) : (
         <Button
-          style={step === 4 ? { display: 'none' } : {}}
+          style={step === 3 ? { display: 'none' } : {}}
           type="primary"
           htmlType="submit"
           disabled={manageFormButton(step, formConsent)}
@@ -316,16 +320,14 @@ const RenderForm = props => {
     case 1:
       return <HouseholdInformation {...props} />;
     case 2:
-      return <Demographics {...props} />;
-    case 3:
       return <AdditionalInformation {...props} />;
-    case 4:
+    case 3:
       return <ProgramSelection {...props} />;
-    case 5:
+    case 4:
       return <SecondaryContact {...props} />;
-    case 6:
+    case 5:
       return <Review {...props} />;
-    case 7:
+    case 6:
       return <CreateAccount {...props} />;
   }
 };

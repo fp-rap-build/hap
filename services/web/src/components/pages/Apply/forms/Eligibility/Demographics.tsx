@@ -1,13 +1,14 @@
 //Components
 import CardTitle from '../../CardTitle';
 //UI
-import { Card, Typography, Divider, Form, Checkbox } from 'antd';
+import { Card, Typography, Divider, Form, Checkbox, DatePicker } from 'antd';
 const { Text } = Typography;
 
 export default function Demographics({
   role,
   handleCheckBoxChange,
   formValues,
+  handleDateChange,
 }) {
   const introMessage = {
     tenant:
@@ -23,6 +24,7 @@ export default function Demographics({
       return introMessage.tenant;
     }
   };
+
   return (
     <div>
       <Card
