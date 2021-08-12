@@ -24,6 +24,7 @@ export default function Demographics({
       return introMessage.tenant;
     }
   };
+
   return (
     <div>
       <Card
