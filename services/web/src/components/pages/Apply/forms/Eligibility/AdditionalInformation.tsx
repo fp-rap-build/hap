@@ -74,16 +74,40 @@ export default function AdditionalInformation({
 
         <Form.Item>
           <Checkbox
+            checked={formValues.qualifiedForUnemployment}
+            name="qualifiedForUnemployment"
+            onChange={handleCheckBoxChange}
+          >
+            <p>
+              Qualified for unemployment or experienced a reduction in household
+              income?
+            </p>
+          </Checkbox>
+        </Form.Item>
+
+        <Form.Item>
+          <Checkbox
             checked={formValues.covidFH}
             name="covidFH"
             onChange={handleCheckBoxChange}
           >
-            <p>Qualified for unemployment or experienced a reduction in household income?</p>
-            <br></br>
-            <p>Incurred new expenses or experienced a financial hardship due to COVID?</p>
-            <br></br>
-            <p>Can demonstrate a risk of being homeless or being displaced because of eviction notices or past due utilities?</p>
-            
+            <p>
+              Incurred new expenses or experienced a financial hardship due to
+              COVID?
+            </p>
+          </Checkbox>
+        </Form.Item>
+
+        <Form.Item>
+          <Checkbox
+            checked={formValues.proofOfRisk}
+            name="proofOfRisk"
+            onChange={handleCheckBoxChange}
+          >
+            <p>
+              Can demonstrate a risk of being homeless or being displaced
+              because of eviction notices or past due utilities?
+            </p>
           </Checkbox>
         </Form.Item>
 
@@ -93,15 +117,19 @@ export default function AdditionalInformation({
             name="advocate"
             onChange={handleCheckBoxChange}
           >
-            Check this box if you are an Advocate completing this request on the behalf of somebody else.
+            Check this box if you are an Advocate completing this request on the
+            behalf of somebody else.
           </Checkbox>
         </Form.Item>
 
         <Divider orientation="left">
-          <Text strong>Use of this site requires accepting the following terms:</Text>
+          <Text strong>
+            Use of this site requires accepting the following terms:
+          </Text>
         </Divider>
         <Checkbox name="consent" onChange={() => setFormConsent(!formConsent)}>
-          Checking eligibility does not guarantee assistance, and the services available on the next page do not come with any warranty{' '}
+          Checking eligibility does not guarantee assistance, and the services
+          available on the next page do not come with any warranty{' '}
         </Checkbox>
       </Card>
     </div>

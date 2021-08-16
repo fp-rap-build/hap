@@ -62,7 +62,7 @@ const RenderDocuments = ({ documents, setDocuments, setOriginalDocuments }) => {
   return (
     <div className={styles.documents}>
       {documents.map(d =>
-        d.status === 'optOut' ? (
+        d.pandaId ? (
           <SelfDecDocument
             key={d.id}
             document={d}

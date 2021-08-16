@@ -7,7 +7,7 @@ import { fetchMultiRequests } from '../../../redux/requests/requestActions';
 
 import ActiveRequestsTable from './components/ActiveRequestsTable';
 
-import { Typography, Layout, Badge } from 'antd';
+import { Typography, Layout } from 'antd';
 const { Content, Header, Footer } = Layout;
 const { Title } = Typography;
 
@@ -33,9 +33,16 @@ export default function Index() {
 const RenderDash = ({ currentUser }) => {
   return (
     <Layout>
-      <Header style={{ backgroundColor: '#472d5b' }}>
+      <Header
+        style={{
+          backgroundColor: '#472d5b',
+          display: 'flex',
+          alignItems: 'center',
+          paddingBottom: 0,
+        }}
+      >
         <Title level={3} style={{ color: '#FFFFFF' }}>
-          Hello {currentUser.firstName}, welcome to you HAP Portal!{' '}
+          Hello {currentUser.firstName}, welcome to your HAP Portal!
         </Title>
       </Header>
       <Content>

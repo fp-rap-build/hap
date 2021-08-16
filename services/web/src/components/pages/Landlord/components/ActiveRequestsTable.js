@@ -28,21 +28,6 @@ export default function ActiveRequestsTable() {
     { title: 'First Name', field: 'firstName' },
     { title: 'Last Name', field: 'lastName' },
     { title: 'Address', field: 'address' },
-    { title: 'Status', field: 'requestStatus' },
-    {
-      title: 'Applicant Activity',
-      field: 'tenantDifference',
-      render: rowData => {
-        return <RenderActivityCell timeDifference={rowData.tenantDifference} />;
-      },
-    },
-    {
-      title: 'FP Activity',
-      field: 'staffDifference',
-      render: rowData => {
-        return <RenderActivityCell timeDifference={rowData.staffDifference} />;
-      },
-    },
     {
       title: 'Submission Date',
       field: 'requestDate',
@@ -51,6 +36,7 @@ export default function ActiveRequestsTable() {
         return <p>{date}</p>;
       },
     },
+    { title: 'Status', field: 'requestStatus' },
   ];
 
   return (
@@ -83,7 +69,7 @@ export default function ActiveRequestsTable() {
           },
         ]}
         icons={tableIcons}
-        title="Your Tenants Active Requests"
+        title="These tenants were matched to you based on the email address they provided for you in their application."
         columns={columns}
         data={tableData}
       />

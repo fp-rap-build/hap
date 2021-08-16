@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { useSelector, useDispatch } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
@@ -8,11 +6,11 @@ import logo from '../../../assets/logo.png';
 
 import { logOut } from '../../../redux/users/userActions';
 
-import { Badge, Avatar, Menu, Dropdown, notification } from 'antd';
+import { Badge, Avatar, Menu, Dropdown } from 'antd';
 
 import NotificationsIcon from '@material-ui/icons/Notifications';
 
-import { UserOutlined, DownOutlined } from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 
 import { openPanal } from '../../../redux/notifications/notificationActions';
 
