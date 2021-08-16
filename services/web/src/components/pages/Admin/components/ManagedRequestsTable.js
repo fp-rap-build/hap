@@ -16,6 +16,7 @@ import {
 import sortRequests from '../utils/sortRequests';
 import doesHouseholdContainPoc from '../../../../utils/general/doesHouseholdContainPoc';
 import calculateAmi from '../../../../utils/general/calculateAmi';
+import createHAPid from '../../../../utils/general/displayHAPid';
 
 import MaterialTable from '@material-table/core';
 
@@ -88,6 +89,8 @@ export default function ManagedRequestsTable() {
         );
         request['poc'] = doesHouseholdContainPoc(request);
 
+        request['HAP ID'] = createHAPid(request.id);
+
         request['manager'] = request['managerFirstName']
           ? request['managerFirstName'] + ' ' + request['managerLastName']
           : 'Nobody';
@@ -147,7 +150,7 @@ export default function ManagedRequestsTable() {
   const [columns, setColumns] = useState([
     {
       title: 'HAP ID',
-      field: 'id',
+      field: 'HAP ID',
     },
     {
       title: 'Manager',
