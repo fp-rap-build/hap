@@ -31,6 +31,7 @@ import socket from '../../../../config/socket';
 import calculateAmi from '../../../../utils/general/calculateAmi';
 import sortRequests from '../utils/sortRequests';
 import doesHouseholdContainPoc from '../../../../utils/general/doesHouseholdContainPoc';
+import createHAPid from '../../../../utils/general/displayHAPid';
 
 export default function RequestsTable() {
   const history = useHistory();
@@ -47,7 +48,7 @@ export default function RequestsTable() {
   const [columns, setColumns] = useState([
     {
       title: 'HAP ID',
-      field: 'id',
+      field: 'HAP ID',
     },
     { title: 'First', field: 'firstName' },
     { title: 'Last ', field: 'lastName' },
@@ -114,6 +115,7 @@ export default function RequestsTable() {
 
       requests = requests.map(request => {
         request['isSubscribed'] = request.id in subscriptions;
+        request['HAP ID'] = createHAPid(request.id);
         request['ami'] = calculateAmi(
           request.monthlyIncome,
           request.familySize

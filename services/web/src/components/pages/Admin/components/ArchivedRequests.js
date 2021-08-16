@@ -18,6 +18,8 @@ import GavelIcon from '@material-ui/icons/Gavel';
 
 import { message, Modal } from 'antd';
 
+import createHAPid from '../../../../utils/general/displayHAPid';
+
 export default function RequestsTable() {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -32,7 +34,7 @@ export default function RequestsTable() {
   const [columns, setColumns] = useState([
     {
       title: 'HAP ID',
-      field: 'id',
+      field: 'HAP ID',
     },
     { title: 'First', field: 'firstName' },
     { title: 'Last ', field: 'lastName' },
@@ -67,6 +69,14 @@ export default function RequestsTable() {
           },
         })
         .then(res => res.data);
+
+      // create HAP ID from the request ID
+      requests = requests.map(request => {
+    
+        request['HAP ID'] = createHAPid(request.id);
+
+        return request;
+      });
 
       setData(requests);
     } catch (error) {

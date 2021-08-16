@@ -8,6 +8,7 @@ import { tableIcons } from '../../../../utils/tableIcons';
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 import { message } from 'antd';
 import calculateAmi from '../../../../utils/general/calculateAmi';
+import createHAPid from '../../../../utils/general/displayHAPid';
 
 export default function PaymentsTable() {
   const [isFetching, setIsFetching] = useState(false);
@@ -15,7 +16,7 @@ export default function PaymentsTable() {
   const [columns, setColumns] = useState([
     {
       title: 'HAP ID',
-      field: 'requestId',
+      field: 'HAP ID',
     },
     { title: 'First', field: 'firstName', editable: 'never' },
     { title: 'Last ', field: 'lastName', editable: 'never' },
@@ -63,6 +64,7 @@ export default function PaymentsTable() {
       let payments = res.data.payments.map(payment => {
         payment['race'] = '';
         payment['ethnicity'] = '';
+        payment['HAP ID'] = createHAPid(payment.requestId);
 
         let races = {
           black: payment.black,
@@ -85,6 +87,8 @@ export default function PaymentsTable() {
           payment.monthlyIncome,
           payment.familySize
         );
+
+
 
         return payment;
       });
