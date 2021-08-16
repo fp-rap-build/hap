@@ -31,6 +31,7 @@ import calculateAmi from '../../../../utils/general/calculateAmi';
 import styles from '../../../../styles/pages/admin.module.css';
 import sortRequests from '../utils/sortRequests';
 import doesHouseholdContainPoc from '../../../../utils/general/doesHouseholdContainPoc';
+import createHAPid from '../../../../utils/general/displayHAPid';
 
 export default function RequestsTable() {
   const history = useHistory();
@@ -47,7 +48,7 @@ export default function RequestsTable() {
   const [columns, setColumns] = useState([
     {
       title: 'HAP ID',
-      field: 'id',
+      field: 'HAP ID',
     },
 
     {
@@ -144,6 +145,9 @@ export default function RequestsTable() {
           request.monthlyIncome,
           request.familySize
         );
+
+        request['HAP ID'] = createHAPid(request.id);
+
         request['poc'] = doesHouseholdContainPoc(request);
 
         request['manager'] = request['managerFirstName']
