@@ -84,23 +84,24 @@ export default function RequestsTable() {
     },
 
     {
-      title: 'HAP ID',
+      headerName: 'HAP ID',
       field: 'id',
+      width: 150,
     },
     {
-      title: 'Manager',
+      headerName: 'Manager',
       field: 'manager',
       width: 150,
     },
-    { title: 'First', field: 'firstName', width: 150 },
-    { title: 'Last ', field: 'lastName', width: 150 },
+    { headerName: 'First', field: 'firstName', width: 150 },
+    { headerName: 'Last ', field: 'lastName', width: 150 },
     {
-      title: 'email',
+      headerName: 'email',
       field: 'email',
       width: 150,
     },
     {
-      title: 'Applicant Activity',
+      headerName: 'Applicant Activity',
       field: 'tenantDifference',
       width: 200,
       renderCell: rowData => {
@@ -110,7 +111,7 @@ export default function RequestsTable() {
       },
     },
     {
-      title: 'FP Activity',
+      headerName: 'FP Activity',
       field: 'staffDifference',
       width: 200,
       renderCell: rowData => {
@@ -121,48 +122,48 @@ export default function RequestsTable() {
     },
 
     {
-      title: 'Last Action',
+      headerName: 'Last Action',
       field: 'lastAction',
       width: 150,
     },
 
     {
-      title: 'AMI',
+      headerName: 'AMI',
       field: 'ami',
       width: 150,
     },
     {
-      title: 'unEmp90',
+      headerName: 'unEmp90',
       field: 'unEmp90',
       width: 150,
     },
     {
-      title: 'BIPOC',
+      headerName: 'BIPOC',
       field: 'poc',
       width: 150,
     },
     {
-      title: 'Amount',
+      headerName: 'Amount',
       field: 'amountRequested',
-      width: 150,
+      width: 250,
     },
     {
-      title: 'Address',
+      headerName: 'Address',
       field: 'address',
       width: 150,
     },
     {
-      title: 'City',
+      headerName: 'City',
       field: 'cityName',
       width: 150,
     },
     {
-      title: 'LN',
+      headerName: 'LN',
       field: 'landlordName',
       width: 200,
     },
     {
-      title: 'Request Status',
+      headerName: 'Request Status',
       field: 'requestStatus',
       width: 200,
 
@@ -178,7 +179,15 @@ export default function RequestsTable() {
       },
     },
 
-    { title: 'date', field: 'requestDate', type: 'date' },
+    {
+      headerName: 'date',
+      field: 'requestDate',
+      type: 'date',
+      width: 200,
+      renderCell: params => {
+        return <p>{new Date(params.row.requestDate).toLocaleDateString()} </p>;
+      },
+    },
   ]);
 
   const fetchRequests = async () => {
@@ -233,6 +242,8 @@ export default function RequestsTable() {
 
   return (
     <div className={styles.container}>
+      <h2>Requests</h2>
+
       <XGrid
         style={{ height: 700 }}
         rows={data}
@@ -249,9 +260,11 @@ export default function RequestsTable() {
 const formatSubscriptions = subscriptions => {
   let result = {};
 
-  subscriptions.forEach(sub => {
-    result[sub.requestId] = true;
-  });
+  if (subscriptions) {
+    subscriptions.forEach(sub => {
+      result[sub.requestId] = true;
+    });
+  }
 
   return result;
 };

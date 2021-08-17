@@ -51,23 +51,24 @@ export default function RequestsTable() {
     },
 
     {
-      title: 'HAP ID',
+      headerName: 'HAP ID',
       field: 'id',
+      width: 150,
     },
     {
-      title: 'Manager',
+      headerName: 'Manager',
       field: 'manager',
       width: 300,
     },
-    { title: 'First', field: 'firstName', width: 150 },
-    { title: 'Last ', field: 'lastName', width: 150 },
+    { headerName: 'First', field: 'firstName', width: 150 },
+    { headerName: 'Last ', field: 'lastName', width: 150 },
     {
-      title: 'email',
+      headerName: 'email',
       field: 'email',
       width: 300,
     },
     {
-      title: 'Request Status',
+      headerName: 'Request Status',
       field: 'requestStatus',
       width: 300,
 
@@ -83,7 +84,7 @@ export default function RequestsTable() {
       },
     },
 
-    { title: 'date', field: 'requestDate', type: 'date', width: 300 },
+    { headerName: 'date', field: 'requestDate', type: 'date', width: 300 },
   ]);
 
   const fetchArchivedRequests = async () => {
@@ -113,6 +114,7 @@ export default function RequestsTable() {
 
   return (
     <div className={styles.container}>
+      <h2>Archived Requests</h2>
       <XGrid
         style={{ height: 700 }}
         rows={data}

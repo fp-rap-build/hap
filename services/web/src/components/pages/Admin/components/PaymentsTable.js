@@ -17,7 +17,7 @@ export default function PaymentsTable() {
 
   const [columns, setColumns] = useState([
     {
-      title: 'Delete',
+      headerName: 'Delete',
       field: 'delete',
       renderCell: params => (
         <DeletePayment row={params.row} setData={setData} />
@@ -25,51 +25,51 @@ export default function PaymentsTable() {
     },
 
     {
-      title: 'HAP ID',
+      headerName: 'HAP ID',
       field: 'requestId',
       width: 170,
     },
-    { title: 'First', field: 'firstName', width: 170 },
-    { title: 'Last ', field: 'lastName', width: 170 },
+    { headerName: 'First', field: 'firstName', width: 170 },
+    { headerName: 'Last ', field: 'lastName', width: 170 },
     {
-      title: 'Email',
+      headerName: 'Email',
       field: 'email',
       type: 'string',
 
       width: 170,
     },
-    { title: 'Gender', field: 'gender', width: 170 },
-    { title: 'Race', field: 'race', width: 170 },
-    { title: 'Ethnicity', field: 'ethnicity', width: 170 },
+    { headerName: 'Gender', field: 'gender', width: 170 },
+    { headerName: 'Race', field: 'race', width: 170 },
+    { headerName: 'Ethnicity', field: 'ethnicity', width: 170 },
     {
-      title: 'Household Size',
+      headerName: 'Household Size',
       field: 'familySize',
 
       width: 170,
     },
     {
-      title: 'Total Children',
+      headerName: 'Total Children',
       field: 'totalChildren',
 
       width: 170,
     },
     {
-      title: 'Children Ages',
+      headerName: 'Children Ages',
       field: 'childrenAges',
 
       width: 170,
     },
     {
-      title: 'Monthly Income',
+      headerName: 'Monthly Income',
       field: 'monthlyIncome',
 
       width: 170,
     },
-    { title: 'Monthly Rent', field: 'monthlyRent', width: 170 },
-    { title: 'AMI', field: 'ami', width: 170 },
+    { headerName: 'Monthly Rent', field: 'monthlyRent', width: 170 },
+    { headerName: 'AMI', field: 'ami', width: 170 },
 
     {
-      title: 'Program',
+      headerName: 'Program',
       field: 'program',
       type: 'string',
 
@@ -77,21 +77,21 @@ export default function PaymentsTable() {
     },
 
     {
-      title: 'Amount',
+      headerName: 'Amount',
       field: 'amount',
       width: 170,
       editable: true,
     },
 
     {
-      title: 'Date Requested',
+      headerName: 'Date Requested',
       field: 'requestDate',
       type: 'date',
       width: 170,
     },
 
     {
-      title: 'Date Approved',
+      headerName: 'Date Approved',
       field: 'approveDate',
       type: 'date',
       width: 170,
@@ -148,6 +148,8 @@ export default function PaymentsTable() {
 
   return (
     <>
+      <h2>Payments</h2>
+
       <XGrid
         style={{ height: 700 }}
         rows={data}

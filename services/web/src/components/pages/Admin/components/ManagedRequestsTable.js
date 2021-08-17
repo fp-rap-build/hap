@@ -180,23 +180,24 @@ export default function ManagedRequestsTable() {
     },
 
     {
-      title: 'HAP ID',
+      headerName: 'HAP ID',
       field: 'id',
+      width: 150,
     },
     {
-      title: 'Manager',
+      headerName: 'Manager',
       field: 'manager',
       width: 150,
     },
-    { title: 'First', field: 'firstName', width: 150 },
-    { title: 'Last ', field: 'lastName', width: 150 },
+    { headerName: 'First', field: 'firstName', width: 150 },
+    { headerName: 'Last ', field: 'lastName', width: 150 },
     {
-      title: 'email',
+      headerName: 'email',
       field: 'email',
       width: 150,
     },
     {
-      title: 'Applicant Activity',
+      headerName: 'Applicant Activity',
       field: 'tenantDifference',
       width: 200,
       renderCell: rowData => {
@@ -206,7 +207,7 @@ export default function ManagedRequestsTable() {
       },
     },
     {
-      title: 'FP Activity',
+      headerName: 'FP Activity',
       field: 'staffDifference',
       width: 200,
       renderCell: rowData => {
@@ -216,7 +217,7 @@ export default function ManagedRequestsTable() {
       },
     },
     {
-      title: 'RES',
+      headerName: 'RES',
       field: 'residency',
       width: 150,
       renderCell: rowData => {
@@ -231,7 +232,7 @@ export default function ManagedRequestsTable() {
       },
     },
     {
-      title: 'INC',
+      headerName: 'INC',
       field: 'income',
       width: 150,
       renderCell: rowData => {
@@ -248,7 +249,7 @@ export default function ManagedRequestsTable() {
     },
 
     {
-      title: 'COV',
+      headerName: 'COV',
       field: 'covid',
       width: 150,
       renderCell: rowData => {
@@ -265,7 +266,7 @@ export default function ManagedRequestsTable() {
     },
 
     {
-      title: 'ID',
+      headerName: 'ID',
       field: 'identity',
       width: 150,
       renderCell: rowData => {
@@ -282,7 +283,7 @@ export default function ManagedRequestsTable() {
     },
 
     {
-      title: 'CHI',
+      headerName: 'CHI',
       field: 'childrenOrPregnancy',
       width: 150,
       renderCell: rowData => {
@@ -303,8 +304,9 @@ export default function ManagedRequestsTable() {
     },
 
     {
-      title: 'LEASE',
+      headerName: 'LEASE',
       field: 'lease',
+      width: 150,
       renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
@@ -319,8 +321,9 @@ export default function ManagedRequestsTable() {
     },
 
     {
-      title: 'LLW9',
+      headerName: 'LLW9',
       field: 'landlordW9',
+      width: 150,
       renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
@@ -335,8 +338,9 @@ export default function ManagedRequestsTable() {
     },
 
     {
-      title: 'LATE',
+      headerName: 'LATE',
       field: 'lateNotice',
+      width: 150,
       renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
@@ -351,8 +355,9 @@ export default function ManagedRequestsTable() {
     },
 
     {
-      title: 'RPAF',
+      headerName: 'RPAF',
       field: 'rpaf',
+      width: 150,
       renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
@@ -367,8 +372,9 @@ export default function ManagedRequestsTable() {
     },
 
     {
-      title: 'HI',
+      headerName: 'HI',
       field: 'housingInstability',
+      width: 150,
       renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
@@ -387,8 +393,9 @@ export default function ManagedRequestsTable() {
     },
 
     {
-      title: 'EMLL',
+      headerName: 'EMLL',
       field: 'emailedLandlord',
+      width: 150,
       renderCell: rowData => {
         return (
           <EmailedLLCheckbox
@@ -400,53 +407,49 @@ export default function ManagedRequestsTable() {
     },
 
     {
-      title: 'Last Action',
+      headerName: 'Last Action',
       field: 'lastAction',
       width: 150,
     },
 
     {
-      title: 'AMI',
+      headerName: 'AMI',
       field: 'ami',
       width: 150,
     },
     {
-      title: 'unEmp90',
+      headerName: 'unEmp90',
       field: 'unEmp90',
       width: 150,
     },
     {
-      title: 'BIPOC',
+      headerName: 'BIPOC',
       field: 'poc',
       width: 150,
     },
     {
-      title: 'Amount',
+      headerName: 'Amount',
       field: 'amountRequested',
       width: 150,
     },
     {
-      title: 'Address',
+      headerName: 'Address',
       field: 'address',
       width: 150,
     },
     {
-      title: 'City',
+      headerName: 'City',
       field: 'cityName',
       width: 150,
     },
+
     {
-      title: 'hello',
-      field: 'hello',
-      width: 150,
-    },
-    {
-      title: 'LN',
+      headerName: 'LN',
       field: 'landlordName',
       width: 200,
     },
     {
-      title: 'Request Status',
+      headerName: 'Request Status',
       field: 'requestStatus',
       width: 200,
 
@@ -462,7 +465,7 @@ export default function ManagedRequestsTable() {
       },
     },
 
-    { title: 'date', field: 'requestDate', type: 'date' },
+    { headerName: 'date', field: 'requestDate', type: 'date', width: 150 },
   ]);
 
   useEffect(() => {
@@ -489,6 +492,8 @@ export default function ManagedRequestsTable() {
   return (
     <div>
       <div className={styles.container}>
+        <h2>Your Requests</h2>
+
         <AttachmentViewer
           visible={visible}
           setVisible={setVisible}

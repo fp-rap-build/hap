@@ -7,7 +7,11 @@ import Container from './Container';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
+import { useSelector } from 'react-redux';
+
 export default function Delete({ setRequests, requestId }) {
+  const { currentUser } = useSelector(state => state.user);
+
   const handleDelete = async () => {
     try {
       setRequests(requests =>
@@ -36,7 +40,15 @@ export default function Delete({ setRequests, requestId }) {
     });
 
   return (
-    <Container onClick={openConfirmDeleteModal}>
+    <Container
+      onClick={
+        currentUser.role === 'admin'
+          ? openConfirmDeleteModal
+          : () => {
+              return;
+            }
+      }
+    >
       <DeleteIcon />
     </Container>
   );

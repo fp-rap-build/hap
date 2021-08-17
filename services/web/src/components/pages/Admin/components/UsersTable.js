@@ -20,17 +20,17 @@ export default function UsersTable() {
 
   const [columns, setColumns] = useState([
     {
-      title: 'Delete',
+      headerName: 'Delete',
       field: 'delete',
       renderCell: params => <DeleteUser row={params.row} setData={setData} />,
     },
 
-    { title: 'First', field: 'firstName', flex: 1, editable: true },
-    { title: 'Last ', field: 'lastName', flex: 1, editable: true },
-    { title: 'email', field: 'email', type: 'string', flex: 1 },
+    { headerName: 'First', field: 'firstName', flex: 1, editable: true },
+    { headerName: 'Last ', field: 'lastName', flex: 1, editable: true },
+    { headerName: 'email', field: 'email', type: 'string', flex: 1 },
 
     {
-      title: 'role',
+      headerName: 'role',
       field: 'role',
       lookup: {
         admin: 'admin',
@@ -65,6 +65,8 @@ export default function UsersTable() {
 
   return (
     <>
+      <h2>Users</h2>
+
       <XGrid
         style={{ height: 700 }}
         rows={data}

@@ -29,14 +29,15 @@ export default function Organizations() {
   const [state, setState] = useState({
     columns: [
       {
-        title: 'Programs',
+        headerName: 'Programs',
         field: 'programs',
+        width: 50,
         renderCell: params => (
           <RedirectToPrograms orgId={params.row.id} history={history} />
         ),
       },
-      { title: 'Organization', field: 'organization', flex: 1 },
-      { title: 'Date', field: 'createdAt', type: Date, flex: 0.7 },
+      { headerName: 'Organization', field: 'organization', flex: 1 },
+      { headerName: 'Date', field: 'createdAt', type: Date, flex: 0.7 },
     ],
     data: [],
   });
@@ -64,12 +65,16 @@ export default function Organizations() {
     history.push(`/organizations/${orgId}/programs`);
 
   return (
-    <XGrid
-      style={{ height: 700 }}
-      rows={state.data}
-      columns={state.columns}
-      loading={isFetching}
-    />
+    <>
+      <h2>Organizations</h2>
+
+      <XGrid
+        style={{ height: 700 }}
+        rows={state.data}
+        columns={state.columns}
+        loading={isFetching}
+      />
+    </>
   );
 }
 
