@@ -42,13 +42,11 @@ const ProgramSelection = ({ formValues }) => {
   const [availablePrograms, setAvailablePrograms] = useState({});
   const [programs, setPrograms] = useState([]);
 
-  const covidImpacted = covidFH || proofOfRisk || qualifiedForUnemployment;
-
   // Only eligible for family promise if no other options are available
   const checkPrograms = async () => {
     // convert bools to '0' or '1'
 
-    const queryString = `?zipCode=${zipCode}&cityName=${cityName}&familySize=${familySize}&totalChildren=${totalChildren}&monthlyIncome=${monthlyIncome}&monthlyRent=${monthlyRent}&owed=${owed}&amountRequested=${amountRequested}&unEmp90=${unEmp90}&foodWrkr=${foodWrkr}&minorGuest=${minorGuest}&covidFH=${covidImpacted}`;
+    const queryString = `?zipCode=${zipCode}&cityName=${cityName}&familySize=${familySize}&totalChildren=${totalChildren}&monthlyIncome=${monthlyIncome}&monthlyRent=${monthlyRent}&owed=${owed}&amountRequested=${amountRequested}&unEmp90=${unEmp90}&foodWrkr=${foodWrkr}&minorGuest=${minorGuest}&covidFH=${covidFH}&qualifiedForUnemployment=${qualifiedForUnemployment}&proofOfRisk=${proofOfRisk}`;
     const callURL = dsBaseUrl + queryString;
     setLoadStatus(true);
     try {
