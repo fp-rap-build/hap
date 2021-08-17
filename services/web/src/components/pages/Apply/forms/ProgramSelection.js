@@ -34,19 +34,13 @@ const ProgramSelection = ({ formValues }) => {
     owed,
     amountRequested,
     covidFH,
+    proofOfRisk,
     qualifiedForUnemployment,
-    proofOfRisk
-
   } = formValues;
 
   const [loadStatus, setLoadStatus] = useState(false);
   const [availablePrograms, setAvailablePrograms] = useState({});
   const [programs, setPrograms] = useState([]);
-
-  const fetchPrograms = async () => {
-    try {
-    } catch (error) {}
-  };
 
   // Only eligible for family promise if no other options are available
   const checkPrograms = async () => {
