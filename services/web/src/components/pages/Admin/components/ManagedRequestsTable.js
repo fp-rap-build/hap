@@ -4,33 +4,12 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
 
-import socket from '../../../../config/socket';
-
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
-
-import {
-  addSubscription,
-  deleteSubscription,
-} from '../../../../redux/users/userActions';
 
 import sortRequests from '../utils/sortRequests';
 import doesHouseholdContainPoc from '../../../../utils/general/doesHouseholdContainPoc';
 import calculateAmi from '../../../../utils/general/calculateAmi';
 import createHAPid from '../../../../utils/general/displayHAPid';
-
-import MaterialTable from '@material-table/core';
-
-import { ExportCsv, ExportPdf } from '@material-table/exporters';
-
-import { tableIcons } from '../../../../utils/tableIcons';
-
-import GavelIcon from '@material-ui/icons/Gavel';
-import MailIcon from '@material-ui/icons/Mail';
-import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
-import ArchiveIcon from '@material-ui/icons/Archive';
-import WarningFilled from '@material-ui/icons/Warning';
-
-import { message, Modal, Tooltip } from 'antd';
 
 import AttachmentViewer from './components/AttachmentViewer';
 
@@ -41,15 +20,25 @@ import RenderDocumentStatusCell from './components/Requests/RenderDocumentStatus
 import UploadDocModal from '../../../common/DocumentUploaderModal';
 
 import styles from '../../../../styles/pages/admin.module.css';
-import CommentsContainer from '../../Requests/components/RequestInformation/components/CommentsContainer';
-import Comments from '../../../common/Comments';
+
 import EmailedLLCheckbox from './components/Requests/EmailedLLCheckbox';
 import { formatDate } from '../../../../utils/dates/date';
 import { formatUTC } from '../../../../utils/dates';
 
+import ExportCsv from './components/ExportCsv';
+
+import {
+  Review,
+  Archive,
+  Delete,
+  Subscribe,
+  MarkIncomplete,
+} from './components/Requests/Actions';
+
+import { XGrid, GridRowsProp } from '@material-ui/x-grid';
+
 export default function ManagedRequestsTable() {
   const history = useHistory();
-  const dispatch = useDispatch();
 
   const currentUser = useSelector(state => state.user.currentUser);
 
@@ -69,6 +58,8 @@ export default function ManagedRequestsTable() {
 
   const [documents, setDocuments] = useState({});
 
+  const redirectToReview = id => history.push(`/requests/${id}`);
+
   const fetchRequests = async () => {
     setIsFetching(true);
     try {
@@ -87,6 +78,7 @@ export default function ManagedRequestsTable() {
           request.monthlyIncome,
           request.familySize
         );
+
         request['poc'] = doesHouseholdContainPoc(request);
 
         request['HAP ID'] = createHAPid(request.id);
@@ -149,85 +141,144 @@ export default function ManagedRequestsTable() {
 
   const [columns, setColumns] = useState([
     {
-      title: 'HAP ID',
-      field: 'HAP ID',
+      field: 'Review',
+      width: 50,
+      renderCell: params => {
+        return <Review requestId={params.row.id} />;
+      },
+    },
+
+    {
+      field: 'Subscribe',
+      width: 50,
+      renderCell: params => {
+        return <Subscribe setRequests={setData} currentRequest={params.row} />;
+      },
+    },
+
+    {
+      field: 'Archive',
+      width: 50,
+      renderCell: params => {
+        return <Archive setRequests={setData} requestId={params.row.id} />;
+      },
+    },
+
+    {
+      field: 'MarkIncomplete',
+      width: 50,
+      renderCell: params => {
+        return (
+          <MarkIncomplete setRequests={setData} requestId={params.row.id} />
+        );
+      },
+    },
+
+    {
+      field: 'Delete',
+      width: 50,
+      renderCell: params => {
+        return <Delete setRequests={setData} requestId={params.row.id} />;
+      },
+    },
+
+    {
+      headerName: 'HAP ID',
+      field: 'id',
+      width: 150,
     },
     {
-      title: 'Manager',
+      headerName: 'Manager',
       field: 'manager',
+      width: 150,
     },
-    { title: 'First', field: 'firstName' },
-    { title: 'Last ', field: 'lastName' },
+    { headerName: 'First', field: 'firstName', width: 150 },
+    { headerName: 'Last ', field: 'lastName', width: 150 },
     {
-      title: 'email',
+      headerName: 'email',
       field: 'email',
+      width: 150,
     },
     {
-      title: 'Applicant Activity',
+      headerName: 'Applicant Activity',
       field: 'tenantDifference',
-      render: rowData => {
-        return <RenderActivityCell timeDifference={rowData.tenantDifference} />;
+      width: 200,
+      renderCell: rowData => {
+        return (
+          <RenderActivityCell timeDifference={rowData.row.tenantDifference} />
+        );
       },
     },
     {
-      title: 'FP Activity',
+      headerName: 'FP Activity',
       field: 'staffDifference',
-      render: rowData => {
-        return <RenderActivityCell timeDifference={rowData.staffDifference} />;
+      width: 200,
+      renderCell: rowData => {
+        return (
+          <RenderActivityCell timeDifference={rowData.row.staffDifference} />
+        );
       },
     },
     {
-      title: 'RES',
+      headerName: 'RES',
       field: 'residency',
-      render: rowData => {
+      width: 150,
+      renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
-            docs={rowData.residency}
+            docs={rowData.row.residency}
             openDocument={() =>
-              openDocument(rowData.residency, 'residency', rowData)
+              openDocument(rowData.row.residency, 'residency', rowData.row)
             }
           />
         );
       },
     },
     {
-      title: 'INC',
+      headerName: 'INC',
       field: 'income',
-      render: rowData => {
+      width: 150,
+      renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
             category="income"
-            docs={rowData.income}
-            openDocument={() => openDocument(rowData.income, 'income', rowData)}
+            docs={rowData.row.income}
+            openDocument={() =>
+              openDocument(rowData.row.income, 'income', rowData.row)
+            }
           />
         );
       },
     },
 
     {
-      title: 'COV',
+      headerName: 'COV',
       field: 'covid',
-      render: rowData => {
+      width: 150,
+      renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
             category="covid"
-            docs={rowData.covid}
-            openDocument={() => openDocument(rowData.covid, 'covid', rowData)}
+            docs={rowData.row.covid}
+            openDocument={() =>
+              openDocument(rowData.row.covid, 'covid', rowData.row)
+            }
           />
         );
       },
     },
 
     {
-      title: 'ID',
+      headerName: 'ID',
       field: 'identity',
-      render: rowData => {
+      width: 150,
+      renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
             category="identity"
-            docs={rowData.identity}
+            docs={rowData.row.identity}
             openDocument={() =>
-              openDocument(rowData.identity, 'identity', rowData)
+              openDocument(rowData.row.identity, 'identity', rowData.row)
             }
           />
         );
@@ -235,18 +286,19 @@ export default function ManagedRequestsTable() {
     },
 
     {
-      title: 'CHI',
+      headerName: 'CHI',
       field: 'childrenOrPregnancy',
-      render: rowData => {
+      width: 150,
+      renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
             category="childrenOrPregnancy"
-            docs={rowData.childrenOrPregnancy}
+            docs={rowData.row.childrenOrPregnancy}
             openDocument={() =>
               openDocument(
-                rowData.childrenOrPregnancy,
+                rowData.row.childrenOrPregnancy,
                 'childrenOrPregnancy',
-                rowData
+                rowData.row
               )
             }
           />
@@ -255,29 +307,33 @@ export default function ManagedRequestsTable() {
     },
 
     {
-      title: 'LEASE',
+      headerName: 'LEASE',
       field: 'lease',
-      render: rowData => {
+      width: 150,
+      renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
             category="lease"
-            docs={rowData.lease}
-            openDocument={() => openDocument(rowData.lease, 'lease', rowData)}
+            docs={rowData.row.lease}
+            openDocument={() =>
+              openDocument(rowData.row.lease, 'lease', rowData.row)
+            }
           />
         );
       },
     },
 
     {
-      title: 'LLW9',
+      headerName: 'LLW9',
       field: 'landlordW9',
-      render: rowData => {
+      width: 150,
+      renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
             category="landlordW9"
-            docs={rowData.landlordW9}
+            docs={rowData.row.landlordW9}
             openDocument={() =>
-              openDocument(rowData.landlordW9, 'landlordW9', rowData)
+              openDocument(rowData.row.landlordW9, 'landlordW9', rowData.row)
             }
           />
         );
@@ -285,15 +341,16 @@ export default function ManagedRequestsTable() {
     },
 
     {
-      title: 'LATE',
+      headerName: 'LATE',
       field: 'lateNotice',
-      render: rowData => {
+      width: 150,
+      renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
             category="lateNotice"
-            docs={rowData.lateNotice}
+            docs={rowData.row.lateNotice}
             openDocument={() =>
-              openDocument(rowData.lateNotice, 'lateNotice', rowData)
+              openDocument(rowData.row.lateNotice, 'lateNotice', rowData.row)
             }
           />
         );
@@ -301,32 +358,36 @@ export default function ManagedRequestsTable() {
     },
 
     {
-      title: 'RPAF',
+      headerName: 'RPAF',
       field: 'rpaf',
-      render: rowData => {
+      width: 150,
+      renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
             category="rpaf"
-            docs={rowData.rpaf}
-            openDocument={() => openDocument(rowData.rpaf, 'rpaf', rowData)}
+            docs={rowData.row.rpaf}
+            openDocument={() =>
+              openDocument(rowData.row.rpaf, 'rpaf', rowData.row)
+            }
           />
         );
       },
     },
 
     {
-      title: 'HI',
+      headerName: 'HI',
       field: 'housingInstability',
-      render: rowData => {
+      width: 150,
+      renderCell: rowData => {
         return (
           <RenderDocumentStatusCell
             category="housingInstability"
-            docs={rowData.housingInstability}
+            docs={rowData.row.housingInstability}
             openDocument={() =>
               openDocument(
-                rowData.housingInstability,
+                rowData.row.housingInstability,
                 'housingInstability',
-                rowData
+                rowData.row
               )
             }
           />
@@ -335,54 +396,66 @@ export default function ManagedRequestsTable() {
     },
 
     {
-      title: 'EMLL',
+      headerName: 'EMLL',
       field: 'emailedLandlord',
-      render: rowData => {
+      width: 150,
+      renderCell: rowData => {
         return (
           <EmailedLLCheckbox
-            emailedLandlord={rowData.emailedLandlord}
-            requestId={rowData.id}
+            emailedLandlord={rowData.row.emailedLandlord}
+            requestId={rowData.row.id}
           />
         );
       },
     },
 
     {
-      title: 'Last Action',
+      headerName: 'Last Action',
       field: 'lastAction',
+      width: 150,
     },
 
     {
-      title: 'AMI',
+      headerName: 'AMI',
       field: 'ami',
+      width: 150,
     },
     {
-      title: 'unEmp90',
+      headerName: 'unEmp90',
       field: 'unEmp90',
+      width: 150,
     },
     {
-      title: 'BIPOC',
+      headerName: 'BIPOC',
       field: 'poc',
+      width: 150,
     },
     {
-      title: 'Amount',
+      headerName: 'Amount',
       field: 'amountRequested',
+      width: 150,
     },
     {
-      title: 'Address',
+      headerName: 'Address',
       field: 'address',
+      width: 150,
     },
     {
-      title: 'City',
+      headerName: 'City',
       field: 'cityName',
+      width: 150,
     },
+
     {
-      title: 'LN',
+      headerName: 'LN',
       field: 'landlordName',
+      width: 200,
     },
     {
-      title: 'Request Status',
+      headerName: 'Request Status',
       field: 'requestStatus',
+      width: 200,
+
       lookup: {
         received: 'Received',
         inReview: 'In Review',
@@ -395,7 +468,7 @@ export default function ManagedRequestsTable() {
       },
     },
 
-    { title: 'date', field: 'requestDate', type: 'date' },
+    { headerName: 'date', field: 'requestDate', type: 'date', width: 150 },
   ]);
 
   useEffect(() => {
@@ -413,9 +486,17 @@ export default function ManagedRequestsTable() {
     setVisible(true);
   };
 
+  const rows = [
+    { id: 1, col1: 'Hello', col2: 'World' },
+    { id: 2, col1: 'XGrid', col2: 'is Awesome' },
+    { id: 3, col1: 'Material-UI', col2: 'is Amazing' },
+  ];
+
   return (
     <div>
       <div className={styles.container}>
+        <h2>Your Requests</h2>
+
         <AttachmentViewer
           visible={visible}
           setVisible={setVisible}
@@ -426,182 +507,20 @@ export default function ManagedRequestsTable() {
           request={request}
           category={category}
         />
-        <MaterialTable
-          style={{ width: '100%' }}
-          detailPanel={rowData => {
-            return <CommentsContainer request={rowData} />;
-          }}
-          isLoading={isFetching}
-          options={{
-            pageSize: 10,
-            pageSizeOptions: [5, 10, 20, 30, 50, 75, 100, 500, 1000],
 
-            // Allows users to export the data as a CSV file
-            exportMenu: [
-              {
-                label: 'Export PDF',
-                exportFunc: (cols, datas) => ExportPdf(cols, datas, 'requests'),
-              },
-              {
-                label: 'Export CSV',
-                exportFunc: (cols, datas) => ExportCsv(cols, datas, 'requests'),
-              },
-            ],
-          }}
-          editable={{
-            isDeleteHidden: () => currentUser.role !== 'admin',
-            onRowDelete: oldData =>
-              new Promise((resolve, reject) => {
-                axiosWithAuth()
-                  .delete(`/requests/${oldData.id}`)
-                  .then(() => {
-                    setData(data.filter(row => row.id !== oldData.id));
-                  })
-                  .catch(err => message.error('Unable to delete request'))
-                  .finally(() => resolve());
-              }),
-          }}
-          actions={[
-            {
-              icon: GavelIcon,
-              tooltip: 'Review',
-              onClick: async (event, rowData) => {
-                // Update the users request to be in review
-
-                history.push(`/requests/${rowData.id}`);
-              },
-            },
-
-            rowData =>
-              rowData.isSubscribed
-                ? {
-                    icon: UnsubscribeIcon,
-                    tooltip: 'Unsubscribe',
-                    onClick: () => {
-                      Modal.confirm({
-                        title:
-                          'Are you sure you want to unsubscribe from this request?',
-                        content: 'You will stop receiving notifications',
-                        onOk: () => {
-                          setData(prevState =>
-                            prevState.filter(request => {
-                              if (request.id === rowData.id) {
-                                request['isSubscribed'] = false;
-                              }
-
-                              return request;
-                            })
-                          );
-
-                          let subscription = currentUser.subscriptions.find(
-                            sub => sub.requestId === rowData.id
-                          );
-
-                          axiosWithAuth()
-                            .delete(`/subscriptions/${subscription.id}`)
-                            .then(res => console.log(res.data))
-                            .catch(err =>
-                              message.error(
-                                'Unable to unsubscribe from request'
-                              )
-                            );
-
-                          socket.emit('leaveRequest', rowData.id);
-                          dispatch(deleteSubscription(subscription.id));
-                        },
-                      });
-                    },
-                  }
-                : {
-                    icon: MailIcon,
-                    tooltip: 'Subscribe',
-                    onClick: (event, rowData) => {
-                      subscribeToRequest(rowData.id, setData, dispatch);
-                    },
-                  },
-            {
-              icon: ArchiveIcon,
-              tooltip: 'Archive',
-              onClick: async (event, rowData) => {
-                // Update the users request to be in review
-
-                try {
-                  setData(requests =>
-                    requests.filter(request => {
-                      if (request.id !== rowData.id) return request;
-                    })
-                  );
-
-                  await axiosWithAuth().put(`/requests/${rowData.id}`, {
-                    archived: true,
-                  });
-
-                  message.success('Successfully archived request');
-                } catch (error) {
-                  message.error('Unable to archive request');
-                }
-              },
-            },
-
-            {
-              icon: WarningFilled,
-              tooltip: 'Mark Incomplete',
-              onClick: async (event, rowData) => {
-                // Update the users request to be in review
-                try {
-                  setData(requests =>
-                    requests.filter(request => {
-                      if (request.id !== rowData.id) return request;
-                    })
-                  );
-
-                  await axiosWithAuth().put(`/requests/${rowData.id}`, {
-                    incomplete: true,
-                  });
-
-                  message.success('Successfully marked request incomplete');
-                } catch (error) {
-                  message.error('Unable to mark request as incomplete');
-                }
-              },
-            },
-          ]}
-          icons={tableIcons}
-          title="Your Managed Requests for Rental Assistance"
+        <XGrid
+          style={{ height: 700 }}
+          rows={data}
           columns={columns}
-          data={data}
+          loading={isFetching}
+          components={{
+            Toolbar: ExportCsv,
+          }}
         />
       </div>
     </div>
   );
 }
-
-const subscribeToRequest = async (requestId, setData, dispatch) => {
-  try {
-    // Update table
-    setData(prevState =>
-      prevState.map(request => {
-        if (requestId === request.id) {
-          request['isSubscribed'] = true;
-        }
-        return request;
-      })
-    );
-
-    // Persist new subscription
-    let subscription = await axiosWithAuth()
-      .post('/subscriptions', { requestId })
-      .then(res => res.data.subscription);
-
-    // Join request to receive notifications
-    socket.emit('joinRequest', requestId);
-
-    // Lastly, update current users state
-    dispatch(addSubscription(subscription));
-  } catch (error) {
-    message.error('Unable to subscribe to request');
-  }
-};
 
 const formatSubscriptions = subscriptions => {
   let result = {};

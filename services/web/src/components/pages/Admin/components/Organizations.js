@@ -16,17 +16,28 @@ import {
   LineChartOutlined,
 } from '@ant-design/icons';
 
+import Container from './components/Requests/Actions/Container';
+
 import AppsIcon from '@material-ui/icons/Apps';
 
-import axios from 'axios';
+import { XGrid } from '@material-ui/x-grid';
+import ExportCsv from './components/ExportCsv';
 
 export default function Organizations() {
   const history = useHistory();
   const [isFetching, setIsFetching] = useState(false);
   const [state, setState] = useState({
     columns: [
-      { title: 'Organization', field: 'organization' },
-      { title: 'Date', field: 'createdAt', type: 'date' },
+      {
+        headerName: 'Programs',
+        field: 'programs',
+        width: 50,
+        renderCell: params => (
+          <RedirectToPrograms orgId={params.row.id} history={history} />
+        ),
+      },
+      { headerName: 'Organization', field: 'organization', flex: 1 },
+      { headerName: 'Date', field: 'createdAt', type: Date, flex: 0.7 },
     ],
     data: [],
   });
@@ -55,65 +66,22 @@ export default function Organizations() {
 
   return (
     <>
-      <MaterialTable
-        isLoading={isFetching}
-        editable={{
-          // Disable deleting and editing if the user is an Admin
+      <h2>Organizations</h2>
 
-          onRowAdd: newData =>
-            new Promise((resolve, reject) => {
-              axiosWithAuth()
-                .post('/orgs', newData)
-                .then(res => {
-                  setState({
-                    ...state,
-                    data: [...state.data, res.data.organization],
-                  });
-                })
-                .catch(err => message.error('unable to create organization'))
-                .finally(() => resolve());
-            }),
-
-          onRowUpdate: (newData, oldData) =>
-            new Promise((resolve, reject) => {
-              axiosWithAuth()
-                .put(`/orgs/${oldData.id}`, newData)
-                .then(res => {
-                  const dataUpdate = [...state.data];
-                  const index = oldData.tableData.id;
-                  dataUpdate[index] = newData;
-                  setState({ ...state, data: [...dataUpdate] });
-                })
-                .catch(err => {
-                  message.error('unable to update organization');
-                })
-                .finally(() => {
-                  resolve();
-                });
-            }),
-        }}
-        actions={[
-          {
-            icon: LineChartOutlined,
-            tooltip: 'Analytics',
-            onClick: async (event, rowData) => {
-              // Update the users request to be in review
-            },
-          },
-          {
-            icon: AppsIcon,
-            tooltip: 'Programs',
-            onClick: async (event, rowData) => {
-              const { id } = rowData;
-              redirectToPrograms(id);
-            },
-          },
-        ]}
-        icons={tableIcons}
-        title="Organizations"
+      <XGrid
+        style={{ height: 700 }}
+        rows={state.data}
         columns={state.columns}
-        data={state.data}
+        loading={isFetching}
       />
     </>
   );
 }
+
+const RedirectToPrograms = ({ orgId, history }) => {
+  return (
+    <Container onClick={() => history.push(`/organizations/${orgId}/programs`)}>
+      <AppsIcon />
+    </Container>
+  );
+};

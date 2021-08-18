@@ -10,6 +10,8 @@ import {
 
 import MaterialTable from '@material-table/core';
 
+import { XGrid } from '@material-ui/x-grid';
+
 import { tableIcons } from '../../../../../../utils/tableIcons';
 
 import { Typography, Divider } from 'antd';
@@ -124,4 +126,5 @@ const Income = ({ requestData }) => {
     </div>
   );
 };
+
 export default Income;
