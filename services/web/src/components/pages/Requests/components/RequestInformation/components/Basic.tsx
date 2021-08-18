@@ -106,7 +106,7 @@ export default function Basic({ request, setRequest, column = 2 }) {
       >
         <Select
           showSearch
-          placeholder="Select a state"
+          placeholder="Select a gender"
           disabled={disabled}
           optionFilterProp="children"
           filterOption={(input, option) =>
