@@ -28,7 +28,7 @@ export default function PaymentsTable() {
 
     {
       headerName: 'HAP ID',
-      field: 'requestId',
+      field: 'HAP ID',
       width: 170,
     },
     { headerName: 'First', field: 'firstName', width: 170 },
