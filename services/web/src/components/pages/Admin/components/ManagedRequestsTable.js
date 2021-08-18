@@ -9,6 +9,7 @@ import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 import sortRequests from '../utils/sortRequests';
 import doesHouseholdContainPoc from '../../../../utils/general/doesHouseholdContainPoc';
 import calculateAmi from '../../../../utils/general/calculateAmi';
+import createHAPid from '../../../../utils/general/displayHAPid';
 
 import AttachmentViewer from './components/AttachmentViewer';
 
@@ -79,6 +80,8 @@ export default function ManagedRequestsTable() {
         );
 
         request['poc'] = doesHouseholdContainPoc(request);
+
+        request['HAP ID'] = createHAPid(request.id);
 
         request['manager'] = request['managerFirstName']
           ? request['managerFirstName'] + ' ' + request['managerLastName']

@@ -20,6 +20,8 @@ import {
 import { XGrid } from '@material-ui/x-grid';
 import ExportCsv from './components/ExportCsv';
 
+import createHAPid from '../../../../utils/general/displayHAPid';
+
 export default function RequestsTable() {
   const [isFetching, setIsFetching] = useState(false);
 
@@ -97,6 +99,13 @@ export default function RequestsTable() {
           },
         })
         .then(res => res.data);
+
+      // create HAP ID from the request ID
+      requests = requests.map(request => {
+        request['HAP ID'] = createHAPid(request.id);
+
+        return request;
+      });
 
       setData(requests);
     } catch (error) {

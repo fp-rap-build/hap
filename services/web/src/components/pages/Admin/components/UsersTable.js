@@ -112,12 +112,15 @@ const DeleteUser = ({ row, setData }) => {
       .catch(err => message.error('Unable to delete user'));
   };
 
-  const Confirm = () =>
-    Modal.confirm({
+  const Confirm = () => {
+    if (row.role === 'admin') return;
+
+    return Modal.confirm({
       title: 'Delete user',
       content: 'Are you sure you want to delete this user?',
       onOk: () => onUserDelete(row, setData),
     });
+  };
 
   return (
     <Container onClick={Confirm}>
