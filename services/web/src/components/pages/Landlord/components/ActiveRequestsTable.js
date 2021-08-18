@@ -6,76 +6,65 @@ import { useHistory } from 'react-router-dom';
 
 import MaterialTable from '@material-table/core';
 
+import { XGrid } from '@material-ui/x-grid';
+
 import { ExportCsv, ExportPdf } from '@material-table/exporters';
 
 import { tableIcons } from '../../../../utils/tableIcons';
-import { axiosWithAuth } from '../../../../api/axiosWithAuth';
+
+import Container from '../../../pages/Admin/components/components/Requests/Actions/Container';
 
 import { FolderOpenOutlined } from '@ant-design/icons';
 
 export default function ActiveRequestsTable() {
   const history = useHistory();
 
-  const dispatch = useDispatch();
-
-  const currentUser = useSelector(state => state.user.currentUser);
-
   const requests = useSelector(state => state.requests.requests);
   //Update Requests for activity and manager info
   const tableData = modifyRequests(requests);
 
   const columns = [
-    { title: 'First Name', field: 'firstName' },
-    { title: 'Last Name', field: 'lastName' },
-    { title: 'Address', field: 'address' },
+    {
+      field: 'Click here to review',
+      width: 240,
+      renderCell: params => (
+        <ReviewRequest requestId={params.row.id} history={history} />
+      ),
+    },
+    { title: 'First Name', field: 'firstName', flex: 1 },
+    { title: 'Last Name', field: 'lastName', flex: 1 },
+    { title: 'Address', field: 'address', flex: 1 },
     {
       title: 'Submission Date',
       field: 'requestDate',
-      render: rowData => {
-        const date = rowData.requestDate.split('T')[0];
+      flex: 1,
+      renderCell: rowData => {
+        const date = rowData.row.requestDate.split('T')[0];
         return <p>{date}</p>;
       },
     },
-    { title: 'Status', field: 'requestStatus' },
+    { title: 'Status', field: 'requestStatus', flex: 1 },
   ];
 
   return (
     <div>
-      <MaterialTable
-        style={{ width: '100%' }}
-        options={{
-          pageSize: 10,
-          pageSizeOptions: [5, 10, 20, 30, 50, 75, 100, 500, 1000],
+      <h2>
+        These tenants were matched to you based on the email address they
+        provided for you in their application.
+      </h2>
 
-          // Allows users to export the data as a CSV file
-          exportMenu: [
-            {
-              label: 'Export PDF',
-              exportFunc: (cols, datas) => ExportPdf(cols, datas, 'requests'),
-            },
-            {
-              label: 'Export CSV',
-              exportFunc: (cols, datas) => ExportCsv(cols, datas, 'requests'),
-            },
-          ],
-        }}
-        actions={[
-          {
-            icon: FolderOpenOutlined,
-            tooltip: 'Review',
-            onClick: (event, rowData) => {
-              history.push(`/landlord/request/${rowData.id}`);
-            },
-          },
-        ]}
-        icons={tableIcons}
-        title="These tenants were matched to you based on the email address they provided for you in their application."
-        columns={columns}
-        data={tableData}
-      />
+      <XGrid style={{ height: 700 }} rows={tableData} columns={columns} />
     </div>
   );
 }
+
+const ReviewRequest = ({ requestId, history }) => {
+  return (
+    <Container onClick={() => history.push(`/landlord/request/${requestId}`)}>
+      <FolderOpenOutlined />
+    </Container>
+  );
+};
 
 const modifyRequests = requests => {
   const res = requests.map(request => {
