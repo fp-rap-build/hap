@@ -9,6 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import { XGrid } from '@material-ui/x-grid';
 import ExportCsv from './components/ExportCsv';
+import createHAPid from '../../../../utils/general/createHAPid';
 
 export default function PaymentsTable() {
   const [isFetching, setIsFetching] = useState(false);
@@ -106,6 +107,7 @@ export default function PaymentsTable() {
       let payments = res.data.payments.map(payment => {
         payment['race'] = '';
         payment['ethnicity'] = '';
+        payment['HAP ID'] = createHAPid(payment.requestId);
 
         let races = {
           black: payment.black,
