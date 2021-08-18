@@ -67,8 +67,20 @@ export default function PaymentsTable() {
 
       width: 170,
     },
-    { headerName: 'Monthly Rent', field: 'monthlyRent', width: 170 },
-    { headerName: 'AMI', field: 'ami', width: 170 },
+
+    { title: 'First', field: 'firstName', editable: 'never' },
+    { title: 'Last ', field: 'lastName', editable: 'never' },
+    { title: 'Email', field: 'email', type: 'string', editable: 'never' },
+    { title: 'Gender', field: 'gender', editable: 'always' },
+    { title: 'Race', field: 'race', editable: 'always' },
+    { title: 'Ethnicity', field: 'ethnicity', editable: 'always' },
+    { title: 'Household Size', field: 'familySize', editable: 'always' },
+    { title: 'Total Children', field: 'totalChildren', editable: 'always' },
+    { title: 'Children Ages', field: 'childrenAges', editable: 'never' },
+    { title: 'Monthly Income', field: 'monthlyIncome', editable: 'always' },
+    { title: 'Monthly Rent', field: 'monthlyRent', editable: 'always' },
+    { title: 'AMI', field: 'ami', editable: 'never' },
+    { title: 'AMI Range', field: 'AMI range', editable: 'never' },
 
     {
       headerName: 'Program',
@@ -118,12 +130,14 @@ export default function PaymentsTable() {
         };
 
         if (payment['hispanic']) {
-          payment['ethnicity'] = 'hispanic';
+          payment['ethnicity'] = 'Hispanic / Latinx';
+        } else {
+          payment['ethnicity'] = 'Non-Hispanic / Non-Latinx';
         }
 
         for (let race in races) {
           if (races[race]) {
-            payment['race'] += ' ' + race;
+            payment['race'] += ' ' + race[0].toUpperCase() + race.slice(1,);
           }
         }
 
@@ -131,6 +145,14 @@ export default function PaymentsTable() {
           payment.monthlyIncome,
           payment.familySize
         );
+
+        if (payment['ami'] < .30) {
+          payment['AMI range'] = `30% AMI or less`;
+        } else if (payment['ami'] <= .50 && payment['ami'] > .30) {
+          payment['AMI range'] = `Between 31% AMI and 50% AMI`;
+        } else if (payment['ami'] >= .51) {
+          payment['AMI range'] = `Between 51% AMI and 80% AMI`;
+        }
 
         return payment;
       });
