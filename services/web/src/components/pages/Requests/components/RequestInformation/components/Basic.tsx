@@ -1,8 +1,12 @@
 import { useState } from 'react';
 
-import { Form, Input, message } from 'antd';
+import { Form, Input, Select, message } from 'antd';
 import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 import EditButton from './components/EditButton';
+
+import { genders } from '../../../../../../utils/data/genders';
+
+const { Option } = Select;
 
 export default function Basic({ request, setRequest, column = 2 }) {
   const [disabled, setDisabled] = useState(true);
@@ -34,6 +38,7 @@ export default function Basic({ request, setRequest, column = 2 }) {
       firstName: values.firstName,
       lastName: values.lastName,
       dob: values.dob,
+      gender: values.gender
     };
 
     try {
@@ -91,6 +96,30 @@ export default function Basic({ request, setRequest, column = 2 }) {
       >
         <Input disabled={disabled} />
       </Form.Item>
+
+
+      <Form.Item
+        hasFeedback
+        initialValue={request.gender}
+        label="Gender"
+        name="gender"
+      >
+        <Select
+          showSearch
+          placeholder="Select a gender"
+          disabled={disabled}
+          optionFilterProp="children"
+          filterOption={(input, option) =>
+            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+          }
+        >
+          {genders.map(gender => (
+            <Option value={gender}>{gender}</Option>
+          ))}
+        </Select>
+      </Form.Item>
+
+
 
       <Form.Item label="Role" name="role" initialValue={request.role}>
         <Input disabled={true} />
