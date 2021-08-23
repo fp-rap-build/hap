@@ -21,10 +21,12 @@ import {
   Delete,
   Subscribe,
   MarkIncomplete,
+  Organizations,
 } from './components/Requests/Actions';
 
 import { XGrid } from '@material-ui/x-grid';
 import ExportCsv from './components/ExportCsv';
+import { SdStorage } from '@material-ui/icons';
 
 export default function RequestsTable() {
   const history = useHistory();
@@ -37,6 +39,8 @@ export default function RequestsTable() {
   const [isFetching, setIsFetching] = useState(false);
 
   const [data, setData] = useState([]);
+
+  const [orgs, setOrgs] = useState([]);
 
   const [columns, setColumns] = useState([
     {
@@ -81,6 +85,14 @@ export default function RequestsTable() {
       width: 50,
       renderCell: params => {
         return <Delete setRequests={setData} requestId={params.row.id} />;
+      },
+    },
+
+    {
+      field: 'Organization',
+      width: 200,
+      renderCell: params => {
+        return <Organizations request={params.row} />;
       },
     },
 
