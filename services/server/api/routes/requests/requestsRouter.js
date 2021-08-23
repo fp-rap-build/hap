@@ -57,7 +57,7 @@ router.get('/active', async (req, res) => {
 //Updates to shape data should be done in model @ 'findForTable'
 router.get('/table', async (req, res) => {
 	try {
-		const requests = formatRequestsTable(await Requests.findForTable(req.query));
+		const requests = formatRequestsTable(await Requests.findForTable(req.query, req.user));
 
 		res.status(200).json(requests);
 	} catch (error) {
