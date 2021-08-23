@@ -36,18 +36,28 @@ const Organizations = ({ request }) => {
   };
 
   return (
-    <Select
-      disabled={currentUserRole !== 'admin'}
-      style={{ width: 120, marginBottom: '1rem' }}
-      defaultValue={request.orgId}
-      onFocus={fetchOrganizations}
-      onChange={orgId => transferRequestToOrganization(orgId)}
-      notFoundContent={isFetching ? <Spin size="small" /> : null}
+    <div
+      style={{
+        marginTop: '0.5rem',
+      }}
     >
-      {orgs.map(org => (
-        <Option value={org.id}>{org.organization}</Option>
-      ))}
-    </Select>
+      <Select
+        disabled={currentUserRole !== 'admin'}
+        style={{ width: 120, marginBottom: '1rem' }}
+        defaultValue={request.orgId}
+        onFocus={fetchOrganizations}
+        onChange={orgId => transferRequestToOrganization(orgId)}
+        notFoundContent={isFetching ? <Spin size="small" /> : null}
+      >
+        <Option disabled value={request.orgId}>
+          {request.organization}
+        </Option>
+
+        {orgs.map(org => (
+          <Option value={org.id}>{org.organization}</Option>
+        ))}
+      </Select>
+    </div>
   );
 };
 

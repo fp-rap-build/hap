@@ -48,6 +48,7 @@ const findForTable = (params, user) => {
     .join('users as u', 'r.userId', '=', 'u.id')
     .leftOuterJoin('documents as d', 'r.id', '=', 'd.requestId')
     .leftOuterJoin('users as m', 'r.managerId', '=', 'm.id')
+    .leftOuterJoin('organizations as o', 'r.orgId', '=', 'o.id')
     .orderBy('r.id', 'asc')
     .select(
       'r.id',
@@ -113,7 +114,8 @@ const findForTable = (params, user) => {
       'd.category',
       'd.location',
       'd.status',
-      'd.type'
+      'd.type',
+      'o.organization'
     )
     .modify((qb) => {
       if (params.managerId) {
