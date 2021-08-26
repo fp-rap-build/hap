@@ -45,7 +45,7 @@ export default function PaymentsTable() {
     },
     { headerName: 'Gender', field: 'gender', width: 170 },
     { headerName: 'Race', field: 'race', width: 170 },
-    { headerName: 'Race Count', field: 'race_count', width: 170 },
+    { headerName: 'Tenant Zipcode', field: 'zipCode', width: 170 },
     { headerName: 'Ethnicity', field: 'ethnicity', width: 170 },
     {
       headerName: 'Household Size',
@@ -77,7 +77,7 @@ export default function PaymentsTable() {
     { title: 'Email', field: 'email', type: 'string', editable: 'never' },
     { title: 'Gender', field: 'gender', editable: 'always' },
     { title: 'Race', field: 'race', editable: 'always' },
-    { title: 'race_count', field: 'race_count', editable: 'never' },
+    { title: 'Tenant Zip', field: 'zipCode', editable: 'never' },
     { title: 'Ethnicity', field: 'ethnicity', editable: 'always' },
     { title: 'Household Size', field: 'familySize', editable: 'always' },
     { title: 'Total Children', field: 'totalChildren', editable: 'always' },

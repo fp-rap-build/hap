@@ -5,6 +5,7 @@ exports.findForTable = () =>
     .join('requests as r', 'p.requestId', '=', 'r.id')
     .join('users as u', 'r.userId', '=', 'u.id')
     .join('programs as pr', 'p.programId', '=', 'pr.id')
+    .join('addresses as a', 'p.requestId', '=', 'a.id')
     .select(
       'p.id',
       'p.requestId',
@@ -21,6 +22,7 @@ exports.findForTable = () =>
       'r.totalChildren',
       'r.monthlyIncome',
       'r.monthlyRent',
+      'a.zipCode',
       'r.requestDate',
       'r.beds',
       'r.hispanic',
