@@ -12,6 +12,7 @@ exports.findForTable = () =>
       'u.lastName',
       'u.email',
       'u.gender',
+      'u.dob',
       'pr.name as program',
       'p.amount',
       'p.createdAt as approveDate',

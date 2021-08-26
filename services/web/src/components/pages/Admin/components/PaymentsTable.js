@@ -11,6 +11,7 @@ import { XGrid } from '@material-ui/x-grid';
 import ExportCsv from './components/ExportCsv';
 import { tableIcons } from '../../../../utils/tableIcons';
 import createHAPid from '../../../../utils/general/displayHAPid';
+import YouthHOH from '../../../../utils/general/youthHOH';
 
 export default function PaymentsTable() {
   const [isFetching, setIsFetching] = useState(false);
@@ -31,6 +32,8 @@ export default function PaymentsTable() {
       field: 'HAP ID',
       width: 170,
     },
+
+    { headerName: 'HoH is 18-24', field: 'youth', width: 80 },
     { headerName: 'First', field: 'firstName', width: 170 },
     { headerName: 'Last ', field: 'lastName', width: 170 },
     {
@@ -121,6 +124,7 @@ export default function PaymentsTable() {
         payment['race'] = '';
         payment['ethnicity'] = '';
         payment['HAP ID'] = createHAPid(payment.requestId);
+        payment['youth'] = YouthHOH(payment.dob);
 
         let races = {
           black: payment.black,
@@ -137,7 +141,7 @@ export default function PaymentsTable() {
 
         for (let race in races) {
           if (races[race]) {
-            payment['race'] += ' ' + race[0].toUpperCase() + race.slice(1,);
+            payment['race'] += ' ' + race[0].toUpperCase() + race.slice(1);
           }
         }
 
@@ -146,11 +150,11 @@ export default function PaymentsTable() {
           payment.familySize
         );
 
-        if (payment['ami'] < .30) {
+        if (payment['ami'] < 0.3) {
           payment['AMI range'] = `30% AMI or less`;
-        } else if (payment['ami'] <= .50 && payment['ami'] > .30) {
+        } else if (payment['ami'] <= 0.5 && payment['ami'] > 0.3) {
           payment['AMI range'] = `Between 31% AMI and 50% AMI`;
-        } else if (payment['ami'] >= .51) {
+        } else if (payment['ami'] >= 0.51) {
           payment['AMI range'] = `Between 51% AMI and 80% AMI`;
         }
 
