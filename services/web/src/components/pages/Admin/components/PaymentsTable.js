@@ -167,11 +167,11 @@ export default function PaymentsTable() {
           payment.familySize
         );
 
-        if (payment['ami'] < 0.3) {
+        if (payment['ami'] < 30) {
           payment['AMI range'] = `30% AMI or less`;
-        } else if (payment['ami'] <= 0.5 && payment['ami'] > 0.3) {
+        } else if (payment['ami'] <= 50 && payment['ami'] >= 30) {
           payment['AMI range'] = `Between 31% AMI and 50% AMI`;
-        } else if (payment['ami'] >= 0.51) {
+        } else if (payment['ami'] >= 51) {
           payment['AMI range'] = `Between 51% AMI and 80% AMI`;
         }
 
