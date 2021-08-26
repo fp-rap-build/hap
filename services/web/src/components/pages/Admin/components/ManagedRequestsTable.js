@@ -184,7 +184,7 @@ export default function ManagedRequestsTable() {
 
     {
       headerName: 'HAP ID',
-      field: 'id',
+      field: 'HAP ID',
       width: 150,
     },
     {

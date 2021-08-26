@@ -86,7 +86,7 @@ export default function RequestsTable() {
 
     {
       headerName: 'HAP ID',
-      field: 'id',
+      field: 'HAP ID',
       width: 150,
     },
     {
