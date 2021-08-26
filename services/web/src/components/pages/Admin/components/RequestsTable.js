@@ -4,33 +4,27 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
 
-import MaterialTable from '@material-table/core';
-
-import { ExportCsv, ExportPdf } from '@material-table/exporters';
-
-import { tableIcons } from '../../../../utils/tableIcons';
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
-import GavelIcon from '@material-ui/icons/Gavel';
-import MailIcon from '@material-ui/icons/Mail';
-import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
-import ArchiveIcon from '@material-ui/icons/Archive';
-import WarningFilled from '@material-ui/icons/Warning';
-
-import { message, Modal, Tooltip } from 'antd';
-
-import {
-  addSubscription,
-  deleteSubscription,
-} from '../../../../redux/users/userActions';
-
-import socket from '../../../../config/socket';
+import { message, Tooltip } from 'antd';
 
 import calculateAmi from '../../../../utils/general/calculateAmi';
 
 import styles from '../../../../styles/pages/admin.module.css';
 import sortRequests from '../utils/sortRequests';
 import doesHouseholdContainPoc from '../../../../utils/general/doesHouseholdContainPoc';
+import createHAPid from '../../../../utils/general/displayHAPid';
+
+import {
+  Review,
+  Archive,
+  Delete,
+  Subscribe,
+  MarkIncomplete,
+} from './components/Requests/Actions';
+
+import { XGrid } from '@material-ui/x-grid';
+import ExportCsv from './components/ExportCsv';
 
 export default function RequestsTable() {
   const history = useHistory();
@@ -46,70 +40,134 @@ export default function RequestsTable() {
 
   const [columns, setColumns] = useState([
     {
-      title: 'HAP ID',
+      field: 'Review',
+      width: 50,
+      renderCell: params => {
+        return <Review requestId={params.row.id} />;
+      },
+    },
+    {
+      field: 'Subscribe',
+      width: 50,
+      renderCell: params => {
+        return <Subscribe setRequests={setData} currentRequest={params.row} />;
+      },
+    },
+
+    {
+      field: 'Archive',
+      width: 50,
+      renderCell: params => {
+        return <Archive setRequests={setData} requestId={params.row.id} />;
+      },
+    },
+
+    {
+      field: 'MarkIncomplete',
+      width: 50,
+      renderCell: params => {
+        return (
+          <MarkIncomplete
+            setRequests={setData}
+            requestId={params.row.id}
+            hideRequest
+          />
+        );
+      },
+    },
+
+    {
+      field: 'Delete',
+      width: 50,
+      renderCell: params => {
+        return <Delete setRequests={setData} requestId={params.row.id} />;
+      },
+    },
+
+    {
+      headerName: 'HAP ID',
       field: 'id',
+      width: 150,
     },
-
     {
-      title: 'Manager',
+      headerName: 'Manager',
       field: 'manager',
+      width: 150,
     },
-    { title: 'First', field: 'firstName' },
-    { title: 'Last ', field: 'lastName' },
+    { headerName: 'First', field: 'firstName', width: 150 },
+    { headerName: 'Last ', field: 'lastName', width: 150 },
     {
-      title: 'email',
+      headerName: 'email',
       field: 'email',
+      width: 150,
     },
     {
-      title: 'Applicant Activity',
+      headerName: 'Applicant Activity',
       field: 'tenantDifference',
-      render: rowData => {
-        return <RenderActivityCell timeDifference={rowData.tenantDifference} />;
+      width: 200,
+      renderCell: rowData => {
+        return (
+          <RenderActivityCell timeDifference={rowData.row.tenantDifference} />
+        );
       },
     },
     {
-      title: 'FP Activity',
+      headerName: 'FP Activity',
       field: 'staffDifference',
-      render: rowData => {
-        return <RenderActivityCell timeDifference={rowData.staffDifference} />;
+      width: 200,
+      renderCell: rowData => {
+        return (
+          <RenderActivityCell timeDifference={rowData.row.staffDifference} />
+        );
       },
     },
 
     {
-      title: 'AMI',
+      headerName: 'Last Action',
+      field: 'lastAction',
+      width: 150,
+    },
+
+    {
+      headerName: 'AMI',
       field: 'ami',
+      width: 150,
     },
     {
-      title: 'unEmp90',
+      headerName: 'unEmp90',
       field: 'unEmp90',
+      width: 150,
     },
     {
-      title: 'BIPOC',
+      headerName: 'BIPOC',
       field: 'poc',
+      width: 150,
     },
     {
-      title: 'Amount',
+      headerName: 'Amount',
       field: 'amountRequested',
+      width: 250,
     },
     {
-      title: 'Address',
+      headerName: 'Address',
       field: 'address',
+      width: 150,
     },
     {
-      title: 'Address Line Two',
-      field: 'addressLine2',
-    },
-    {
-      title: 'City',
+      headerName: 'City',
       field: 'cityName',
+      width: 150,
     },
     {
-      title: 'LN',
+      headerName: 'LN',
       field: 'landlordName',
+      width: 200,
     },
     {
-      title: 'Request Status',
+      headerName: 'Request Status',
       field: 'requestStatus',
+      width: 200,
+
       lookup: {
         received: 'Received',
         inReview: 'In Review',
@@ -122,7 +180,15 @@ export default function RequestsTable() {
       },
     },
 
-    { title: 'date', field: 'requestDate', type: 'date' },
+    {
+      headerName: 'date',
+      field: 'requestDate',
+      type: 'date',
+      width: 200,
+      renderCell: params => {
+        return <p>{new Date(params.row.requestDate).toLocaleDateString()} </p>;
+      },
+    },
   ]);
 
   const fetchRequests = async () => {
@@ -144,6 +210,9 @@ export default function RequestsTable() {
           request.monthlyIncome,
           request.familySize
         );
+
+        request['HAP ID'] = createHAPid(request.id);
+
         request['poc'] = doesHouseholdContainPoc(request);
 
         request['manager'] = request['managerFirstName']
@@ -177,194 +246,29 @@ export default function RequestsTable() {
 
   return (
     <div className={styles.container}>
-      <MaterialTable
-        style={{ width: '100%' }}
-        isLoading={isFetching}
-        options={{
-          pageSize: 10,
-          pageSizeOptions: [5, 10, 20, 30, 50, 75, 100, 500, 1000],
+      <h2>Requests</h2>
 
-          // Allows users to export the data as a CSV file
-          exportMenu: [
-            {
-              label: 'Export PDF',
-              exportFunc: (cols, datas) => ExportPdf(cols, datas, 'requests'),
-            },
-            {
-              label: 'Export CSV',
-              exportFunc: (cols, datas) => ExportCsv(cols, datas, 'requests'),
-            },
-          ],
-        }}
-        editable={{
-          isDeleteHidden: () => currentUser.role !== 'admin',
-          onRowDelete: oldData =>
-            new Promise((resolve, reject) => {
-              axiosWithAuth()
-                .delete(`/requests/${oldData.id}`)
-                .then(() => {
-                  setData(data.filter(row => row.id !== oldData.id));
-                })
-                .catch(err => message.error('Unable to delete request'))
-                .finally(() => resolve());
-            }),
-        }}
-        actions={[
-          {
-            icon: GavelIcon,
-            tooltip: 'Review',
-            onClick: async (event, rowData) => {
-              // Update the users request to be in review
-
-              history.push(`/requests/${rowData.id}`);
-            },
-          },
-
-          rowData =>
-            rowData.isSubscribed
-              ? {
-                  icon: UnsubscribeIcon,
-                  tooltip: 'Unsubscribe',
-                  onClick: () => {
-                    Modal.confirm({
-                      title:
-                        'Are you sure you want to unsubscribe from this request?',
-                      content: 'You will stop receiving notifications',
-                      onOk: () => {
-                        setData(prevState =>
-                          prevState.filter(request => {
-                            if (request.id === rowData.id) {
-                              request['isSubscribed'] = false;
-                            }
-
-                            return request;
-                          })
-                        );
-
-                        let subscription = currentUser.subscriptions.find(
-                          sub => sub.requestId === rowData.id
-                        );
-
-                        axiosWithAuth()
-                          .delete(`/subscriptions/${subscription.id}`)
-                          .then(res => console.log(res.data))
-                          .catch(err =>
-                            message.error('Unable to unsubscribe from request')
-                          );
-
-                        socket.emit('leaveRequest', rowData.id);
-                        dispatch(deleteSubscription(subscription.id));
-                      },
-                    });
-                  },
-                }
-              : {
-                  icon: MailIcon,
-                  tooltip: 'Subscribe',
-                  onClick: (event, rowData) => {
-                    subscribeToRequest(rowData.id, setData, dispatch);
-                  },
-                },
-          {
-            icon: ArchiveIcon,
-            tooltip: 'Archive',
-            onClick: async (event, rowData) => {
-              // Update the users request to be in review
-
-              try {
-                setData(requests =>
-                  requests.filter(request => {
-                    if (request.id !== rowData.id) return request;
-                  })
-                );
-
-                await axiosWithAuth().put(`/requests/${rowData.id}`, {
-                  archived: true,
-                });
-
-                message.success('Successfully archived request');
-              } catch (error) {
-                message.error('Unable to archive request');
-              }
-            },
-          },
-
-          {
-            icon: WarningFilled,
-            tooltip: 'Mark Incomplete',
-            onClick: async (event, rowData) => {
-              // Update the users request to be in review
-
-              try {
-                setData(requests =>
-                  requests.filter(request => {
-                    if (request.id !== rowData.id) return request;
-                  })
-                );
-
-                await axiosWithAuth().put(`/requests/${rowData.id}`, {
-                  incomplete: true,
-                });
-
-                message.success('Successfully marked request incomplete');
-              } catch (error) {
-                message.error('Unable to mark request as incomplete');
-              }
-            },
-          },
-
-          // {
-          //   icon: MailIcon,
-          //   tooltip: 'Subscribe',
-          //   onClick: async (event, rowData) => {
-          //     // Update the users request to be in review
-          //     subscribeToRequest(rowData.id);
-          //   },
-          // },
-        ]}
-        icons={tableIcons}
-        title="Requests for Rental Assistance"
+      <XGrid
+        style={{ height: 700 }}
+        rows={data}
         columns={columns}
-        data={data}
+        loading={isFetching}
+        components={{
+          Toolbar: ExportCsv,
+        }}
       />
     </div>
   );
 }
 
-const subscribeToRequest = async (requestId, setData, dispatch) => {
-  try {
-    // Update table
-    setData(prevState =>
-      prevState.map(request => {
-        if (requestId === request.id) {
-          request['isSubscribed'] = true;
-        }
-        return request;
-      })
-    );
-
-    // Persist new subscription
-    let subscription = await axiosWithAuth()
-      .post('/subscriptions', { requestId })
-      .then(res => res.data.subscription);
-
-    // Join request to receive notifications
-    socket.emit('joinRequest', requestId);
-
-    // Lastly, update current users state
-    dispatch(addSubscription(subscription));
-  } catch (error) {
-    console.log(error.response);
-    message.error('Unable to subscribe to request');
-  }
-};
-
 const formatSubscriptions = subscriptions => {
   let result = {};
 
-  subscriptions.forEach(sub => {
-    result[sub.requestId] = true;
-  });
+  if (subscriptions) {
+    subscriptions.forEach(sub => {
+      result[sub.requestId] = true;
+    });
+  }
 
   return result;
 };
@@ -380,99 +284,6 @@ const RenderActivityCell = ({ timeDifference }) => {
   } else {
     return <StatusCircle color="#F0B0AE" />;
   }
-};
-
-const RenderDocumentStatusCell = ({ docs, openDocument }) => {
-  let colors = {
-    grey: '#AAAAAA',
-    green: '#B1EEC6',
-    lightgreen: '#f0fff5',
-    red: '#F0B0AE',
-    yellow: '#EDE988',
-    orange: '#f6c28e',
-  };
-
-  let noDocsSubmitted = docs.length === 0;
-
-  let allVerified = true;
-
-  let allDenied = true;
-
-  let unReviewedDocuments = false;
-
-  let unFinishedDocuments = false;
-
-  docs.forEach(doc => {
-    if (doc.status !== 'denied') allDenied = false;
-
-    if (doc.status !== 'verified') allVerified = false;
-
-    if (doc.status === 'received') unReviewedDocuments = true;
-
-    if (doc.status === 'actionsRequired') unFinishedDocuments = true;
-  });
-
-  if (noDocsSubmitted)
-    return (
-      <StatusCircle
-        onClick={openDocument}
-        tooltip={'No documents submitted'}
-        color={colors.grey}
-        clickable
-      />
-    );
-
-  if (unReviewedDocuments)
-    return (
-      <StatusCircle
-        onClick={openDocument}
-        tooltip={'Documents pending for review'}
-        color={colors.orange}
-        clickable
-      />
-    );
-
-  if (unFinishedDocuments)
-    return (
-      <StatusCircle
-        onClick={openDocument}
-        tooltip={'Additional actions required'}
-        color={colors.yellow}
-        clickable
-      />
-    );
-
-  if (allVerified)
-    return (
-      <StatusCircle
-        onClick={openDocument}
-        tooltip={'All documents received and verified'}
-        color={colors.green}
-        clickable
-      />
-    );
-
-  if (allDenied)
-    return (
-      <StatusCircle
-        onClick={openDocument}
-        tooltip={'All documents denied'}
-        color={colors.red}
-        clickable
-      />
-    );
-
-  if (!allVerified && !allDenied)
-    return (
-      <StatusCircle
-        onClick={openDocument}
-        tooltip={'Some documents verified'}
-        color={colors.lightgreen}
-        clickable
-      />
-    );
-
-  return <StatusCircle onClick={openDocument} color={'white'} />;
 };
 
 const StatusCircle = ({ color, tooltip, clickable, onClick }) => {
