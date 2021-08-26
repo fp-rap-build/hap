@@ -12,6 +12,8 @@ import UnArchive from './UnArchive';
 
 import MarkComplete from './MarkComplete';
 
+import Organizations from './Organizations';
+
 export {
   Archive,
   Delete,
@@ -20,4 +22,5 @@ export {
   Review,
   UnArchive,
   MarkComplete,
+  Organizations,
 };
