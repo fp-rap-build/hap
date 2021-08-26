@@ -45,6 +45,7 @@ export default function PaymentsTable() {
     },
     { headerName: 'Gender', field: 'gender', width: 170 },
     { headerName: 'Race', field: 'race', width: 170 },
+    { headerName: 'Race Count', field: 'race_count', width: 170 },
     { headerName: 'Ethnicity', field: 'ethnicity', width: 170 },
     {
       headerName: 'Household Size',
@@ -76,6 +77,7 @@ export default function PaymentsTable() {
     { title: 'Email', field: 'email', type: 'string', editable: 'never' },
     { title: 'Gender', field: 'gender', editable: 'always' },
     { title: 'Race', field: 'race', editable: 'always' },
+    { title: 'race_count', field: 'race_count', editable: 'never' },
     { title: 'Ethnicity', field: 'ethnicity', editable: 'always' },
     { title: 'Household Size', field: 'familySize', editable: 'always' },
     { title: 'Total Children', field: 'totalChildren', editable: 'always' },
@@ -122,15 +124,18 @@ export default function PaymentsTable() {
 
       let payments = res.data.payments.map(payment => {
         payment['race'] = '';
+        payment['race_count'] = 0;
         payment['ethnicity'] = '';
         payment['HAP ID'] = createHAPid(payment.requestId);
         payment['youth'] = YouthHOH(payment.dob);
 
         let races = {
-          black: payment.black,
-          white: payment.white,
-          asian: payment.asian,
-          pacific: payment.pacific,
+          'Black or African American': payment.black,
+          'American Indian or Alaska Native': payment.native,
+          Asian: payment.asian,
+          'Client refused': payment.demoNotSay,
+          White: payment.white,
+          'Native Hawaiian or Other Pacific Islander': payment.pacific,
         };
 
         if (payment['hispanic']) {
@@ -141,7 +146,19 @@ export default function PaymentsTable() {
 
         for (let race in races) {
           if (races[race]) {
-            payment['race'] += ' ' + race[0].toUpperCase() + race.slice(1);
+            payment['race_count'] += 1;
+          }
+        }
+
+        if (payment['race_count'] > 1) {
+          payment['race'] = 'Multi-Racial';
+        } else {
+          payment['race'] = payment.race;
+
+          for (let race in races) {
+            if (races[race]) {
+              payment['race'] = race;
+            }
           }
         }
 
