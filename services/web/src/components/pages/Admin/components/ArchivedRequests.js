@@ -8,6 +8,8 @@ import styles from '../../../../styles/pages/admin.module.css';
 
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
+import createHAPid from '../../../../utils/general/displayHAPid';
+
 import {
   Review,
   Archive,
@@ -19,8 +21,6 @@ import {
 
 import { XGrid } from '@material-ui/x-grid';
 import ExportCsv from './components/ExportCsv';
-
-import createHAPid from '../../../../utils/general/displayHAPid';
 
 export default function RequestsTable() {
   const [isFetching, setIsFetching] = useState(false);
@@ -54,7 +54,7 @@ export default function RequestsTable() {
 
     {
       headerName: 'HAP ID',
-      field: 'id',
+      field: 'HAP ID',
       width: 150,
     },
     {
@@ -69,6 +69,7 @@ export default function RequestsTable() {
       field: 'email',
       width: 300,
     },
+
     {
       headerName: 'Request Status',
       field: 'requestStatus',
