@@ -73,7 +73,7 @@ export default function ManagedRequestsTable() {
         .get('/requests/table', {
           params: {
             archived: false,
-            incomplete: true,
+            incomplete: false,
           },
         })
         .then(res => res.data);

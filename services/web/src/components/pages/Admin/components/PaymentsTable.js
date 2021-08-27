@@ -36,7 +36,6 @@ export default function PaymentsTable() {
         <DeletePayment row={params.row} setData={setData} />
       ),
     },
-
     {
       headerName: 'HAP ID',
       field: 'HAP ID',

@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-import { useSelector, useDispatch } from 'react-redux';
-
-import { useHistory } from 'react-router-dom';
-
 import styles from '../../../../styles/pages/admin.module.css';
 
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
@@ -12,10 +8,7 @@ import createHAPid from '../../../../utils/general/displayHAPid';
 
 import {
   Review,
-  Archive,
   Delete,
-  Subscribe,
-  MarkIncomplete,
   UnArchive,
   Organizations,
 } from './components/Requests/Actions';
@@ -28,7 +21,7 @@ export default function RequestsTable() {
 
   const [data, setData] = useState([]);
 
-  const [columns, setColumns] = useState([
+  const [columns] = useState([
     {
       field: 'Review',
       width: 50,
