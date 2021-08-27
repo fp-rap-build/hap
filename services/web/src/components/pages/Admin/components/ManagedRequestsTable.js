@@ -1,15 +1,27 @@
 import { useState, useEffect } from 'react';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
 
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
 import sortRequests from '../utils/sortRequests';
+// Helper function that pulls in requests then rearranges them to meet
+// prioritization standards (lowest AMI, then 90+ days unemployed, then BIPOC)
+
 import doesHouseholdContainPoc from '../../../../utils/general/doesHouseholdContainPoc';
+// Helper function that returns true or false depending on whether the request's household contains a poc
+
 import calculateAmi from '../../../../utils/general/calculateAmi';
+// Helper function to pull family size and monthly income from current
+// request to calculate and display the ami (Average Median Income)
+// AMI is used later to generate a new column on payments table
+// that indicates which AMI range the household is in
+
 import createHAPid from '../../../../utils/general/displayHAPid';
+// helper function to insert "HAP" before every request id prior to
+// displaying it in the table
 
 import AttachmentViewer from './components/AttachmentViewer';
 
@@ -17,12 +29,10 @@ import StatusCircle from './components/Requests/StatusCircle';
 
 import RenderDocumentStatusCell from './components/Requests/RenderDocumentStatusCell';
 
-import UploadDocModal from '../../../common/DocumentUploaderModal';
-
 import styles from '../../../../styles/pages/admin.module.css';
 
 import EmailedLLCheckbox from './components/Requests/EmailedLLCheckbox';
-import { formatDate } from '../../../../utils/dates/date';
+
 import { formatUTC } from '../../../../utils/dates';
 
 import ExportCsv from './components/ExportCsv';
@@ -33,9 +43,10 @@ import {
   Delete,
   Subscribe,
   MarkIncomplete,
+  Organizations,
 } from './components/Requests/Actions';
 
-import { XGrid, GridRowsProp } from '@material-ui/x-grid';
+import { XGrid } from '@material-ui/x-grid';
 
 export default function ManagedRequestsTable() {
   const history = useHistory();
@@ -54,11 +65,7 @@ export default function ManagedRequestsTable() {
 
   const [request, setRequest] = useState({});
 
-  const [docModalVisible, setDocModalVisible] = useState(false);
-
   const [documents, setDocuments] = useState({});
-
-  const redirectToReview = id => history.push(`/requests/${id}`);
 
   const fetchRequests = async () => {
     setIsFetching(true);
@@ -139,7 +146,7 @@ export default function ManagedRequestsTable() {
     }
   };
 
-  const [columns, setColumns] = useState([
+  const [columns] = useState([
     {
       field: 'Review',
       width: 50,
@@ -179,6 +186,13 @@ export default function ManagedRequestsTable() {
       width: 50,
       renderCell: params => {
         return <Delete setRequests={setData} requestId={params.row.id} />;
+      },
+    },
+    {
+      field: 'Organization',
+      width: 200,
+      renderCell: params => {
+        return <Organizations request={params.row} />;
       },
     },
 
