@@ -43,6 +43,7 @@ import {
   Delete,
   Subscribe,
   MarkIncomplete,
+  Organizations,
 } from './components/Requests/Actions';
 
 import { XGrid } from '@material-ui/x-grid';
@@ -185,6 +186,13 @@ export default function ManagedRequestsTable() {
       width: 50,
       renderCell: params => {
         return <Delete setRequests={setData} requestId={params.row.id} />;
+      },
+    },
+    {
+      field: 'Organization',
+      width: 200,
+      renderCell: params => {
+        return <Organizations request={params.row} />;
       },
     },
 
