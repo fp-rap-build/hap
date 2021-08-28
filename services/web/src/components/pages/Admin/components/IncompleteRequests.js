@@ -181,13 +181,13 @@ export default function ManagedRequestsTable() {
       },
     },
 
-    {
-      field: 'Delete',
-      width: 50,
-      renderCell: params => {
-        return <Delete setRequests={setData} requestId={params.row.id} />;
-      },
-    },
+    //  {
+    //   field: 'Delete',
+    //   width: 50,
+    //    renderCell: params => {
+    //     return <Delete setRequests={setData} requestId={params.row.id} />;
+    //    },
+    //  },
     {
       field: 'Organization',
       width: 200,
