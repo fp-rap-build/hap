@@ -10,6 +10,19 @@ import {
 
 import { Typography, Layout, Menu } from 'antd';
 
+import {
+  Address,
+  CreateAccount,
+  Demographics,
+  Documents,
+  Household,
+  Income,
+  Landlord,
+  Review,
+  Submit,
+  Status,
+} from './forms';
+
 const { Header, Content, Sider, Footer } = Layout;
 const { Title } = Typography;
 
@@ -18,7 +31,7 @@ export default function Index() {
 
   //UI State
   const [collapsed, setCollapsed] = useState(true);
-  const [currentContent, setCurrentContent] = useState('documents');
+  const [currentContent, setCurrentContent] = useState('createAccount');
 
   //Event Handlers
   const toggleCollapse = () => {
@@ -44,7 +57,6 @@ export default function Index() {
           collapsible
           onCollapse={toggleCollapse}
           collapsedWidth={60}
-
           width="15rem"
           style={{ backgroundColor: 'white' }}
         >
@@ -64,35 +76,35 @@ export default function Index() {
               Create your Account
             </Menu.Item>
             <Menu.Item
-              key="documents"
+              key="landlord"
               icon={<FileOutlined />}
               onClick={onContentChange}
             >
               Landlord / Property Manager
             </Menu.Item>
             <Menu.Item
-              key="comments"
+              key="address"
               icon={<DesktopOutlined />}
               onClick={onContentChange}
             >
               Your Address
             </Menu.Item>
             <Menu.Item
-              key="status"
+              key="household"
               icon={<PieChartOutlined />}
               onClick={onContentChange}
             >
               Your Household info.
             </Menu.Item>
             <Menu.Item
-              key="documents"
+              key="demographics"
               icon={<FileOutlined />}
               onClick={onContentChange}
             >
               Demographic info.
             </Menu.Item>
             <Menu.Item
-              key="documents"
+              key="income"
               icon={<FileOutlined />}
               onClick={onContentChange}
             >
@@ -106,21 +118,21 @@ export default function Index() {
               Your Documents
             </Menu.Item>
             <Menu.Item
-              key="documents"
+              key="review"
               icon={<FileOutlined />}
               onClick={onContentChange}
             >
               Review your Application
             </Menu.Item>
             <Menu.Item
-              key="documents"
+              key="submit"
               icon={<FileOutlined />}
               onClick={onContentChange}
             >
               Submit
             </Menu.Item>
             <Menu.Item
-              key="documents"
+              key="status"
               icon={<FileOutlined />}
               onClick={onContentChange}
             >
@@ -146,6 +158,26 @@ export default function Index() {
 
 const renderContent = props => {
   switch (props.currentContent) {
+    case 'createAccount':
+      return <CreateAccount />;
+    case 'landlord':
+      return <Landlord />;
+    case 'address':
+      return <Address />;
+    case 'household':
+      return <Household />;
+    case 'demographics':
+      return <Demographics />;
+    case 'income':
+      return <Income />;
+    case 'documents':
+      return <Documents />;
+    case 'review':
+      return <Review />;
+    case 'submit':
+      return <Submit />;
+    case 'status':
+      return <Status />;
     default:
       return <h1>Default</h1>;
   }
