@@ -42,7 +42,6 @@ import {
   Archive,
   Delete,
   Subscribe,
-  MarkIncomplete,
   Organizations,
 } from './components/Requests/Actions';
 
@@ -195,6 +194,14 @@ export default function ManagedRequestsTable() {
         return <Organizations request={params.row} />;
       },
     },
+    {
+      field: 'Organization',
+      width: 200,
+      renderCell: params => {
+        return <Organizations request={params.row} />;
+      },
+    },
+
     {
       headerName: 'HAP ID',
       field: 'HAP ID',

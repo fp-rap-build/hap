@@ -48,6 +48,10 @@ import {
 
 import { XGrid } from '@material-ui/x-grid';
 
+import ExportCsv from './components/ExportCsv';
+import { SdStorage } from '@material-ui/icons';
+
+
 export default function ManagedRequestsTable() {
   const history = useHistory();
 
@@ -58,6 +62,7 @@ export default function ManagedRequestsTable() {
   const [isFetching, setIsFetching] = useState(false);
 
   const [data, setData] = useState([]);
+
 
   const [visible, setVisible] = useState(false);
 
@@ -154,7 +159,11 @@ export default function ManagedRequestsTable() {
     }
   };
 
-  const [columns] = useState([
+
+  const [orgs, setOrgs] = useState([]);
+
+  const [columns, setColumns] = useState([
+
     {
       field: 'Review',
       width: 50,
@@ -203,6 +212,14 @@ export default function ManagedRequestsTable() {
         return <Organizations request={params.row} />;
       },
     },
+    {
+      field: 'Organization',
+      width: 200,
+      renderCell: params => {
+        return <Organizations request={params.row} />;
+      },
+    },
+
     {
       headerName: 'HAP ID',
       field: 'HAP ID',
