@@ -73,7 +73,7 @@ const Dash = () => {
         {activeComponent.current === 'organizations' && <Organizations />}
         {activeComponent.current === 'notifications' && <Notifications />}
         {activeComponent.current === 'archive' && <ArchivedRequests />}
-        {activeComponent.current === 'incomplete' && <IncompleteRequests />}
+
         {activeComponent.current === 'payments' && <PaymentsTable />}
         {activeComponent.current === 'yourRequests' && <ManagedRequestsTable />}
       </Content>

@@ -72,10 +72,7 @@ export default function ManagedRequestsTable() {
     try {
       let requests = await axiosWithAuth()
         .get('/requests/table', {
-          params: {
-            archived: false,
-            incomplete: false,
-          },
+          params: {},
         })
         .then(res => res.data);
 
@@ -86,7 +83,18 @@ export default function ManagedRequestsTable() {
           request.familySize
         );
 
+        request['unEmp90'] = request.unEmp90 ? 'Yes' : 'No';
+
+        request['requestStatus'] =
+          request.requestStatus[0].toUpperCase() +
+          request.requestStatus.slice(1);
+
+        request['cityName'] =
+          request.cityName[0].toUpperCase() + request.cityName.slice(1);
+
         request['poc'] = doesHouseholdContainPoc(request);
+
+        request['poc'] = request.poc ? 'Yes' : 'No';
 
         request['HAP ID'] = createHAPid(request.id);
 
@@ -208,7 +216,7 @@ export default function ManagedRequestsTable() {
     { headerName: 'First', field: 'firstName', width: 150 },
     { headerName: 'Last ', field: 'lastName', width: 150 },
     {
-      headerName: 'email',
+      headerName: 'Email',
       field: 'email',
       width: 150,
     },
@@ -434,17 +442,17 @@ export default function ManagedRequestsTable() {
       width: 150,
     },
     {
-      headerName: 'unEmp90',
+      headerName: 'Un-employed for 90+ Days?',
       field: 'unEmp90',
       width: 150,
     },
     {
-      headerName: 'BIPOC',
+      headerName: 'Household is BIPOC?',
       field: 'poc',
       width: 150,
     },
     {
-      headerName: 'Amount',
+      headerName: 'Amount Requested',
       field: 'amountRequested',
       width: 150,
     },

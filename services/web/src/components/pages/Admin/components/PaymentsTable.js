@@ -94,6 +94,18 @@ export default function PaymentsTable() {
       editable: 'always',
     },
     {
+      headerName: 'Months Back',
+      field: 'monthsBack',
+      width: 170,
+      editable: 'always',
+    },
+    {
+      headerName: 'Months Forward',
+      field: 'monthsForward',
+      width: 170,
+      editable: 'always',
+    },
+    {
       headerName: 'Date Requested',
       field: 'requestDate',
       type: 'date',
