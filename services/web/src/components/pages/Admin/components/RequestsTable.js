@@ -48,9 +48,7 @@ import {
 
 import { XGrid } from '@material-ui/x-grid';
 
-import ExportCsv from './components/ExportCsv';
 import { SdStorage } from '@material-ui/icons';
-
 
 export default function ManagedRequestsTable() {
   const history = useHistory();
@@ -62,7 +60,6 @@ export default function ManagedRequestsTable() {
   const [isFetching, setIsFetching] = useState(false);
 
   const [data, setData] = useState([]);
-
 
   const [visible, setVisible] = useState(false);
 
@@ -89,6 +86,8 @@ export default function ManagedRequestsTable() {
         );
 
         request['unEmp90'] = request.unEmp90 ? 'Yes' : 'No';
+
+        request['archived'] = request.archived ? 'Yes' : 'No';
 
         request['requestStatus'] =
           request.requestStatus[0].toUpperCase() +
@@ -159,11 +158,9 @@ export default function ManagedRequestsTable() {
     }
   };
 
-
   const [orgs, setOrgs] = useState([]);
 
   const [columns, setColumns] = useState([
-
     {
       field: 'Review',
       width: 50,
@@ -218,6 +215,11 @@ export default function ManagedRequestsTable() {
       renderCell: params => {
         return <Organizations request={params.row} />;
       },
+    },
+    {
+      headerName: 'Complete?',
+      field: 'archived',
+      width: 150,
     },
 
     {
