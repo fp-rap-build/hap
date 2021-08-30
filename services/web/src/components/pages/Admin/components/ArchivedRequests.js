@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
-import { useSelector, useDispatch } from 'react-redux';
-
-import { useHistory } from 'react-router-dom';
-
 import styles from '../../../../styles/pages/admin.module.css';
 
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
+import createHAPid from '../../../../utils/general/displayHAPid';
+
 import {
   Review,
-  Archive,
   Delete,
-  Subscribe,
-  MarkIncomplete,
   UnArchive,
   Organizations,
 } from './components/Requests/Actions';
@@ -21,14 +16,12 @@ import {
 import { XGrid } from '@material-ui/x-grid';
 import ExportCsv from './components/ExportCsv';
 
-import createHAPid from '../../../../utils/general/displayHAPid';
-
 export default function RequestsTable() {
   const [isFetching, setIsFetching] = useState(false);
 
   const [data, setData] = useState([]);
 
-  const [columns, setColumns] = useState([
+  const [columns] = useState([
     {
       field: 'Review',
       width: 50,
@@ -45,11 +38,19 @@ export default function RequestsTable() {
       },
     },
 
+    //    {
+    //      field: 'Delete',
+    //      width: 50,
+    //     renderCell: params => {
+    //       return <Delete setRequests={setData} requestId={params.row.id} />;
+    //   },
+    //  },
+
     {
-      field: 'Delete',
-      width: 50,
+      field: 'Organization',
+      width: 200,
       renderCell: params => {
-        return <Delete setRequests={setData} requestId={params.row.id} />;
+        return <Organizations request={params.row} />;
       },
     },
     {
@@ -61,7 +62,7 @@ export default function RequestsTable() {
     },
     {
       headerName: 'HAP ID',
-      field: 'id',
+      field: 'HAP ID',
       width: 150,
     },
     {
@@ -76,6 +77,7 @@ export default function RequestsTable() {
       field: 'email',
       width: 300,
     },
+
     {
       headerName: 'Request Status',
       field: 'requestStatus',

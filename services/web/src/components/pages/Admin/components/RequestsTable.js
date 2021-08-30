@@ -1,19 +1,41 @@
 import { useState, useEffect } from 'react';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
 
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
-import { message, Tooltip } from 'antd';
+import sortRequests from '../utils/sortRequests';
+// Helper function that pulls in requests then rearranges them to meet
+// prioritization standards (lowest AMI, then 90+ days unemployed, then BIPOC)
+
+import doesHouseholdContainPoc from '../../../../utils/general/doesHouseholdContainPoc';
+// Helper function that returns true or false depending on whether the request's household contains a poc
 
 import calculateAmi from '../../../../utils/general/calculateAmi';
+// Helper function to pull family size and monthly income from current
+// request to calculate and display the ami (Average Median Income)
+// AMI is used later to generate a new column on payments table
+// that indicates which AMI range the household is in
+
+import createHAPid from '../../../../utils/general/displayHAPid';
+// helper function to insert "HAP" before every request id prior to
+// displaying it in the table
+
+import AttachmentViewer from './components/AttachmentViewer';
+
+import StatusCircle from './components/Requests/StatusCircle';
+
+import RenderDocumentStatusCell from './components/Requests/RenderDocumentStatusCell';
 
 import styles from '../../../../styles/pages/admin.module.css';
-import sortRequests from '../utils/sortRequests';
-import doesHouseholdContainPoc from '../../../../utils/general/doesHouseholdContainPoc';
-import createHAPid from '../../../../utils/general/displayHAPid';
+
+import EmailedLLCheckbox from './components/Requests/EmailedLLCheckbox';
+
+import { formatUTC } from '../../../../utils/dates';
+
+import ExportCsv from './components/ExportCsv';
 
 import {
   Review,
@@ -25,12 +47,11 @@ import {
 } from './components/Requests/Actions';
 
 import { XGrid } from '@material-ui/x-grid';
-import ExportCsv from './components/ExportCsv';
+
 import { SdStorage } from '@material-ui/icons';
 
-export default function RequestsTable() {
+export default function ManagedRequestsTable() {
   const history = useHistory();
-  const dispatch = useDispatch();
 
   const currentUser = useSelector(state => state.user.currentUser);
 
@@ -39,6 +60,103 @@ export default function RequestsTable() {
   const [isFetching, setIsFetching] = useState(false);
 
   const [data, setData] = useState([]);
+
+  const [visible, setVisible] = useState(false);
+
+  const [category, setSelectedCategory] = useState(false);
+
+  const [request, setRequest] = useState({});
+
+  const [documents, setDocuments] = useState({});
+
+  const fetchRequests = async () => {
+    setIsFetching(true);
+    try {
+      let requests = await axiosWithAuth()
+        .get('/requests/table', {
+          params: {},
+        })
+        .then(res => res.data);
+
+      requests = requests.map(request => {
+        request['isSubscribed'] = request.id in subscriptions;
+        request['ami'] = calculateAmi(
+          request.monthlyIncome,
+          request.familySize
+        );
+
+        request['unEmp90'] = request.unEmp90 ? 'Yes' : 'No';
+
+        request['archived'] = request.archived ? 'Yes' : 'No';
+
+        request['requestStatus'] =
+          request.requestStatus[0].toUpperCase() +
+          request.requestStatus.slice(1);
+
+        request['cityName'] =
+          request.cityName[0].toUpperCase() + request.cityName.slice(1);
+
+        request['poc'] = doesHouseholdContainPoc(request);
+
+        request['poc'] = request.poc ? 'Yes' : 'No';
+
+        request['HAP ID'] = createHAPid(request.id);
+
+        request['manager'] = request['managerFirstName']
+          ? request['managerFirstName'] + ' ' + request['managerLastName']
+          : 'Nobody';
+
+        request['tenantDifference'] =
+          (new Date() - new Date(request.latestTenantActivity)) / 3600000;
+
+        request['staffDifference'] =
+          (new Date() - new Date(request.latestStaffActivity)) / 3600000;
+
+        request['lastAction'] = formatUTC(request.latestTenantActivity);
+
+        request['other'] = [];
+
+        request['rpaf'] = [];
+
+        request['identity'] = [];
+
+        request['lease'] = [];
+
+        request['lateNotice'] = [];
+
+        request['landlordW9'] = [];
+
+        request['income'] = [];
+
+        request['residency'] = [];
+
+        request['housingInstability'] = [];
+
+        request['covid'] = [];
+
+        request['childrenOrPregnancy'] = [];
+
+        request['identity'] = [];
+
+        request['documents'].forEach(doc => {
+          if (doc.category) {
+            request[doc.category].unshift(doc);
+          }
+        });
+
+        return request;
+      });
+
+      let sortedRequests = sortRequests(requests);
+
+      setData(sortedRequests);
+    } catch (error) {
+      alert('error fetching requests');
+      console.log(error);
+    } finally {
+      setIsFetching(false);
+    }
+  };
 
   const [orgs, setOrgs] = useState([]);
 
@@ -50,6 +168,7 @@ export default function RequestsTable() {
         return <Review requestId={params.row.id} />;
       },
     },
+
     {
       field: 'Subscribe',
       width: 50,
@@ -71,23 +190,18 @@ export default function RequestsTable() {
       width: 50,
       renderCell: params => {
         return (
-          <MarkIncomplete
-            setRequests={setData}
-            requestId={params.row.id}
-            hideRequest
-          />
+          <MarkIncomplete setRequests={setData} requestId={params.row.id} />
         );
       },
     },
 
-    {
-      field: 'Delete',
-      width: 50,
-      renderCell: params => {
-        return <Delete setRequests={setData} requestId={params.row.id} />;
-      },
-    },
-
+    //{
+    //    field: 'Delete',
+    //    width: 50,
+    //    renderCell: params => {
+    //      return <Delete setRequests={setData} requestId={params.row.id} />;
+    //    },
+    //  },
     {
       field: 'Organization',
       width: 200,
@@ -95,10 +209,22 @@ export default function RequestsTable() {
         return <Organizations request={params.row} />;
       },
     },
+    {
+      field: 'Organization',
+      width: 200,
+      renderCell: params => {
+        return <Organizations request={params.row} />;
+      },
+    },
+    {
+      headerName: 'Complete?',
+      field: 'archived',
+      width: 150,
+    },
 
     {
       headerName: 'HAP ID',
-      field: 'id',
+      field: 'HAP ID',
       width: 150,
     },
     {
@@ -109,7 +235,7 @@ export default function RequestsTable() {
     { headerName: 'First', field: 'firstName', width: 150 },
     { headerName: 'Last ', field: 'lastName', width: 150 },
     {
-      headerName: 'email',
+      headerName: 'Email',
       field: 'email',
       width: 150,
     },
@@ -133,6 +259,195 @@ export default function RequestsTable() {
         );
       },
     },
+    {
+      headerName: 'RES',
+      field: 'residency',
+      width: 150,
+      renderCell: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            docs={rowData.row.residency}
+            openDocument={() =>
+              openDocument(rowData.row.residency, 'residency', rowData.row)
+            }
+          />
+        );
+      },
+    },
+    {
+      headerName: 'INC',
+      field: 'income',
+      width: 150,
+      renderCell: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            category="income"
+            docs={rowData.row.income}
+            openDocument={() =>
+              openDocument(rowData.row.income, 'income', rowData.row)
+            }
+          />
+        );
+      },
+    },
+
+    {
+      headerName: 'COV',
+      field: 'covid',
+      width: 150,
+      renderCell: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            category="covid"
+            docs={rowData.row.covid}
+            openDocument={() =>
+              openDocument(rowData.row.covid, 'covid', rowData.row)
+            }
+          />
+        );
+      },
+    },
+
+    {
+      headerName: 'ID',
+      field: 'identity',
+      width: 150,
+      renderCell: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            category="identity"
+            docs={rowData.row.identity}
+            openDocument={() =>
+              openDocument(rowData.row.identity, 'identity', rowData.row)
+            }
+          />
+        );
+      },
+    },
+
+    {
+      headerName: 'CHI',
+      field: 'childrenOrPregnancy',
+      width: 150,
+      renderCell: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            category="childrenOrPregnancy"
+            docs={rowData.row.childrenOrPregnancy}
+            openDocument={() =>
+              openDocument(
+                rowData.row.childrenOrPregnancy,
+                'childrenOrPregnancy',
+                rowData.row
+              )
+            }
+          />
+        );
+      },
+    },
+
+    {
+      headerName: 'LEASE',
+      field: 'lease',
+      width: 150,
+      renderCell: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            category="lease"
+            docs={rowData.row.lease}
+            openDocument={() =>
+              openDocument(rowData.row.lease, 'lease', rowData.row)
+            }
+          />
+        );
+      },
+    },
+
+    {
+      headerName: 'LLW9',
+      field: 'landlordW9',
+      width: 150,
+      renderCell: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            category="landlordW9"
+            docs={rowData.row.landlordW9}
+            openDocument={() =>
+              openDocument(rowData.row.landlordW9, 'landlordW9', rowData.row)
+            }
+          />
+        );
+      },
+    },
+
+    {
+      headerName: 'LATE',
+      field: 'lateNotice',
+      width: 150,
+      renderCell: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            category="lateNotice"
+            docs={rowData.row.lateNotice}
+            openDocument={() =>
+              openDocument(rowData.row.lateNotice, 'lateNotice', rowData.row)
+            }
+          />
+        );
+      },
+    },
+
+    {
+      headerName: 'RPAF',
+      field: 'rpaf',
+      width: 150,
+      renderCell: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            category="rpaf"
+            docs={rowData.row.rpaf}
+            openDocument={() =>
+              openDocument(rowData.row.rpaf, 'rpaf', rowData.row)
+            }
+          />
+        );
+      },
+    },
+
+    {
+      headerName: 'HI',
+      field: 'housingInstability',
+      width: 150,
+      renderCell: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            category="housingInstability"
+            docs={rowData.row.housingInstability}
+            openDocument={() =>
+              openDocument(
+                rowData.row.housingInstability,
+                'housingInstability',
+                rowData.row
+              )
+            }
+          />
+        );
+      },
+    },
+
+    {
+      headerName: 'EMLL',
+      field: 'emailedLandlord',
+      width: 150,
+      renderCell: rowData => {
+        return (
+          <EmailedLLCheckbox
+            emailedLandlord={rowData.row.emailedLandlord}
+            requestId={rowData.row.id}
+          />
+        );
+      },
+    },
 
     {
       headerName: 'Last Action',
@@ -146,19 +461,19 @@ export default function RequestsTable() {
       width: 150,
     },
     {
-      headerName: 'unEmp90',
+      headerName: 'Un-employed for 90+ Days?',
       field: 'unEmp90',
       width: 150,
     },
     {
-      headerName: 'BIPOC',
+      headerName: 'Household is BIPOC?',
       field: 'poc',
       width: 150,
     },
     {
-      headerName: 'Amount',
+      headerName: 'Amount Requested',
       field: 'amountRequested',
-      width: 250,
+      width: 150,
     },
     {
       headerName: 'Address',
@@ -170,6 +485,7 @@ export default function RequestsTable() {
       field: 'cityName',
       width: 150,
     },
+
     {
       headerName: 'LN',
       field: 'landlordName',
@@ -192,83 +508,50 @@ export default function RequestsTable() {
       },
     },
 
-    {
-      headerName: 'date',
-      field: 'requestDate',
-      type: 'date',
-      width: 200,
-      renderCell: params => {
-        return <p>{new Date(params.row.requestDate).toLocaleDateString()} </p>;
-      },
-    },
+    { headerName: 'date', field: 'requestDate', type: 'date', width: 150 },
   ]);
-
-  const fetchRequests = async () => {
-    setIsFetching(true);
-    try {
-      let requests = await axiosWithAuth()
-        .get('/requests/table', {
-          params: {
-            archived: false,
-            incomplete: false,
-          },
-        })
-        .then(res => res.data);
-
-      requests = requests.map(request => {
-        request['isSubscribed'] = request.id in subscriptions;
-
-        request['ami'] = calculateAmi(
-          request.monthlyIncome,
-          request.familySize
-        );
-
-        request['HAP ID'] = createHAPid(request.id);
-
-        request['poc'] = doesHouseholdContainPoc(request);
-
-        request['manager'] = request['managerFirstName']
-          ? request['managerFirstName'] + ' ' + request['managerLastName']
-          : 'Nobody';
-
-        request['tenantDifference'] =
-          (new Date() - new Date(request.latestTenantActivity)) / 3600000;
-
-        request['staffDifference'] =
-          (new Date() - new Date(request.latestStaffActivity)) / 3600000;
-
-        return request;
-      });
-
-      let sortedRequests = sortRequests(requests);
-
-      setData(sortedRequests);
-    } catch (error) {
-      console.error(error);
-      alert('error');
-    } finally {
-      setIsFetching(false);
-    }
-  };
 
   useEffect(() => {
     fetchRequests();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <div className={styles.container}>
-      <h2>Requests</h2>
+  const openDocument = (docs, category, currentRequest) => {
+    setRequest(currentRequest);
 
-      <XGrid
-        style={{ height: 700 }}
-        rows={data}
-        columns={columns}
-        loading={isFetching}
-        components={{
-          Toolbar: ExportCsv,
-        }}
-      />
+    setSelectedCategory(category);
+
+    setDocuments(docs);
+
+    setVisible(true);
+  };
+
+  return (
+    <div>
+      <div className={styles.container}>
+        <h2>Requests</h2>
+
+        <AttachmentViewer
+          visible={visible}
+          setVisible={setVisible}
+          documents={documents}
+          setDocuments={setDocuments}
+          setRequests={setData}
+          requests={data}
+          request={request}
+          category={category}
+        />
+
+        <XGrid
+          style={{ height: 700 }}
+          rows={data}
+          columns={columns}
+          loading={isFetching}
+          components={{
+            Toolbar: ExportCsv,
+          }}
+        />
+      </div>
     </div>
   );
 }
@@ -276,11 +559,9 @@ export default function RequestsTable() {
 const formatSubscriptions = subscriptions => {
   let result = {};
 
-  if (subscriptions) {
-    subscriptions.forEach(sub => {
-      result[sub.requestId] = true;
-    });
-  }
+  subscriptions.forEach(sub => {
+    result[sub.requestId] = true;
+  });
 
   return result;
 };
@@ -296,28 +577,4 @@ const RenderActivityCell = ({ timeDifference }) => {
   } else {
     return <StatusCircle color="#F0B0AE" />;
   }
-};
-
-const StatusCircle = ({ color, tooltip, clickable, onClick }) => {
-  return (
-    <Tooltip title={tooltip}>
-      <svg
-        onClick={onClick}
-        viewBox="0 0 100 100"
-        height="30px"
-        xmlns="http://www.w3.org/2000/svg"
-        style={{ marginLeft: '10px', cursor: clickable ? 'pointer' : '' }}
-      >
-        <circle
-          cx="50"
-          cy="50"
-          r="48"
-          fill={color}
-          stroke="grey"
-          strokeWidth="4"
-        />
-        {/* colors: #B1EEC6 #EDE988 #F0B0AE */}
-      </svg>
-    </Tooltip>
-  );
 };

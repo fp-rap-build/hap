@@ -6,7 +6,7 @@ import AdminNav from './adminNav';
 import ProgramMgrForm from './ProgramMgrForm';
 import RequestsTable from './RequestsTable';
 import ArchivedRequests from './ArchivedRequests';
-import IncompleteRequests from './IncompleteRequests';
+
 import ManagedRequestsTable from './ManagedRequestsTable';
 import UsersTable from './UsersTable';
 import Analytics from './Analytics';
@@ -73,7 +73,7 @@ const Dash = () => {
         {activeComponent.current === 'organizations' && <Organizations />}
         {activeComponent.current === 'notifications' && <Notifications />}
         {activeComponent.current === 'archive' && <ArchivedRequests />}
-        {activeComponent.current === 'incomplete' && <IncompleteRequests />}
+
         {activeComponent.current === 'payments' && <PaymentsTable />}
         {activeComponent.current === 'yourRequests' && <ManagedRequestsTable />}
       </Content>

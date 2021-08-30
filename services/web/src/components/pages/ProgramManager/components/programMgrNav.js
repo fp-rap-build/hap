@@ -24,9 +24,7 @@ const AdminNav = props => {
       <Menu.Item key="archive" icon={<FolderOutlined />}>
         Archived Requests
       </Menu.Item>
-      <Menu.Item key="incomplete" icon={<WarningFilled />}>
-        Incomplete Requests
-      </Menu.Item>
+
       <Menu.Item key="analytics" icon={<LineChartOutlined />}>
         Analytics
       </Menu.Item>
