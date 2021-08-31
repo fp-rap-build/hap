@@ -46,7 +46,12 @@ import {
   Organizations,
 } from './components/Requests/Actions';
 
-import { XGrid } from '@material-ui/x-grid';
+import {
+  updateTableWithConfig,
+  onColumnVisibilityChange,
+} from './components/Requests/PersistTableSettings';
+
+import { XGrid, GridToolbar } from '@material-ui/x-grid';
 
 export default function ManagedRequestsTable() {
   const history = useHistory();
@@ -490,30 +495,8 @@ export default function ManagedRequestsTable() {
   }, []);
 
   useEffect(() => {
-    let savedColumnsConfig = JSON.parse(
-      localStorage.getItem('incompleteRequestColumns')
-    );
-    if (!savedColumnsConfig) return;
-
-    setColumns(prevState => {
-      return prevState.map(col => {
-        savedColumnsConfig.forEach(savedCol => {
-          if (savedCol['field'] == col.field) {
-            col['hide'] = savedCol['hide'];
-            col['width'] = savedCol['width'];
-          }
-        });
-
-        return col;
-      });
-    });
+    updateTableWithConfig(setColumns, 'incompleteRequests');
   }, []);
-
-  const onColumnChange = e => {
-    let newColumns = JSON.stringify(e.api.current.getAllColumns());
-
-    localStorage.setItem('incompleteRequestColumns', newColumns);
-  };
 
   const openDocument = (docs, category, currentRequest) => {
     setRequest(currentRequest);
@@ -542,14 +525,18 @@ export default function ManagedRequestsTable() {
         />
 
         <XGrid
-          onColumnWidthChange={onColumnChange}
-          onColumnVisibilityChange={onColumnChange}
+          onColumnVisibilityChange={e =>
+            onColumnVisibilityChange(e, 'incompleteRequests')
+          }
+          onColumnWidthChange={e =>
+            onColumnVisibilityChange(e, 'incompleteRequests')
+          }
           style={{ height: 700 }}
           rows={data}
           columns={columns}
           loading={isFetching}
           components={{
-            Toolbar: ExportCsv,
+            Toolbar: GridToolbar,
           }}
         />
       </div>

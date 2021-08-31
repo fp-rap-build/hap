@@ -13,7 +13,13 @@ import {
   Organizations,
 } from './components/Requests/Actions';
 
-import { XGrid } from '@material-ui/x-grid';
+import { XGrid, GridToolbar } from '@material-ui/x-grid';
+
+import {
+  updateTableWithConfig,
+  onColumnVisibilityChange,
+} from './components/Requests/PersistTableSettings';
+
 import ExportCsv from './components/ExportCsv';
 
 export default function RequestsTable() {
@@ -125,44 +131,25 @@ export default function RequestsTable() {
   }, []);
 
   useEffect(() => {
-    let savedColumnsConfig = JSON.parse(
-      localStorage.getItem('archivedRequestColumns')
-    );
-
-    if (!savedColumnsConfig) return;
-
-    setColumns(prevState => {
-      return prevState.map(col => {
-        savedColumnsConfig.forEach(savedCol => {
-          if (savedCol['field'] == col.field) {
-            col['hide'] = savedCol['hide'];
-            col['width'] = savedCol['width'];
-          }
-        });
-
-        return col;
-      });
-    });
+    updateTableWithConfig(setColumns, 'archivedRequestsTable');
   }, []);
-
-  const onColumnChange = e => {
-    let newColumns = JSON.stringify(e.api.current.getAllColumns());
-
-    localStorage.setItem('archivedRequestColumns', newColumns);
-  };
 
   return (
     <div className={styles.container}>
       <h2>Archived Requests</h2>
       <XGrid
-        onColumnWidthChange={onColumnChange}
-        onColumnVisibilityChange={onColumnChange}
+        onColumnVisibilityChange={e =>
+          onColumnVisibilityChange(e, 'archivedRequestsTable')
+        }
+        onColumnWidthChange={e =>
+          onColumnVisibilityChange(e, 'archivedRequestsTable')
+        }
         style={{ height: 700 }}
         rows={data}
         columns={columns}
         loading={isFetching}
         components={{
-          Toolbar: ExportCsv,
+          Toolbar: GridToolbar,
         }}
       />
     </div>

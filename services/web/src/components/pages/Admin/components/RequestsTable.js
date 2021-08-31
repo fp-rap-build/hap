@@ -46,7 +46,13 @@ import {
   Organizations,
 } from './components/Requests/Actions';
 
-import { XGrid } from '@material-ui/x-grid';
+import { XGrid, GridToolbar } from '@material-ui/x-grid';
+
+import {
+  updateTableWithConfig,
+  onColumnVisibilityChange,
+} from './components/Requests/PersistTableSettings';
+
 import { LeakRemoveTwoTone } from '@material-ui/icons';
 import { Alert } from 'antd';
 
@@ -492,40 +498,8 @@ export default function ManagedRequestsTable() {
   }, []);
 
   useEffect(() => {
-    let savedColumnsConfig = JSON.parse(
-      localStorage.getItem('requestsTableColumns')
-    );
-
-    console.log(savedColumnsConfig);
-
-    if (!savedColumnsConfig) return;
-
-    setColumns(prevState => {
-      return prevState.map(col => {
-        savedColumnsConfig.forEach(savedCol => {
-          if (savedCol['field'] == col.field) {
-            console.log(col, savedCol);
-            col['hide'] = savedCol['hide'];
-          }
-        });
-
-        return col;
-      });
-    });
+    updateTableWithConfig(setColumns, 'requestsTable');
   }, []);
-
-  useEffect(() => {
-    console.log(columns);
-  }, [columns]);
-
-  const onColumnChange = e => {
-    let newColumns = JSON.stringify(e.api.current.getAllColumns());
-
-    console.log(newColumns);
-
-    localStorage.setItem('requestsTableColumns', newColumns);
-    console.log(localStorage.getItem('requestsTableColumns'));
-  };
 
   const openDocument = (docs, category, currentRequest) => {
     setRequest(currentRequest);
@@ -554,8 +528,12 @@ export default function ManagedRequestsTable() {
         />
 
         <XGrid
-          onColumnVisibilityChange={onColumnChange}
-          onColumnWidthChange={onColumnChange}
+          onColumnVisibilityChange={e =>
+            onColumnVisibilityChange(e, 'requestsTable')
+          }
+          onColumnWidthChange={e =>
+            onColumnVisibilityChange(e, 'requestsTable')
+          }
           onFilterModelChange={() => alert('hello')}
           onSelectionModelChange={() => alert('hello')}
           onSortModelChange={() => alert('hello')}
@@ -564,7 +542,7 @@ export default function ManagedRequestsTable() {
           columns={columns}
           loading={isFetching}
           components={{
-            Toolbar: ExportCsv,
+            Toolbar: GridToolbar,
           }}
         />
       </div>
