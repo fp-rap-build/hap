@@ -46,7 +46,12 @@ import {
   Organizations,
 } from './components/Requests/Actions';
 
-import { XGrid } from '@material-ui/x-grid';
+import {
+  updateTableWithConfig,
+  onColumnVisibilityChange,
+} from './components/Requests/PersistTableSettings';
+
+import { XGrid, GridToolbar } from '@material-ui/x-grid';
 
 export default function ManagedRequestsTable() {
   const history = useHistory();
@@ -146,7 +151,7 @@ export default function ManagedRequestsTable() {
     }
   };
 
-  const [columns] = useState([
+  const [columns, setColumns] = useState([
     {
       field: 'Review',
       width: 50,
@@ -489,6 +494,10 @@ export default function ManagedRequestsTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    updateTableWithConfig(setColumns, 'incompleteRequests');
+  }, []);
+
   const openDocument = (docs, category, currentRequest) => {
     setRequest(currentRequest);
 
@@ -516,12 +525,18 @@ export default function ManagedRequestsTable() {
         />
 
         <XGrid
+          onColumnVisibilityChange={e =>
+            onColumnVisibilityChange(e, 'incompleteRequests')
+          }
+          onColumnWidthChange={e =>
+            onColumnVisibilityChange(e, 'incompleteRequests')
+          }
           style={{ height: 700 }}
           rows={data}
           columns={columns}
           loading={isFetching}
           components={{
-            Toolbar: ExportCsv,
+            Toolbar: GridToolbar,
           }}
         />
       </div>

@@ -46,7 +46,15 @@ import {
   Organizations,
 } from './components/Requests/Actions';
 
-import { XGrid } from '@material-ui/x-grid';
+import { XGrid, GridToolbar } from '@material-ui/x-grid';
+
+import {
+  updateTableWithConfig,
+  onColumnVisibilityChange,
+} from './components/Requests/PersistTableSettings';
+
+import { LeakRemoveTwoTone } from '@material-ui/icons';
+import { Alert } from 'antd';
 
 export default function ManagedRequestsTable() {
   const history = useHistory();
@@ -146,7 +154,7 @@ export default function ManagedRequestsTable() {
     }
   };
 
-  const [columns] = useState([
+  const [columns, setColumns] = useState([
     {
       field: 'Review',
       width: 50,
@@ -489,6 +497,10 @@ export default function ManagedRequestsTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    updateTableWithConfig(setColumns, 'requestsTable');
+  }, []);
+
   const openDocument = (docs, category, currentRequest) => {
     setRequest(currentRequest);
 
@@ -516,12 +528,21 @@ export default function ManagedRequestsTable() {
         />
 
         <XGrid
+          onColumnVisibilityChange={e =>
+            onColumnVisibilityChange(e, 'requestsTable')
+          }
+          onColumnWidthChange={e =>
+            onColumnVisibilityChange(e, 'requestsTable')
+          }
+          onFilterModelChange={() => alert('hello')}
+          onSelectionModelChange={() => alert('hello')}
+          onSortModelChange={() => alert('hello')}
           style={{ height: 700 }}
           rows={data}
           columns={columns}
           loading={isFetching}
           components={{
-            Toolbar: ExportCsv,
+            Toolbar: GridToolbar,
           }}
         />
       </div>
