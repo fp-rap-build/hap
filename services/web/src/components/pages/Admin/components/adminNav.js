@@ -19,21 +19,16 @@ const AdminNav = props => {
 
   const menu = (
     <Menu onClick={handleClick} selectedKeys={activeComponent.current}>
-      <Menu.Item key="organizations" icon={<LineChartOutlined />}>
-        Manage Organizations
-      </Menu.Item>
       <Menu.Item key="requests" icon={<FolderOpenOutlined />}>
-        Manage Requests
+        Manage All Requests
       </Menu.Item>
       <Menu.Item key="yourRequests" icon={<FolderOutlined />}>
         Your Requests
       </Menu.Item>
-      <Menu.Item key="archive" icon={<FolderOutlined />}>
-        Archived Requests
+      <Menu.Item key="organizations" icon={<LineChartOutlined />}>
+        Manage Organizations
       </Menu.Item>
-      <Menu.Item key="incomplete" icon={<WarningFilled />}>
-        Incomplete Requests
-      </Menu.Item>
+
       <Menu.Item key="user" icon={<UserOutlined />}>
         Manage Users
       </Menu.Item>
