@@ -16,6 +16,8 @@ exports.findForTable = () =>
       'u.dob',
       'pr.name as program',
       'p.amount',
+      'p.monthsBack',
+      'p.monthsForward',
       'p.createdAt as approveDate',
       'r.requestDate as requestDate',
       'r.familySize',
