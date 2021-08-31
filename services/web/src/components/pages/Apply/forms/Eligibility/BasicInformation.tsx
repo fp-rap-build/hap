@@ -56,6 +56,31 @@ const BasicInformation = ({
           ></DatePicker>
         </Form.Item>
 
+        <b>
+          Please enter the ages of any children in your household, separated by
+          commas:
+        </b>
+
+        <Form.Item
+          initialValue={formValues.childrenAges}
+          label="Children Ages"
+          name="childrenAges"
+          rules={[
+            {
+              type: 'string',
+              required: true,
+              message:
+                'Please enter the ages of any children in the household, separated by commas',
+            },
+          ]}
+        >
+          <Input
+            name="childrenAges"
+            placeholder="4, 2, etc."
+            value={formValues.childrenAges}
+          />
+        </Form.Item>
+
         <Title level={5}>Head of Household Identifies as</Title>
 
         <Form.Item label="Ethnicity:">
