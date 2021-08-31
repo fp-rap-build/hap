@@ -94,6 +94,18 @@ export default function PaymentsTable() {
       editable: 'always',
     },
     {
+      headerName: 'Months Back',
+      field: 'monthsBack',
+      width: 170,
+      editable: 'always',
+    },
+    {
+      headerName: 'Months Forward',
+      field: 'monthsForward',
+      width: 170,
+      editable: 'always',
+    },
+    {
       headerName: 'Date Requested',
       field: 'requestDate',
       type: 'date',
@@ -191,7 +203,7 @@ export default function PaymentsTable() {
         rows={data}
         columns={columns}
         loading={isFetching}
-        onCellEditCommit={e => updatePayment(e)}
+        onCellEditCommit={payment => editPayment(payment)}
         components={{
           Toolbar: ExportCsv,
         }}
@@ -199,6 +211,20 @@ export default function PaymentsTable() {
     </>
   );
 }
+
+const editPayment = async row => {
+  const { id, field, value } = row;
+
+  const payload = {};
+
+  payload[field] = value;
+
+  try {
+    await axiosWithAuth().put(`/payments/${id}`, payload);
+  } catch (error) {
+    message.error('Unable to edit payment1');
+  }
+};
 
 const DeletePayment = ({ row, setData }) => {
   const onPaymentDelete = (row, setData) => {

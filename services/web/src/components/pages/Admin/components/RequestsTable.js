@@ -80,10 +80,7 @@ export default function ManagedRequestsTable() {
     try {
       let requests = await axiosWithAuth()
         .get('/requests/table', {
-          params: {
-            archived: false,
-            incomplete: false,
-          },
+          params: {},
         })
         .then(res => res.data);
 
@@ -95,6 +92,10 @@ export default function ManagedRequestsTable() {
         );
 
         request['poc'] = doesHouseholdContainPoc(request);
+
+        request['archived'] = request.archived ? 'Yes' : 'No';
+
+        request['incomplete'] = request.incomplete ? 'Yes' : 'No';
 
         request['HAP ID'] = createHAPid(request.id);
 
@@ -202,6 +203,16 @@ export default function ManagedRequestsTable() {
       renderCell: params => {
         return <Organizations request={params.row} />;
       },
+    },
+    {
+      headerName: 'Archived',
+      field: 'archived',
+      width: 150,
+    },
+    {
+      headerName: 'Complete',
+      field: 'incomplete',
+      width: 150,
     },
     {
       headerName: 'HAP ID',
@@ -514,7 +525,7 @@ export default function ManagedRequestsTable() {
   return (
     <div>
       <div className={styles.container}>
-        <h2>Requests</h2>
+        <h2>Manage All Requests</h2>
 
         <AttachmentViewer
           visible={visible}

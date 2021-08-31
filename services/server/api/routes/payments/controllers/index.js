@@ -11,17 +11,18 @@ exports.findForTable = async (req, res, next) => {
   }
 };
 
+
+
 exports.updatePayment = async (req, res, next) => {
   const { id } = req.params;
 
-  const { amount } = req.body;
+  const { amount, monthsBack, monthsForward } = req.body;
 
   try {
-    const updatedPayment = await Payments.findByIdAndUpdate(id, { amount });
-
+    const updatedPayment = await Payments.findByIdAndUpdate(id, { amount, monthsBack, monthsForward });
     res.status(200).json({ payment: updatedPayment });
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: 'Internal server error1' });
   }
 };
 
