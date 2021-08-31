@@ -21,7 +21,7 @@ export default function RequestsTable() {
 
   const [data, setData] = useState([]);
 
-  const [columns] = useState([
+  const [columns, setColumns] = useState([
     {
       field: 'Review',
       width: 50,
@@ -124,10 +124,39 @@ export default function RequestsTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    let savedColumnsConfig = JSON.parse(
+      localStorage.getItem('archivedRequestColumns')
+    );
+
+    if (!savedColumnsConfig) return;
+
+    setColumns(prevState => {
+      return prevState.map(col => {
+        savedColumnsConfig.forEach(savedCol => {
+          if (savedCol['field'] == col.field) {
+            col['hide'] = savedCol['hide'];
+            col['width'] = savedCol['width'];
+          }
+        });
+
+        return col;
+      });
+    });
+  }, []);
+
+  const onColumnChange = e => {
+    let newColumns = JSON.stringify(e.api.current.getAllColumns());
+
+    localStorage.setItem('archivedRequestColumns', newColumns);
+  };
+
   return (
     <div className={styles.container}>
       <h2>Archived Requests</h2>
       <XGrid
+        onColumnWidthChange={onColumnChange}
+        onColumnVisibilityChange={onColumnChange}
         style={{ height: 700 }}
         rows={data}
         columns={columns}

@@ -146,7 +146,7 @@ export default function ManagedRequestsTable() {
     }
   };
 
-  const [columns] = useState([
+  const [columns, setColumns] = useState([
     {
       field: 'Review',
       width: 50,
@@ -489,6 +489,32 @@ export default function ManagedRequestsTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    let savedColumnsConfig = JSON.parse(
+      localStorage.getItem('incompleteRequestColumns')
+    );
+    if (!savedColumnsConfig) return;
+
+    setColumns(prevState => {
+      return prevState.map(col => {
+        savedColumnsConfig.forEach(savedCol => {
+          if (savedCol['field'] == col.field) {
+            col['hide'] = savedCol['hide'];
+            col['width'] = savedCol['width'];
+          }
+        });
+
+        return col;
+      });
+    });
+  }, []);
+
+  const onColumnChange = e => {
+    let newColumns = JSON.stringify(e.api.current.getAllColumns());
+
+    localStorage.setItem('incompleteRequestColumns', newColumns);
+  };
+
   const openDocument = (docs, category, currentRequest) => {
     setRequest(currentRequest);
 
@@ -516,6 +542,8 @@ export default function ManagedRequestsTable() {
         />
 
         <XGrid
+          onColumnWidthChange={onColumnChange}
+          onColumnVisibilityChange={onColumnChange}
           style={{ height: 700 }}
           rows={data}
           columns={columns}
