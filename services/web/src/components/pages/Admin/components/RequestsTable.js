@@ -534,9 +534,6 @@ export default function ManagedRequestsTable() {
           onColumnWidthChange={e =>
             onColumnVisibilityChange(e, 'requestsTable')
           }
-          onFilterModelChange={() => alert('hello')}
-          onSelectionModelChange={() => alert('hello')}
-          onSortModelChange={() => alert('hello')}
           style={{ height: 700 }}
           rows={data}
           columns={columns}
