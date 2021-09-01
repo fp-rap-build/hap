@@ -88,6 +88,12 @@ export default function PaymentsTable() {
       width: 170,
     },
     {
+      headerName: 'Landlord Name',
+      field: 'landlordName',
+      type: 'string',
+      width: 170,
+    },
+    {
       headerName: 'Amount',
       field: 'amount',
       width: 170,
