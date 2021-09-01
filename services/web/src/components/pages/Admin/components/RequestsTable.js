@@ -428,6 +428,23 @@ export default function ManagedRequestsTable() {
     },
 
     {
+      headerName: 'Other',
+      field: 'other',
+      width: 150,
+      renderCell: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            category="other"
+            docs={rowData.row.other}
+            openDocument={() =>
+              openDocument(rowData.row.other, 'other', rowData.row)
+            }
+          />
+        );
+      },
+    },
+
+    {
       headerName: 'EMLL',
       field: 'emailedLandlord',
       width: 150,
