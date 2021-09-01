@@ -500,7 +500,18 @@ export default function ManagedRequestsTable() {
       },
     },
 
-    { headerName: 'date', field: 'requestDate', type: 'date', width: 150 },
+    {
+      headerName: 'date',
+      field: 'requestDate',
+      type: 'date',
+      width: 150,
+    },
+    {
+      headerName: 'Date Approved',
+      field: 'createdAt',
+      type: 'date',
+      width: 150,
+    },
   ]);
 
   useEffect(() => {

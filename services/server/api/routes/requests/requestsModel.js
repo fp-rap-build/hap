@@ -49,6 +49,7 @@ const findForTable = (params, user) => {
     .leftOuterJoin('documents as d', 'r.id', '=', 'd.requestId')
     .leftOuterJoin('users as m', 'r.managerId', '=', 'm.id')
     .leftOuterJoin('organizations as o', 'r.orgId', '=', 'o.id')
+    .leftOuterJoin('payments as p', 'r.id', '=', 'p.requestId')
     .orderBy('r.id', 'asc')
     .select(
       'r.id',
@@ -68,6 +69,7 @@ const findForTable = (params, user) => {
       'r.owed',
       'r.requestStatus',
       'r.requestDate',
+      'p.createdAt',
       'r.apmApproval',
       'r.pmApproval',
       'r.bookKeeperApproval',
