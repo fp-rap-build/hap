@@ -16,6 +16,8 @@ exports.findForTable = () =>
       'u.dob',
       'pr.name as program',
       'r.landlordName',
+      'p.amountBack',
+      'p.amountForward',
       'p.amount',
       'p.monthsBack',
       'p.monthsForward',

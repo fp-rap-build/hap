@@ -12,7 +12,7 @@ import Container from './components/Requests/Actions/Container';
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import { XGrid } from '@material-ui/x-grid';
+import { XGrid, GridToolbar } from '@material-ui/x-grid';
 import ExportCsv from './components/ExportCsv';
 
 // helper function to insert "HAP" before every request id prior to
@@ -92,12 +92,33 @@ export default function PaymentsTable() {
       field: 'landlordName',
       type: 'string',
       width: 170,
+      editable: 'always',
     },
     {
-      headerName: 'Amount',
+      headerName: 'Amount Back Paid',
+      field: 'amountBack',
+      type: 'string',
+      width: 170,
+      editable: 'always',
+    },
+    {
+      headerName: 'Amount Forward Paid',
+      field: 'amountForward',
+      type: 'string',
+      width: 170,
+      editable: 'always',
+    },
+    {
+      headerName: 'Total Amount Paid',
       field: 'amount',
       width: 170,
       editable: 'always',
+    },
+    {
+      headerName: 'Difference',
+      field: 'difference',
+      width: 170,
+      editable: 'never',
     },
     {
       headerName: 'Months Back',
@@ -132,6 +153,8 @@ export default function PaymentsTable() {
 
       let payments = res.data.payments.map(payment => {
         payment['race'] = '';
+        payment['difference'] =
+          payment['amountForward'] + payment['amountBack'] - payment['amount'];
         payment['race_count'] = 0;
         payment['ethnicity'] = '';
         payment['HAP ID'] = createHAPid(payment.requestId);
@@ -211,7 +234,7 @@ export default function PaymentsTable() {
         loading={isFetching}
         onCellEditCommit={payment => editPayment(payment)}
         components={{
-          Toolbar: ExportCsv,
+          Toolbar: GridToolbar,
         }}
       />
     </>
@@ -228,7 +251,9 @@ const editPayment = async row => {
   try {
     await axiosWithAuth().put(`/payments/${id}`, payload);
   } catch (error) {
-    message.error('Unable to edit payment1');
+    message.error(
+      'Unable to update the payment, please wait a moment and then try again.'
+    );
   }
 };
 

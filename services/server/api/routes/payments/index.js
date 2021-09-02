@@ -9,7 +9,7 @@ const { findForTable, updatePayment, deletePayment } = require('./controllers');
 // Global middleware
 router.use(authRequired);
 
-router.use(restrictTo('admin', 'orgAdmin'));
+router.use(restrictTo('admin', 'orgAdmin, programManager'));
 
 router.route('/:id').put(updatePayment).delete(deletePayment);
 
