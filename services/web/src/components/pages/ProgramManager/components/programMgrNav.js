@@ -21,8 +21,8 @@ const AdminNav = props => {
       <Menu.Item key="yourRequests" icon={<FolderOutlined />}>
         Your Requests
       </Menu.Item>
-      <Menu.Item key="archive" icon={<FolderOutlined />}>
-        Archived Requests
+      <Menu.Item key="payments" icon={<FolderOutlined />}>
+        Payments
       </Menu.Item>
       <Menu.Item key="analytics" icon={<LineChartOutlined />}>
         Analytics
