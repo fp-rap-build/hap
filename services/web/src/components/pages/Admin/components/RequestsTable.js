@@ -158,6 +158,7 @@ export default function ManagedRequestsTable() {
   const [columns, setColumns] = useState([
     {
       field: 'Review',
+      description: 'Review',
       width: 50,
       renderCell: params => {
         return <Review requestId={params.row.id} />;
@@ -480,23 +481,27 @@ export default function ManagedRequestsTable() {
       width: 150,
     },
     {
-      headerName: 'Amount',
+      headerName: 'Amount Requested',
+      description: 'Amount Requested',
       field: 'amountRequested',
       width: 150,
     },
     {
       headerName: 'Address',
+      description: 'Address',
       field: 'address',
       width: 150,
     },
     {
       headerName: 'City',
+      description: 'City',
       field: 'cityName',
       width: 150,
     },
 
     {
       headerName: 'LN',
+      description: 'LN',
       field: 'landlordName',
       width: 200,
     },
@@ -527,6 +532,11 @@ export default function ManagedRequestsTable() {
       headerName: 'Date Approved',
       field: 'createdAt',
       type: 'date',
+      width: 150,
+    },
+    {
+      headerName: 'Amount Approved',
+      field: 'amountApproved',
       width: 150,
     },
   ]);
