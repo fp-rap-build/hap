@@ -357,23 +357,6 @@ export default function ManagedRequestsTable() {
     },
 
     {
-      headerName: 'LATE',
-      field: 'lateNotice',
-      width: 150,
-      renderCell: rowData => {
-        return (
-          <RenderDocumentStatusCell
-            category="lateNotice"
-            docs={rowData.row.lateNotice}
-            openDocument={() =>
-              openDocument(rowData.row.lateNotice, 'lateNotice', rowData.row)
-            }
-          />
-        );
-      },
-    },
-
-    {
       headerName: 'RPAF',
       field: 'rpaf',
       width: 150,
