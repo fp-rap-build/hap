@@ -60,16 +60,17 @@ export default function Category({ document, setRequests, setDocuments }) {
 
   const menu = (
     <Menu onClick={handleMenuClick}>
-      <Menu.Item key="childrenOrPregnancy">Children</Menu.Item>
-      <Menu.Item key="residency">Residency</Menu.Item>
-      <Menu.Item key="income">income</Menu.Item>
-      <Menu.Item key="housingInstability">Housing Instability</Menu.Item>
-      <Menu.Item key="covid">Covid</Menu.Item>
-      <Menu.Item key="lateNotice">Late Notice</Menu.Item>
-      <Menu.Item key="landlordW9">landlord W9</Menu.Item>
-      <Menu.Item key="identity">Identity</Menu.Item>
-      <Menu.Item key="lease">Lease</Menu.Item>
-      <Menu.Item key="rpaf">rpaf</Menu.Item>
+      <Menu.Item key="childrenOrPregnancy">Proof of Children</Menu.Item>
+      <Menu.Item key="residency">Proof of Residency</Menu.Item>
+      <Menu.Item key="income">Proof of Income</Menu.Item>
+      <Menu.Item key="housingInstability">
+        Proof of Housing Instability
+      </Menu.Item>
+      <Menu.Item key="covid">Proof of Covid Financial Hardship</Menu.Item>
+      <Menu.Item key="landlordW9">Landlord W9</Menu.Item>
+      <Menu.Item key="identity">Proof of Identity</Menu.Item>
+      <Menu.Item key="lease">Lease Documents</Menu.Item>
+      <Menu.Item key="rpaf">RPAF</Menu.Item>
     </Menu>
   );
 
