@@ -70,6 +70,7 @@ const findForTable = (params, user) => {
       'r.requestStatus',
       'r.requestDate',
       'p.createdAt',
+      'p.amount as amountApproved',
       'r.apmApproval',
       'r.pmApproval',
       'r.bookKeeperApproval',
