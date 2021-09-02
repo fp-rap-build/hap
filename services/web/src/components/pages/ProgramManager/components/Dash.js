@@ -7,6 +7,7 @@ import ManagedRequestsTable from '../../Admin/components/ManagedRequestsTable';
 import ArchivedRequests from '../../Admin/components/ArchivedRequests';
 import IncompleteRequests from '../../Admin/components/IncompleteRequests';
 import Analytics from '../../Admin/components/Analytics';
+import PaymentsTable from '../../Admin/components/PaymentsTable';
 
 import styles from '../../../../styles/pages/admin.module.css';
 
@@ -32,6 +33,7 @@ const Dash = () => {
 
     const validPages = {
       requests: 1,
+      payments: 1,
       yourRequests: 1,
       archive: 1,
       incomplete: 1,
@@ -60,6 +62,7 @@ const Dash = () => {
       </Header>
       <Content className={styles.dashboard}>
         {activeComponent.current === 'requests' && <RequestsTable />}
+        {activeComponent.current === 'payments' && <PaymentsTable />}
         {activeComponent.current === 'yourRequests' && <ManagedRequestsTable />}
         {activeComponent.current === 'archive' && <ArchivedRequests />}
         {activeComponent.current === 'incomplete' && <IncompleteRequests />}
