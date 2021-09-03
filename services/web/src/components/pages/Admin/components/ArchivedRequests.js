@@ -1,27 +1,26 @@
 import React, { useState, useEffect } from 'react';
 
-import { useSelector, useDispatch } from 'react-redux';
-
-import { useHistory } from 'react-router-dom';
-
 import styles from '../../../../styles/pages/admin.module.css';
 
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
+import createHAPid from '../../../../utils/general/displayHAPid';
+
 import {
   Review,
-  Archive,
   Delete,
-  Subscribe,
-  MarkIncomplete,
   UnArchive,
   Organizations,
 } from './components/Requests/Actions';
 
-import { XGrid } from '@material-ui/x-grid';
-import ExportCsv from './components/ExportCsv';
+import { XGrid, GridToolbar } from '@material-ui/x-grid';
 
-import createHAPid from '../../../../utils/general/displayHAPid';
+import {
+  updateTableWithConfig,
+  onColumnVisibilityChange,
+} from './components/Requests/PersistTableSettings';
+
+import ExportCsv from './components/ExportCsv';
 
 export default function RequestsTable() {
   const [isFetching, setIsFetching] = useState(false);
@@ -45,11 +44,19 @@ export default function RequestsTable() {
       },
     },
 
+    //    {
+    //      field: 'Delete',
+    //      width: 50,
+    //     renderCell: params => {
+    //       return <Delete setRequests={setData} requestId={params.row.id} />;
+    //   },
+    //  },
+
     {
-      field: 'Delete',
-      width: 50,
+      field: 'Organization',
+      width: 200,
       renderCell: params => {
-        return <Delete setRequests={setData} requestId={params.row.id} />;
+        return <Organizations request={params.row} />;
       },
     },
     {
@@ -61,7 +68,7 @@ export default function RequestsTable() {
     },
     {
       headerName: 'HAP ID',
-      field: 'id',
+      field: 'HAP ID',
       width: 150,
     },
     {
@@ -76,6 +83,7 @@ export default function RequestsTable() {
       field: 'email',
       width: 300,
     },
+
     {
       headerName: 'Request Status',
       field: 'requestStatus',
@@ -128,16 +136,26 @@ export default function RequestsTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    updateTableWithConfig(setColumns, 'archivedRequestsTable');
+  }, []);
+
   return (
     <div className={styles.container}>
       <h2>Archived Requests</h2>
       <XGrid
+        onColumnVisibilityChange={e =>
+          onColumnVisibilityChange(e, 'archivedRequestsTable')
+        }
+        onColumnWidthChange={e =>
+          onColumnVisibilityChange(e, 'archivedRequestsTable')
+        }
         style={{ height: 700 }}
         rows={data}
         columns={columns}
         loading={isFetching}
         components={{
-          Toolbar: ExportCsv,
+          Toolbar: GridToolbar,
         }}
       />
     </div>

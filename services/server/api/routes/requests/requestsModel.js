@@ -49,6 +49,7 @@ const findForTable = (params, user) => {
     .leftOuterJoin('documents as d', 'r.id', '=', 'd.requestId')
     .leftOuterJoin('users as m', 'r.managerId', '=', 'm.id')
     .leftOuterJoin('organizations as o', 'r.orgId', '=', 'o.id')
+    .leftOuterJoin('payments as p', 'r.id', '=', 'p.requestId')
     .orderBy('r.id', 'asc')
     .select(
       'r.id',
@@ -68,6 +69,11 @@ const findForTable = (params, user) => {
       'r.owed',
       'r.requestStatus',
       'r.requestDate',
+<<<<<<< HEAD
+=======
+      'p.createdAt',
+      'p.amount as amountApproved',
+>>>>>>> be20ff44a73bd63ad0ce0b959f070c6fd3fa84f7
       'r.apmApproval',
       'r.pmApproval',
       'r.bookKeeperApproval',
@@ -105,6 +111,10 @@ const findForTable = (params, user) => {
       'r.emailedLandlord',
       'r.childrenAges',
       'r.incomplete',
+<<<<<<< HEAD
+=======
+      'r.archived',
+>>>>>>> be20ff44a73bd63ad0ce0b959f070c6fd3fa84f7
       'a.address',
       'a.addressLine2',
       'a.zipCode',

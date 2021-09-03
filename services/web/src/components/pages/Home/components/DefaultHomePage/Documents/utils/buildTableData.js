@@ -34,13 +34,6 @@ export default function builtTableData(statuses) {
       status: statuses.lease ? statuses.lease : 'missing',
     },
     {
-      key: 'lateNotice',
-      category: 'lateNotice',
-      title: 'Late notice',
-      blurb: ' ',
-      status: statuses.lateNotice ? statuses.lateNotice : 'missing',
-    },
-    {
       key: 'income',
       category: 'income',
       title: 'Proof of all gross income for the last sixty (60) days',

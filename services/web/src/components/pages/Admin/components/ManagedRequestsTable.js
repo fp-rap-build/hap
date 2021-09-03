@@ -1,15 +1,27 @@
 import { useState, useEffect } from 'react';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
 
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
 import sortRequests from '../utils/sortRequests';
+// Helper function that pulls in requests then rearranges them to meet
+// prioritization standards (lowest AMI, then 90+ days unemployed, then BIPOC)
+
 import doesHouseholdContainPoc from '../../../../utils/general/doesHouseholdContainPoc';
+// Helper function that returns true or false depending on whether the request's household contains a poc
+
 import calculateAmi from '../../../../utils/general/calculateAmi';
+// Helper function to pull family size and monthly income from current
+// request to calculate and display the ami (Average Median Income)
+// AMI is used later to generate a new column on payments table
+// that indicates which AMI range the household is in
+
 import createHAPid from '../../../../utils/general/displayHAPid';
+// helper function to insert "HAP" before every request id prior to
+// displaying it in the table
 
 import AttachmentViewer from './components/AttachmentViewer';
 
@@ -17,29 +29,30 @@ import StatusCircle from './components/Requests/StatusCircle';
 
 import RenderDocumentStatusCell from './components/Requests/RenderDocumentStatusCell';
 
-import UploadDocModal from '../../../common/DocumentUploaderModal';
-
 import styles from '../../../../styles/pages/admin.module.css';
 
 import EmailedLLCheckbox from './components/Requests/EmailedLLCheckbox';
-import { formatDate } from '../../../../utils/dates/date';
+
 import { formatUTC } from '../../../../utils/dates';
 
 import ExportCsv from './components/ExportCsv';
 
 import {
   Review,
-  Archive,
-  Delete,
   Subscribe,
+  Archive,
   MarkIncomplete,
+  Organizations,
 } from './components/Requests/Actions';
 
-import { XGrid, GridRowsProp } from '@material-ui/x-grid';
+import {
+  updateTableWithConfig,
+  onColumnVisibilityChange,
+} from './components/Requests/PersistTableSettings';
+
+import { XGrid, GridToolbar } from '@material-ui/x-grid';
 
 export default function ManagedRequestsTable() {
-  const history = useHistory();
-
   const currentUser = useSelector(state => state.user.currentUser);
 
   const subscriptions = formatSubscriptions(currentUser.subscriptions);
@@ -54,11 +67,7 @@ export default function ManagedRequestsTable() {
 
   const [request, setRequest] = useState({});
 
-  const [docModalVisible, setDocModalVisible] = useState(false);
-
   const [documents, setDocuments] = useState({});
-
-  const redirectToReview = id => history.push(`/requests/${id}`);
 
   const fetchRequests = async () => {
     setIsFetching(true);
@@ -174,17 +183,24 @@ export default function ManagedRequestsTable() {
       },
     },
 
+    // {
+    //   field: 'Delete',
+    //    width: 50,
+    //    renderCell: params => {
+    //      return <Delete setRequests={setData} requestId={params.row.id} />;
+    //   },
+    //  },
     {
-      field: 'Delete',
-      width: 50,
+      field: 'Organization',
+      width: 200,
       renderCell: params => {
-        return <Delete setRequests={setData} requestId={params.row.id} />;
+        return <Organizations request={params.row} />;
       },
     },
 
     {
       headerName: 'HAP ID',
-      field: 'id',
+      field: 'HAP ID',
       width: 150,
     },
     {
@@ -341,23 +357,6 @@ export default function ManagedRequestsTable() {
     },
 
     {
-      headerName: 'LATE',
-      field: 'lateNotice',
-      width: 150,
-      renderCell: rowData => {
-        return (
-          <RenderDocumentStatusCell
-            category="lateNotice"
-            docs={rowData.row.lateNotice}
-            openDocument={() =>
-              openDocument(rowData.row.lateNotice, 'lateNotice', rowData.row)
-            }
-          />
-        );
-      },
-    },
-
-    {
       headerName: 'RPAF',
       field: 'rpaf',
       width: 150,
@@ -476,6 +475,10 @@ export default function ManagedRequestsTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    updateTableWithConfig(setColumns, 'managedRequestTable');
+  }, []);
+
   const openDocument = (docs, category, currentRequest) => {
     setRequest(currentRequest);
 
@@ -485,12 +488,6 @@ export default function ManagedRequestsTable() {
 
     setVisible(true);
   };
-
-  const rows = [
-    { id: 1, col1: 'Hello', col2: 'World' },
-    { id: 2, col1: 'XGrid', col2: 'is Awesome' },
-    { id: 3, col1: 'Material-UI', col2: 'is Amazing' },
-  ];
 
   return (
     <div>
@@ -509,12 +506,18 @@ export default function ManagedRequestsTable() {
         />
 
         <XGrid
+          onColumnVisibilityChange={e =>
+            onColumnVisibilityChange(e, 'managedRequestTable')
+          }
+          onColumnWidthChange={e =>
+            onColumnVisibilityChange(e, 'managedRequestTable')
+          }
           style={{ height: 700 }}
           rows={data}
           columns={columns}
           loading={isFetching}
           components={{
-            Toolbar: ExportCsv,
+            Toolbar: GridToolbar,
           }}
         />
       </div>

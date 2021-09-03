@@ -25,12 +25,14 @@ export default function Index() {
           <h1>Are you in need of Housing Assistance?</h1>
 
           <h4>
-            We have run out of funding, but we are expecting more.
             <strong> You CAN still apply now.</strong>
           </h4>
 
           <h4>
-            <em>(It may take up to a month for us to respond.)</em>
+            <em>
+              (Due to the volume of requests, it may take up to a month for us
+              to respond.)
+            </em>
           </h4>
 
           <Button onClick={redirectToRentalAssistanceForm}>

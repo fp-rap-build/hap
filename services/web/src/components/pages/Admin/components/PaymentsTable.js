@@ -1,16 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 import { message, Modal } from 'antd';
+
+// Helper function to pull family size and monthly income from current
+// request to calculate and display the ami (Average Median Income)
+// AMI is used later to generate a new column on payments table
+// that indicates which AMI range the household is in
 import calculateAmi from '../../../../utils/general/calculateAmi';
 
 import Container from './components/Requests/Actions/Container';
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import { XGrid } from '@material-ui/x-grid';
+import { XGrid, GridToolbar } from '@material-ui/x-grid';
 import ExportCsv from './components/ExportCsv';
-import { tableIcons } from '../../../../utils/tableIcons';
+
+// helper function to insert "HAP" before every request id prior to
+// displaying it in the table
 import createHAPid from '../../../../utils/general/displayHAPid';
+
+// Helper function to pull dob from request to calculate age then create a new
+// column that indicates if the head of household is a youth or not
+import YouthHOH from '../../../../utils/general/youthHOH';
 
 export default function PaymentsTable() {
   const [isFetching, setIsFetching] = useState(false);
@@ -18,80 +29,115 @@ export default function PaymentsTable() {
   const [data, setData] = useState([]);
 
   const [columns, setColumns] = useState([
-    {
-      headerName: 'Delete',
-      field: 'delete',
-      renderCell: params => (
-        <DeletePayment row={params.row} setData={setData} />
-      ),
-    },
-
+    //  {
+    //    headerName: 'Delete',
+    //    field: 'delete',
+    //    renderCell: params => (
+    //      <DeletePayment row={params.row} setData={setData} />
+    //    ),
+    //  },
     {
       headerName: 'HAP ID',
-      field: 'requestId',
+      field: 'HAP ID',
       width: 170,
     },
+
+    { headerName: 'HoH is 18-24', field: 'youth', width: 170 },
     { headerName: 'First', field: 'firstName', width: 170 },
     { headerName: 'Last ', field: 'lastName', width: 170 },
     {
       headerName: 'Email',
       field: 'email',
       type: 'string',
-
       width: 170,
     },
     { headerName: 'Gender', field: 'gender', width: 170 },
     { headerName: 'Race', field: 'race', width: 170 },
+    { headerName: 'Tenant Zipcode', field: 'zipCode', width: 170 },
     { headerName: 'Ethnicity', field: 'ethnicity', width: 170 },
-    {
-      headerName: 'Household Size',
-      field: 'familySize',
-
-      width: 170,
-    },
-    {
-      headerName: 'Total Children',
-      field: 'totalChildren',
-
-      width: 170,
-    },
+    { headerName: 'Household Size', field: 'familySize', width: 170 },
+    { headerName: 'Total Children', field: 'totalChildren', width: 170 },
     {
       headerName: 'Children Ages',
       field: 'childrenAges',
-
       width: 170,
     },
     {
       headerName: 'Monthly Income',
       field: 'monthlyIncome',
-
       width: 170,
     },
-    { headerName: 'Monthly Rent', field: 'monthlyRent', width: 170 },
-    { headerName: 'AMI', field: 'ami', width: 170 },
-
+    { title: 'First', field: 'firstName', editable: 'never' },
+    { title: 'Last ', field: 'lastName', editable: 'never' },
+    { title: 'Email', field: 'email', type: 'string', editable: 'never' },
+    { title: 'Gender', field: 'gender', editable: 'always' },
+    { title: 'Race', field: 'race', editable: 'always' },
+    { title: 'Tenant Zip', field: 'zipCode', editable: 'never' },
+    { title: 'Ethnicity', field: 'ethnicity', editable: 'always' },
+    { title: 'Household Size', field: 'familySize', editable: 'always' },
+    { title: 'Total Children', field: 'totalChildren', editable: 'always' },
+    { title: 'Children Ages', field: 'childrenAges', editable: 'never' },
+    { title: 'Monthly Income', field: 'monthlyIncome', editable: 'always' },
+    { title: 'Monthly Rent', field: 'monthlyRent', editable: 'always' },
+    { title: 'AMI', field: 'ami', editable: 'never' },
+    { title: 'AMI Range', field: 'AMI range', editable: 'never' },
     {
       headerName: 'Program',
       field: 'program',
       type: 'string',
-
       width: 170,
     },
-
     {
-      headerName: 'Amount',
+      headerName: 'Landlord Name',
+      field: 'landlordName',
+      type: 'string',
+      width: 170,
+      editable: 'always',
+    },
+    {
+      headerName: 'Amount Back Paid',
+      field: 'amountBack',
+      type: 'string',
+      width: 170,
+      editable: 'always',
+    },
+    {
+      headerName: 'Amount Forward Paid',
+      field: 'amountForward',
+      type: 'string',
+      width: 170,
+      editable: 'always',
+    },
+    {
+      headerName: 'Total Amount Paid',
       field: 'amount',
       width: 170,
-      editable: true,
+      editable: 'always',
     },
-
+    {
+      headerName: 'Difference',
+      field: 'difference',
+      width: 170,
+      editable: 'never',
+    },
+    {
+      headerName: 'Months Back',
+      field: 'monthsBack',
+      width: 170,
+      editable: 'always',
+    },
+    {
+      headerName: 'Months Forward',
+      field: 'monthsForward',
+      width: 170,
+      editable: 'always',
+    },
     {
       headerName: 'Date Requested',
       field: 'requestDate',
       type: 'date',
       width: 170,
     },
-
     {
       headerName: 'Date Approved',
       field: 'approveDate',
@@ -107,23 +153,43 @@ export default function PaymentsTable() {
 
       let payments = res.data.payments.map(payment => {
         payment['race'] = '';
+        payment['difference'] =
+          payment['amountForward'] + payment['amountBack'] - payment['amount'];
+        payment['race_count'] = 0;
         payment['ethnicity'] = '';
         payment['HAP ID'] = createHAPid(payment.requestId);
+        payment['youth'] = YouthHOH(payment.dob);
 
         let races = {
-          black: payment.black,
-          white: payment.white,
-          asian: payment.asian,
-          pacific: payment.pacific,
+          'Black or African American': payment.black,
+          'American Indian or Alaska Native': payment.native,
+          Asian: payment.asian,
+          'Client refused': payment.demoNotSay,
+          White: payment.white,
+          'Native Hawaiian or Other Pacific Islander': payment.pacific,
         };
 
         if (payment['hispanic']) {
-          payment['ethnicity'] = 'hispanic';
+          payment['ethnicity'] = 'Hispanic / Latinx';
+        } else {
+          payment['ethnicity'] = 'Non-Hispanic / Non-Latinx';
         }
 
         for (let race in races) {
           if (races[race]) {
-            payment['race'] += ' ' + race;
+            payment['race_count'] += 1;
+          }
+        }
+
+        if (payment['race_count'] > 1) {
+          payment['race'] = 'Multi-Racial';
+        } else {
+          payment['race'] = payment.race;
+
+          for (let race in races) {
+            if (races[race]) {
+              payment['race'] = race;
+            }
           }
         }
 
@@ -131,6 +197,14 @@ export default function PaymentsTable() {
           payment.monthlyIncome,
           payment.familySize
         );
+
+        if (payment['ami'] < 30) {
+          payment['AMI range'] = `30% AMI or less`;
+        } else if (payment['ami'] <= 50 && payment['ami'] >= 30) {
+          payment['AMI range'] = `Between 31% AMI and 50% AMI`;
+        } else if (payment['ami'] >= 51) {
+          payment['AMI range'] = `Between 51% AMI and 80% AMI`;
+        }
 
         return payment;
       });
@@ -158,14 +232,30 @@ export default function PaymentsTable() {
         rows={data}
         columns={columns}
         loading={isFetching}
-        onCellEditCommit={e => updatePayment(e)}
+        onCellEditCommit={payment => editPayment(payment)}
         components={{
-          Toolbar: ExportCsv,
+          Toolbar: GridToolbar,
         }}
       />
     </>
   );
 }
+
+const editPayment = async row => {
+  const { id, field, value } = row;
+
+  const payload = {};
+
+  payload[field] = value;
+
+  try {
+    await axiosWithAuth().put(`/payments/${id}`, payload);
+  } catch (error) {
+    message.error(
+      'Unable to update the payment, please wait a moment and then try again.'
+    );
+  }
+};
 
 const DeletePayment = ({ row, setData }) => {
   const onPaymentDelete = (row, setData) => {
