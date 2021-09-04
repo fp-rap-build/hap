@@ -5,6 +5,7 @@ import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 import { useSelector } from 'react-redux';
 
 import socket from '../../../../../../config/socket';
+import { Payment } from '@material-ui/icons';
 
 export default function ApproveRequestModal({
   isApprovedModalVisible,
@@ -25,6 +26,8 @@ export default function ApproveRequestModal({
 
   const [amountToSend, setAmountToSend] = useState(null);
 
+  const [numofMonthsBack, setNumofMonthsBack] = useState(null);
+
   const currentUser = useSelector(state => state.user.currentUser);
 
   const handlePaymentSubmit = async () => {
@@ -35,6 +38,10 @@ export default function ApproveRequestModal({
       requestId: request.id,
       programId: selectedProgram.id,
       amount: amountToSend,
+      monthsBack: numofMonthsBack,
+      amountBack: 0,
+      monthsForward: 0,
+      amountForward: 0,
     };
 
     try {
@@ -57,7 +64,6 @@ export default function ApproveRequestModal({
         return {
           ...prevState,
           requestStatus: 'approved',
-          
         };
       });
 
@@ -97,6 +103,8 @@ export default function ApproveRequestModal({
           selectedProgram={selectedProgram}
           amountToSend={amountToSend}
           setAmountToSend={setAmountToSend}
+          numofMonthsBack={numofMonthsBack}
+          setNumofMonthsBack={setNumofMonthsBack}
         />
       )}
     </Modal>
@@ -131,7 +139,13 @@ const ProgramsSelection = ({
   );
 };
 
-const SubmitPayment = ({ selectedProgram, amountToSend, setAmountToSend }) => {
+const SubmitPayment = ({
+  selectedProgram,
+  amountToSend,
+  setAmountToSend,
+  numofMonthsBack,
+  setNumofMonthsBack,
+}) => {
   const [budget, setBudget] = useState(selectedProgram.budget);
 
   const onChange = e => {
@@ -149,6 +163,11 @@ const SubmitPayment = ({ selectedProgram, amountToSend, setAmountToSend }) => {
     setBudget(selectedProgram.budget - e.target.value);
   };
 
+  const onMonthBackChange = e => {
+    const { value } = e.target;
+    setNumofMonthsBack(value);
+  };
+
   return (
     <div>
       <h1>Submit payment</h1>
@@ -158,6 +177,12 @@ const SubmitPayment = ({ selectedProgram, amountToSend, setAmountToSend }) => {
         name="payment"
         placeholder="Amount approved"
         value={amountToSend}
+      />
+      <Input
+        onChange={onMonthBackChange}
+        name="monthsBack"
+        placeholder="Months Back"
+        value={numofMonthsBack}
       />
     </div>
   );

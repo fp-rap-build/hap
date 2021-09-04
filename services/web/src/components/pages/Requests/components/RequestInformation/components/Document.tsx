@@ -139,15 +139,16 @@ const RenderCategory = ({ category, editing, doc, handleCategoryChange }) => {
         style={{ width: 160 }}
         onChange={handleCategoryChange}
       >
-        <Option value="childrenOrPregnancy">children</Option>
-        <Option value="residency">residency</Option>
-        <Option value="income">income</Option>
-        <Option value="housingInstability">housing</Option>
-        <Option value="covid">covid</Option>
+        <Option value="childrenOrPregnancy">Proof of Children</Option>
+        <Option value="residency">Proof of Residency</Option>
+        <Option value="income">Proof of Income</Option>
+        <Option value="housingInstability">Proof of Housing Instability</Option>
+        <Option value="covid">Covid Financial Hardship</Option>
         <Option value="rpaf">RPAF</Option>
         <Option value="lease">Lease</Option>
         <Option value="landlordW9">Landlord W9</Option>
-        <Option value="other">other</Option>
+        <Option value="identity">Identity</Option>
+        <Option value="other">Other</Option>
       </Select>
     );
   }
