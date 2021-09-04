@@ -28,10 +28,25 @@ export default function ApproveRequestModal({
 
   const [numofMonthsBack, setNumofMonthsBack] = useState(null);
 
+  const [numofMonthsForward, setNumofMonthsForward] = useState(null);
+
+  const [amountForward, setAmountForward] = useState(null);
+
+  const [amountBack, setAmountBack] = useState(null);
+
+  const [totalArrears, setTotalArrears] = useState(null);
+
   const currentUser = useSelector(state => state.user.currentUser);
 
   const handlePaymentSubmit = async () => {
     if (!amountToSend) return message.error('Please enter a valid amount');
+    if (!numofMonthsBack)
+      return message.error('Please enter a valid number of months');
+    if (!numofMonthsForward)
+      return message.error('Please enter a valid number of months');
+    if (!amountBack) return message.error('Please enter a valid amount');
+    if (!amountForward) return message.error('Please enter a valid amount');
+    if (!totalArrears) return message.error('Please enter a valid amount');
 
     const payment = {
       payerId: currentUser.id,
@@ -39,9 +54,10 @@ export default function ApproveRequestModal({
       programId: selectedProgram.id,
       amount: amountToSend,
       monthsBack: numofMonthsBack,
-      amountBack: 0,
-      monthsForward: 0,
-      amountForward: 0,
+      amountBack: amountBack,
+      monthsForward: numofMonthsForward,
+      amountForward: amountForward,
+      totalArrears: totalArrears,
     };
 
     try {
@@ -104,7 +120,15 @@ export default function ApproveRequestModal({
           amountToSend={amountToSend}
           setAmountToSend={setAmountToSend}
           numofMonthsBack={numofMonthsBack}
+          numofMonthsForward={numofMonthsForward}
           setNumofMonthsBack={setNumofMonthsBack}
+          setNumofMonthsForward={setNumofMonthsForward}
+          setAmountForward={setAmountForward}
+          setAmountBack={setAmountBack}
+          amountForward={amountForward}
+          amountBack={amountBack}
+          setTotalArrears={setTotalArrears}
+          totalArrears={totalArrears}
         />
       )}
     </Modal>
@@ -145,6 +169,14 @@ const SubmitPayment = ({
   setAmountToSend,
   numofMonthsBack,
   setNumofMonthsBack,
+  setNumofMonthsForward,
+  numofMonthsForward,
+  amountForward,
+  amountBack,
+  setAmountForward,
+  setAmountBack,
+  setTotalArrears,
+  totalArrears,
 }) => {
   const [budget, setBudget] = useState(selectedProgram.budget);
 
@@ -163,9 +195,29 @@ const SubmitPayment = ({
     setBudget(selectedProgram.budget - e.target.value);
   };
 
+  const onTotalArrearsChange = e => {
+    const { value } = e.target;
+    setTotalArrears(value);
+  };
+
   const onMonthBackChange = e => {
     const { value } = e.target;
     setNumofMonthsBack(value);
+  };
+
+  const onMonthForwardChange = e => {
+    const { value } = e.target;
+    setNumofMonthsForward(value);
+  };
+
+  const onAmountForwardChange = e => {
+    const { value } = e.target;
+    setAmountForward(value);
+  };
+
+  const onAmountBackChange = e => {
+    const { value } = e.target;
+    setAmountBack(value);
   };
 
   return (
@@ -183,6 +235,30 @@ const SubmitPayment = ({
         name="monthsBack"
         placeholder="Months Back"
         value={numofMonthsBack}
+      />
+      <Input
+        onChange={onTotalArrearsChange}
+        name="totalArrears"
+        placeholder="Total Arrears"
+        value={totalArrears}
+      />
+      <Input
+        onChange={onMonthForwardChange}
+        name="monthsForward"
+        placeholder="Months Forward"
+        value={numofMonthsForward}
+      />
+      <Input
+        onChange={onAmountForwardChange}
+        name="amountForward"
+        placeholder="Amount Forward"
+        value={amountForward}
+      />
+      <Input
+        onChange={onAmountBackChange}
+        name="amountBack"
+        placeholder="Amount Back"
+        value={amountBack}
       />
     </div>
   );
