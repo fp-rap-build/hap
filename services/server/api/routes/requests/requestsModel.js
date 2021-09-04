@@ -69,11 +69,8 @@ const findForTable = (params, user) => {
       'r.owed',
       'r.requestStatus',
       'r.requestDate',
-<<<<<<< HEAD
-=======
       'p.createdAt',
       'p.amount as amountApproved',
->>>>>>> be20ff44a73bd63ad0ce0b959f070c6fd3fa84f7
       'r.apmApproval',
       'r.pmApproval',
       'r.bookKeeperApproval',
@@ -111,10 +108,7 @@ const findForTable = (params, user) => {
       'r.emailedLandlord',
       'r.childrenAges',
       'r.incomplete',
-<<<<<<< HEAD
-=======
       'r.archived',
->>>>>>> be20ff44a73bd63ad0ce0b959f070c6fd3fa84f7
       'a.address',
       'a.addressLine2',
       'a.zipCode',

@@ -23,6 +23,8 @@ import {
   Status,
 } from './forms';
 
+import { INITIAL_VALUES } from '../utils/initialFormValues';
+
 const { Header, Content, Sider, Footer } = Layout;
 const { Title } = Typography;
 
@@ -30,6 +32,8 @@ export default function Index() {
   const dispatch = useDispatch();
 
   //UI State
+  const [formValues, setFormValues] = useState(INITIAL_VALUES());
+  const [errorMessage, setErrorMessage] = useState(null);
   const [collapsed, setCollapsed] = useState(true);
   const [currentContent, setCurrentContent] = useState('createAccount');
 
@@ -46,8 +50,64 @@ export default function Index() {
     }
   };
 
+  const handleChange = e => {
+    // Clean up any error message after the user types
+    if (errorMessage) {
+      setErrorMessage(null);
+    }
+
+    setFormValues({
+      ...formValues,
+      [e.target.name]: e.target.value,
+    });
+
+    console.log(formValues);
+  };
+
+  function onStateChange(value) {
+    setFormValues({ ...formValues, state: value });
+  }
+
+  const handleDateChange = (value, dateString) => {
+    setFormValues({
+      ...formValues,
+      dob: dateString,
+    });
+  };
+
+  function onDateChange(value) {
+    setFormValues({ ...formValues, dob: value });
+  }
+
+  function onGenderChange(value) {
+    setFormValues({ ...formValues, gender: value });
+  }
+
+  const onRoleChange = value => {
+    setFormValues({ ...formValues, role: value });
+  };
+
+  const handleCheckBoxChange = e => {
+    e.stopPropagation();
+
+    const { name, checked } = e.target;
+
+    setFormValues({ ...formValues, [name]: checked });
+  };
+
   const props = {
     currentContent,
+    setCurrentContent,
+    formValues,
+    setFormValues,
+    errorMessage,
+    setErrorMessage,
+    handleChange,
+    onStateChange,
+    onDateChange,
+    onGenderChange,
+    onRoleChange,
+    handleCheckBoxChange,
   };
 
   return (
@@ -62,6 +122,7 @@ export default function Index() {
         >
           <Menu
             defaultSelectedKeys={['createAccount']}
+            selectedKeys={[currentContent]}
             mode="inline"
             inlineCollapsed={collapsed}
           >
@@ -159,7 +220,7 @@ export default function Index() {
 const renderContent = props => {
   switch (props.currentContent) {
     case 'createAccount':
-      return <CreateAccount />;
+      return <CreateAccount {...props} />;
     case 'landlord':
       return <Landlord />;
     case 'address':
