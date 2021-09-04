@@ -95,6 +95,14 @@ export default function PaymentsTable() {
       editable: 'always',
     },
     {
+      headerName: 'Total Outstanding Arrears',
+      field: 'totalArrears',
+      defaultValue: 'amountRequested',
+      type: 'string',
+      width: 170,
+      editable: 'always',
+    },
+    {
       headerName: 'Amount Back Paid',
       field: 'amountBack',
       type: 'string',
