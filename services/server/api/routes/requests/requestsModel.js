@@ -196,7 +196,6 @@ const findById = (id) => {
       'r.whiteHOH',
       'r.nativeHOH',
       'r.demoNotSayHOH',
-      'r.beds',
       'r.tenantEmail',
       'r.tenantNumber',
       'r.landlordName',
