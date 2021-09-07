@@ -40,23 +40,18 @@ import { formatUTC } from '../../../../utils/dates';
 import {
   Review,
   Archive,
-  //Delete,
+  // Delete,
   Subscribe,
   MarkIncomplete,
   Organizations,
 } from './components/Requests/Actions';
-
-import { XGrid, GridToolbar } from '@material-ui/x-grid';
 
 import {
   updateTableWithConfig,
   onColumnVisibilityChange,
 } from './components/Requests/PersistTableSettings';
 
-//import { LeakRemoveTwoTone } from '@material-ui/icons';
-//import { Alert } from 'antd';
-
-//import { SdStorage } from '@material-ui/icons';
+import { XGrid, GridToolbar } from '@material-ui/x-grid';
 
 export default function ManagedRequestsTable() {
   const history = useHistory();
@@ -82,7 +77,10 @@ export default function ManagedRequestsTable() {
     try {
       let requests = await axiosWithAuth()
         .get('/requests/table', {
-          params: {},
+          params: {
+            archived: false,
+            incomplete: true,
+          },
         })
         .then(res => res.data);
 
@@ -93,22 +91,7 @@ export default function ManagedRequestsTable() {
           request.familySize
         );
 
-        request['unEmp90'] = request.unEmp90 ? 'Yes' : 'No';
-
-        request['archived'] = request.archived ? 'Yes' : 'No';
-
-        request['requestStatus'] =
-          request.requestStatus[0].toUpperCase() +
-          request.requestStatus.slice(1);
-
-        request['cityName'] =
-          request.cityName[0].toUpperCase() + request.cityName.slice(1);
-
         request['poc'] = doesHouseholdContainPoc(request);
-
-        request['archived'] = request.archived ? 'Yes' : 'No';
-
-        request['incomplete'] = request.incomplete ? 'Yes' : 'No';
 
         request['HAP ID'] = createHAPid(request.id);
 
@@ -168,12 +151,9 @@ export default function ManagedRequestsTable() {
     }
   };
 
-  const [orgs, setOrgs] = useState([]);
-
   const [columns, setColumns] = useState([
     {
       field: 'Review',
-      description: 'Review',
       width: 50,
       renderCell: params => {
         return <Review requestId={params.row.id} />;
@@ -206,11 +186,11 @@ export default function ManagedRequestsTable() {
       },
     },
 
-    //{
-    //    field: 'Delete',
-    //    width: 50,
+    //  {
+    //   field: 'Delete',
+    //   width: 50,
     //    renderCell: params => {
-    //      return <Delete setRequests={setData} requestId={params.row.id} />;
+    //     return <Delete setRequests={setData} requestId={params.row.id} />;
     //    },
     //  },
     {
@@ -219,16 +199,6 @@ export default function ManagedRequestsTable() {
       renderCell: params => {
         return <Organizations request={params.row} />;
       },
-    },
-    {
-      headerName: 'Archived',
-      field: 'archived',
-      width: 150,
-    },
-    {
-      headerName: 'Complete',
-      field: 'incomplete',
-      width: 150,
     },
     {
       headerName: 'HAP ID',
@@ -243,7 +213,7 @@ export default function ManagedRequestsTable() {
     { headerName: 'First', field: 'firstName', width: 150 },
     { headerName: 'Last ', field: 'lastName', width: 150 },
     {
-      headerName: 'Email',
+      headerName: 'email',
       field: 'email',
       width: 150,
     },
@@ -389,6 +359,23 @@ export default function ManagedRequestsTable() {
     },
 
     {
+      headerName: 'LATE',
+      field: 'lateNotice',
+      width: 150,
+      renderCell: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            category="lateNotice"
+            docs={rowData.row.lateNotice}
+            openDocument={() =>
+              openDocument(rowData.row.lateNotice, 'lateNotice', rowData.row)
+            }
+          />
+        );
+      },
+    },
+
+    {
       headerName: 'RPAF',
       field: 'rpaf',
       width: 150,
@@ -427,23 +414,6 @@ export default function ManagedRequestsTable() {
     },
 
     {
-      headerName: 'Other',
-      field: 'other',
-      width: 150,
-      renderCell: rowData => {
-        return (
-          <RenderDocumentStatusCell
-            category="other"
-            docs={rowData.row.other}
-            openDocument={() =>
-              openDocument(rowData.row.other, 'other', rowData.row)
-            }
-          />
-        );
-      },
-    },
-
-    {
       headerName: 'EMLL',
       field: 'emailedLandlord',
       width: 150,
@@ -469,37 +439,33 @@ export default function ManagedRequestsTable() {
       width: 150,
     },
     {
-      headerName: 'Un-employed for 90+ Days?',
+      headerName: 'unEmp90',
       field: 'unEmp90',
       width: 150,
     },
     {
-      headerName: 'Household is BIPOC?',
+      headerName: 'BIPOC',
       field: 'poc',
       width: 150,
     },
     {
-      headerName: 'Amount Requested',
-      description: 'Amount Requested',
+      headerName: 'Amount',
       field: 'amountRequested',
       width: 150,
     },
     {
       headerName: 'Address',
-      description: 'Address',
       field: 'address',
       width: 150,
     },
     {
       headerName: 'City',
-      description: 'City',
       field: 'cityName',
       width: 150,
     },
 
     {
       headerName: 'LN',
-      description: 'LN',
       field: 'landlordName',
       width: 200,
     },
@@ -520,23 +486,7 @@ export default function ManagedRequestsTable() {
       },
     },
 
-    {
-      headerName: 'date',
-      field: 'requestDate',
-      type: 'date',
-      width: 150,
-    },
-    {
-      headerName: 'Date Approved',
-      field: 'createdAt',
-      type: 'date',
-      width: 150,
-    },
-    {
-      headerName: 'Amount Approved',
-      field: 'amountApproved',
-      width: 150,
-    },
+    { headerName: 'date', field: 'requestDate', type: 'date', width: 150 },
   ]);
 
   useEffect(() => {
@@ -545,7 +495,7 @@ export default function ManagedRequestsTable() {
   }, []);
 
   useEffect(() => {
-    updateTableWithConfig(setColumns, 'requestsTable');
+    updateTableWithConfig(setColumns, 'incompleteRequests');
   }, []);
 
   const openDocument = (docs, category, currentRequest) => {
@@ -561,7 +511,7 @@ export default function ManagedRequestsTable() {
   return (
     <div>
       <div className={styles.container}>
-        <h2>Manage All Requests</h2>
+        <h2>Incomplete Requests</h2>
 
         <AttachmentViewer
           visible={visible}
@@ -576,10 +526,10 @@ export default function ManagedRequestsTable() {
 
         <XGrid
           onColumnVisibilityChange={e =>
-            onColumnVisibilityChange(e, 'requestsTable')
+            onColumnVisibilityChange(e, 'incompleteRequests')
           }
           onColumnWidthChange={e =>
-            onColumnVisibilityChange(e, 'requestsTable')
+            onColumnVisibilityChange(e, 'incompleteRequests')
           }
           style={{ height: 700 }}
           rows={data}

@@ -19,11 +19,11 @@ export default function UsersTable() {
   const [isFetching, setIsFetching] = useState(false);
 
   const [columns, setColumns] = useState([
-    {
-      headerName: 'Delete',
-      field: 'delete',
-      renderCell: params => <DeleteUser row={params.row} setData={setData} />,
-    },
+    /// {
+    ///   headerName: 'Delete',
+    ///   field: 'delete',
+    ///   renderCell: params => <DeleteUser row={params.row} setData={setData} />,
+    /// },
 
     { headerName: 'First', field: 'firstName', flex: 1, editable: true },
     { headerName: 'Last ', field: 'lastName', flex: 1, editable: true },

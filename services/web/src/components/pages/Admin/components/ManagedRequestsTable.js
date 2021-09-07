@@ -39,18 +39,20 @@ import ExportCsv from './components/ExportCsv';
 
 import {
   Review,
-  Archive,
-  Delete,
   Subscribe,
+  Archive,
   MarkIncomplete,
   Organizations,
 } from './components/Requests/Actions';
 
-import { XGrid } from '@material-ui/x-grid';
+import {
+  updateTableWithConfig,
+  onColumnVisibilityChange,
+} from './components/Requests/PersistTableSettings';
+
+import { XGrid, GridToolbar } from '@material-ui/x-grid';
 
 export default function ManagedRequestsTable() {
-  const history = useHistory();
-
   const currentUser = useSelector(state => state.user.currentUser);
 
   const subscriptions = formatSubscriptions(currentUser.subscriptions);
@@ -146,7 +148,7 @@ export default function ManagedRequestsTable() {
     }
   };
 
-  const [columns] = useState([
+  const [columns, setColumns] = useState([
     {
       field: 'Review',
       width: 50,
@@ -355,23 +357,6 @@ export default function ManagedRequestsTable() {
     },
 
     {
-      headerName: 'LATE',
-      field: 'lateNotice',
-      width: 150,
-      renderCell: rowData => {
-        return (
-          <RenderDocumentStatusCell
-            category="lateNotice"
-            docs={rowData.row.lateNotice}
-            openDocument={() =>
-              openDocument(rowData.row.lateNotice, 'lateNotice', rowData.row)
-            }
-          />
-        );
-      },
-    },
-
-    {
       headerName: 'RPAF',
       field: 'rpaf',
       width: 150,
@@ -490,6 +475,10 @@ export default function ManagedRequestsTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    updateTableWithConfig(setColumns, 'managedRequestTable');
+  }, []);
+
   const openDocument = (docs, category, currentRequest) => {
     setRequest(currentRequest);
 
@@ -499,12 +488,6 @@ export default function ManagedRequestsTable() {
 
     setVisible(true);
   };
-
-  const rows = [
-    { id: 1, col1: 'Hello', col2: 'World' },
-    { id: 2, col1: 'XGrid', col2: 'is Awesome' },
-    { id: 3, col1: 'Material-UI', col2: 'is Amazing' },
-  ];
 
   return (
     <div>
@@ -523,12 +506,18 @@ export default function ManagedRequestsTable() {
         />
 
         <XGrid
+          onColumnVisibilityChange={e =>
+            onColumnVisibilityChange(e, 'managedRequestTable')
+          }
+          onColumnWidthChange={e =>
+            onColumnVisibilityChange(e, 'managedRequestTable')
+          }
           style={{ height: 700 }}
           rows={data}
           columns={columns}
           loading={isFetching}
           components={{
-            Toolbar: ExportCsv,
+            Toolbar: GridToolbar,
           }}
         />
       </div>

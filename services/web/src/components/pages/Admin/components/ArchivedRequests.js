@@ -13,7 +13,13 @@ import {
   Organizations,
 } from './components/Requests/Actions';
 
-import { XGrid } from '@material-ui/x-grid';
+import { XGrid, GridToolbar } from '@material-ui/x-grid';
+
+import {
+  updateTableWithConfig,
+  onColumnVisibilityChange,
+} from './components/Requests/PersistTableSettings';
+
 import ExportCsv from './components/ExportCsv';
 
 export default function RequestsTable() {
@@ -21,7 +27,7 @@ export default function RequestsTable() {
 
   const [data, setData] = useState([]);
 
-  const [columns] = useState([
+  const [columns, setColumns] = useState([
     {
       field: 'Review',
       width: 50,
@@ -130,16 +136,26 @@ export default function RequestsTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    updateTableWithConfig(setColumns, 'archivedRequestsTable');
+  }, []);
+
   return (
     <div className={styles.container}>
       <h2>Archived Requests</h2>
       <XGrid
+        onColumnVisibilityChange={e =>
+          onColumnVisibilityChange(e, 'archivedRequestsTable')
+        }
+        onColumnWidthChange={e =>
+          onColumnVisibilityChange(e, 'archivedRequestsTable')
+        }
         style={{ height: 700 }}
         rows={data}
         columns={columns}
         loading={isFetching}
         components={{
-          Toolbar: ExportCsv,
+          Toolbar: GridToolbar,
         }}
       />
     </div>
