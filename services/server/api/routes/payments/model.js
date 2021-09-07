@@ -20,10 +20,7 @@ exports.findForTable = () =>
       'p.amountForward',
       'p.amount',
       'p.monthsBack',
-<<<<<<< HEAD
-=======
       'p.totalArrears',
->>>>>>> main
       'p.monthsForward',
       'p.createdAt as approveDate',
       'r.requestDate as requestDate',
