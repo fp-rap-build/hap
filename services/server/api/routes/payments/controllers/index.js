@@ -11,8 +11,6 @@ exports.findForTable = async (req, res, next) => {
   }
 };
 
-
-
 exports.updatePayment = async (req, res, next) => {
   const { id } = req.params;
 
