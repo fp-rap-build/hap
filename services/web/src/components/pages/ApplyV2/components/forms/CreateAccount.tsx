@@ -4,11 +4,21 @@ import { useState } from 'react';
 
 import FPTitle from '../../../Apply/FPTitle';
 
-import { Form, Input, Card, Typography, Divider, Button } from 'antd';
+import {
+  Form,
+  Input,
+  Card,
+  Typography,
+  Divider,
+  Button,
+  DatePicker,
+} from 'antd';
 
 import { axiosWithAuth } from '../../../../../api/axiosWithAuth';
 
 import { setCurrentUser } from '../../../../../redux/users/userActions';
+
+import { setCurrentRequest } from '../../../../../redux/requests/requestActions';
 
 const { Text } = Typography;
 
@@ -18,6 +28,7 @@ export default function CreateAccount({
   setCurrentContent,
   errorMessage,
   setErrorMessage,
+  onDateChange,
 }) {
   const dispatch = useDispatch();
 
@@ -33,7 +44,8 @@ export default function CreateAccount({
           formValues,
           setErrorMessage,
           setLoading,
-          setCurrentContent
+          setCurrentContent,
+          setCurrentRequest
         )
       }
     >
@@ -58,6 +70,7 @@ export default function CreateAccount({
         </p>
 
         <Divider dashed />
+
         <Form.Item
           hasFeedback
           initialValue={formValues.firstName}
@@ -96,6 +109,19 @@ export default function CreateAccount({
             value={formValues.lastName}
           />
         </Form.Item>
+
+        <Form.Item
+          name="dob"
+          label="Date of Birth (YYYY-MM-DD)"
+          rules={[{ required: true, message: 'Date of Birth is required' }]}
+        >
+          <DatePicker
+            placeholder="1981-02-13"
+            onChange={onDateChange}
+            value={formValues.dob}
+          ></DatePicker>
+        </Form.Item>
+
         <Form.Item
           hasFeedback
           initialValue={formValues.email}
@@ -157,7 +183,11 @@ export default function CreateAccount({
           />
         </Form.Item>
         <CreateAccountButton loading={loading} />
-        {errorMessage && <Text type="danger">{errorMessage}</Text>}
+        {errorMessage && (
+          <div style={{ marginTop: '1rem' }}>
+            <Text type="danger">{errorMessage}</Text>
+          </div>
+        )}
       </Card>
     </Form>
   );
@@ -176,7 +206,8 @@ const onAccountSubmit = async (
   formValues,
   setErrorMessage,
   setLoading,
-  setCurrentContent
+  setCurrentContent,
+  setCurrentRequest
 ) => {
   for (let key in formValues) {
     let value = formValues[key];
@@ -184,6 +215,24 @@ const onAccountSubmit = async (
       formValues[key] = formValues[key].trim();
     }
   }
+
+  const {
+    state,
+    cityName,
+    address,
+    addressLine2,
+    zipCode,
+    monthlyIncome,
+    monthlyRent,
+    owed,
+    amountRequested,
+    proofOfRisk,
+    covidFH,
+    qualifiedForUnemployment,
+    foodWrkr,
+    unEmp90,
+    minorGuest,
+  } = formValues;
 
   // Values directly attached to their account
   const user = {
@@ -196,10 +245,32 @@ const onAccountSubmit = async (
     gender: formValues.gender,
   };
 
+  const request = {
+    monthlyIncome,
+    monthlyRent,
+    owed,
+    amountRequested,
+    proofOfRisk,
+    covidFH,
+    qualifiedForUnemployment,
+    foodWrkr,
+    unEmp90,
+    address: {
+      state,
+      cityName,
+      address,
+      addressLine2,
+      zipCode,
+    },
+  };
+
+  console.log(request);
+
   setLoading(true);
 
   try {
     // Register an account
+    console.log(user);
     let res = await axiosWithAuth().post('/auth/register', user);
 
     // Login
@@ -212,13 +283,15 @@ const onAccountSubmit = async (
 
     // Submit am empty request
     let newRequest = await axiosWithAuth()
-      .post('/requests', {})
-      .then(res => res.data);
+      .post('/requests', request)
+      .then(res => dispatch(setCurrentRequest(res.data)));
 
     setCurrentContent('landlord');
   } catch (error) {
     // #TODO: Better error handling
     const message = error?.response?.data?.message || 'Internal server error';
+
+    console.log(error.response);
 
     setErrorMessage(message);
   } finally {

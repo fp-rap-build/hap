@@ -16,26 +16,42 @@ import {
   Demographics,
   Documents,
   Household,
-  Income,
   Landlord,
   Review,
   Submit,
   Status,
+  Eligibility,
 } from './forms';
 
 import { INITIAL_VALUES } from '../utils/initialFormValues';
+import { setRequestAddressAndDocuments } from '../../../../redux/requests/requestActions';
+import checkIfAllDocumentsAreSubmitted from '../../Home/components/DefaultHomePage/Documents/utils/checkIfAllDocumentsAreSubmitted';
 
 const { Header, Content, Sider, Footer } = Layout;
+
 const { Title } = Typography;
 
 export default function Index() {
   const dispatch = useDispatch();
 
   //UI State
+  const currentUser = useSelector(state => state.user.currentUser);
   const [formValues, setFormValues] = useState(INITIAL_VALUES());
   const [errorMessage, setErrorMessage] = useState(null);
   const [collapsed, setCollapsed] = useState(true);
-  const [currentContent, setCurrentContent] = useState('createAccount');
+  const [allDocumentsSubmitted, setAllDocumentsSubmitted] = useState(false);
+
+  const [currentContent, setCurrentContent] = useState(
+    currentUser.applicationStep ? currentUser.applicationStep : 'eligibility'
+  );
+
+  const request = useSelector(state => state.requests.request);
+
+  const documents = useSelector(state => state.requests.documents);
+
+  const isLoggedIn = useSelector(state => state.user.isLoggedIn);
+
+  const addressDetails = useSelector(state => state.requests.addressDetails);
 
   //Event Handlers
   const toggleCollapse = () => {
@@ -60,20 +76,15 @@ export default function Index() {
       ...formValues,
       [e.target.name]: e.target.value,
     });
-
-    console.log(formValues);
   };
 
   function onStateChange(value) {
     setFormValues({ ...formValues, state: value });
   }
 
-  const handleDateChange = (value, dateString) => {
-    setFormValues({
-      ...formValues,
-      dob: dateString,
-    });
-  };
+  function onLandlordStateChange(value) {
+    setFormValues({ ...formValues, landlordState: value });
+  }
 
   function onDateChange(value) {
     setFormValues({ ...formValues, dob: value });
@@ -108,11 +119,30 @@ export default function Index() {
     onGenderChange,
     onRoleChange,
     handleCheckBoxChange,
+    request,
+    currentUser,
+    dispatch,
+    allDocumentsSubmitted,
+    onLandlordStateChange,
   };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(setRequestAddressAndDocuments());
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    setAllDocumentsSubmitted(checkIfAllDocumentsAreSubmitted(documents));
+  }, [documents]);
+
+  useEffect(() => {
+    setFormValues({ ...formValues, ...request, ...addressDetails });
+  }, [request]);
 
   return (
     <div className="homeContainer">
-      <Layout style={{ minHeight: '90vh' }}>
+      <Layout style={{ height: '100%' }}>
         <Sider
           collapsible
           onCollapse={toggleCollapse}
@@ -127,8 +157,19 @@ export default function Index() {
             inlineCollapsed={collapsed}
           >
             <Menu.Item
+              key="eligibility"
+              disabled={isLoggedIn}
+              onClick={e => {
+                setCollapsed(true);
+                onContentChange(e);
+              }}
+            >
+              Check your eligibility
+            </Menu.Item>
+            <Menu.Item
               key="createAccount"
               icon={<UserOutlined />}
+              disabled={isLoggedIn || currentContent == 'eligibility'}
               onClick={e => {
                 setCollapsed(true);
                 onContentChange(e);
@@ -140,6 +181,7 @@ export default function Index() {
               key="landlord"
               icon={<FileOutlined />}
               onClick={onContentChange}
+              disabled={!isLoggedIn}
             >
               Landlord / Property Manager
             </Menu.Item>
@@ -147,6 +189,9 @@ export default function Index() {
               key="address"
               icon={<DesktopOutlined />}
               onClick={onContentChange}
+              disabled={
+                currentUser.applicationStep == 'landlord' || !isLoggedIn
+              }
             >
               Your Address
             </Menu.Item>
@@ -154,6 +199,10 @@ export default function Index() {
               key="household"
               icon={<PieChartOutlined />}
               onClick={onContentChange}
+              disabled={
+                currentUser.applicationStep in { landlord: 1, address: 1 } ||
+                !isLoggedIn
+              }
             >
               Your Household info.
             </Menu.Item>
@@ -161,27 +210,30 @@ export default function Index() {
               key="demographics"
               icon={<FileOutlined />}
               onClick={onContentChange}
+              disabled={
+                currentUser.applicationStep in
+                  { landlord: 1, address: 1, household: 1 } || !isLoggedIn
+              }
             >
               Demographic info.
-            </Menu.Item>
-            <Menu.Item
-              key="income"
-              icon={<FileOutlined />}
-              onClick={onContentChange}
-            >
-              Household Income
             </Menu.Item>
             <Menu.Item
               key="documents"
               icon={<FileOutlined />}
               onClick={onContentChange}
+              disabled={
+                currentUser.applicationStep in
+                  { landlord: 1, address: 1, household: 1, demographics: 1 } ||
+                !isLoggedIn
+              }
             >
-              Your Documents
+              Document Center
             </Menu.Item>
             <Menu.Item
               key="review"
               icon={<FileOutlined />}
               onClick={onContentChange}
+              disabled={!isLoggedIn || !allDocumentsSubmitted}
             >
               Review your Application
             </Menu.Item>
@@ -189,15 +241,14 @@ export default function Index() {
               key="submit"
               icon={<FileOutlined />}
               onClick={onContentChange}
+              disabled={
+                !isLoggedIn ||
+                !allDocumentsSubmitted ||
+                currentUser.applicationStep in
+                  { landlord: 1, address: 1, household: 1, demographics: 1 }
+              }
             >
               Submit
-            </Menu.Item>
-            <Menu.Item
-              key="status"
-              icon={<FileOutlined />}
-              onClick={onContentChange}
-            >
-              Your Application Status
             </Menu.Item>
           </Menu>
         </Sider>
@@ -219,26 +270,26 @@ export default function Index() {
 
 const renderContent = props => {
   switch (props.currentContent) {
+    case 'eligibility':
+      return <Eligibility {...props} />;
     case 'createAccount':
       return <CreateAccount {...props} />;
     case 'landlord':
-      return <Landlord />;
+      return <Landlord {...props} />;
     case 'address':
-      return <Address />;
+      return <Address {...props} />;
     case 'household':
-      return <Household />;
+      return <Household {...props} />;
     case 'demographics':
-      return <Demographics />;
-    case 'income':
-      return <Income />;
+      return <Demographics {...props} />;
     case 'documents':
-      return <Documents />;
+      return <Documents {...props} />;
     case 'review':
-      return <Review />;
+      return <Review {...props} />;
     case 'submit':
-      return <Submit />;
+      return <Submit {...props} />;
     case 'status':
-      return <Status />;
+      return <Status {...props} />;
     default:
       return <h1>Default</h1>;
   }

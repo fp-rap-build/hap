@@ -52,9 +52,12 @@ export const logOut = (history, orgId, subscriptions) => dispatch => {
   // Leave rooms
   socket.emit('leaveOrganization', { orgId });
 
-  subscriptions.forEach(sub => {
-    socket.emit('leaveRequest', sub.requestId);
-  });
+  if(subscriptions) {
+    subscriptions.forEach(sub => {
+      socket.emit('leaveRequest', sub.requestId);
+    });
+  }
+
 
   // Logout
   dispatch({ type: 'LOG_OUT' });

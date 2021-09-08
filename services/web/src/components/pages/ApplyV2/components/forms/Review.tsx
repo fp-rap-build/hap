@@ -1,9 +1,15 @@
-import React from 'react';
+import ReviewInformation from './ReviewCards';
 
-export default function Review() {
+import { Button, Card } from 'antd';
+
+export default function Review({ formValues, setCurrentContent }) {
   return (
-    <div>
-      <h1>Review</h1>
-    </div>
+    <Card>
+      <ReviewInformation
+        formValues={formValues}
+        setContent={setCurrentContent}
+      />
+      <Button onClick={() => setCurrentContent('submit')}>Next</Button>
+    </Card>
   );
 }

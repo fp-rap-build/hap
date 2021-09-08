@@ -125,5 +125,5 @@ export const INITIAL_VALUES_PROD = {
 export const INITIAL_VALUES = () => {
   if (process.env.NODE_ENV === 'production') return INITIAL_VALUES_PROD;
 
-  return INITIAL_VALUES_DEV;
+  return INITIAL_VALUES_PROD;
 };

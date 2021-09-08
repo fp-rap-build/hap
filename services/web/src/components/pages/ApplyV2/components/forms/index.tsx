@@ -18,6 +18,8 @@ import Submit from './Submit';
 
 import Status from './Status';
 
+import Eligibility from './Eligibility/index';
+
 export {
   Address,
   CreateAccount,
@@ -29,4 +31,5 @@ export {
   Review,
   Submit,
   Status,
+  Eligibility,
 };
