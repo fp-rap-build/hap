@@ -35,10 +35,12 @@ import EmailedLLCheckbox from './components/Requests/EmailedLLCheckbox';
 
 import { formatUTC } from '../../../../utils/dates';
 
+import ExportCsv from './components/ExportCsv';
+
 import {
   Review,
   Archive,
-  //Delete,
+  Delete,
   Subscribe,
   MarkIncomplete,
   Organizations,
@@ -46,17 +48,13 @@ import {
 
 import { XGrid, GridToolbar } from '@material-ui/x-grid';
 
-import ExportCsv from './components/ExportCsv';
-
 import {
   updateTableWithConfig,
   onColumnVisibilityChange,
 } from './components/Requests/PersistTableSettings';
 
-//import { LeakRemoveTwoTone } from '@material-ui/icons';
-//import { Alert } from 'antd';
-
-//import { SdStorage } from '@material-ui/icons';
+import { LeakRemoveTwoTone } from '@material-ui/icons';
+import { Alert } from 'antd';
 
 export default function ManagedRequestsTable() {
   const history = useHistory();
@@ -92,17 +90,6 @@ export default function ManagedRequestsTable() {
           request.monthlyIncome,
           request.familySize
         );
-
-        request['unEmp90'] = request.unEmp90 ? 'Yes' : 'No';
-
-        request['archived'] = request.archived ? 'Yes' : 'No';
-
-        request['requestStatus'] =
-          request.requestStatus[0].toUpperCase() +
-          request.requestStatus.slice(1);
-
-        request['cityName'] =
-          request.cityName[0].toUpperCase() + request.cityName.slice(1);
 
         request['poc'] = doesHouseholdContainPoc(request);
 
@@ -168,8 +155,6 @@ export default function ManagedRequestsTable() {
     }
   };
 
-  const [orgs, setOrgs] = useState([]);
-
   const [columns, setColumns] = useState([
     {
       field: 'Review',
@@ -231,14 +216,6 @@ export default function ManagedRequestsTable() {
       width: 150,
     },
     {
-      field: 'Organization',
-      width: 200,
-      renderCell: params => {
-        return <Organizations request={params.row} />;
-      },
-    },
-
-    {
       headerName: 'HAP ID',
       field: 'HAP ID',
       width: 150,
@@ -251,7 +228,7 @@ export default function ManagedRequestsTable() {
     { headerName: 'First', field: 'firstName', width: 150 },
     { headerName: 'Last ', field: 'lastName', width: 150 },
     {
-      headerName: 'Email',
+      headerName: 'email',
       field: 'email',
       width: 150,
     },
@@ -477,12 +454,12 @@ export default function ManagedRequestsTable() {
       width: 150,
     },
     {
-      headerName: 'Un-employed for 90+ Days?',
+      headerName: 'unEmp90',
       field: 'unEmp90',
       width: 150,
     },
     {
-      headerName: 'Household is BIPOC?',
+      headerName: 'BIPOC',
       field: 'poc',
       width: 150,
     },
