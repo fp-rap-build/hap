@@ -168,7 +168,7 @@ export default function Index() {
             </Menu.Item>
             <Menu.Item
               key="createAccount"
-              icon={<UserOutlined />}
+      
               disabled={isLoggedIn || currentContent == 'eligibility'}
               onClick={e => {
                 setCollapsed(true);
@@ -179,7 +179,6 @@ export default function Index() {
             </Menu.Item>
             <Menu.Item
               key="landlord"
-              icon={<FileOutlined />}
               onClick={onContentChange}
               disabled={!isLoggedIn}
             >
@@ -187,7 +186,6 @@ export default function Index() {
             </Menu.Item>
             <Menu.Item
               key="address"
-              icon={<DesktopOutlined />}
               onClick={onContentChange}
               disabled={
                 currentUser.applicationStep == 'landlord' || !isLoggedIn
@@ -197,7 +195,6 @@ export default function Index() {
             </Menu.Item>
             <Menu.Item
               key="household"
-              icon={<PieChartOutlined />}
               onClick={onContentChange}
               disabled={
                 currentUser.applicationStep in { landlord: 1, address: 1 } ||
@@ -208,7 +205,6 @@ export default function Index() {
             </Menu.Item>
             <Menu.Item
               key="demographics"
-              icon={<FileOutlined />}
               onClick={onContentChange}
               disabled={
                 currentUser.applicationStep in
@@ -219,7 +215,6 @@ export default function Index() {
             </Menu.Item>
             <Menu.Item
               key="documents"
-              icon={<FileOutlined />}
               onClick={onContentChange}
               disabled={
                 currentUser.applicationStep in
@@ -231,7 +226,6 @@ export default function Index() {
             </Menu.Item>
             <Menu.Item
               key="review"
-              icon={<FileOutlined />}
               onClick={onContentChange}
               disabled={!isLoggedIn || !allDocumentsSubmitted}
             >
@@ -239,7 +233,6 @@ export default function Index() {
             </Menu.Item>
             <Menu.Item
               key="submit"
-              icon={<FileOutlined />}
               onClick={onContentChange}
               disabled={
                 !isLoggedIn ||
