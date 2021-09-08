@@ -137,7 +137,16 @@ export default function Index() {
   }, [documents]);
 
   useEffect(() => {
-    setFormValues({ ...formValues, ...request, ...addressDetails });
+    if (request['zipCode'] || request['landlordZip']) {
+      request['zipCode'] = String(request['zipCode']);
+      request['landlordZip'] = String(request['landlordZip']);
+    }
+
+    setFormValues({
+      ...formValues,
+      ...request,
+      ...addressDetails,
+    });
   }, [request]);
 
   return (
@@ -168,7 +177,6 @@ export default function Index() {
             </Menu.Item>
             <Menu.Item
               key="createAccount"
-      
               disabled={isLoggedIn || currentContent == 'eligibility'}
               onClick={e => {
                 setCollapsed(true);

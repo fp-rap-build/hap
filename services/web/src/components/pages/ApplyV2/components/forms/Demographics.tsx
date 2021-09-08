@@ -276,7 +276,6 @@ const updateDemographics = async (
   };
 
   const userInfo = {
-    dob: formValues.dob,
     gender: formValues.gender,
   };
 
