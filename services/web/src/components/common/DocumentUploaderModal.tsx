@@ -1,4 +1,3 @@
-
 import { Modal, Typography } from 'antd';
 
 import { Upload, message } from 'antd';
@@ -51,12 +50,12 @@ const UploadDocModal = ({
       <Modal
         title={<Title level={5}>Upload Document</Title>}
         style={{
-          zIndex: 2000
+          zIndex: 2000,
         }}
         visible={isOpen}
         onCancel={() => setIsOpen(false)}
         onOk={() => setIsOpen(false)}
-        bodyStyle={{ height: '30vh'}}
+        bodyStyle={{ height: '30vh' }}
       >
         <Uploader
           actionUrl={uploadUrl}

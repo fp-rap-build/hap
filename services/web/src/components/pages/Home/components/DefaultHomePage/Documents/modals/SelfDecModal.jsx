@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { axiosWithAuth } from '../../../../../../../api/axiosWithAuth';
 
-import { processDocument } from '../utils/pandaDocUtils';
+import { processDocument } from '../../../../../../../utils/pandaDocUtils';
 
 import SELF_DEC_SCHEMA from '../utils/selfDecSchema';
 
@@ -45,7 +45,6 @@ const SelfDecModal = ({
         selectedCategory,
         SELF_DEC_SCHEMA
       );
-      console.log(pandaDocRes);
       setSessionId(pandaDocRes.sessionId);
       setPandaInfo({
         docId: pandaDocRes.docId,

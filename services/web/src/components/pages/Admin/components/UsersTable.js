@@ -1,23 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
-import MaterialTable from '@material-table/core';
-
-import { ExportCsv, ExportPdf } from '@material-table/exporters';
-
-import { tableIcons } from '../../../../utils/tableIcons';
+import { useSelector } from 'react-redux';
 
 import { axiosWithAuth } from '../../../../api/axiosWithAuth';
 
+import Container from './components/Requests/Actions/Container';
+
+import DeleteIcon from '@material-ui/icons/Delete';
+
+import { message, Modal } from 'antd';
+
+import { XGrid } from '@material-ui/x-grid';
+import ExportCsv from './components/ExportCsv';
+
 export default function UsersTable() {
+  const currentUserRole = useSelector(state => state.user.currentUser.role);
+
   const [isFetching, setIsFetching] = useState(false);
 
   const [columns, setColumns] = useState([
-    { title: 'First', field: 'firstName' },
-    { title: 'Last ', field: 'lastName' },
-    { title: 'email', field: 'email', type: 'string', editable: 'never' },
+    /// {
+    ///   headerName: 'Delete',
+    ///   field: 'delete',
+    ///   renderCell: params => <DeleteUser row={params.row} setData={setData} />,
+    /// },
+
+    { headerName: 'First', field: 'firstName', flex: 1, editable: true },
+    { headerName: 'Last ', field: 'lastName', flex: 1, editable: true },
+    { headerName: 'email', field: 'email', type: 'string', flex: 1 },
 
     {
-      title: 'role',
+      headerName: 'role',
       field: 'role',
       lookup: {
         admin: 'admin',
@@ -26,6 +39,8 @@ export default function UsersTable() {
         landlord: 'landlord',
         pending: 'pending',
       },
+      flex: 1,
+      editable: true,
     },
   ]);
 
@@ -50,70 +65,66 @@ export default function UsersTable() {
 
   return (
     <>
-      <MaterialTable
-        isLoading={isFetching}
-        options={{
-          pageSize: 10,
-          pageSizeOptions: [5, 10, 20, 30, 50, 75, 100, 1000],
-          // Allows users to export the data as a CSV file
-          exportMenu: [
-            {
-              label: 'Export PDF',
-              exportFunc: (cols, datas) => ExportPdf(cols, datas, 'users'),
-            },
-            {
-              label: 'Export CSV',
-              exportFunc: (cols, datas) => ExportCsv(cols, datas, 'users'),
-            },
-          ],
-        }}
-        editable={{
-          // Disable deleting and editing if the user is an Admin
+      <h2>Users</h2>
 
-          isDeletable: rowData => rowData.role !== 'admin',
-          isEditable: rowData => rowData.role !== 'admin',
-          onRowUpdate: (newData, oldData) =>
-            new Promise((resolve, reject) => {
-              resolve();
-              // Set the state first to instantly update the table
-
-              setData(
-                data.map(row => {
-                  if (row.id === oldData.id) {
-                    return newData;
-                  }
-                  return row;
-                })
-              );
-
-              // Persist those changes
-
-              const updatedUser = {
-                firstName: newData.firstName,
-                lastName: newData.lastName,
-                role: newData.role,
-              };
-
-              axiosWithAuth()
-                .put(`/users/${oldData.id}`, updatedUser)
-                .catch(err => alert('Failed to update user'));
-            }),
-          onRowDelete: oldData =>
-            new Promise((resolve, reject) => {
-              axiosWithAuth()
-                .delete(`/users/${oldData.id}`)
-                .then(() => {
-                  setData(data.filter(row => row.id !== oldData.id));
-                })
-                .catch(err => alert('Unable to delete user'))
-                .finally(() => resolve());
-            }),
-        }}
-        icons={tableIcons}
-        title="Users"
+      <XGrid
+        style={{ height: 700 }}
+        rows={data}
+        onCellEditCommit={user => editUser(user)}
         columns={columns}
-        data={data}
+        isCellEditable={props => {
+          return props.row.role !== 'admin';
+        }}
+        loading={isFetching}
+        components={{
+          Toolbar: ExportCsv,
+        }}
       />
     </>
   );
 }
+
+const editUser = async row => {
+  const { id, field, value } = row;
+
+  const payload = {};
+
+  payload[field] = value;
+
+  try {
+    await axiosWithAuth().put(`/users/${id}`, payload);
+  } catch (error) {
+    message.error('Unable to edit user');
+  }
+};
+
+const DeleteUser = ({ row, setData }) => {
+  const onUserDelete = (row, setData) => {
+    const deletedRowId = row.id;
+
+    setData(data => data.filter(row => row.id !== deletedRowId));
+
+    axiosWithAuth()
+      .delete(`/users/${row.id}`)
+      .then(() => {
+        setData(data => data.filter(row => row.id !== deletedRowId));
+      })
+      .catch(err => message.error('Unable to delete user'));
+  };
+
+  const Confirm = () => {
+    if (row.role === 'admin') return;
+
+    return Modal.confirm({
+      title: 'Delete user',
+      content: 'Are you sure you want to delete this user?',
+      onOk: () => onUserDelete(row, setData),
+    });
+  };
+
+  return (
+    <Container onClick={Confirm}>
+      <DeleteIcon />
+    </Container>
+  );
+};

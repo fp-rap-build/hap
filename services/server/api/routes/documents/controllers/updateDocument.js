@@ -9,7 +9,7 @@ const updateDocument = async (req, res, next) => {
     let updatedDocument = await Documents.findByIdAndUpdate(id, newDocument);
     res.status(200).json({ document: updatedDocument[0] });
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: 'Internal server error2' });
   }
 };
 

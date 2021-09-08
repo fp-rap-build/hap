@@ -49,7 +49,11 @@ export default function Index({
         {currentDocument && (
           <>
             <Status document={currentDocument} setRequests={setRequests} />
-            <Category document={currentDocument} setRequests={setRequests} setDocuments={setDocuments} />
+            <Category
+              document={currentDocument}
+              setRequests={setRequests}
+              setDocuments={setDocuments}
+            />
           </>
         )}
         <SubmitDocument

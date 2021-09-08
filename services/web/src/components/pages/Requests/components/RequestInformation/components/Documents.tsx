@@ -53,7 +53,9 @@ const ChangeCategoryButton = ({ handleChange }) => {
       <Option value="income">Income</Option>
       <Option value="housingInstability">Housing</Option>
       <Option value="covid">Covid</Option>
+      <Option value="rpaf">RPAF</Option>
       <Option value="other">Other</Option>
+      <Option value="identity">Identity</Option>
     </Select>
   );
 };
@@ -62,7 +64,7 @@ const RenderDocuments = ({ documents, setDocuments, setOriginalDocuments }) => {
   return (
     <div className={styles.documents}>
       {documents.map(d =>
-        d.status === 'optOut' ? (
+        d.pandaId ? (
           <SelfDecDocument
             key={d.id}
             document={d}

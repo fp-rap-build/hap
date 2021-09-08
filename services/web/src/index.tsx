@@ -23,6 +23,7 @@ import LoginPage from './components/pages/Login';
 import ForgotPassword from './components/pages/ForgotPassword';
 import ResetPassword from './components/pages/ResetPassword';
 import LandlordRequest from './components/pages/LandlordRequest';
+import LandlordLogin from './components/pages/LandLordLogin';
 
 import { NotFoundPage } from './components/pages/NotFound';
 import ProgramManager from './components/pages/ProgramManager';
@@ -41,8 +42,8 @@ import { Button, notification, Modal } from 'antd';
 import { fetchNotifications } from './redux/notifications/notificationActions';
 
 import IdleTimer from './utils/general/idleTimer';
-import { Timer } from '@material-ui/icons';
-import { logOut } from './redux/users/userActions';
+
+import { LicenseInfo } from '@material-ui/x-grid';
 
 const TRACKING_ID = 'G-ZDW3ENHWE7'; // YOUR_OWN_TRACKING_ID
 ReactGA.initialize(TRACKING_ID);
@@ -84,20 +85,7 @@ function RAP() {
   };
 
   useEffect(() => {
-    const timer = new IdleTimer({
-      timeout: 10, // expire after 10 seconds
-      onTimeout: () => {
-        setIsTimeout(true);
-      },
-      onExpired: () => {
-        //do something if expired on load
-        setIsTimeout(true);
-      },
-    });
-
-    return () => {
-      timer.cleanUp();
-    };
+    LicenseInfo.setLicenseKey(process.env.REACT_APP_TABLE_KEY);
   }, []);
 
   useEffect(() => {
@@ -120,7 +108,11 @@ function RAP() {
     <Layout>
       <Switch>
         <Route path="/landing" component={LandingPage} />
-        <Route path="/login" component={LoginPage} />
+
+        <Route exact path="/login" component={LoginPage} />
+
+        <Route path="/register/landlord" component={LandlordLogin} />
+
         <Route path="/forgot" exact component={ForgotPassword} />
 
         <Route path="/reset/:resetToken" exact component={ResetPassword} />
