@@ -201,6 +201,14 @@ export default function ManagedRequestsTable() {
       },
     },
     {
+      field: 'Organization',
+      width: 200,
+      renderCell: params => {
+        return <Organizations request={params.row} />;
+      },
+    },
+
+    {
       headerName: 'HAP ID',
       field: 'HAP ID',
       width: 150,

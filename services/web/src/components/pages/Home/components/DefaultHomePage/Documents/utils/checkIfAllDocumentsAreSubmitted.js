@@ -6,7 +6,6 @@ const checkIfAllDocumentsAreSubmitted = documents => {
     covid: false,
     childrenOrPregnancy: false,
     identity: false,
-    lateNotice: false,
     lease: false,
   };
 

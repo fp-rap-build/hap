@@ -5,7 +5,14 @@ import DefaultHomePage from './components/DefaultHomePage';
 
 function RenderHomePage(props) {
   const currentUser = useSelector(state => state.user.currentUser);
-  console.debug(currentUser.role);
+
+  if (
+    currentUser.role === 'tenant' &&
+    currentUser.applicationStep !== 'completed'
+  ) {
+    return <Redirect to="/applyv2" />;
+  }
+
   switch (currentUser.role) {
     case 'admin':
       return <Redirect to="/admin" />;

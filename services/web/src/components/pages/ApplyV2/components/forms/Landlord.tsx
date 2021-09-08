@@ -1,6 +1,4 @@
-import FPTitle from '../FPTitle';
-
-import { states } from '../../../../utils/data/states';
+import { states } from '../../../../../utils/data/states';
 
 import {
   Form,
@@ -10,19 +8,47 @@ import {
   Typography,
   Select,
   Divider,
+  Button,
 } from 'antd';
+
+import { updateRequest } from '../../../../../api';
+
+import { useSelector } from 'react-redux';
+import {
+  setCurrentUser,
+  setErrorMessage,
+} from '../../../../../redux/users/userActions';
+import { axiosWithAuth } from '../../../../../api/axiosWithAuth';
 
 const { Option } = Select;
 
 const { Text } = Typography;
 
-const SecondaryContact = ({ formValues, onStateChange }) => {
+const Landlord = ({
+  formValues,
+  handleChange,
+  setCurrentContent,
+  onLandlordStateChange,
+  currentUser,
+  dispatch,
+}) => {
+  const request = useSelector(state => state.requests.request);
+
   return (
-    <Form>
-      <Card
-        title={<FPTitle title="Family Promise of Spokane" />}
-        headStyle={{ background: ' #472D5B' }}
-      >
+    <Form
+      layout="vertical"
+      onChange={handleChange}
+      onFinish={() =>
+        updateLandlordInfo(
+          formValues,
+          setCurrentContent,
+          request,
+          currentUser,
+          dispatch
+        )
+      }
+    >
+      <Card headStyle={{ background: ' #472D5B' }}>
         <p>
           Welcome to Family Promise of Spokane's Housing Assistance Application.
         </p>
@@ -70,7 +96,7 @@ const SecondaryContact = ({ formValues, onStateChange }) => {
           rules={[{ required: true, message: 'State is required' }]}
         >
           <Select
-            onChange={onStateChange}
+            onChange={onLandlordStateChange}
             showSearch
             placeholder="Select a state"
             optionFilterProp="children"
@@ -176,10 +202,62 @@ const SecondaryContact = ({ formValues, onStateChange }) => {
         >
           <Input placeholder="(111)-111-1111" name="landlordNumber" />
         </Form.Item>
+        <Button htmlType="submit">Next</Button>
       </Card>
     </Form>
-
   );
 };
 
-export default SecondaryContact;
+const updateLandlordInfo = async (
+  formValues,
+  setCurrentContent,
+  request,
+  currentUser,
+  dispatch
+) => {
+  const {
+    landlordName,
+    landlordState,
+    landlordCity,
+    landlordAddress,
+    landlordAddress2,
+    landlordZip,
+    landlordEmail,
+    landlordNumber,
+  } = formValues;
+
+  const landlordInfo = {
+    landlordName,
+    landlordState,
+    landlordCity,
+    landlordAddress,
+    landlordAddress2,
+    landlordZip,
+    landlordEmail,
+    landlordNumber,
+  };
+
+  try {
+    await axiosWithAuth().put(`/requests/${request.id}`, landlordInfo);
+
+    if (currentUser.applicationStep === 'landlord') {
+      await axiosWithAuth()
+        .put('/users/me', { applicationStep: 'address' })
+        .then(res => {
+          dispatch(setCurrentUser(res.data.user));
+        });
+    }
+
+    setCurrentContent('address');
+  } catch (error) {
+    alert(error);
+    console.log(error);
+
+    setErrorMessage(
+      'Unable to update landlord info. Please report this or try again'
+    );
+  } finally {
+  }
+};
+
+export default Landlord;

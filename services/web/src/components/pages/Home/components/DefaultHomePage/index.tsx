@@ -43,7 +43,9 @@ export default function Index() {
 
   //UI State
   const [collapsed, setCollapsed] = useState(true);
-  const [currentContent, setCurrentContent] = useState('documents');
+
+  const [currentContent, setCurrentContent] = useState('status');
+
   const [allDocumentsCompleted, setAllDocumentsCompleted] = useState(false);
 
   //Event Handlers
@@ -83,7 +85,9 @@ export default function Index() {
           {allDocumentsCompleted ? (
             <Menu
               theme="dark"
-              defaultSelectedKeys={['userInfo']}
+
+              defaultSelectedKeys={['status']}
+
               mode="inline"
               inlineCollapsed={collapsed}
             >
@@ -122,7 +126,9 @@ export default function Index() {
           ) : (
             <Menu
               theme="dark"
-              defaultSelectedKeys={['documents']}
+
+              defaultSelectedKeys={['status']}
+
               mode="inline"
               inlineCollapsed={collapsed}
             >

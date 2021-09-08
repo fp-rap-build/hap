@@ -24,6 +24,7 @@ import ForgotPassword from './components/pages/ForgotPassword';
 import ResetPassword from './components/pages/ResetPassword';
 import LandlordRequest from './components/pages/LandlordRequest';
 import LandlordLogin from './components/pages/LandLordLogin';
+import ApplyV2 from './components/pages/ApplyV2';
 
 import { NotFoundPage } from './components/pages/NotFound';
 import ProgramManager from './components/pages/ProgramManager';
@@ -118,6 +119,8 @@ function RAP() {
         <Route path="/reset/:resetToken" exact component={ResetPassword} />
 
         <Route path="/apply" exact component={Apply} />
+
+        <Route path="/applyv2" exact component={ApplyV2} />
 
         {/* Any routes you need secured by role should be registered as PrivateRoutes */}
         <PrivateRoute exact path="/" component={HomePage} />

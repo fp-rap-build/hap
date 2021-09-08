@@ -35,8 +35,6 @@ import EmailedLLCheckbox from './components/Requests/EmailedLLCheckbox';
 
 import { formatUTC } from '../../../../utils/dates';
 
-//import ExportCsv from './components/ExportCsv';
-
 import {
   Review,
   Archive,
@@ -47,6 +45,8 @@ import {
 } from './components/Requests/Actions';
 
 import { XGrid, GridToolbar } from '@material-ui/x-grid';
+
+import ExportCsv from './components/ExportCsv';
 
 import {
   updateTableWithConfig,
@@ -230,6 +230,14 @@ export default function ManagedRequestsTable() {
       field: 'incomplete',
       width: 150,
     },
+    {
+      field: 'Organization',
+      width: 200,
+      renderCell: params => {
+        return <Organizations request={params.row} />;
+      },
+    },
+
     {
       headerName: 'HAP ID',
       field: 'HAP ID',
