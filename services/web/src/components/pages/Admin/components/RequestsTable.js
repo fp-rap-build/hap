@@ -38,7 +38,7 @@ import { formatUTC } from '../../../../utils/dates';
 import {
   Review,
   Archive,
-  Delete,
+  //Delete,
   Subscribe,
   MarkIncomplete,
   Organizations,
@@ -53,8 +53,10 @@ import {
   onColumnVisibilityChange,
 } from './components/Requests/PersistTableSettings';
 
-import { LeakRemoveTwoTone } from '@material-ui/icons';
-import { Alert } from 'antd';
+//import { LeakRemoveTwoTone } from '@material-ui/icons';
+//import { Alert } from 'antd';
+
+//import { SdStorage } from '@material-ui/icons';
 
 export default function ManagedRequestsTable() {
   const history = useHistory();
@@ -90,6 +92,17 @@ export default function ManagedRequestsTable() {
           request.monthlyIncome,
           request.familySize
         );
+
+        request['unEmp90'] = request.unEmp90 ? 'Yes' : 'No';
+
+        request['archived'] = request.archived ? 'Yes' : 'No';
+
+        request['requestStatus'] =
+          request.requestStatus[0].toUpperCase() +
+          request.requestStatus.slice(1);
+
+        request['cityName'] =
+          request.cityName[0].toUpperCase() + request.cityName.slice(1);
 
         request['poc'] = doesHouseholdContainPoc(request);
 
@@ -154,6 +167,8 @@ export default function ManagedRequestsTable() {
       setIsFetching(false);
     }
   };
+
+  const [orgs, setOrgs] = useState([]);
 
   const [columns, setColumns] = useState([
     {
@@ -236,7 +251,7 @@ export default function ManagedRequestsTable() {
     { headerName: 'First', field: 'firstName', width: 150 },
     { headerName: 'Last ', field: 'lastName', width: 150 },
     {
-      headerName: 'email',
+      headerName: 'Email',
       field: 'email',
       width: 150,
     },
@@ -462,12 +477,12 @@ export default function ManagedRequestsTable() {
       width: 150,
     },
     {
-      headerName: 'unEmp90',
+      headerName: 'Un-employed for 90+ Days?',
       field: 'unEmp90',
       width: 150,
     },
     {
-      headerName: 'BIPOC',
+      headerName: 'Household is BIPOC?',
       field: 'poc',
       width: 150,
     },

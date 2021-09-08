@@ -4,7 +4,6 @@ import {
   FolderOutlined,
   DownOutlined,
   LineChartOutlined,
-  WarningFilled,
 } from '@ant-design/icons';
 import { Menu, Dropdown, Button } from 'antd';
 
