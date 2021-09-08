@@ -22,7 +22,7 @@
     "axios": "^0.21.3",
     "craco-less": "^1.18.0",
     "emailjs-com": "^2.6.4",
-    "eslint": "^7.30.0",
+    "eslint": "^7.31.0",
     "faker": "^5.5.3",
     "framer-motion": "^4.1.16",
     "insert-css": "^2.0.0",
