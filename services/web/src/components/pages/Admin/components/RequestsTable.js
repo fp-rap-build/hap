@@ -27,6 +27,8 @@ import AttachmentViewer from './components/AttachmentViewer';
 
 import StatusCircle from './components/Requests/StatusCircle';
 
+import { UnarchiveOutlined } from '@material-ui/icons';
+
 import RenderDocumentStatusCell from './components/Requests/RenderDocumentStatusCell';
 
 import styles from '../../../../styles/pages/admin.module.css';
@@ -40,6 +42,7 @@ import ExportCsv from './components/ExportCsv';
 import {
   Review,
   Archive,
+  UnArchive,
   Delete,
   Subscribe,
   MarkIncomplete,
@@ -178,6 +181,14 @@ export default function ManagedRequestsTable() {
       width: 50,
       renderCell: params => {
         return <Archive setRequests={setData} requestId={params.row.id} />;
+      },
+    },
+
+    {
+      field: 'Un-Archive',
+      width: 50,
+      renderCell: params => {
+        return <UnArchive setRequests={setData} requestId={params.row.id} />;
       },
     },
 
