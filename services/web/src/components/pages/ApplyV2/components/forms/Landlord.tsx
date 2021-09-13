@@ -242,13 +242,13 @@ const updateLandlordInfo = async (
 
     if (currentUser.applicationStep === 'landlord') {
       await axiosWithAuth()
-        .put('/users/me', { applicationStep: 'address' })
+        .put('/users/me', { applicationStep: 'household' })
         .then(res => {
           dispatch(setCurrentUser(res.data.user));
         });
     }
 
-    setCurrentContent('address');
+    setCurrentContent('household');
   } catch (error) {
     alert(error);
     console.log(error);

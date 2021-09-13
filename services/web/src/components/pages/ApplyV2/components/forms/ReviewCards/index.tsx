@@ -1,5 +1,4 @@
 import { Card } from 'antd';
-import Address from './cards/Address';
 import Household from './cards/Household';
 import Demographics from './cards/Demographics';
 import Additional from './cards/Additional';
@@ -20,7 +19,6 @@ export default function Index({ formValues, setContent }) {
           process your request.
         </p>
         <SecondaryContact content="landlord" {...props} />
-        <Address content="address" {...props} />
         <Household content="household" {...props} />
         <Demographics content="demographics" {...props} />
         {/* 

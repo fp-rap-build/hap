@@ -22,6 +22,7 @@ import {
   Submit,
   Status,
   Eligibility,
+  VerifyAddress,
 } from './forms';
 
 import { INITIAL_VALUES } from '../utils/initialFormValues';
@@ -211,7 +212,7 @@ export default function Index() {
           >
             <Menu.Item
               key="eligibility"
-              disabled={isLoggedIn}
+              disabled={isLoggedIn || currentContent === 'verifyAddress'}
               onClick={e => {
                 setCollapsed(true);
                 onContentChange(e);
@@ -221,7 +222,10 @@ export default function Index() {
             </Menu.Item>
             <Menu.Item
               key="createAccount"
-              disabled={isLoggedIn || currentContent == 'eligibility'}
+              disabled={
+                isLoggedIn ||
+                currentContent in { eligibility: 1, verifyAddress: 1 }
+              }
               onClick={e => {
                 setCollapsed(true);
                 onContentChange(e);
@@ -236,15 +240,7 @@ export default function Index() {
             >
               Landlord / Property Manager
             </Menu.Item>
-            <Menu.Item
-              key="address"
-              onClick={onContentChange}
-              disabled={
-                currentUser.applicationStep == 'landlord' || !isLoggedIn
-              }
-            >
-              Your Address
-            </Menu.Item>
+
             <Menu.Item
               key="household"
               onClick={onContentChange}

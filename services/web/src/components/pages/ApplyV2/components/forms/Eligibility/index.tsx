@@ -4,6 +4,9 @@ import EligibilityForm from './components/EligibilityForm';
 
 import ProgramSelection from './components/ProgramSelection';
 
+import verifyAddress from './components/VerifyAddress/utils/verifyAddress';
+import { VerifyAddress } from '..';
+
 const Index = ({
   formValues,
   handleChange,
@@ -11,36 +14,31 @@ const Index = ({
   onStateChange,
   handleCheckBoxChange,
 }) => {
-  const [isProgramsPageVisibile, setIsProgramsPageVisible] = useState(false);
-
-  const showPrograms = () => setIsProgramsPageVisible(true);
+  const [eligibilityContent, setEligibilityContent] = useState('verifyAddress');
 
   let props = {
     formValues,
     handleChange,
     onStateChange,
     handleCheckBoxChange,
-    showPrograms,
     setCurrentContent,
+    setEligibilityContent,
   };
 
-  if (isProgramsPageVisibile)
-    return (
-      <ProgramSelection
-        formValues={formValues}
-        setCurrentContent={setCurrentContent}
-      />
-    );
+  return <RenderContent content={eligibilityContent} props={{ ...props }} />;
+};
 
-  return (
-    <EligibilityForm
-      formValues={formValues}
-      handleChange={handleChange}
-      onStateChange={onStateChange}
-      handleCheckBoxChange={handleCheckBoxChange}
-      showPrograms={showPrograms}
-    />
-  );
+const RenderContent = ({ content, props }) => {
+  switch (content) {
+    case 'verifyAddress':
+      return <VerifyAddress {...props} />;
+    case 'eligibility':
+      return <EligibilityForm {...props} />;
+    case 'programs':
+      return <ProgramSelection {...props} />;
+    default:
+      return <h1>Hello</h1>;
+  }
 };
 
 export default Index;

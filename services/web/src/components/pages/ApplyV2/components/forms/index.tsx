@@ -20,6 +20,8 @@ import Status from './Status';
 
 import Eligibility from './Eligibility/index';
 
+import VerifyAddress from './Eligibility/components/VerifyAddress';
+
 export {
   Address,
   CreateAccount,
@@ -32,4 +34,5 @@ export {
   Submit,
   Status,
   Eligibility,
+  VerifyAddress,
 };

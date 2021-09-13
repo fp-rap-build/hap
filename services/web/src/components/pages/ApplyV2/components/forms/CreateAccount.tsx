@@ -270,7 +270,6 @@ const onAccountSubmit = async (
 
   try {
     // Register an account
-    console.log(user);
     let res = await axiosWithAuth().post('/auth/register', user);
 
     // Login
@@ -290,8 +289,6 @@ const onAccountSubmit = async (
   } catch (error) {
     // #TODO: Better error handling
     const message = error?.response?.data?.message || 'Internal server error';
-
-    console.log(error.response);
 
     setErrorMessage(message);
   } finally {
