@@ -21,20 +21,9 @@ export default function Household({ formValues, content, setContent }) {
         <Descriptions.Item label="Children in Household">
           {formValues.totalChildren}
         </Descriptions.Item>
-        <Descriptions.Item label="Monthly Income">
-          {formValues.monthlyIncome}
-        </Descriptions.Item>
+
         <Descriptions.Item label="Total Bedrooms">
           {formValues.beds}
-        </Descriptions.Item>
-        <Descriptions.Item label="Monthly Rent">
-          {formValues.monthlyRent}
-        </Descriptions.Item>
-        <Descriptions.Item label="Total Owed">
-          {formValues.owed}
-        </Descriptions.Item>
-        <Descriptions.Item label="Amount Requested">
-          {formValues.amountRequested}
         </Descriptions.Item>
       </Descriptions>
     </Card>
