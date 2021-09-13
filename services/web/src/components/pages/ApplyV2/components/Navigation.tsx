@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { LinearProgress } from '@material-ui/core';
 
 import {
   DesktopOutlined,
@@ -33,6 +34,17 @@ const { Header, Content, Sider, Footer } = Layout;
 const { Title } = Typography;
 
 export default function Index() {
+  const [progress, setProgress] = useState(0);
+  const LinearProgressWithLabel = props => {
+    return (
+      <LinearProgress
+        variant="buffer"
+        valueBuffer={0}
+        value={currentContentToProgress(currentContent)}
+      />
+    );
+  };
+
   const dispatch = useDispatch();
 
   //UI State
@@ -150,8 +162,40 @@ export default function Index() {
     });
   }, [request]);
 
+  useEffect(() => {
+    // Runs whenever currentContent changes (page change)
+  }, [currentContent]);
+
+  function currentContentToProgress(currentContent) {
+    switch (currentContent) {
+      case 'eligibility':
+        return 0;
+      case 'createAccount':
+        return 10;
+      case 'landlord':
+        return 20;
+      case 'address':
+        return 30;
+      case 'household':
+        return 40;
+      case 'demographics':
+        return 50;
+      case 'documents':
+        return 60;
+      case 'review':
+        return 70;
+      case 'submit':
+        return 80;
+      case 'status':
+        return 90;
+      default:
+        return 0;
+    }
+  }
+
   return (
     <div className="homeContainer">
+      <LinearProgressWithLabel />
       <Layout style={{ height: '100%' }}>
         <Sider
           collapsible
