@@ -78,43 +78,6 @@ export default function Index({
         <Card>
           <Form.Item
             hasFeedback
-            initialValue={formValues.state}
-            label="State"
-            name="state"
-            rules={[{ required: true, message: 'State is required' }]}
-          >
-            <Select
-              onChange={onStateChange}
-              showSearch
-              placeholder="Select a state"
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
-            >
-              {states.map(state => (
-                <Option value={state}>{state}</Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            hasFeedback
-            initialValue={formValues.cityName}
-            label="City"
-            name="cityName"
-            rules={[
-              { required: true, min: 3, message: 'City is required' },
-              {
-                pattern: RegExp(/^[A-Za-z0-9'.-\s,#]*$/),
-                message: 'Enter a valid City Name',
-              },
-            ]}
-          >
-            <Input name="cityName" value={formValues.city} />
-          </Form.Item>
-
-          <Form.Item
-            hasFeedback
             initialValue={formValues.address}
             label="Address"
             name="address"
@@ -136,6 +99,45 @@ export default function Index({
           >
             <Input name="addressLine2" />
           </Form.Item>
+
+          <Form.Item
+            hasFeedback
+            initialValue={formValues.cityName}
+            label="City"
+            name="cityName"
+            rules={[
+              { required: true, min: 3, message: 'City is required' },
+              {
+                pattern: RegExp(/^[A-Za-z0-9'.-\s,#]*$/),
+                message: 'Enter a valid City Name',
+              },
+            ]}
+          >
+            <Input name="cityName" value={formValues.city} />
+          </Form.Item>
+
+          <Form.Item
+            hasFeedback
+            initialValue={formValues.state}
+            label="State"
+            name="state"
+            rules={[{ required: true, message: 'State is required' }]}
+          >
+            <Select
+              onChange={onStateChange}
+              showSearch
+              placeholder="Select a state"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {states.map(state => (
+                <Option value={state}>{state}</Option>
+              ))}
+            </Select>
+          </Form.Item>
+
           <Form.Item
             hasFeedback
             initialValue={formValues.zipCode}
