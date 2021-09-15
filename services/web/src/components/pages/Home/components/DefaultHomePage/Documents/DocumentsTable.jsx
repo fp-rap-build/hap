@@ -82,8 +82,6 @@ const DocumentsTable = ({ request }) => {
       dataIndex: 'status',
       key: 'status',
       render: (status, row, index) => {
-        console.log(row);
-
         let color = status in validStatuses ? 'success' : 'error';
         let text = status in validStatuses ? 'Received' : 'Missing';
 
