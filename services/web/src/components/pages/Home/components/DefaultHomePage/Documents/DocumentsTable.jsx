@@ -82,6 +82,8 @@ const DocumentsTable = ({ request }) => {
       dataIndex: 'status',
       key: 'status',
       render: (status, row, index) => {
+        console.log(row);
+
         let color = status in validStatuses ? 'success' : 'error';
         let text = status in validStatuses ? 'Received' : 'Missing';
 
@@ -129,7 +131,10 @@ const DocumentsTable = ({ request }) => {
       key: 'optOut',
       render: (text, record) => (
         <>
-          <Button onClick={() => showSelfDecModal(record)}>
+          <Button
+            disabled={record.selfDecDisabled}
+            onClick={() => showSelfDecModal(record)}
+          >
             Don't Have Document?
           </Button>
         </>

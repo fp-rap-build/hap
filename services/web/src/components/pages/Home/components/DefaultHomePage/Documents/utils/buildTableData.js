@@ -9,6 +9,7 @@ export default function builtTableData(statuses) {
       status: statuses.childrenOrPregnancy
         ? statuses.childrenOrPregnancy
         : 'missing',
+      selfDecDisabled: true,
     },
     {
       key: 'residency',
@@ -17,6 +18,7 @@ export default function builtTableData(statuses) {
       blurb:
         'At least one of the following: a. Driver’s license/ State ID with Spokane city address,  b. Work or school ID,  c. Public benefit award letter  ( Supplemental Nutrition assistance Program (SNAP) award letter or Temporary Assistance for Needy Families (TANF) award letter),  d. Utility bill,   e. Lease agreement, f. Other reasonable sources ',
       status: statuses.residency ? statuses.residency : 'missing',
+      selfDecDisabled: true,
     },
     {
       key: 'identity',
@@ -25,6 +27,7 @@ export default function builtTableData(statuses) {
       blurb:
         'At least one of the following: a. Driver’s license/ State ID with Spokane city address,  b. Work or school ID,  c. Public benefit award letter  ( Supplemental Nutrition assistance Program (SNAP) award letter or Temporary Assistance for Needy Families (TANF) award letter),  d. Utility bill,   e. Lease agreement, f. Other reasonable sources ',
       status: statuses.identity ? statuses.identity : 'missing',
+      selfDecDisabled: true,
     },
     {
       key: 'lease',
@@ -32,6 +35,7 @@ export default function builtTableData(statuses) {
       title: 'Lease agreement',
       blurb: ' ',
       status: statuses.lease ? statuses.lease : 'missing',
+      selfDecDisabled: false,
     },
     {
       key: 'income',
@@ -41,6 +45,7 @@ export default function builtTableData(statuses) {
         'Acceptable documents include: a. Current year Social Security award letters, b. Pay Stubs, c. Self-Employment Ledger, d. Child Support, e. Other sources of income',
       status: statuses.income ? statuses.income : 'missing',
       description: '',
+      selfDecDisabled: false,
     },
     {
       key: 'housingInstability',
@@ -51,6 +56,7 @@ export default function builtTableData(statuses) {
       status: statuses.housingInstability
         ? statuses.housingInstability
         : 'missing',
+      selfDecDisabled: false,
     },
     {
       key: 'covid',
@@ -59,6 +65,7 @@ export default function builtTableData(statuses) {
       blurb:
         'Acceptable Documents include: a. Letter from employer showing termination of employment or reduced hours, b. Medical documentation from a doctor, c. Childcare costs that were paid',
       status: statuses.covid ? statuses.covid : 'missing',
+      selfDecDisabled: false,
     },
   ];
 
