@@ -61,7 +61,7 @@ const Index = ({
           label={
             formValues.role === 'landlord'
               ? 'Tenants Monthly Income'
-              : 'Monthly Income'
+              : 'Monthly Household Income'
           }
           rules={[
             {

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Button } from 'antd';
+import { Form, Checkbox } from 'antd';
 import { axiosWithAuth } from '../../../../../api/axiosWithAuth';
 import { setCurrentUser } from '../../../../../redux/users/userActions';
 
@@ -30,12 +31,24 @@ export default function Submit({ setErrorMessage, request, dispatch }) {
           gap: '1rem',
         }}
       >
+        <br />
+        <br />
         <h3>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis laborum
-          aut ducimus dignissimos sapiente eveniet nisi impedit odio, vel natus
-          eum quas voluptatum rerum esse at. Officia consequatur accusantium
-          maxime?
+          Thank you for completing all the steps and uploading your documents.
+          Please review the final question below. Your request will not be able
+          to be processed without granting us persmission to speak to other
+          parties involved to verify your information and complete your request
+          for Assistance.
         </h3>
+        <Form>
+          <Form.Item>
+            <Checkbox name="advocate">
+              By Checking this box you agree to allow Family Promise of Spokane
+              to speak with your landlord and the city of Spokane to facilitate
+              the processing of your request.
+            </Checkbox>
+          </Form.Item>
+        </Form>
         <Button
           size="large"
           onClick={() =>
