@@ -38,6 +38,9 @@ export default function Index() {
           <Button onClick={redirectToRentalAssistanceForm}>
             Check Eligibility and Apply
           </Button>
+          <Button onClick={() => history.push('/applyv2')}>
+            Check Eligibility and Apply V2
+          </Button>
           <br />
           <h5>If you're a landlord or tenant, log in to view your status.</h5>
           <Button>

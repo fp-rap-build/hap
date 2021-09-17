@@ -13,7 +13,7 @@ import Container from './components/Requests/Actions/Container';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import { XGrid, GridToolbar } from '@material-ui/x-grid';
-import ExportCsv from './components/ExportCsv';
+//import ExportCsv from './components/ExportCsv';
 
 // helper function to insert "HAP" before every request id prior to
 // displaying it in the table
@@ -28,7 +28,7 @@ export default function PaymentsTable() {
 
   const [data, setData] = useState([]);
 
-  const [columns, setColumns] = useState([
+  const [columns] = useState([
     //  {
     //    headerName: 'Delete',
     //    field: 'delete',

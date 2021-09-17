@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import useWindowDimensions from '../../../../../utils/useWindowDimensions';
@@ -23,6 +23,8 @@ import {
 
 import { Typography, Layout, Menu } from 'antd';
 
+import checkIfAllDocumentsAreSubmitted from './Documents/utils/checkIfAllDocumentsAreSubmitted';
+
 const { Header, Content, Sider, Footer } = Layout;
 const { Title } = Typography;
 
@@ -41,7 +43,10 @@ export default function Index() {
 
   //UI State
   const [collapsed, setCollapsed] = useState(true);
-  const [currentContent, setCurrentContent] = useState('userInfo');
+
+  const [currentContent, setCurrentContent] = useState('status');
+
+  const [allDocumentsCompleted, setAllDocumentsCompleted] = useState(false);
 
   //Event Handlers
   const toggleCollapse = () => {
@@ -61,6 +66,10 @@ export default function Index() {
     request,
   };
 
+  useEffect(() => {
+    setAllDocumentsCompleted(checkIfAllDocumentsAreSubmitted(documents));
+  }, [documents]);
+
   return (
     <div className="homeContainer">
       <Layout style={{ minHeight: '90vh' }}>
@@ -72,44 +81,66 @@ export default function Index() {
           width="10rem"
         >
           <div className="spacer" />
-          <Menu
-            theme="dark"
-            defaultSelectedKeys={['userInfo']}
-            mode="inline"
-            inlineCollapsed={collapsed}
-          >
-            <Menu.Item
-              key="userInfo"
-              icon={<UserOutlined />}
-              onClick={e => {
-                setCollapsed(true);
-                onContentChange(e);
-              }}
+
+          {allDocumentsCompleted ? (
+            <Menu
+              theme="dark"
+
+              defaultSelectedKeys={['status']}
+
+              mode="inline"
+              inlineCollapsed={collapsed}
             >
-              User
-            </Menu.Item>
-            <Menu.Item
-              key="documents"
-              icon={<FileOutlined />}
-              onClick={onContentChange}
+              <Menu.Item
+                key="userInfo"
+                icon={<UserOutlined />}
+                onClick={e => {
+                  setCollapsed(true);
+                  onContentChange(e);
+                }}
+              >
+                User
+              </Menu.Item>
+              <Menu.Item
+                key="documents"
+                icon={<FileOutlined />}
+                onClick={onContentChange}
+              >
+                Documents
+              </Menu.Item>
+              <Menu.Item
+                key="comments"
+                icon={<DesktopOutlined />}
+                onClick={onContentChange}
+              >
+                Chat with us!
+              </Menu.Item>
+              <Menu.Item
+                key="status"
+                icon={<PieChartOutlined />}
+                onClick={onContentChange}
+              >
+                Request Status
+              </Menu.Item>
+            </Menu>
+          ) : (
+            <Menu
+              theme="dark"
+
+              defaultSelectedKeys={['status']}
+
+              mode="inline"
+              inlineCollapsed={collapsed}
             >
-              Documents
-            </Menu.Item>
-            <Menu.Item
-              key="comments"
-              icon={<DesktopOutlined />}
-              onClick={onContentChange}
-            >
-              Chat with us!
-            </Menu.Item>
-            <Menu.Item
-              key="status"
-              icon={<PieChartOutlined />}
-              onClick={onContentChange}
-            >
-              Request Status
-            </Menu.Item>
-          </Menu>
+              <Menu.Item
+                key="documents"
+                icon={<FileOutlined />}
+                onClick={onContentChange}
+              >
+                Documents
+              </Menu.Item>
+            </Menu>
+          )}
         </Sider>
         <Layout className="sidebar-content-container">
           <Header className="header">

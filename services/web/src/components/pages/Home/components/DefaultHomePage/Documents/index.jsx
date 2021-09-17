@@ -24,6 +24,10 @@ export default function Index({ request }) {
     <div className="documentsContainer" style={{ padding: '2%' }}>
       <div className="documentStatuses">
         <Title level={4}>Document Statuses:</Title>
+        <h2>
+          Please submit all documents in this table, your request will start
+          being processed shortly after all documents have been submitted
+        </h2>
         <DocumentsTable request={request} />
       </div>
     </div>
