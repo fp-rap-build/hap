@@ -35,12 +35,12 @@ import EmailedLLCheckbox from './components/Requests/EmailedLLCheckbox';
 
 import { formatUTC } from '../../../../utils/dates';
 
-import ExportCsv from './components/ExportCsv';
+//import ExportCsv from './components/ExportCsv';
 
 import {
   Review,
   Archive,
-  Delete,
+  // Delete,
   Subscribe,
   MarkIncomplete,
   Organizations,
@@ -200,6 +200,14 @@ export default function ManagedRequestsTable() {
         return <Organizations request={params.row} />;
       },
     },
+    {
+      field: 'Organization',
+      width: 200,
+      renderCell: params => {
+        return <Organizations request={params.row} />;
+      },
+    },
+
     {
       headerName: 'HAP ID',
       field: 'HAP ID',
