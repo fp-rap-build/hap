@@ -20,10 +20,11 @@ import { useSelector } from 'react-redux';
 import { axiosWithAuth } from '../../../../../../../../api/axiosWithAuth';
 import { setCurrentUser } from '../../../../../../../../redux/users/userActions';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 const SmartyStreetsSDK = require('smartystreets-javascript-sdk');
 const SmartyStreetsCore = SmartyStreetsSDK.core;
-const Lookup = SmartyStreetsSDK.usStreet.Lookup;
+const Lookup = SmartyStreetsSDK.usAutocompletePro.Lookup;
 
 // for Server-to-server requests, use this code:
 // let authId = process.env.SMARTY_AUTH_ID;
@@ -39,6 +40,7 @@ const { Option } = Select;
 
 export default function Index({
   formValues,
+  setFormValues,
   handleChange,
   onStateChange,
   setEligibilityContent,
@@ -49,10 +51,41 @@ export default function Index({
 
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
+  const [autosuggestions, setAutosuggestions] = useState([]);
+
+  const [address, setAddress] = useState({});
+
+  const parseAddress = str => {
+    str = str.split(',');
+
+    let address = str[0].trim();
+    let cityName = str[1].trim();
+    let state = str[2].trim();
+    let zipCode = str[3].trim();
+
+    return [address, cityName, state, zipCode];
+  };
+
   const handleChangeWrapper = e => {
     setIsAlertOpen(false);
 
     return handleChange(e);
+  };
+
+  const handleAddressChange = str => {
+    let [address, cityName, state, zipCode] = parseAddress(str);
+
+    setFormValues({
+      ...formValues,
+      address,
+      cityName,
+      state,
+      zipCode,
+    });
+  };
+
+  const handleFinish = () => {
+    setEligibilityContent('eligibility');
   };
 
   return (
@@ -71,26 +104,30 @@ export default function Index({
       <Form
         layout="vertical"
         onChange={handleChangeWrapper}
-        onFinish={() =>
-          verifyAddress(formValues, setEligibilityContent, setIsAlertOpen)
-        }
+        onFinish={handleFinish}
       >
         <Card>
           <Form.Item
-            hasFeedback
-            initialValue={formValues.address}
             label="Address"
             name="address"
-            rules={[
-              { required: true, message: 'Address is required' },
-              {
-                pattern: RegExp(/^[A-Za-z0-9'.-\s,#]*$/),
-                message: 'Enter a valid City Name',
-              },
-            ]}
+            rules={[{ required: true, message: 'Address is required' }]}
           >
-            <Input name="address" />
+            <Select
+              showSearch
+              style={{ width: '100%' }}
+              size="large"
+              placeholder="Address"
+              onChange={handleAddressChange}
+              onSearch={e => verifyAddress(formValues, e, setAutosuggestions)}
+            >
+              {autosuggestions.map(address => (
+                <Option value={formatAddress(address)}>
+                  {formatAddress(address)}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
+
           <Form.Item
             hasFeedback
             initialValue={formValues.addressLine2}
@@ -99,65 +136,6 @@ export default function Index({
           >
             <Input name="addressLine2" />
           </Form.Item>
-
-          <Form.Item
-            hasFeedback
-            initialValue={formValues.cityName}
-            label="City"
-            name="cityName"
-            rules={[
-              { required: true, min: 3, message: 'City is required' },
-              {
-                pattern: RegExp(/^[A-Za-z0-9'.-\s,#]*$/),
-                message: 'Enter a valid City Name',
-              },
-            ]}
-          >
-            <Input name="cityName" value={formValues.city} />
-          </Form.Item>
-
-          <Form.Item
-            hasFeedback
-            initialValue={formValues.state}
-            label="State"
-            name="state"
-            rules={[{ required: true, message: 'State is required' }]}
-          >
-            <Select
-              onChange={onStateChange}
-              showSearch
-              placeholder="Select a state"
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
-            >
-              {states.map(state => (
-                <Option value={state}>{state}</Option>
-              ))}
-            </Select>
-          </Form.Item>
-
-          <Form.Item
-            hasFeedback
-            initialValue={formValues.zipCode}
-            label="Postal Code"
-            name="zipCode"
-            rules={[
-              {
-                type: 'number',
-                required: true,
-                message: 'Postal code is required',
-              },
-              {
-                required: true,
-                pattern: RegExp(/^\d{5}$/),
-                message: 'Invalid postal code',
-              },
-            ]}
-          >
-            <InputNumber style={{ width: '100%' }} name="zipCode" />
-          </Form.Item>
           <Button htmlType="submit">Next</Button>
         </Card>
       </Form>
@@ -165,55 +143,38 @@ export default function Index({
   );
 }
 
-const verifyAddress = async (
-  formValues,
-  setEligibilityContent,
-  setIsAlertOpen
-) => {
-  const { state, cityName, address, addressLine2, zipCode } = formValues;
+let clientBuilder = new SmartyStreetsCore.ClientBuilder(
+  credentials
+).withLicenses(['us-autocomplete-pro-cloud']);
 
-  const addressInfo = {
-    state,
-    cityName,
-    address,
-    addressLine2,
-    zipCode,
-  };
+let client = clientBuilder.buildUsAutocompleteProClient();
 
-  let clientBuilder = new SmartyStreetsCore.ClientBuilder(
-    credentials
-  ).withBaseUrl('https://us-street.api.smartystreets.com/street-address');
+const verifyAddress = async (formValues, address, setAutosuggestions) => {
+  if (!address) return;
 
-  let client = clientBuilder.buildUsStreetApiClient();
+  const { state, cityName, addressLine2, zipCode } = formValues;
 
   // Documentation for input fields can be found at:
   // https://smartystreets.com/docs/us-street-api#input-fields
 
-  let lookup = new Lookup();
-  lookup.street = address;
-  lookup.city = cityName;
-  lookup.state = state;
-  lookup.zipCode = zipCode;
+  let lookup = new Lookup(address);
+
+  lookup.maxResults = 5;
+  lookup.preferStates = ['WA'];
 
   client
     .send(lookup)
-    .then(handleSuccess)
+    .then(function(results) {
+      setAutosuggestions(results.result);
+    })
     .catch(handleError);
 
-  function handleSuccess(response) {
-    let result = response.lookups.map(lookup => lookup.result);
-
-    // No address was returned, must be invalid
-    let isInvalidAddress = result[0].length === 0;
-
-    if (isInvalidAddress) {
-      return setIsAlertOpen(true);
-    }
-
-    setEligibilityContent('eligibility');
-  }
-
   function handleError(response) {
-    console.log(response);
+    alert('Error');
+    console.log(response)
   }
+};
+
+const formatAddress = address => {
+  return `${address.streetLine}, ${address.city}, ${address.state}, ${address.zipcode}`;
 };

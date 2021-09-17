@@ -9,6 +9,7 @@ import { VerifyAddress } from '..';
 
 const Index = ({
   formValues,
+  setFormValues,
   handleChange,
   setCurrentContent,
   onStateChange,
@@ -19,6 +20,7 @@ const Index = ({
   let props = {
     formValues,
     handleChange,
+    setFormValues,
     onStateChange,
     handleCheckBoxChange,
     setCurrentContent,
