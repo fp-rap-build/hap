@@ -50,7 +50,8 @@ const RenderSelfDecDocument = ({
               <Button type="primary" htmlType="submit">
                 {selectedCategory === 'childrenOrPregnancy'
                   ? 'Submit'
-                  : 'Create Document'}
+                  : 'Not Eligible'}
+                {selectedCategory === 'identity' ? 'Submit' : 'Not Eligible'}
               </Button>
             </Form.Item>
           )}

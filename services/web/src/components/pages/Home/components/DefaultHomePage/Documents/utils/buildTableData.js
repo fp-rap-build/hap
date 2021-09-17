@@ -30,7 +30,10 @@ export default function builtTableData(statuses) {
       key: 'lease',
       category: 'lease',
       title: 'Lease agreement',
-      blurb: ' ',
+      blurb:
+        'How to document: Current Lease (MUST INCLUDE All:  Where the applicant resides, Rental payment amount and Tenant and landlord signature.',
+    },
+    {
       status: statuses.lease ? statuses.lease : 'missing',
     },
     {

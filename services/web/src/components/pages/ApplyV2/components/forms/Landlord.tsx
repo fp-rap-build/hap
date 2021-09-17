@@ -90,43 +90,6 @@ const Landlord = ({
 
         <Form.Item
           hasFeedback
-          initialValue={formValues.landlordState}
-          label="State"
-          name="landlordState"
-          rules={[{ required: true, message: 'State is required' }]}
-        >
-          <Select
-            onChange={onLandlordStateChange}
-            showSearch
-            placeholder="Select a state"
-            optionFilterProp="children"
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-          >
-            {states.map(landlordState => (
-              <Option value={landlordState}>{landlordState}</Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          hasFeedback
-          initialValue={formValues.landlordCity}
-          label="City"
-          name="landlordCity"
-          rules={[
-            { required: true, min: 3, message: 'City is required' },
-            {
-              pattern: RegExp(/^[A-Za-z0-9'.-\s,#]*$/),
-              message: 'Enter a valid City Name',
-            },
-          ]}
-        >
-          <Input name="landlordCity" value={formValues.landlordCity} />
-        </Form.Item>
-
-        <Form.Item
-          hasFeedback
           initialValue={formValues.landlordAddress}
           label="Address"
           name="landlordAddress"
@@ -148,6 +111,45 @@ const Landlord = ({
         >
           <Input name="landlordAddress2" />
         </Form.Item>
+
+        <Form.Item
+          hasFeedback
+          initialValue={formValues.landlordCity}
+          label="City"
+          name="landlordCity"
+          rules={[
+            { required: true, min: 3, message: 'City is required' },
+            {
+              pattern: RegExp(/^[A-Za-z0-9'.-\s,#]*$/),
+              message: 'Enter a valid City Name',
+            },
+          ]}
+        >
+          <Input name="landlordCity" value={formValues.landlordCity} />
+        </Form.Item>
+
+        <Form.Item
+          hasFeedback
+          initialValue={formValues.landlordState}
+          label="State"
+          name="landlordState"
+          rules={[{ required: true, message: 'State is required' }]}
+        >
+          <Select
+            onChange={onLandlordStateChange}
+            showSearch
+            placeholder="Select a state"
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            {states.map(landlordState => (
+              <Option value={landlordState}>{landlordState}</Option>
+            ))}
+          </Select>
+        </Form.Item>
+
         <Form.Item
           hasFeedback
           initialValue={formValues.landlordZip}
