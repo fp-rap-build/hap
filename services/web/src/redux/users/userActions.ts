@@ -52,7 +52,10 @@ export const logOut = (history, orgId, subscriptions) => dispatch => {
   // Leave rooms
   socket.emit('leaveOrganization', { orgId });
 
+
+
   if(subscriptions) {
+
     subscriptions.forEach(sub => {
       socket.emit('leaveRequest', sub.requestId);
     });
@@ -122,7 +125,6 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
     gender: requestValues.gender,
   };
 
-  
   dispatch(setLoading(true));
   try {
     // Register an account

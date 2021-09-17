@@ -129,7 +129,10 @@ const DocumentsTable = ({ request }) => {
       key: 'optOut',
       render: (text, record) => (
         <>
-          <Button onClick={() => showSelfDecModal(record)}>
+          <Button
+            disabled={record.selfDecDisabled}
+            onClick={() => showSelfDecModal(record)}
+          >
             Don't Have Document?
           </Button>
         </>
