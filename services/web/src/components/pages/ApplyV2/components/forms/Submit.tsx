@@ -44,29 +44,38 @@ export default function Submit({ setErrorMessage, request, dispatch }) {
           for Assistance.
         </h3>
         <Form>
-          <Form.Item>
+          <Form.Item
+            required
+            rules={[
+              {
+                required: true,
+                message:
+                  'We cannot process your request without permission to speak to third parties regarding your request.ß',
+              },
+            ]}
+          >
             <Checkbox name="advocate">
               By Checking this box you agree to allow Family Promise of Spokane
               to speak with your landlord and the city of Spokane to facilitate
               the processing of your request.
             </Checkbox>
           </Form.Item>
+          <Button
+            size="large"
+            onClick={() =>
+              submitApplication(
+                request,
+                dispatch,
+                setErrorMessage,
+                setCurrentUser,
+                history
+              )
+            }
+          >
+            Submit
+          </Button>
         </Form>
 
-        <Button
-          size="large"
-          onClick={() =>
-            submitApplication(
-              request,
-              dispatch,
-              setErrorMessage,
-              setCurrentUser,
-              history
-            )
-          }
-        >
-          Submit
-        </Button>
       </div>
     </div>
   );

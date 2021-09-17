@@ -48,10 +48,11 @@ const RenderSelfDecDocument = ({
           {sessionId ? null : (
             <Form.Item>
               <Button type="primary" htmlType="submit">
-                {selectedCategory === 'childrenOrPregnancy'
-                  ? 'Submit'
-                  : 'Not Eligible'}
-                {selectedCategory === 'identity' ? 'Submit' : 'Not Eligible'}
+                {selectedCategory === 'childrenOrPregnancy' ||
+                selectedCategory === 'residency' ||
+                selectedCategory === 'identity'
+                  ? 'Not Eligible'
+                  : 'Submit'}
               </Button>
             </Form.Item>
           )}
