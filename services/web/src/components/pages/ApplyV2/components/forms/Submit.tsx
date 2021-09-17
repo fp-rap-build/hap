@@ -1,7 +1,9 @@
 import React from 'react';
 
 import { Button } from 'antd';
+
 import { Form, Checkbox } from 'antd';
+
 import { axiosWithAuth } from '../../../../../api/axiosWithAuth';
 import { setCurrentUser } from '../../../../../redux/users/userActions';
 
@@ -31,6 +33,7 @@ export default function Submit({ setErrorMessage, request, dispatch }) {
           gap: '1rem',
         }}
       >
+
         <br />
         <br />
         <h3>
@@ -49,6 +52,7 @@ export default function Submit({ setErrorMessage, request, dispatch }) {
             </Checkbox>
           </Form.Item>
         </Form>
+
         <Button
           size="large"
           onClick={() =>

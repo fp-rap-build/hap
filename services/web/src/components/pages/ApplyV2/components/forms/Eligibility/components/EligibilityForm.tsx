@@ -60,6 +60,7 @@ const Index = ({
           initialValue={formValues.monthlyIncome}
           label={
             formValues.role === 'landlord'
+
               ? "Tenant's Total Household Monthly Income"
               : 'Total Household Monthly Income'
           }
