@@ -111,6 +111,13 @@ const DocumentUploader = ({
           <p className="ant-upload-text">
             Click or drag file to this area to upload
           </p>
+          <p className="ant-upload-text">
+            Please wait for the notifications stating the uploads have completed
+            before closing this window.
+          </p>
+          <p className="ant-upload-text">
+            You may take photos of documents and submit them as valid documents.
+          </p>
         </p>
       </Dragger>
     </div>

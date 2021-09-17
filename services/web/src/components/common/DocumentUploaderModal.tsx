@@ -95,6 +95,10 @@ const Uploader = ({ actionUrl, headers, onFinish }) => {
       <p className="ant-upload-text">
         Click or drag file to this area to upload
       </p>
+      <p className="ant-upload-hint">
+        Please wait until you get a confirmation message before closing this
+        window or uploading another document.
+      </p>
     </Dragger>
   );
 };

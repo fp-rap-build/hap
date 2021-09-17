@@ -26,14 +26,13 @@ export default function builtTableData(statuses) {
         'At least one of the following: a. Driver’s license/ State ID with Spokane city address,  b. Work or school ID,  c. Public benefit award letter  ( Supplemental Nutrition assistance Program (SNAP) award letter or Temporary Assistance for Needy Families (TANF) award letter),  d. Utility bill,   e. Lease agreement, f. Other reasonable sources ',
       status: statuses.identity ? statuses.identity : 'missing',
     },
+
     {
       key: 'lease',
       category: 'lease',
       title: 'Lease agreement',
       blurb:
         'How to document: Current Lease (MUST INCLUDE All:  Where the applicant resides, Rental payment amount and Tenant and landlord signature.',
-    },
-    {
       status: statuses.lease ? statuses.lease : 'missing',
     },
     {
@@ -43,7 +42,7 @@ export default function builtTableData(statuses) {
       blurb:
         'Acceptable documents include: a. Current year Social Security award letters, b. Pay Stubs, c. Self-Employment Ledger, d. Child Support, e. Other sources of income',
       status: statuses.income ? statuses.income : 'missing',
-      description: '',
+      description: 'Proof of income',
     },
     {
       key: 'housingInstability',

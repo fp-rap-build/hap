@@ -39,12 +39,12 @@ const Index = ({
         </p>
         <br />
         <p>
-          Please begin by providing information about your Landlord or Property
-          Manager.
+          Please begin by providing information about your household's earned
+          income over the last 60 days
         </p>
         <Text type="secondary">
-          This will help us contact your landlord. We must verify information
-          with your landlord to approve any requests.
+          This will help us determine your eligibility for assistance. We must
+          verify information with your landlord to approve any requests.
           <br></br>
           <br />
         </Text>
