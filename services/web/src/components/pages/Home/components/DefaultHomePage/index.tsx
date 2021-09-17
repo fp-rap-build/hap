@@ -85,7 +85,9 @@ export default function Index() {
           {allDocumentsCompleted ? (
             <Menu
               theme="dark"
+
               defaultSelectedKeys={['status']}
+
               mode="inline"
               inlineCollapsed={collapsed}
             >
@@ -124,7 +126,9 @@ export default function Index() {
           ) : (
             <Menu
               theme="dark"
+
               defaultSelectedKeys={['status']}
+
               mode="inline"
               inlineCollapsed={collapsed}
             >

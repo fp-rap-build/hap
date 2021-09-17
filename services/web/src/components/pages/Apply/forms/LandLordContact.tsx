@@ -162,6 +162,7 @@ const SecondaryContact = ({ formValues, onStateChange }) => {
           />
         </Form.Item>
 
+
         <Form.Item
           initialValue={formValues.landlordNumber}
           label="Phone number"
@@ -178,6 +179,7 @@ const SecondaryContact = ({ formValues, onStateChange }) => {
         </Form.Item>
       </Card>
     </Form>
+
   );
 };
 
