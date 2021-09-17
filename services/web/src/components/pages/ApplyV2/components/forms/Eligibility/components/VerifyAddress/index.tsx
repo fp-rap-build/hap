@@ -166,13 +166,12 @@ const verifyAddress = async (formValues, address, setAutosuggestions) => {
     .send(lookup)
     .then(function(results) {
       setAutosuggestions(results.result);
-      console.log(results);
     })
     .catch(handleError);
 
   function handleError(response) {
-    alert('err');
-    console.log(response);
+    alert('Error');
+    console.log(response)
   }
 };
 
