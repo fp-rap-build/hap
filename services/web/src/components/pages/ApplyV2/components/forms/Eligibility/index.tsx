@@ -4,7 +4,6 @@ import EligibilityForm from './components/EligibilityForm';
 
 import ProgramSelection from './components/ProgramSelection';
 
-import verifyAddress from './components/VerifyAddress/utils/verifyAddress';
 import { VerifyAddress } from '..';
 
 const Index = ({

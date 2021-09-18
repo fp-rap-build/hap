@@ -17,7 +17,7 @@ let client = clientBuilder.buildUsAutocompleteProClient();
 const useAddressAutoSuggestions = initialState => {
   const [autosuggestions, setAutosuggestions] = useState(initialState);
 
-  const handleAddressChange = address => {
+  const handleSearch = address => {
     if (!address) return;
 
     // Documentation for input fields can be found at.
@@ -36,7 +36,7 @@ const useAddressAutoSuggestions = initialState => {
       .catch(console.log);
   };
 
-  return [autosuggestions, handleAddressChange];
+  return [autosuggestions, handleSearch];
 };
 
 export default useAddressAutoSuggestions;
