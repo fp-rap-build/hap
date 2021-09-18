@@ -1,24 +1,21 @@
-import { states } from '../../../../../utils/data/states';
-
-import {
-  Form,
-  Input,
-  Card,
-  InputNumber,
-  Typography,
-  Select,
-  Divider,
-  Button,
-} from 'antd';
-
-import { updateRequest } from '../../../../../api';
+import { Form, Input, Card, Typography, Select, Divider, Button } from 'antd';
 
 import { useSelector } from 'react-redux';
+
 import {
   setCurrentUser,
   setErrorMessage,
 } from '../../../../../redux/users/userActions';
+
 import { axiosWithAuth } from '../../../../../api/axiosWithAuth';
+
+// Utils
+import parseAddress from '../../utils/parseAddress';
+import formatAddress from '../../utils/formatAddress';
+
+// Custom hook used to interact with the SmartyStreets autosuggestions API
+import useAddressAutoSuggestions from '../../../../../utils/hooks/useAddressAutoSuggestions';
+import { useEffect } from 'react';
 
 const { Option } = Select;
 
@@ -28,11 +25,30 @@ const Landlord = ({
   formValues,
   handleChange,
   setCurrentContent,
-  onLandlordStateChange,
+  setFormValues,
   currentUser,
   dispatch,
 }) => {
   const request = useSelector(state => state.requests.request);
+
+  const [autosuggestions, handleSearch] = useAddressAutoSuggestions([]);
+
+  const handleAddressChange = str => {
+    let [
+      landlordAddress,
+      landlordCity,
+      landlordState,
+      landlordZip,
+    ] = parseAddress(str);
+
+    setFormValues({
+      ...formValues,
+      landlordAddress,
+      landlordCity,
+      landlordState,
+      landlordZip,
+    });
+  };
 
   return (
     <Form
@@ -89,20 +105,26 @@ const Landlord = ({
         </Form.Item>
 
         <Form.Item
-          hasFeedback
-          initialValue={formValues.landlordAddress}
           label="Address"
+          rules={[{ required: true, message: 'Address is required' }]}
           name="landlordAddress"
-          rules={[
-            { required: true, message: 'Address is required' },
-            {
-              pattern: RegExp(/^[A-Za-z0-9'.-\s,#]*$/),
-              message: 'Enter a valid City Name',
-            },
-          ]}
         >
-          <Input name="landlordAddress" />
+          <Select
+            showSearch
+            style={{ width: '100%' }}
+            placeholder="Address"
+            defaultValue={formValues.landlordAddress}
+            onChange={handleAddressChange}
+            onSearch={handleSearch}
+          >
+            {autosuggestions.map(address => (
+              <Option value={formatAddress(address)}>
+                {formatAddress(address)}
+              </Option>
+            ))}
+          </Select>
         </Form.Item>
+
         <Form.Item
           hasFeedback
           initialValue={formValues.landlordAddress2}
@@ -110,67 +132,6 @@ const Landlord = ({
           name="landlordAddress2"
         >
           <Input name="landlordAddress2" />
-        </Form.Item>
-
-        
-        <Form.Item
-          hasFeedback
-          initialValue={formValues.landlordCity}
-          label="City"
-          name="landlordCity"
-          rules={[
-            { required: true, min: 3, message: 'City is required' },
-            {
-              pattern: RegExp(/^[A-Za-z0-9'.-\s,#]*$/),
-              message: 'Enter a valid City Name',
-            },
-          ]}
-        >
-          <Input name="landlordCity" value={formValues.landlordCity} />
-        </Form.Item>
-
-        <Form.Item
-          hasFeedback
-          initialValue={formValues.landlordState}
-          label="State"
-          name="landlordState"
-          rules={[{ required: true, message: 'State is required' }]}
-        >
-          <Select
-            onChange={onLandlordStateChange}
-            showSearch
-            placeholder="Select a state"
-            optionFilterProp="children"
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-          >
-            {states.map(landlordState => (
-              <Option value={landlordState}>{landlordState}</Option>
-            ))}
-          </Select>
-        </Form.Item>
-
-        
-        <Form.Item
-          hasFeedback
-          initialValue={formValues.landlordZip}
-          label="Postal Code"
-          name="landlordZip"
-          rules={[
-            {
-              type: 'number',
-              required: true,
-              message: 'Postal code is required',
-            },
-            {
-              required: true,
-              pattern: RegExp(/^\d{5}$/),
-              message: 'Invalid postal code',
-            },
-          ]}
-        >
-          <InputNumber style={{ width: '100%' }} name="landlordZip" />
         </Form.Item>
 
         <Form.Item
