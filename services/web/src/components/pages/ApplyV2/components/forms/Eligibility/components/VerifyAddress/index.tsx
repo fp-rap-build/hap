@@ -1,8 +1,8 @@
 import { Card, Button, Form, Select, Input } from 'antd';
 
 // Utils
-import parseAddress from './utils/parseAddress';
-import formatAddress from './utils/formatAddress';
+import parseAddress from '../../../../../utils/parseAddress';
+import formatAddress from '../../../../../utils/formatAddress';
 
 // Custom hook used to interact with the SmartyStreets autosuggestions API
 import useAddressAutoSuggestions from '../../../../../../../../utils/hooks/useAddressAutoSuggestions';
