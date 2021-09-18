@@ -148,7 +148,7 @@ const verifyAddress = async (formValues, address, setAutosuggestions) => {
 
   const { state, cityName, addressLine2, zipCode } = formValues;
 
-  // Documentation for input fields can be found at
+  // Documentation for input fields can be found at.
   // https://smartystreets.com/docs/us-street-api#input-fields
 
   let lookup = new Lookup(address);
@@ -164,6 +164,7 @@ const verifyAddress = async (formValues, address, setAutosuggestions) => {
     .catch(handleError);
 
   function handleError(response) {
+
     console.log(response);
   }
 };
