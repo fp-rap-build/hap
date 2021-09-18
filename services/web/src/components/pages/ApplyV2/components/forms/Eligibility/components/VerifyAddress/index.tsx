@@ -164,7 +164,6 @@ const verifyAddress = async (formValues, address, setAutosuggestions) => {
     .catch(handleError);
 
   function handleError(response) {
-    alert('Error');
     console.log(response);
   }
 };
