@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 
 import { Button } from 'antd';
 
@@ -11,6 +11,8 @@ import { useHistory } from 'react-router-dom';
 
 export default function Submit({ setErrorMessage, request, dispatch }) {
   const history = useHistory();
+
+  const [isCheckboxSelected, setIsCheckboxSelected] = useState(false);
 
   return (
     <div
@@ -53,13 +55,17 @@ export default function Submit({ setErrorMessage, request, dispatch }) {
               },
             ]}
           >
-            <Checkbox name="advocate" disabled defaultChecked>
+            <Checkbox
+              name="advocate"
+              onChange={e => setIsCheckboxSelected(e.target.checked)}
+            >
               By Checking this box you agree to allow Family Promise of Spokane
               to speak with your landlord and the city of Spokane to facilitate
               the processing of your request.
             </Checkbox>
           </Form.Item>
           <Button
+            disabled={!isCheckboxSelected}
             size="large"
             onClick={() =>
               submitApplication(
