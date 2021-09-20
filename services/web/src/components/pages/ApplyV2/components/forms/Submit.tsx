@@ -33,7 +33,6 @@ export default function Submit({ setErrorMessage, request, dispatch }) {
           gap: '1rem',
         }}
       >
-
         <br />
         <br />
         <h3>
@@ -54,7 +53,7 @@ export default function Submit({ setErrorMessage, request, dispatch }) {
               },
             ]}
           >
-            <Checkbox name="advocate">
+            <Checkbox name="advocate" disabled defaultChecked>
               By Checking this box you agree to allow Family Promise of Spokane
               to speak with your landlord and the city of Spokane to facilitate
               the processing of your request.
@@ -75,7 +74,6 @@ export default function Submit({ setErrorMessage, request, dispatch }) {
             Submit
           </Button>
         </Form>
-
       </div>
     </div>
   );

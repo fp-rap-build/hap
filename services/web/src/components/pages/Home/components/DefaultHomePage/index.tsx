@@ -74,6 +74,7 @@ export default function Index() {
     <div className="homeContainer">
       <Layout style={{ minHeight: '90vh' }}>
         <Sider
+          theme="light"
           collapsible
           collapsed={width < 700 ? true : collapsed}
           onCollapse={toggleCollapse}
@@ -84,10 +85,7 @@ export default function Index() {
 
           {allDocumentsCompleted ? (
             <Menu
-              theme="dark"
-
               defaultSelectedKeys={['status']}
-
               mode="inline"
               inlineCollapsed={collapsed}
             >
@@ -125,10 +123,8 @@ export default function Index() {
             </Menu>
           ) : (
             <Menu
-              theme="dark"
-
+              theme="light"
               defaultSelectedKeys={['status']}
-
               mode="inline"
               inlineCollapsed={collapsed}
             >
@@ -143,7 +139,7 @@ export default function Index() {
           )}
         </Sider>
         <Layout className="sidebar-content-container">
-          <Header className="header">
+          <Header className="header" style={{ color: '#e8e8e8' }}>
             <Title level={width > 490 ? 2 : 3} style={{ color: '#FFFFFF' }}>
               {currentUser.firstName}'s Housing Assistance Portal.
             </Title>
