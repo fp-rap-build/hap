@@ -25,7 +25,6 @@ import {
   Submit,
   Status,
   Eligibility,
-  VerifyAddress,
 } from './forms';
 
 import { INITIAL_VALUES } from '../utils/initialFormValues';
@@ -34,14 +33,11 @@ import checkIfAllDocumentsAreSubmitted from '../../Home/components/DefaultHomePa
 import { CheckSquareOutlined } from '@ant-design/icons';
 import useWindowDimensions from '../../../../utils/useWindowDimensions';
 
-const { Header, Content, Sider, Footer } = Layout;
-
-const { Title } = Typography;
+const { Content, Sider } = Layout;
 
 export default function Index() {
   const { width } = useWindowDimensions();
 
-  const [progress, setProgress] = useState(0);
   const LinearProgressWithLabel = props => {
     return (
       <LinearProgress
@@ -168,10 +164,6 @@ export default function Index() {
       ...addressDetails,
     });
   }, [request]);
-
-  useEffect(() => {
-    // Runs whenever currentContent changes (page change)
-  }, [currentContent]);
 
   function currentContentToProgress(currentContent) {
     switch (currentContent) {
