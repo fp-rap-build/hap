@@ -3,10 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { LinearProgress } from '@material-ui/core';
 
 import {
-  DesktopOutlined,
-  PieChartOutlined,
   FileOutlined,
   UserOutlined,
+  HomeOutlined,
+  TeamOutlined,
+  FolderOpenOutlined,
+  SendOutlined,
+  UserAddOutlined,
 } from '@ant-design/icons';
 
 import { Typography, Layout, Menu } from 'antd';
@@ -22,19 +25,19 @@ import {
   Submit,
   Status,
   Eligibility,
-  VerifyAddress,
 } from './forms';
 
 import { INITIAL_VALUES } from '../utils/initialFormValues';
 import { setRequestAddressAndDocuments } from '../../../../redux/requests/requestActions';
 import checkIfAllDocumentsAreSubmitted from '../../Home/components/DefaultHomePage/Documents/utils/checkIfAllDocumentsAreSubmitted';
+import { CheckSquareOutlined } from '@ant-design/icons';
+import useWindowDimensions from '../../../../utils/useWindowDimensions';
 
-const { Header, Content, Sider, Footer } = Layout;
-
-const { Title } = Typography;
+const { Content, Sider } = Layout;
 
 export default function Index() {
-  const [progress, setProgress] = useState(0);
+  const { width } = useWindowDimensions();
+
   const LinearProgressWithLabel = props => {
     return (
       <LinearProgress
@@ -51,7 +54,7 @@ export default function Index() {
   const currentUser = useSelector(state => state.user.currentUser);
   const [formValues, setFormValues] = useState(INITIAL_VALUES());
   const [errorMessage, setErrorMessage] = useState(null);
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(width <= 800);
   const [allDocumentsSubmitted, setAllDocumentsSubmitted] = useState(false);
 
   const [currentContent, setCurrentContent] = useState(
@@ -162,10 +165,6 @@ export default function Index() {
     });
   }, [request]);
 
-  useEffect(() => {
-    // Runs whenever currentContent changes (page change)
-  }, [currentContent]);
-
   function currentContentToProgress(currentContent) {
     switch (currentContent) {
       case 'eligibility':
@@ -203,16 +202,16 @@ export default function Index() {
           collapsedWidth={60}
           width="15rem"
           style={{ backgroundColor: 'white' }}
+          collapsed={collapsed}
         >
           <Menu
             defaultSelectedKeys={['createAccount']}
             selectedKeys={[currentContent]}
-            mode="inline"
-            inlineCollapsed={collapsed}
           >
             <Menu.Item
               key="eligibility"
               disabled={isLoggedIn || currentContent === 'verifyAddress'}
+              icon={<CheckSquareOutlined />}
               onClick={e => {
                 setCollapsed(true);
                 onContentChange(e);
@@ -222,6 +221,7 @@ export default function Index() {
             </Menu.Item>
             <Menu.Item
               key="createAccount"
+              icon={<UserOutlined />}
               disabled={
                 isLoggedIn ||
                 currentContent in { eligibility: 1, verifyAddress: 1 }
@@ -235,6 +235,7 @@ export default function Index() {
             </Menu.Item>
             <Menu.Item
               key="landlord"
+              icon={<UserAddOutlined />}
               onClick={onContentChange}
               disabled={!isLoggedIn}
             >
@@ -244,6 +245,7 @@ export default function Index() {
             <Menu.Item
               key="household"
               onClick={onContentChange}
+              icon={<HomeOutlined />}
               disabled={
                 currentUser.applicationStep in { landlord: 1, address: 1 } ||
                 !isLoggedIn
@@ -254,6 +256,7 @@ export default function Index() {
             <Menu.Item
               key="demographics"
               onClick={onContentChange}
+              icon={<TeamOutlined />}
               disabled={
                 currentUser.applicationStep in
                   { landlord: 1, address: 1, household: 1 } || !isLoggedIn
@@ -264,6 +267,7 @@ export default function Index() {
             <Menu.Item
               key="documents"
               onClick={onContentChange}
+              icon={<FileOutlined />}
               disabled={
                 currentUser.applicationStep in
                   { landlord: 1, address: 1, household: 1, demographics: 1 } ||
@@ -274,6 +278,7 @@ export default function Index() {
             </Menu.Item>
             <Menu.Item
               key="review"
+              icon={<FolderOpenOutlined />}
               onClick={onContentChange}
               disabled={!isLoggedIn || !allDocumentsSubmitted}
             >
@@ -282,6 +287,7 @@ export default function Index() {
             <Menu.Item
               key="submit"
               onClick={onContentChange}
+              icon={<SendOutlined />}
               disabled={
                 !isLoggedIn ||
                 !allDocumentsSubmitted ||
