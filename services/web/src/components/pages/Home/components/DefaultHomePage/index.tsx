@@ -88,8 +88,10 @@ export default function Index() {
               defaultSelectedKeys={['status']}
               mode="inline"
               inlineCollapsed={collapsed}
+              style={{ backgroundColor: '#472D5B' }}
             >
               <Menu.Item
+                style={{ backgroundColor: '#472D5B' }}
                 key="userInfo"
                 icon={<UserOutlined />}
                 onClick={e => {
@@ -100,6 +102,7 @@ export default function Index() {
                 User
               </Menu.Item>
               <Menu.Item
+                style={{ backgroundColor: '#472D5B' }}
                 key="documents"
                 icon={<FileOutlined />}
                 onClick={onContentChange}
@@ -107,6 +110,7 @@ export default function Index() {
                 Documents
               </Menu.Item>
               <Menu.Item
+                style={{ backgroundColor: '#472D5B' }}
                 key="comments"
                 icon={<DesktopOutlined />}
                 onClick={onContentChange}
@@ -114,6 +118,7 @@ export default function Index() {
                 Chat with us!
               </Menu.Item>
               <Menu.Item
+                style={{ backgroundColor: '#472D5B' }}
                 key="status"
                 icon={<PieChartOutlined />}
                 onClick={onContentChange}
@@ -138,7 +143,10 @@ export default function Index() {
             </Menu>
           )}
         </Sider>
-        <Layout className="sidebar-content-container">
+        <Layout
+          className="sidebar-content-container"
+          style={{ color: '#FFFFFF' }}
+        >
           <Header className="header" style={{ color: '#e8e8e8' }}>
             <Title level={width > 490 ? 2 : 3} style={{ color: '#FFFFFF' }}>
               {currentUser.firstName}'s Housing Assistance Portal.
@@ -148,6 +156,7 @@ export default function Index() {
             className="homeContent"
             style={{
               minHeight: 280,
+              backgroundColor: '#fff',
             }}
           >
             {renderContent(props)}
