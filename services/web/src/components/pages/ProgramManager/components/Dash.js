@@ -5,7 +5,7 @@ import ProgramMgrNav from './programMgrNav';
 import RequestsTable from '../../Admin/components/RequestsTable';
 import ManagedRequestsTable from '../../Admin/components/ManagedRequestsTable';
 import ArchivedRequests from '../../Admin/components/ArchivedRequests';
-import IncompleteRequests from '../../Admin/components/IncompleteRequests';
+
 import Analytics from '../../Admin/components/Analytics';
 import PaymentsTable from '../../Admin/components/PaymentsTable';
 
@@ -65,7 +65,7 @@ const Dash = () => {
         {activeComponent.current === 'payments' && <PaymentsTable />}
         {activeComponent.current === 'yourRequests' && <ManagedRequestsTable />}
         {activeComponent.current === 'archive' && <ArchivedRequests />}
-        {activeComponent.current === 'incomplete' && <IncompleteRequests />}
+
         {activeComponent.current === 'analytics' && <Analytics />}
       </Content>
       <Footer className={styles.footer} />

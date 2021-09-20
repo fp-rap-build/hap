@@ -7,6 +7,17 @@
   padding: 1rem;
 }
 
+.banner {
+  min-height: 9vh;
+  background-color: #472d5b;
+  color: white;
+  padding: 1rem;
+
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
 .form {
   width: 60%;
   display: flex;
@@ -26,6 +37,10 @@
 }
 
 @media (max-width: 900px) {
+  .banner h1 {
+    font-size: 1.3rem;
+  }
+
   .container {
     width: 80%;
   }

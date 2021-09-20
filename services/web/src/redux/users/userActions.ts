@@ -52,9 +52,15 @@ export const logOut = (history, orgId, subscriptions) => dispatch => {
   // Leave rooms
   socket.emit('leaveOrganization', { orgId });
 
-  subscriptions.forEach(sub => {
-    socket.emit('leaveRequest', sub.requestId);
-  });
+
+
+  if(subscriptions) {
+
+    subscriptions.forEach(sub => {
+      socket.emit('leaveRequest', sub.requestId);
+    });
+  }
+
 
   // Logout
   dispatch({ type: 'LOG_OUT' });
@@ -108,19 +114,6 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
     }
   }
 
-  if (requestValues.role === 'tenant') {
-    tenantEmail = requestValues.email;
-    tenantNumber = requestValues.phoneNumber;
-    landlordName = requestValues.landlordName;
-    landlordEmail = requestValues.landlordEmail;
-    landlordNumber = requestValues.landlordNumber;
-  } else {
-    landlordEmail = requestValues.email;
-    landlordNumber = requestValues.phoneNumber;
-    tenantEmail = requestValues.tenantEmail;
-    tenantNumber = requestValues.tenantNumber;
-  }
-
   // Values directly attached to their account
   const user = {
     firstName: requestValues.firstName,
@@ -130,61 +123,6 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
     role: requestValues.role,
     dob: requestValues.dob,
     gender: requestValues.gender,
-  };
-
-  // request and address information
-  const request = {
-    familySize: requestValues.familySize,
-    monthlyIncome: Number(requestValues.monthlyIncome),
-    monthlyRent: Number(requestValues.monthlyRent),
-    owed: Number(requestValues.owed),
-    unEmp90: requestValues.unEmp90,
-    foodWrkr: requestValues.foodWrkr,
-    totalChildren: requestValues.totalChildren,
-    amountRequested: requestValues.amountRequested,
-    amountApproved: requestValues.amountApproved,
-    budget: requestValues.budget,
-    advocate: requestValues.advocate,
-    hispanic: requestValues.hispanic,
-    asian: requestValues.asian,
-    black: requestValues.black,
-    pacific: requestValues.pacific,
-    white: requestValues.white,
-    native: requestValues.native,
-    beds: requestValues.beds,
-    hispanicHOH: requestValues.hispanicHOH,
-    asianHOH: requestValues.asianHOH,
-    blackHOH: requestValues.blackHOH,
-    pacificHOH: requestValues.pacificHOH,
-    whiteHOH: requestValues.whiteHOH,
-    nativeHOH: requestValues.nativeHOH,
-    demoNotSayHOH: requestValues.demoNotSayHOH,
-
-    covidFH: requestValues.covidFH,
-    qualifiedForUnemployment: requestValues.qualifiedForUnemployment,
-    proofOfRisk: requestValues.proofOfRisk,
-
-    demoNotSay: requestValues.demoNotSay,
-    incomplete: requestValues.incomplete,
-    tenantEmail,
-    tenantNumber,
-    landlordName,
-    landlordEmail,
-    childrenAges: requestValues.childrenAges,
-    landlordNumber,
-    landlordAddress: requestValues.landlordAddress,
-    landlordAddress2: requestValues.landlordAddress2,
-    landlordCity: requestValues.landlordCity,
-    landlordState: requestValues.landlordState,
-    landlordZip: requestValues.landlordZip,
-
-    address: {
-      address: requestValues.address,
-      addressLine2: requestValues.addressLine2,
-      cityName: requestValues.cityName,
-      zipCode: requestValues.zipCode,
-      state: requestValues.state,
-    },
   };
 
   dispatch(setLoading(true));
@@ -200,19 +138,12 @@ export const registerAndApply = (requestValues, history) => async dispatch => {
 
     dispatch(setCurrentUser(currentUser));
 
-    // Submit a request
+    // Submit am empty request
     let newRequest = await axiosWithAuth()
-      .post('/requests', request)
+      .post('/requests')
       .then(res => res.data);
 
-    socket.emit('postRequest', {
-      orgId: newRequest.orgId,
-      requestId: newRequest.id,
-      message: 'A new request was submitted',
-    });
-
     // Redirect to the homepage
-    history.push('/');
   } catch (error) {
     // #TODO: Better error handling
     const message = error?.response?.data?.message || 'Internal server error';

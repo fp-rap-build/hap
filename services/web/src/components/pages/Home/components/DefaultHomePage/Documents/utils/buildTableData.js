@@ -29,11 +29,13 @@ export default function builtTableData(statuses) {
       status: statuses.identity ? statuses.identity : 'missing',
       selfDecDisabled: true,
     },
+
     {
       key: 'lease',
       category: 'lease',
       title: 'Lease agreement',
-      blurb: ' ',
+      blurb:
+        'How to document: Current Lease (MUST INCLUDE All:  Where the applicant resides, Rental payment amount and Tenant and landlord signature.',
       status: statuses.lease ? statuses.lease : 'missing',
       selfDecDisabled: false,
     },
@@ -44,7 +46,7 @@ export default function builtTableData(statuses) {
       blurb:
         'Acceptable documents include: a. Current year Social Security award letters, b. Pay Stubs, c. Self-Employment Ledger, d. Child Support, e. Other sources of income',
       status: statuses.income ? statuses.income : 'missing',
-      description: '',
+      description: 'Proof of income',
       selfDecDisabled: false,
     },
     {

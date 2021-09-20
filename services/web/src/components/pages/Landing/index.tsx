@@ -35,7 +35,7 @@ export default function Index() {
             </em>
           </h4>
 
-          <Button onClick={redirectToRentalAssistanceForm}>
+          <Button onClick={() => history.push('/applyv2')}>
             Check Eligibility and Apply
           </Button>
           <br />
