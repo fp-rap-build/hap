@@ -11,7 +11,7 @@ const RenderMenu = ({ onContentChange }) => {
 
   const menu = (
     <Menu
-      theme="light"
+      theme="dark"
       defaultSelectedKeys={['applicant']}
       mode="inline"
       className="userSidebar"
@@ -32,7 +32,6 @@ const RenderMenu = ({ onContentChange }) => {
       <Menu.Item key="demographic" onClick={onContentChange}>
         Demographic
       </Menu.Item>
-      
     </Menu>
   );
 
