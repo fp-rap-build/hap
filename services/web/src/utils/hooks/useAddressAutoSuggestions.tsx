@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const SmartyStreetsSDK = require('smartystreets-javascript-sdk');
 const SmartyStreetsCore = SmartyStreetsSDK.core;
@@ -17,24 +17,31 @@ let client = clientBuilder.buildUsAutocompleteProClient();
 const useAddressAutoSuggestions = initialState => {
   const [autosuggestions, setAutosuggestions] = useState(initialState);
 
+  const [searchTerm, setSearchTerm] = useState('');
+
   const handleSearch = address => {
-    if (!address) return;
+    setSearchTerm(address);
+  };
 
-    // Documentation for input fields can be found at.
-    // https://smartystreets.com/docs/us-street-api#input-fields
+  useEffect(() => {
+    if (!searchTerm) return;
 
-    let lookup = new Lookup(address);
+    let lookup = new Lookup(searchTerm);
 
     lookup.maxResults = 5;
     lookup.preferStates = ['WA'];
 
-    client
-      .send(lookup)
-      .then(function(results) {
-        setAutosuggestions(results.result);
-      })
-      .catch(console.log);
-  };
+    const delayDebounceFn = setTimeout(() => {
+      client
+        .send(lookup)
+        .then(function(results) {
+          setAutosuggestions(results.result);
+        })
+        .catch(console.log);
+    }, 400);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm]);
 
   return [autosuggestions, handleSearch];
 };
