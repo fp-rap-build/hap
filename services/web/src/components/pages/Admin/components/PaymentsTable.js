@@ -56,8 +56,8 @@ export default function PaymentsTable() {
     },
 
     {
-      headerName: 'Owner',
-      field: 'owner',
+      headerName: 'Renter Or Owner',
+      field: 'renterOrOwner',
       width: 170,
     },
 

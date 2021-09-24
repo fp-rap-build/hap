@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Input, message } from 'antd';
+import { Modal, Input, message, Select, Form, Button } from 'antd';
 import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 
 import { useSelector } from 'react-redux';
 
 import socket from '../../../../../../config/socket';
 
+const { Option } = Select;
+
 export default function ApproveRequestModal({
   isApprovedModalVisible,
-  handleApprovalSubmit,
   loading,
   handleCancel,
   programs,
@@ -23,7 +24,23 @@ export default function ApproveRequestModal({
     budget: 0,
   });
 
+  const [paymentValues, setPaymentValues] = useState({
+    amount: null,
+    monthsBack: null,
+    amountBack: null,
+    monthsForward: null,
+    amountForward: null,
+    totalArrears: null,
+    accountNumber: null,
+    type: null,
+    renterOrOwner: null,
+  });
+
   const [paymentType, setPaymentType] = useState(null);
+
+  const [accountNumber, setAccountNumber] = useState(null);
+
+  const [renterOrOwner, setRenterOrOwner] = useState(null);
 
   const [amountToSend, setAmountToSend] = useState(null);
 
@@ -40,26 +57,19 @@ export default function ApproveRequestModal({
   const currentUser = useSelector(state => state.user.currentUser);
 
   const handlePaymentSubmit = async () => {
-    if (!amountToSend) return message.error('Please enter a valid amount');
-    if (!numofMonthsBack)
-      return message.error('Please enter a valid number of months');
-    if (!numofMonthsForward)
-      return message.error('Please enter a valid number of months');
-    if (!amountBack) return message.error('Please enter a valid amount');
-    if (!amountForward) return message.error('Please enter a valid amount');
-    if (!totalArrears) return message.error('Please enter a valid amount');
-
     const payment = {
       payerId: currentUser.id,
       requestId: request.id,
       programId: selectedProgram.id,
-      amount: amountToSend,
-      monthsBack: numofMonthsBack,
-      amountBack: amountBack,
-      monthsForward: numofMonthsForward,
-      amountForward: amountForward,
-      totalArrears: totalArrears,
-      type: paymentType,
+      amount: paymentValues.amount,
+      monthsBack: paymentValues.monthsBack,
+      amountBack: paymentValues.amountBack,
+      monthsForward: paymentValues.monthsForward,
+      amountForward: paymentValues.amountForward,
+      totalArrears: paymentValues.totalArrears,
+      accountNumber: paymentValues.accountNumber,
+      type: paymentValues.type,
+      renterOrOwner: paymentValues.renterOrOwner,
     };
 
     try {
@@ -108,6 +118,7 @@ export default function ApproveRequestModal({
       onOk={handlePaymentSubmit}
       confirmLoading={loading}
       onCancel={handleCancel}
+      footer={[]}
     >
       {modalContent === 'paymentType' && (
         <PaymentType
@@ -126,19 +137,11 @@ export default function ApproveRequestModal({
 
       {modalContent === 'submitPayment' && (
         <SubmitPayment
+          handlePaymentSubmit={handlePaymentSubmit}
+          paymentValues={paymentValues}
+          setPaymentValues={setPaymentValues}
           selectedProgram={selectedProgram}
-          amountToSend={amountToSend}
           setAmountToSend={setAmountToSend}
-          numofMonthsBack={numofMonthsBack}
-          numofMonthsForward={numofMonthsForward}
-          setNumofMonthsBack={setNumofMonthsBack}
-          setNumofMonthsForward={setNumofMonthsForward}
-          setAmountForward={setAmountForward}
-          setAmountBack={setAmountBack}
-          amountForward={amountForward}
-          amountBack={amountBack}
-          setTotalArrears={setTotalArrears}
-          totalArrears={totalArrears}
         />
       )}
     </Modal>
@@ -195,23 +198,29 @@ const ProgramsSelection = ({
 };
 
 const SubmitPayment = ({
+  paymentValues,
+  setPaymentValues,
+
+  handlePaymentSubmit,
+
   selectedProgram,
-  amountToSend,
   setAmountToSend,
-  numofMonthsBack,
-  setNumofMonthsBack,
-  setNumofMonthsForward,
-  numofMonthsForward,
-  amountForward,
-  amountBack,
-  setAmountForward,
-  setAmountBack,
-  setTotalArrears,
-  totalArrears,
 }) => {
   const [budget, setBudget] = useState(selectedProgram.budget);
 
   const onChange = e => {
+    setPaymentValues({ ...paymentValues, [e.target.name]: e.target.value });
+  };
+
+  const onPaymentTypeChange = type => {
+    setPaymentValues({ ...paymentValues, type });
+  };
+
+  const onRenterOrOwnerChange = renterOrOwner => {
+    setPaymentValues({ ...paymentValues, renterOrOwner });
+  };
+
+  const onAmountChange = e => {
     const { value } = e.target;
 
     const newBudget = selectedProgram.budget - e.target.value;
@@ -222,75 +231,186 @@ const SubmitPayment = ({
 
     if (value.split('')[0] === '0') return; // Can't give a request 0 dollars
 
-    setAmountToSend(value);
+    setPaymentValues({ ...paymentValues, amount: value });
     setBudget(selectedProgram.budget - e.target.value);
   };
 
-  const onTotalArrearsChange = e => {
-    const { value } = e.target;
-    setTotalArrears(value);
-  };
-
-  const onMonthBackChange = e => {
-    const { value } = e.target;
-    setNumofMonthsBack(value);
-  };
-
-  const onMonthForwardChange = e => {
-    const { value } = e.target;
-    setNumofMonthsForward(value);
-  };
-
-  const onAmountForwardChange = e => {
-    const { value } = e.target;
-    setAmountForward(value);
-  };
-
-  const onAmountBackChange = e => {
-    const { value } = e.target;
-    setAmountBack(value);
-  };
+  useEffect(() => {}, [paymentValues]);
 
   return (
     <div>
       <h1>Submit payment</h1>
       <h2>Budget: ${budget}</h2>
-      <Input
-        onChange={onChange}
-        name="payment"
-        placeholder="Amount approved"
-        value={amountToSend}
-      />
-      <Input
-        onChange={onMonthBackChange}
-        name="monthsBack"
-        placeholder="Months Back"
-        value={numofMonthsBack}
-      />
-      <Input
-        onChange={onTotalArrearsChange}
-        name="totalArrears"
-        placeholder="Total Arrears"
-        value={totalArrears}
-      />
-      <Input
-        onChange={onMonthForwardChange}
-        name="monthsForward"
-        placeholder="Months Forward"
-        value={numofMonthsForward}
-      />
-      <Input
-        onChange={onAmountForwardChange}
-        name="amountForward"
-        placeholder="Amount Forward"
-        value={amountForward}
-      />
-      <Input
-        onChange={onAmountBackChange}
-        name="amountBack"
-        placeholder="Amount Back"
-        value={amountBack}
-      />
+      <Form
+        layout="vertical"
+        onFinish={handlePaymentSubmit}
+        initialValues={{ remember: true }}
+      >
+        <Form.Item
+          label="Payment type"
+          name="paymentType"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+        >
+          <Select
+            placeholder="Payment type"
+            style={{ width: '100%' }}
+            onChange={onPaymentTypeChange}
+          >
+            <Option value="rental">Rental</Option>
+            <Option value="utility">Utility</Option>
+          </Select>
+        </Form.Item>
+
+        {paymentValues.type === 'utility' && (
+          <>
+            <Form.Item
+              name="renterOrOwner"
+              label="Renter or Owner"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Select
+                placeholder="Renter or Owner"
+                style={{ width: '100%' }}
+                onChange={onRenterOrOwnerChange}
+              >
+                <Option value="renter">Renter</Option>
+                <Option value="owner">Owner</Option>
+              </Select>
+            </Form.Item>
+
+            <Form.Item
+              name="accountNumber"
+              label="Account Number"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Input
+                onChange={onChange}
+                name="accountNumber"
+                placeholder="Account number"
+                value={paymentValues.accountNumber}
+              />
+            </Form.Item>
+          </>
+        )}
+
+        <Form.Item
+          name="amount"
+          label="Amount"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+        >
+          <Input
+            onChange={onAmountChange}
+            name="amount"
+            placeholder="Amount approved"
+            value={paymentValues.amount}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="monthsBack"
+          label="Months Back"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+        >
+          <Input
+            onChange={onChange}
+            name="monthsBack"
+            placeholder="Months Back"
+            value={paymentValues.monthsBack}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="totalArrears"
+          label="Total Arrears"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+        >
+          <Input
+            onChange={onChange}
+            name="totalArrears"
+            placeholder="Total Arrears"
+            value={paymentValues.totalArrears}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="monthsForward"
+          label="Months Forward"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+        >
+          <Input
+            onChange={onChange}
+            name="monthsForward"
+            placeholder="Months Forward"
+            value={paymentValues.monthsForward}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="amountForward"
+          label="Amount Forward"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+        >
+          <Input
+            onChange={onChange}
+            name="amountForward"
+            placeholder="Amount Forward"
+            value={paymentValues.amountForward}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="amountBack"
+          label="Amount Back"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+        >
+          <Input
+            onChange={onChange}
+            name="amountBack"
+            placeholder="Amount Back"
+            value={paymentValues.amountBack}
+          />
+        </Form.Item>
+
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
+      </Form>
     </div>
   );
 };
