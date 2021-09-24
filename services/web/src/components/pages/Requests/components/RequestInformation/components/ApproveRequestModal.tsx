@@ -5,7 +5,6 @@ import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 import { useSelector } from 'react-redux';
 
 import socket from '../../../../../../config/socket';
-import { Payment } from '@material-ui/icons';
 
 export default function ApproveRequestModal({
   isApprovedModalVisible,
@@ -180,7 +179,6 @@ const ProgramsSelection = ({
   const onProgramClick = program => {
     setModalContent('submitPayment');
     setSelectedProgram(program);
-    console.log(program);
   };
 
   return (
