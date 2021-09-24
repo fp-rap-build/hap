@@ -24,6 +24,8 @@ export default function ApproveRequestModal({
     budget: 0,
   });
 
+  const [paymentType, setPaymentType] = useState(null);
+
   const [amountToSend, setAmountToSend] = useState(null);
 
   const [numofMonthsBack, setNumofMonthsBack] = useState(null);
@@ -58,6 +60,7 @@ export default function ApproveRequestModal({
       monthsForward: numofMonthsForward,
       amountForward: amountForward,
       totalArrears: totalArrears,
+      type: paymentType,
     };
 
     try {
@@ -107,6 +110,13 @@ export default function ApproveRequestModal({
       confirmLoading={loading}
       onCancel={handleCancel}
     >
+      {modalContent === 'paymentType' && (
+        <PaymentType
+          setModalContent={setModalContent}
+          setPaymentType={setPaymentType}
+        />
+      )}
+
       {modalContent === 'programSelection' && (
         <ProgramsSelection
           programs={programs}
@@ -114,6 +124,7 @@ export default function ApproveRequestModal({
           setModalContent={setModalContent}
         />
       )}
+
       {modalContent === 'submitPayment' && (
         <SubmitPayment
           selectedProgram={selectedProgram}
@@ -135,15 +146,37 @@ export default function ApproveRequestModal({
   );
 }
 
+const PaymentType = ({ setModalContent, setPaymentType }) => {
+  return (
+    <div>
+      <h1>Payment Type</h1>
+
+      <h2
+        onClick={() => {
+          setPaymentType('rental');
+          setModalContent('programSelection');
+        }}
+      >
+        Rental
+      </h2>
+
+      <h2
+        onClick={() => {
+          setPaymentType('utility');
+          setModalContent('programSelection');
+        }}
+      >
+        Utility
+      </h2>
+    </div>
+  );
+};
+
 const ProgramsSelection = ({
   programs,
   setSelectedProgram,
   setModalContent,
 }) => {
-  const changeModalContent = () => {
-    setModalContent('submitPayment');
-  };
-
   const onProgramClick = program => {
     setModalContent('submitPayment');
     setSelectedProgram(program);

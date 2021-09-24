@@ -73,7 +73,7 @@ export default function Index({
 
   const [tab, setTab] = useState('basic');
 
-  const [modalContent, setModalContent] = useState('programSelection');
+  const [modalContent, setModalContent] = useState('paymentType');
 
   const [preChecklistValues, setPreChecklistValues] = useState({
     pmApproval: request.pmApproval,
