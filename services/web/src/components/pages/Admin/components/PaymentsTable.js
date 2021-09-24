@@ -36,9 +36,28 @@ export default function PaymentsTable() {
     //      <DeletePayment row={params.row} setData={setData} />
     //    ),
     //  },
+
     {
       headerName: 'HAP ID',
       field: 'HAP ID',
+      width: 170,
+    },
+
+    {
+      headerName: 'Type',
+      field: 'type',
+      width: 170,
+    },
+
+    {
+      headerName: 'Account',
+      field: 'accountNumber',
+      width: 170,
+    },
+
+    {
+      headerName: 'Renter Or Owner',
+      field: 'renterOrOwner',
       width: 170,
     },
 

@@ -8,6 +8,9 @@ exports.findForTable = () =>
     .join('addresses as a', 'r.addressId', '=', 'a.id')
     .select(
       'p.id',
+      'p.type',
+      'p.accountNumber',
+      'p.renterOrOwner',
       'p.requestId',
       'u.firstName',
       'u.lastName',

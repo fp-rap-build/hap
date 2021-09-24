@@ -115,7 +115,7 @@ const sendConfirmationOfApproval = (request) => {
   let mailingList;
   let msg;
 
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production' && request.type !== 'utility') {
     mailingList = [
       'hap@familypromiseofspokane.org',
       'fpspokane@bill.com',

@@ -215,6 +215,7 @@ const findById = (id) => {
       'a.cityName',
       'a.state',
       'p.amount as amountApproved',
+      'p.type',
       'pr.name as budget',
       'pr.id as pid'
     )

@@ -13,7 +13,6 @@ export default function FinalReviewModal({
   showApprovedModal,
   request,
   setRequest,
-  programs,
 }) {
   const [form] = Form.useForm();
 
