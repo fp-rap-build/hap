@@ -36,23 +36,7 @@ export default function ApproveRequestModal({
     renterOrOwner: null,
   });
 
-  const [paymentType, setPaymentType] = useState(null);
-
-  const [accountNumber, setAccountNumber] = useState(null);
-
-  const [renterOrOwner, setRenterOrOwner] = useState(null);
-
   const [amountToSend, setAmountToSend] = useState(null);
-
-  const [numofMonthsBack, setNumofMonthsBack] = useState(null);
-
-  const [numofMonthsForward, setNumofMonthsForward] = useState(null);
-
-  const [amountForward, setAmountForward] = useState(null);
-
-  const [amountBack, setAmountBack] = useState(null);
-
-  const [totalArrears, setTotalArrears] = useState(null);
 
   const currentUser = useSelector(state => state.user.currentUser);
 
@@ -120,13 +104,6 @@ export default function ApproveRequestModal({
       onCancel={handleCancel}
       footer={[]}
     >
-      {modalContent === 'paymentType' && (
-        <PaymentType
-          setModalContent={setModalContent}
-          setPaymentType={setPaymentType}
-        />
-      )}
-
       {modalContent === 'programSelection' && (
         <ProgramsSelection
           programs={programs}
@@ -141,38 +118,11 @@ export default function ApproveRequestModal({
           paymentValues={paymentValues}
           setPaymentValues={setPaymentValues}
           selectedProgram={selectedProgram}
-          setAmountToSend={setAmountToSend}
         />
       )}
     </Modal>
   );
 }
-
-const PaymentType = ({ setModalContent, setPaymentType }) => {
-  return (
-    <div>
-      <h1>Payment Type</h1>
-
-      <h2
-        onClick={() => {
-          setPaymentType('rental');
-          setModalContent('programSelection');
-        }}
-      >
-        Rental
-      </h2>
-
-      <h2
-        onClick={() => {
-          setPaymentType('utility');
-          setModalContent('programSelection');
-        }}
-      >
-        Utility
-      </h2>
-    </div>
-  );
-};
 
 const ProgramsSelection = ({
   programs,
@@ -204,7 +154,6 @@ const SubmitPayment = ({
   handlePaymentSubmit,
 
   selectedProgram,
-  setAmountToSend,
 }) => {
   const [budget, setBudget] = useState(selectedProgram.budget);
 
@@ -234,8 +183,6 @@ const SubmitPayment = ({
     setPaymentValues({ ...paymentValues, amount: value });
     setBudget(selectedProgram.budget - e.target.value);
   };
-
-  useEffect(() => {}, [paymentValues]);
 
   return (
     <div>
