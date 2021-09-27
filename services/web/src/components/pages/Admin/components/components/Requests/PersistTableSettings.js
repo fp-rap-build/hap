@@ -17,6 +17,20 @@ const updateTableWithConfig = (setColumns, tableName) => {
   });
 };
 
+const updateFilters = (setFilterModel, tableName) => {
+  let filters = JSON.parse(localStorage.getItem(tableName)) || {
+    items: [],
+  };
+
+  setFilterModel(filters);
+};
+
+const onFilterModelChange = (e, setFilterModel, tableName) => {
+  localStorage.setItem(tableName, JSON.stringify(e));
+
+  setFilterModel(e);
+};
+
 const onColumnVisibilityChange = async (e, tableName) => {
   let updatedColumn = e.colDef;
 
@@ -33,4 +47,9 @@ const onColumnVisibilityChange = async (e, tableName) => {
   localStorage.setItem(tableName, JSON.stringify(columns));
 };
 
-export { updateTableWithConfig, onColumnVisibilityChange };
+export {
+  updateTableWithConfig,
+  updateFilters,
+  onColumnVisibilityChange,
+  onFilterModelChange,
+};

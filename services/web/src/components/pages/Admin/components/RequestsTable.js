@@ -54,6 +54,8 @@ import { XGrid, GridToolbar } from '@material-ui/x-grid';
 import {
   updateTableWithConfig,
   onColumnVisibilityChange,
+  onFilterModelChange,
+  updateFilters,
 } from './components/Requests/PersistTableSettings';
 
 import { LeakRemoveTwoTone } from '@material-ui/icons';
@@ -69,6 +71,8 @@ export default function ManagedRequestsTable() {
   const [isFetching, setIsFetching] = useState(false);
 
   const [data, setData] = useState([]);
+
+  const [filterModel, setFilterModel] = useState({ items: [] });
 
   const [visible, setVisible] = useState(false);
 
@@ -542,6 +546,8 @@ export default function ManagedRequestsTable() {
 
   useEffect(() => {
     updateTableWithConfig(setColumns, 'requestsTable');
+
+    updateFilters(setFilterModel, 'requestsFilters');
   }, []);
 
   const openDocument = (docs, category, currentRequest) => {
@@ -577,6 +583,10 @@ export default function ManagedRequestsTable() {
           onColumnWidthChange={e =>
             onColumnVisibilityChange(e, 'requestsTable')
           }
+          filterModel={filterModel}
+          onFilterModelChange={e => {
+            onFilterModelChange(e, setFilterModel, 'requestsFilters');
+          }}
           style={{ height: 700 }}
           rows={data}
           columns={columns}

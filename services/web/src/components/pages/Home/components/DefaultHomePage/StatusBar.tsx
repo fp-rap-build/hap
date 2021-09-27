@@ -68,7 +68,7 @@ const StatusBar = ({ request }) => {
         <Step
           icon={<FolderOpenOutlined />}
           title="Verification of Documentation"
-          description="Your application is being reviewed by the Housing Assistance Team, please check back often to see if any further action is needed or if specific documents are required."
+          description="We have received your application for assistance. Please allow 4-6 weeks for your application to be processed. We will reach out to you with further instructions.  If you have any questions, please direct them to support@familypromiseofspokane.org."
         />
         <Step
           icon={<AuditOutlined />}
