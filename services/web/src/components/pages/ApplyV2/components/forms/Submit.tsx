@@ -59,9 +59,19 @@ export default function Submit({ setErrorMessage, request, dispatch }) {
               name="advocate"
               onChange={e => setIsCheckboxSelected(e.target.checked)}
             >
-              By Checking this box you agree to allow Family Promise of Spokane
-              to speak with your landlord and the city of Spokane to facilitate
-              the processing of your request.
+              To expedite your application process, Family Promise Rental
+              Assistance Team is requesting your permission to speak to any
+              person/party (i.e., landlord, mediator, lawyer, etc.) regarding
+              your rental assistance request and in obtaining applicable
+              documentation for your application. By checking this box and
+              pressing the Submit Button, you are consenting to this request.
+              <p>
+                <i>
+                  * If you do not want to release this information, please
+                  contact support@familypromiseofspokane.org to discuss your
+                  options further.
+                </i>
+              </p>
             </Checkbox>
           </Form.Item>
           <Button

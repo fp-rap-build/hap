@@ -1,18 +1,6 @@
 const initialComment = ` 
-Hello,
-
-Thank you for your application. We will begin processing your application as soon as possible.
-
-Please allow up to 4 week for our team to complete the reviewing of your documents.  They will send you a message
-when they have completed the review.
-
-You may check back here for status updates.  Any changes to your application will be reflected here.
-You will also get an email when there are any major changes to your application status.
-
-Thank you, 
-
-Prevention Assistance Team
-
+Welcome to the Family Promise of Spokane Housing Assistance Portal! 
+Due to the number of applications we have received, it is taking 4-6 weeks for applications to be processed. Thank you for your patience and understanding!
 `;
 
 module.exports = initialComment;
