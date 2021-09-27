@@ -69,6 +69,10 @@ export default function ManagedRequestsTable() {
 
   const [documents, setDocuments] = useState({});
 
+  const [filterModel, setFilterModel] = useState(
+    JSON.parse(localStorage.getItem(`managedRequestFilters`)) || { items: [] }
+  );
+
   const fetchRequests = async () => {
     setIsFetching(true);
     try {
@@ -512,6 +516,12 @@ export default function ManagedRequestsTable() {
           onColumnWidthChange={e =>
             onColumnVisibilityChange(e, 'managedRequestTable')
           }
+          filterModel={filterModel}
+          onFilterModelChange={e => {
+            localStorage.setItem('managedRequestFilters', JSON.stringify(e));
+
+            setFilterModel(e);
+          }}
           style={{ height: 700 }}
           rows={data}
           columns={columns}
