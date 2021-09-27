@@ -69,9 +69,7 @@ export default function ManagedRequestsTable() {
 
   const [documents, setDocuments] = useState({});
 
-  const [filterModel, setFilterModel] = useState(
-    JSON.parse(localStorage.getItem(`managedRequestFilters`)) || { items: [] }
-  );
+  const [filterModel, setFilterModel] = useState({ items: [] });
 
   const fetchRequests = async () => {
     setIsFetching(true);
@@ -481,6 +479,12 @@ export default function ManagedRequestsTable() {
 
   useEffect(() => {
     updateTableWithConfig(setColumns, 'managedRequestTable');
+
+    let filters = JSON.parse(localStorage.getItem('managedRequestFilters')) || {
+      items: [],
+    };
+
+    setFilterModel(filters);
   }, []);
 
   const openDocument = (docs, category, currentRequest) => {
