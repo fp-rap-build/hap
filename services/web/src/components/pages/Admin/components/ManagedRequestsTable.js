@@ -35,8 +35,6 @@ import EmailedLLCheckbox from './components/Requests/EmailedLLCheckbox';
 
 import { formatUTC } from '../../../../utils/dates';
 
-import ExportCsv from './components/ExportCsv';
-
 import {
   Review,
   Subscribe,
@@ -48,6 +46,8 @@ import {
 import {
   updateTableWithConfig,
   onColumnVisibilityChange,
+  onFilterModelChange,
+  updateFilters,
 } from './components/Requests/PersistTableSettings';
 
 import { XGrid, GridToolbar } from '@material-ui/x-grid';
@@ -68,6 +68,8 @@ export default function ManagedRequestsTable() {
   const [request, setRequest] = useState({});
 
   const [documents, setDocuments] = useState({});
+
+  const [filterModel, setFilterModel] = useState({ items: [] });
 
   const fetchRequests = async () => {
     setIsFetching(true);
@@ -477,6 +479,8 @@ export default function ManagedRequestsTable() {
 
   useEffect(() => {
     updateTableWithConfig(setColumns, 'managedRequestTable');
+
+    updateFilters(setFilterModel, 'managedRequestFilters');
   }, []);
 
   const openDocument = (docs, category, currentRequest) => {
@@ -512,6 +516,10 @@ export default function ManagedRequestsTable() {
           onColumnWidthChange={e =>
             onColumnVisibilityChange(e, 'managedRequestTable')
           }
+          filterModel={filterModel}
+          onFilterModelChange={e => {
+            onFilterModelChange(e, setFilterModel, 'managedRequestFilters');
+          }}
           style={{ height: 700 }}
           rows={data}
           columns={columns}

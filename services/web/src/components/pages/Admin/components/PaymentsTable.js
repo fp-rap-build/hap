@@ -23,12 +23,21 @@ import createHAPid from '../../../../utils/general/displayHAPid';
 // column that indicates if the head of household is a youth or not
 import YouthHOH from '../../../../utils/general/youthHOH';
 
+import {
+  updateTableWithConfig,
+  onColumnVisibilityChange,
+  onFilterModelChange,
+  updateFilters,
+} from './components/Requests/PersistTableSettings';
+
 export default function PaymentsTable() {
   const [isFetching, setIsFetching] = useState(false);
 
   const [data, setData] = useState([]);
 
-  const [columns] = useState([
+  const [filterModel, setFilterModel] = useState({ items: [] });
+
+  const [columns, setColumns] = useState([
     //  {
     //    headerName: 'Delete',
     //    field: 'delete',
@@ -250,12 +259,26 @@ export default function PaymentsTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    updateTableWithConfig(setColumns, 'paymentsTable');
+
+    updateFilters(setFilterModel, 'paymentsFilters');
+  }, []);
+
   return (
     <>
       <h2>Payments</h2>
 
       <XGrid
         style={{ height: 700 }}
+        filterModel={filterModel}
+        onColumnVisibilityChange={e =>
+          onColumnVisibilityChange(e, 'paymentsTable')
+        }
+        onColumnWidthChange={e => onColumnVisibilityChange(e, 'paymentsTable')}
+        onFilterModelChange={e => {
+          onFilterModelChange(e, setFilterModel, 'paymentsFilters');
+        }}
         rows={data}
         columns={columns}
         loading={isFetching}
