@@ -119,7 +119,8 @@ const findForTable = (params, user) => {
       'd.location',
       'd.status',
       'd.type',
-      'o.organization'
+      'o.organization',
+      'r.notes'
     )
     .modify((qb) => {
       if (params.managerId) {
