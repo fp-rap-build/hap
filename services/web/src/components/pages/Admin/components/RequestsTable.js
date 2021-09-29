@@ -95,7 +95,7 @@ export default function ManagedRequestsTable() {
       await axiosWithAuth().put(`/requests/${id}`, payload);
     } catch (error) {
       message.error(
-        'Unable to update the payment, please wait a moment and then try again.'
+        'Unable to update the request, please wait a moment and then try again.'
       );
     }
   };
