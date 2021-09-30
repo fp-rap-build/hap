@@ -66,7 +66,6 @@ export default function Address({
             value={formValues.familySize}
           />
         </Form.Item>
-
         <Form.Item
           name="totalChildren"
           initialValue={formValues.totalChildren}
@@ -88,6 +87,28 @@ export default function Address({
           />
         </Form.Item>
 
+        {/*    */}
+        <Form.Item
+          initialValue={formValues.childrenAges}
+          label="Children Ages"
+          name="childrenAges"
+          rules={[
+            {
+              type: 'string',
+              required: true,
+              message:
+                'Please enter the ages of any children in the household, separated by commas',
+            },
+          ]}
+        >
+          <Input
+            name="childrenAges"
+            placeholder="4, 2, etc."
+            value={formValues.childrenAges}
+          />
+        </Form.Item>
+        {/*    */}
+
         <Form.Item
           name="beds"
           initialValue={formValues.beds}
@@ -108,7 +129,6 @@ export default function Address({
             value={formValues.beds}
           />
         </Form.Item>
-
         <Button htmlType="submit">Next</Button>
       </Card>
     </Form>
