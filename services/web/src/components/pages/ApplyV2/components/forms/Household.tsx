@@ -151,12 +151,12 @@ const updateHousehold = async (
     monthlyRent,
     owed,
     amountRequested,
-  } = formValues;
+  } = formValues; 
 
   const householdInfo = {
     familySize,
     totalChildren,
-    childrenAges,
+    childrenAges, 
     beds,
     monthlyIncome,
     monthlyRent,
@@ -165,7 +165,7 @@ const updateHousehold = async (
   };
 
   try {
-    await axiosWithAuth().put(`/requests/${request.id}`, householdInfo);
+    await axiosWithAuth().put(`/requests/${request.id}`, householdInfo); // Updates the request
 
     if (currentUser.applicationStep === 'household') {
       await axiosWithAuth()
