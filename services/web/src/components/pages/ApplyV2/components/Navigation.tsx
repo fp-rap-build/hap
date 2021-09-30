@@ -32,6 +32,7 @@ import { setRequestAddressAndDocuments } from '../../../../redux/requests/reques
 import checkIfAllDocumentsAreSubmitted from '../../Home/components/DefaultHomePage/Documents/utils/checkIfAllDocumentsAreSubmitted';
 import { CheckSquareOutlined } from '@ant-design/icons';
 import useWindowDimensions from '../../../../utils/useWindowDimensions';
+import { whileStatement } from '@babel/types';
 
 const { Content, Sider } = Layout;
 
@@ -191,10 +192,42 @@ export default function Index() {
         return 0;
     }
   }
-
+  const progressBarStyle = {
+    width: '98%',
+    margin: '2px auto',
+    padding: '2px',
+    display: 'flex',
+    border: '3px solid #004477',
+    borderRadius: '50px',
+    color: '#8D4982',
+    fontSize: '1.7rem',
+    fontWeight: 800,
+  };
+  const progressLabelStyle = {
+    width: '30%',
+  };
+  const progressStepsStyle = {
+    width: '70%',
+    backgroundColor: '#8D4982',
+    color: 'white',
+    borderRadius: '0 50px 50px 0',
+  };
   return (
     <div className="homeContainer">
       <LinearProgressWithLabel />
+
+      {/* Progress bar */}
+      <div className="progressBar" style={progressBarStyle}>
+        {/* <div style={{ width: `${currentContentToProgress(currentContent)}%` }}> */}
+        <div className="progressLabel" style={progressLabelStyle}>
+          Your Progress
+        </div>
+        <div
+          className="stepsBar"
+          style={progressStepsStyle}
+        >{`Step 2 of 10`}</div>
+      </div>
+      {/* Progress bar */}
       <Layout style={{ height: '100%' }}>
         <Sider
           collapsible
