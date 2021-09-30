@@ -24,3 +24,7 @@
   color: white;
   text-align: center;
 }
+
+.stepsBarDone {
+  background-color: #fec357;
+}

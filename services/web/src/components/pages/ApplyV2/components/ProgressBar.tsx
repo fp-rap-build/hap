@@ -13,9 +13,15 @@ const ProgressBar = props => {
       <div className="progressLabel">Your Progress</div>
       <div className="progressBarContainer">
         <div
-          className="stepsBar"
+          className={
+            statusBarWidth === '100' ? 'stepsBar stepsBarDone' : 'stepsBar'
+          }
           style={{ width: `${statusBarWidth}%` }}
-        >{`Step ${((progress + 10) / 10).toString()} of 10`}</div>
+        >
+          {progress === 90
+            ? `You're Done!`
+            : `Step ${(Math.floor(progress / 10) + 1).toString()} of 8`}
+        </div>
       </div>
     </div>
   );
