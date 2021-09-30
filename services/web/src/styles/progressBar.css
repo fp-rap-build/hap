@@ -1,0 +1,26 @@
+.progressBar {
+  width: 98%;
+  margin: 2px auto;
+  padding: 2px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border: 3px solid #004477;
+  border-radius: 50px;
+  color: #8d4982;
+  font-size: 1.7rem;
+  font-weight: 800;
+}
+.progressLabel {
+  border: 3px solid yellow;
+  width: 30%;
+  text-align: center;
+  margin: 0 auto;
+}
+.stepsBar {
+  border: 3px solid red;
+  width: 50%;
+  background-color: #8d4982;
+  color: white;
+  border-radius: 0 50px 50px 0;
+}
