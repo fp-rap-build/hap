@@ -109,6 +109,10 @@ const Landlord = ({
           rules={[{ required: true, message: 'Address is required' }]}
           name="landlordAddress"
         >
+          <h3>
+            Enter Number and first 3 letters of street name to begin searching
+            for your landlord or Property Manager address.
+          </h3>
           <Select
             showSearch
             style={{ width: '100%' }}
