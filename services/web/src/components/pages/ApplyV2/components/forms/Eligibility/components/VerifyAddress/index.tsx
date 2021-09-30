@@ -6,6 +6,8 @@ import formatAddress from '../../../../../utils/formatAddress';
 
 // Custom hook used to interact with the SmartyStreets autosuggestions API
 import useAddressAutoSuggestions from '../../../../../../../../utils/hooks/useAddressAutoSuggestions';
+import { BoldOutlined, ItalicOutlined } from '@ant-design/icons';
+import { TextFormat } from '@material-ui/icons';
 
 const { Option } = Select;
 
@@ -36,6 +38,10 @@ export default function Index({
   return (
     <Form layout="vertical" onFinish={handleFinish}>
       <Card>
+        <h3>
+          Enter Number and first 3 letters of street name to begin searching for
+          your address.
+        </h3>
         <Form.Item
           label="Address"
           name="address"
