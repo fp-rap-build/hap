@@ -232,8 +232,6 @@ const updateDemographics = async (
   dispatch
 ) => {
   const {
-    dob,
-    childrenAges,
     hispanic,
     asian,
     black,
@@ -241,11 +239,9 @@ const updateDemographics = async (
     white,
     native,
     demoNotSay,
-    gender,
   } = formValues;
 
   const demographicsInfo = {
-    childrenAges,
     hispanic,
     asian,
     black,

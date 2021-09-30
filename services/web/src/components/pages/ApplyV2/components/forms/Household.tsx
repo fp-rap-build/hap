@@ -145,6 +145,7 @@ const updateHousehold = async (
   const {
     familySize,
     totalChildren,
+    childrenAges,
     beds,
     monthlyIncome,
     monthlyRent,
@@ -155,6 +156,7 @@ const updateHousehold = async (
   const householdInfo = {
     familySize,
     totalChildren,
+    childrenAges,
     beds,
     monthlyIncome,
     monthlyRent,
