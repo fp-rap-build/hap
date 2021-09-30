@@ -199,7 +199,7 @@ export default function Index() {
       <LinearProgressWithLabel />
 
       {/* Progress bar */}
-      <ProgressBar statusBarWidth={currentContentToProgress(currentContent)} />
+      <ProgressBar progress={currentContentToProgress(currentContent)} />
       {/* Progress bar */}
       <Layout style={{ height: '100%' }}>
         <Sider
