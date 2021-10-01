@@ -6,15 +6,19 @@ const ProgressBar = props => {
 
   console.log('progress: ', progress);
 
-  const statusBarWidth = (25 + 0.75 * (progress + 10)).toString();
-  const stepNumber = (Math.floor(progress / 10) + 1).toString();
+  // a lot of the strange numbers and math here deal with the extras in /Navigation currentContentToProgress(currentContent) cases (address, status) not being included
+  const statusBarWidth = (20 + 0.8 * (progress + 20)).toString();
+  const stepNumber =
+    progress < 40
+      ? (Math.floor(progress / 10) + 1).toString()
+      : Math.floor(progress / 10).toString();
 
   return (
     <div className="progressBar">
       <div className="progressLabel">Your Progress</div>
       <div className="progressBarContainer">
         <div className="stepsBar" style={{ width: `${statusBarWidth}%` }}>
-          {`Step ${stepNumber} of 9`}
+          {`Step ${stepNumber} of 8`}
         </div>
       </div>
     </div>
