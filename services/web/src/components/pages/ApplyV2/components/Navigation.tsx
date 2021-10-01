@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { LinearProgress } from '@material-ui/core';
 
 import {
   FileOutlined,
@@ -39,16 +38,6 @@ const { Content, Sider } = Layout;
 
 export default function Index() {
   const { width } = useWindowDimensions();
-
-  const LinearProgressWithLabel = props => {
-    return (
-      <LinearProgress
-        variant="buffer"
-        valueBuffer={0}
-        value={currentContentToProgress(currentContent)}
-      />
-    );
-  };
 
   const dispatch = useDispatch();
 
@@ -196,11 +185,8 @@ export default function Index() {
 
   return (
     <div className="homeContainer">
-      <LinearProgressWithLabel />
-
-      {/* Progress bar */}
       <ProgressBar progress={currentContentToProgress(currentContent)} />
-      {/* Progress bar */}
+
       <Layout style={{ height: '100%' }}>
         <Sider
           collapsible
