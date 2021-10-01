@@ -4,8 +4,6 @@ import '../../../../styles/progressBar.css';
 const ProgressBar = props => {
   const { progress } = props;
 
-  console.log('progress: ', progress);
-
   // a lot of the strange numbers and math here deal with the extras in /Navigation currentContentToProgress(currentContent) cases (address, status) not being included
   const statusBarWidth = (20 + 0.8 * (progress + 20)).toString();
   const stepNumber =
