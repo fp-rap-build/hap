@@ -193,7 +193,7 @@ export default function Index() {
         return 0;
     }
   }
-
+  console.log(formValues);
   return (
     <div className="homeContainer">
       <LinearProgressWithLabel />

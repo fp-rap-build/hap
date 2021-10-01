@@ -39,7 +39,7 @@ const Landlord = ({
       landlordState,
       landlordZip,
     ] = parseAddress(str);
-
+    console.log(landlordAddress);
     setFormValues({
       ...formValues,
       landlordAddress,
