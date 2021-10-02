@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { LinearProgress } from '@material-ui/core';
 
 import {
   FileOutlined,
@@ -32,21 +31,13 @@ import { setRequestAddressAndDocuments } from '../../../../redux/requests/reques
 import checkIfAllDocumentsAreSubmitted from '../../Home/components/DefaultHomePage/Documents/utils/checkIfAllDocumentsAreSubmitted';
 import { CheckSquareOutlined } from '@ant-design/icons';
 import useWindowDimensions from '../../../../utils/useWindowDimensions';
+import { whileStatement } from '@babel/types';
+import ProgressBar from './ProgressBar';
 
 const { Content, Sider } = Layout;
 
 export default function Index() {
   const { width } = useWindowDimensions();
-
-  const LinearProgressWithLabel = props => {
-    return (
-      <LinearProgress
-        variant="buffer"
-        valueBuffer={0}
-        value={currentContentToProgress(currentContent)}
-      />
-    );
-  };
 
   const dispatch = useDispatch();
 
@@ -194,7 +185,8 @@ export default function Index() {
 
   return (
     <div className="homeContainer">
-      <LinearProgressWithLabel />
+      <ProgressBar progress={currentContentToProgress(currentContent)} />
+
       <Layout style={{ height: '100%' }}>
         <Sider
           collapsible
