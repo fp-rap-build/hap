@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 
-import { message } from 'antd';
-
 import { useSelector } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
@@ -83,22 +81,6 @@ export default function ManagedRequestsTable() {
   const [request, setRequest] = useState({});
 
   const [documents, setDocuments] = useState({});
-
-  const editRequest = async row => {
-    const { id, field, value } = row;
-
-    const payload = {};
-
-    payload[field] = value;
-
-    try {
-      await axiosWithAuth().put(`/requests/${id}`, payload);
-    } catch (error) {
-      message.error(
-        'Unable to update the request, please wait a moment and then try again.'
-      );
-    }
-  };
 
   const fetchRequests = async () => {
     setIsFetching(true);
@@ -476,14 +458,6 @@ export default function ManagedRequestsTable() {
     },
 
     {
-      headerName: 'Notes',
-      field: 'notes',
-      width: 150,
-      editable: true,
-      textEditor: true,
-    },
-
-    {
       headerName: 'Last Action',
       field: 'lastAction',
       width: 150,
@@ -614,7 +588,6 @@ export default function ManagedRequestsTable() {
             onFilterModelChange(e, setFilterModel, 'requestsFilters');
           }}
           style={{ height: 700 }}
-          onCellEditCommit={request => editRequest(request)}
           rows={data}
           columns={columns}
           loading={isFetching}

@@ -1,50 +1,49 @@
+import { LicenseInfo } from '@material-ui/x-grid';
+import { Button, notification } from 'antd';
 import 'antd/dist/antd.less';
-import React, { useEffect, useState, useRef } from 'react';
-
+import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import ReactGA from 'react-ga';
-
-import { Provider, useSelector, useDispatch } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import {
   BrowserRouter as Router,
   Route,
   Switch,
-  useHistory,
+  useHistory
 } from 'react-router-dom';
+import { PersistGate } from 'redux-persist/integration/react';
 import Layout from './components/Layout';
 import Admin from './components/pages/Admin';
 import Apply from './components/pages/Apply';
-import Landlord from './components/pages/Landlord';
+import ApplyV2 from './components/pages/ApplyV2';
+import ForgotPassword from './components/pages/ForgotPassword';
 import { HomePage } from './components/pages/Home';
 import LandingPage from './components/pages/Landing';
-import LoginPage from './components/pages/Login';
-import ForgotPassword from './components/pages/ForgotPassword';
-import ResetPassword from './components/pages/ResetPassword';
-import LandlordRequest from './components/pages/LandlordRequest';
+import Landlord from './components/pages/Landlord';
 import LandlordLogin from './components/pages/LandLordLogin';
-import ApplyV2 from './components/pages/ApplyV2';
-
+import LandlordRequest from './components/pages/LandlordRequest';
+import LoginPage from './components/pages/Login';
 import { NotFoundPage } from './components/pages/NotFound';
 import ProgramManager from './components/pages/ProgramManager';
-
 import Programs from './components/pages/Programs';
-
 import Requests from './components/pages/Requests';
-import { store, persistor } from './redux/store';
+import ResetPassword from './components/pages/ResetPassword';
+import socket from './config/socket';
+import { fetchNotifications } from './redux/notifications/notificationActions';
+import { persistor, store } from './redux/store';
 import './styles/global.css';
 import PrivateRoute from './utils/auth/PrivateRoute';
 
-import socket from './config/socket';
 
-import { Button, notification, Modal } from 'antd';
 
-import { fetchNotifications } from './redux/notifications/notificationActions';
 
-import IdleTimer from './utils/general/idleTimer';
 
-import { LicenseInfo } from '@material-ui/x-grid';
+
+
+
+
+
+
 
 const TRACKING_ID = 'G-ZDW3ENHWE7'; // YOUR_OWN_TRACKING_ID
 ReactGA.initialize(TRACKING_ID);
@@ -71,8 +70,7 @@ function RAP() {
   const { isLoggedIn, currentUser } = useSelector(state => state.user);
 
   const userRef = useRef(currentUser);
-
-  const showNotification = options => {
+   const showNotification = options => {
     const redirectToRequest = requestId =>
       history.push(`/requests/${requestId}`);
 

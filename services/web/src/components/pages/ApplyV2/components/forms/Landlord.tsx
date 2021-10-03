@@ -15,6 +15,7 @@ import formatAddress from '../../utils/formatAddress';
 
 // Custom hook used to interact with the SmartyStreets autosuggestions API
 import useAddressAutoSuggestions from '../../../../../utils/hooks/useAddressAutoSuggestions';
+import { useEffect } from 'react';
 
 const { Option } = Select;
 
