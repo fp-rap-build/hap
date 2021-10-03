@@ -13,7 +13,9 @@ const ProgressBar = props => {
 
   return (
     <div className="progressBar">
-      <div className="progressLabel">Your Progress</div>
+      <div className="progressLabel">
+        {window.innerWidth < 450 ? 'Progress' : 'Your Progress'}
+      </div>
       <div className="progressBarContainer">
         <div className="stepsBar" style={{ width: `${statusBarWidth}%` }}>
           {`Step ${stepNumber} of 8`}
