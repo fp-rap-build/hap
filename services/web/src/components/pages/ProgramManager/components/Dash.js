@@ -14,6 +14,7 @@ import { useHistory } from 'react-router';
 
 import { Typography, Layout } from 'antd';
 import { IdleTimer } from '../../../../utils/general/idleTimer';
+import ModalContainer from '../../../modals/ModalContainer';
 const { Title } = Typography;
 const { Content, Header, Footer } = Layout;
 
@@ -26,7 +27,7 @@ const Dash = () => {
   });
 
   const [timeLeft, setTimeLeft] = useState(300000);
-  
+
   const handleClick = e => {
     localStorage.setItem('lastVisitedPage', e.key);
 
@@ -50,10 +51,20 @@ const Dash = () => {
       setActiveComponent({ current: lastVisitiedPage });
     }
   }, []);
+  function logoutModal() {
+    return (
+      <ModalContainer>
+        <div>
+          <p>{timeLeft} until you are logged out due to inactivity</p>
+        </div>
+      </ModalContainer>
+    );
+  }
 
   useEffect(() => {
-    IdleTimer(history);
-    timeLeft > 0 && setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+    IdleTimer(history, setTimeLeft(timeLeft - 1));
+    if (timeLeft === 5000) return logoutModal();
+
     console.log('Countdown: ', timeLeft);
   }, [history, timeLeft]);
 
