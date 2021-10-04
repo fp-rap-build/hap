@@ -27,6 +27,8 @@ const { updateAddress } = require('./address/controllers');
 
 const { getAllComments } = require('./comments');
 
+const { getAllRequestInformation } = require('./profile/controllers');
+
 const {
   sendPromiseToPayEmail,
   sendConfirmationOfApproval,
@@ -159,6 +161,11 @@ router
   .route('/:id/payments')
   .all(validateRequestId)
   .post(updateActivity, sendPayment);
+
+router
+  .route('/:id/profile')
+  .all(validateRequestId)
+  .get(getAllRequestInformation);
 
 router.route('/:id/comments').all(validateRequestId).get(getAllComments);
 

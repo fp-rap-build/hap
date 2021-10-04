@@ -1,0 +1,9 @@
+.container {
+  padding: 1rem;
+}
+
+.documents {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr 1fr;
+}
