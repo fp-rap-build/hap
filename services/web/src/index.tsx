@@ -42,7 +42,7 @@ import { Button, notification, Modal } from 'antd';
 
 import { fetchNotifications } from './redux/notifications/notificationActions';
 
-import IdleTimer from './utils/general/idleTimer';
+import Profile from './components/pages/Profile';
 
 import { LicenseInfo } from '@material-ui/x-grid';
 
@@ -123,8 +123,11 @@ function RAP() {
         <Route path="/applyv2" exact component={ApplyV2} />
 
         {/* Any routes you need secured by role should be registered as PrivateRoutes */}
+
         <PrivateRoute exact path="/" component={HomePage} />
-        <PrivateRoute path="/requests/:id" component={Requests} />
+        <PrivateRoute exact path="/requests/:id" component={Requests} />
+        <PrivateRoute exact path="/requests/:id/profile" component={Profile} />
+
         <PrivateRoute
           path="/admin"
           roles={['admin', 'orgAdmin']}
