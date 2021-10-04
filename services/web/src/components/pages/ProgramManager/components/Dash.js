@@ -51,19 +51,14 @@ const Dash = () => {
       setActiveComponent({ current: lastVisitiedPage });
     }
   }, []);
-  function logoutModal() {
-    return (
-      <ModalContainer>
-        <div>
-          <p>{timeLeft} until you are logged out due to inactivity</p>
-        </div>
-      </ModalContainer>
-    );
-  }
 
   useEffect(() => {
     IdleTimer(history, setTimeLeft(timeLeft - 1));
-    if (timeLeft === 5000) return logoutModal();
+    if (timeLeft === 5000) {
+      alert(
+        `You will be logged out in ${timeLeft} seconds if you are not active`
+      );
+    }
 
     console.log('Countdown: ', timeLeft);
   }, [history, timeLeft]);
