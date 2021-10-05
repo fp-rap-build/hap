@@ -120,7 +120,7 @@ export default function ManagedRequestsTable() {
 
         request['archived'] = request.archived ? 'Yes' : 'No';
 
-        request['incomplete'] = request.incomplete ? 'Yes' : 'No';
+        request['incomplete'] = request.incomplete ? 'No' : 'Yes';
 
         request['HAP ID'] = createHAPid(request.id);
 
