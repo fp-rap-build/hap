@@ -234,6 +234,7 @@ const onAccountSubmit = async (
     qualifiedForUnemployment,
     foodWrkr,
     unEmp90,
+    phoneNumber,
     minorGuest,
   } = formValues;
 
@@ -248,6 +249,8 @@ const onAccountSubmit = async (
     gender: formValues.gender,
   };
 
+  const tenantNumber = phoneNumber;
+
   const request = {
     monthlyIncome,
     monthlyRent,
@@ -257,6 +260,7 @@ const onAccountSubmit = async (
     covidFH,
     qualifiedForUnemployment,
     foodWrkr,
+    tenantNumber,
     unEmp90,
     address: {
       state,
