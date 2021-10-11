@@ -46,8 +46,6 @@ export default function Organizations() {
     setIsFetching(true);
     try {
       let res = await axiosWithAuth().get('/orgs');
-
-      console.log('fetchOrganizations: ', res.data);
       setState({ ...state, data: res.data });
     } catch (error) {
       message.error('unable to fetch orgnanizations');

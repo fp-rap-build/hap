@@ -38,10 +38,6 @@ const formatRequestsTable = require('./utils/formatRequestsTable');
 
 const router = express.Router();
 
-console.log(
-  'createRequest: (api/routes/requests/requestRouter) ',
-  createRequest
-);
 router.post('/', createRequest);
 
 router.get('/', async (req, res) => {

@@ -30,8 +30,6 @@ export default function Basic({ request, setRequest, column = 2 }) {
 
     setDisabled(true);
 
-    console.log('values: ', values);
-
     const requestValues = {
       tenantNumber: values.tenantNumber,
     };
@@ -42,9 +40,6 @@ export default function Basic({ request, setRequest, column = 2 }) {
       dob: values.dob,
       gender: values.gender,
     };
-
-    console.log('userValues: ', userValues);
-    console.log('requestValues: ', requestValues);
 
     try {
       await axiosWithAuth().put(`/users/${request.userId}`, userValues);

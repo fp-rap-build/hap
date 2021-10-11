@@ -3,8 +3,6 @@ import { Descriptions, Typography } from 'antd';
 const { Title } = Typography;
 
 export default function RequestInfo({ request }) {
-  console.log('RequestInfo request: ', request);
-
   return (
     <div>
       <Title level={3} underline>
@@ -16,7 +14,7 @@ export default function RequestInfo({ request }) {
         </Descriptions.Item>
         <Descriptions.Item label="Email">{request.email}</Descriptions.Item>
         <Descriptions.Item label="Phone Number">
-          {request.phoneNumber}
+          {request.tenantNumber}
           {/* changed from request.email....? */}
         </Descriptions.Item>
         <Descriptions.Item label="Amount Owed/ Requested">

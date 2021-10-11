@@ -14,8 +14,6 @@ export default function Submit({ setErrorMessage, request, dispatch }) {
 
   const [isCheckboxSelected, setIsCheckboxSelected] = useState(false);
 
-  console.log('Submit request: ', request);
-
   return (
     <div
       style={{
@@ -107,12 +105,9 @@ const submitApplication = async (
   try {
     await axiosWithAuth().put(`/requests/${request.id}`, { incomplete: false });
 
-    console.log('submitApplication request: ', request);
-
     await axiosWithAuth()
       .put('/users/me', { applicationStep: 'completed' })
       .then(res => {
-        console.log('submitApplication setCurrentUser dispatch: ', res.data);
         dispatch(setCurrentUser(res.data.user));
         history.push('/');
       });

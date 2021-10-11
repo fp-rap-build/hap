@@ -154,8 +154,6 @@ export const register = (userInfo, history) => async dispatch => {
   if (userInfo.confirmPassword) {
     delete userInfo.confirmPassword;
   }
-  console.log('userInfo: (src/redux/users/userActions) ', userInfo);
-  console.log('history: (src/redux/users/userActions) ', history);
   //trim white space
   for (let key in userInfo) {
     let value = userInfo[key];

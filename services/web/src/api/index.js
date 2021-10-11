@@ -9,10 +9,6 @@ const sleep = time =>
   });
 
 export const updateRequest = (requestId, updatedRequestValues) => {
-  console.log(
-    'updatedRequestValues: (src/api/index.js) ',
-    updatedRequestValues
-  );
   return axiosWithAuth()
     .put(`/requests/${requestId}`, updatedRequestValues)
     .then(response => response.data);

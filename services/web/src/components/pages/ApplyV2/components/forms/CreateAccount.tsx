@@ -34,9 +34,6 @@ export default function CreateAccount({
 
   const [loading, setLoading] = useState(false);
 
-  console.log('formValues: ', formValues);
-  console.log('formValues.phoneNumber: ', formValues.phoneNumber);
-
   return (
     <Form
       layout="vertical"
@@ -249,7 +246,7 @@ const onAccountSubmit = async (
     gender: formValues.gender,
   };
 
-  const tenantNumber = phoneNumber;
+  const tenantNumber = phoneNumber; // patch to get tenant phone # in BE
 
   const request = {
     monthlyIncome,
@@ -270,8 +267,6 @@ const onAccountSubmit = async (
       zipCode,
     },
   };
-
-  console.log('onAccountSubmit request: ', request);
 
   setLoading(true);
 
