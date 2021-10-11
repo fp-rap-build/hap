@@ -614,6 +614,8 @@ export default function ManagedRequestsTable() {
   useEffect(() => {
     setColumns(cols => {
       return cols.map(col => {
+        console.log(col);
+
         col['filterOperators'] = getGridStringOperators();
 
         col['filterOperators'].push({
