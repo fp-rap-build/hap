@@ -34,6 +34,9 @@ export default function CreateAccount({
 
   const [loading, setLoading] = useState(false);
 
+  console.log('formValues: ', formValues);
+  console.log('formValues.phoneNumber: ', formValues.phoneNumber);
+
   return (
     <Form
       layout="vertical"
@@ -264,7 +267,7 @@ const onAccountSubmit = async (
     },
   };
 
-  console.log(request);
+  console.log('onAccountSubmit request: ', request);
 
   setLoading(true);
 

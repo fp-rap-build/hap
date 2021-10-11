@@ -52,15 +52,11 @@ export const logOut = (history, orgId, subscriptions) => dispatch => {
   // Leave rooms
   socket.emit('leaveOrganization', { orgId });
 
-
-
-  if(subscriptions) {
-
+  if (subscriptions) {
     subscriptions.forEach(sub => {
       socket.emit('leaveRequest', sub.requestId);
     });
   }
-
 
   // Logout
   dispatch({ type: 'LOG_OUT' });
@@ -158,7 +154,8 @@ export const register = (userInfo, history) => async dispatch => {
   if (userInfo.confirmPassword) {
     delete userInfo.confirmPassword;
   }
-
+  console.log('userInfo: (src/redux/users/userActions) ', userInfo);
+  console.log('history: (src/redux/users/userActions) ', history);
   //trim white space
   for (let key in userInfo) {
     let value = userInfo[key];

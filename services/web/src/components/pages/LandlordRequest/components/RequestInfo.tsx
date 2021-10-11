@@ -3,7 +3,7 @@ import { Descriptions, Typography } from 'antd';
 const { Title } = Typography;
 
 export default function RequestInfo({ request }) {
-  console.log(request);
+  console.log('RequestInfo request: ', request);
 
   return (
     <div>

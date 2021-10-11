@@ -134,6 +134,11 @@ export const updateRequest = (
 ) => async dispatch => {
   const { id } = updatedRequest;
 
+  console.log(
+    'updatedRequest: (src/redux/requests/requestActions) ',
+    updatedRequest
+  );
+
   if (currentUser.role === 'tenant') {
     updatedRequest.latestTenantActivity = new Date();
   } else {

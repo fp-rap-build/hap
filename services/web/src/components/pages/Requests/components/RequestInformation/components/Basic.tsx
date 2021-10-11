@@ -30,6 +30,8 @@ export default function Basic({ request, setRequest, column = 2 }) {
 
     setDisabled(true);
 
+    console.log('values: ', values);
+
     const requestValues = {
       tenantNumber: values.tenantNumber,
     };
@@ -38,8 +40,11 @@ export default function Basic({ request, setRequest, column = 2 }) {
       firstName: values.firstName,
       lastName: values.lastName,
       dob: values.dob,
-      gender: values.gender
+      gender: values.gender,
     };
+
+    console.log('userValues: ', userValues);
+    console.log('requestValues: ', requestValues);
 
     try {
       await axiosWithAuth().put(`/users/${request.userId}`, userValues);
@@ -97,7 +102,6 @@ export default function Basic({ request, setRequest, column = 2 }) {
         <Input disabled={disabled} />
       </Form.Item>
 
-
       <Form.Item
         hasFeedback
         initialValue={request.gender}
@@ -118,8 +122,6 @@ export default function Basic({ request, setRequest, column = 2 }) {
           ))}
         </Select>
       </Form.Item>
-
-
 
       <Form.Item label="Role" name="role" initialValue={request.role}>
         <Input disabled={true} />
