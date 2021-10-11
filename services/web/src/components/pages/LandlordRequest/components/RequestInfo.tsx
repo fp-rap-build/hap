@@ -16,7 +16,8 @@ export default function RequestInfo({ request }) {
         </Descriptions.Item>
         <Descriptions.Item label="Email">{request.email}</Descriptions.Item>
         <Descriptions.Item label="Phone Number">
-          {request.email}
+          {request.phoneNumber}
+          {/* changed from request.email....? */}
         </Descriptions.Item>
         <Descriptions.Item label="Amount Owed/ Requested">
           ${request.amountRequested}

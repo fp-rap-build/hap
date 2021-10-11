@@ -2,6 +2,7 @@ exports.up = function (knex) {
   return knex.schema.table('requests', (tbl) => {
     tbl.string('tenantEmail');
     tbl.string('tenantNumber');
+    // Phone Table?
     tbl.string('landlordEmail');
     tbl.string('landlordNumber');
   });
