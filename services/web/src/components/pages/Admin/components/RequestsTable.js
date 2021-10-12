@@ -67,6 +67,7 @@ import {
   onFilterModelChange,
   updateFilters,
 } from './components/Requests/PersistTableSettings';
+import addCustomOperators from './components/Requests/addCustomOperators';
 
 export default function ManagedRequestsTable() {
   const history = useHistory();
@@ -591,55 +592,9 @@ export default function ManagedRequestsTable() {
     setVisible(true);
   };
 
-  const InputComponent = props => {
-    const { item, applyValue } = props;
-
-    const handleFilterChange = event => {
-      applyValue({ ...item, value: event.target.value });
-    };
-
-    return (
-      <TextField
-        style={{
-          marginTop: '1rem',
-        }}
-        name="custom-rating-filter-operator"
-        placeholder="Filter value"
-        value={item.value}
-        onChange={handleFilterChange}
-      />
-    );
-  };
 
   useEffect(() => {
-    setColumns(cols => {
-      return cols.map(col => {
-        console.log(col);
-
-        col['filterOperators'] = getGridStringOperators();
-
-        col['filterOperators'].push({
-          label: 'Does not contain',
-          value: 'doesNotContain',
-          getApplyFilterFn: filterItem => {
-            if (
-              !filterItem.columnField ||
-              !filterItem.value ||
-              !filterItem.operatorValue
-            ) {
-              return null;
-            }
-
-            return params => {
-              return params.value != filterItem.value;
-            };
-          },
-          InputComponent: InputComponent,
-        });
-
-        return col;
-      });
-    });
+    addCustomOperators(setColumns);
   }, []);
 
   return (
