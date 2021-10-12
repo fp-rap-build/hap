@@ -29,7 +29,7 @@ import AttachmentViewer from './components/AttachmentViewer';
 
 import StatusCircle from './components/Requests/StatusCircle';
 
-import { UnarchiveOutlined } from '@material-ui/icons';
+import { UnarchiveOutlined, InputAdornment } from '@material-ui/icons';
 
 import RenderDocumentStatusCell from './components/Requests/RenderDocumentStatusCell';
 
@@ -41,6 +41,8 @@ import { formatUTC } from '../../../../utils/dates';
 
 import ExportCsv from './components/ExportCsv';
 
+import TextField from '@material-ui/core/TextField';
+
 import {
   Review,
   Archive,
@@ -51,7 +53,13 @@ import {
   Organizations,
 } from './components/Requests/Actions';
 
-import { XGrid, GridToolbar } from '@material-ui/x-grid';
+import {
+  XGrid,
+  GridToolbar,
+  getGridNumericColumnOperators,
+  getGridStringOperators,
+  GridFilterForm,
+} from '@material-ui/x-grid';
 
 import {
   updateTableWithConfig,
@@ -59,9 +67,7 @@ import {
   onFilterModelChange,
   updateFilters,
 } from './components/Requests/PersistTableSettings';
-
-import { LeakRemoveTwoTone } from '@material-ui/icons';
-import { Alert } from 'antd';
+import addCustomOperators from './components/Requests/addCustomOperators';
 
 export default function ManagedRequestsTable() {
   const history = useHistory();
@@ -585,6 +591,11 @@ export default function ManagedRequestsTable() {
 
     setVisible(true);
   };
+
+
+  useEffect(() => {
+    addCustomOperators(setColumns);
+  }, []);
 
   return (
     <div>

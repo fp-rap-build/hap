@@ -29,6 +29,7 @@ import {
   onFilterModelChange,
   updateFilters,
 } from './components/Requests/PersistTableSettings';
+import addCustomOperators from './components/Requests/addCustomOperators';
 
 export default function PaymentsTable() {
   const [isFetching, setIsFetching] = useState(false);
@@ -263,6 +264,10 @@ export default function PaymentsTable() {
     updateTableWithConfig(setColumns, 'paymentsTable');
 
     updateFilters(setFilterModel, 'paymentsFilters');
+  }, []);
+
+  useEffect(() => {
+    addCustomOperators(setColumns);
   }, []);
 
   return (

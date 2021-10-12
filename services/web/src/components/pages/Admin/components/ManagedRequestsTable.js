@@ -51,6 +51,7 @@ import {
 } from './components/Requests/PersistTableSettings';
 
 import { XGrid, GridToolbar } from '@material-ui/x-grid';
+import addCustomOperators from './components/Requests/addCustomOperators';
 
 export default function ManagedRequestsTable() {
   const currentUser = useSelector(state => state.user.currentUser);
@@ -492,6 +493,10 @@ export default function ManagedRequestsTable() {
 
     setVisible(true);
   };
+
+  useEffect(() => {
+    addCustomOperators(setColumns);
+  }, []);
 
   return (
     <div>
