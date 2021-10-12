@@ -231,6 +231,7 @@ const onAccountSubmit = async (
     qualifiedForUnemployment,
     foodWrkr,
     unEmp90,
+    phoneNumber,
     minorGuest,
   } = formValues;
 
@@ -245,6 +246,8 @@ const onAccountSubmit = async (
     gender: formValues.gender,
   };
 
+  const tenantNumber = phoneNumber; // patch to get tenant phone # in BE
+
   const request = {
     monthlyIncome,
     monthlyRent,
@@ -254,6 +257,7 @@ const onAccountSubmit = async (
     covidFH,
     qualifiedForUnemployment,
     foodWrkr,
+    tenantNumber,
     unEmp90,
     address: {
       state,
@@ -263,8 +267,6 @@ const onAccountSubmit = async (
       zipCode,
     },
   };
-
-  console.log(request);
 
   setLoading(true);
 

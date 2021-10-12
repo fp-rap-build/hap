@@ -38,7 +38,7 @@ export default function Basic({ request, setRequest, column = 2 }) {
       firstName: values.firstName,
       lastName: values.lastName,
       dob: values.dob,
-      gender: values.gender
+      gender: values.gender,
     };
 
     try {
@@ -97,7 +97,6 @@ export default function Basic({ request, setRequest, column = 2 }) {
         <Input disabled={disabled} />
       </Form.Item>
 
-
       <Form.Item
         hasFeedback
         initialValue={request.gender}
@@ -118,8 +117,6 @@ export default function Basic({ request, setRequest, column = 2 }) {
           ))}
         </Select>
       </Form.Item>
-
-
 
       <Form.Item label="Role" name="role" initialValue={request.role}>
         <Input disabled={true} />
