@@ -8,8 +8,8 @@ const addCustomOperators = setColumns => {
       col['filterOperators'] = getGridStringOperators();
 
       col['filterOperators'].push({
-        label: 'does not contain',
-        value: 'doesNotContain',
+        label: 'is not',
+        value: 'isNot',
         getApplyFilterFn: filterItem => {
           if (
             !filterItem.columnField ||
