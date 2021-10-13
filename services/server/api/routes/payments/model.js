@@ -6,6 +6,7 @@ exports.findForTable = () =>
     .join('users as u', 'r.userId', '=', 'u.id')
     .join('programs as pr', 'p.programId', '=', 'pr.id')
     .join('addresses as a', 'r.addressId', '=', 'a.id')
+    .leftOuterJoin('users as m', 'r.managerId', '=', 'm.id')
     .select(
       'p.id',
       'p.type',
@@ -17,6 +18,10 @@ exports.findForTable = () =>
       'u.email',
       'u.gender',
       'u.dob',
+      'r.managerId',
+      'm.firstName as managerFirstName',
+      'm.lastName as managerLastName',
+      'm.email as managerEmail',
       'pr.name as program',
       'r.landlordName',
       'p.amountBack',
