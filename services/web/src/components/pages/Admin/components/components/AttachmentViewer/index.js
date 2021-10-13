@@ -6,6 +6,7 @@ import Status from './components/Status';
 import SubmitDocument from './components/SubmitDocument';
 import { setDocuments } from '../../../../../../redux/requests/requestActions';
 import Category from './components/Category';
+import SelfDecViewer from './components/SelfDecViewer';
 
 export default function Index({
   visible,
@@ -56,6 +57,7 @@ export default function Index({
             />
           </>
         )}
+
         <SubmitDocument
           request={request}
           setRequests={setRequests}
@@ -65,7 +67,10 @@ export default function Index({
       </div>
 
       {currentDocument?.type === 'application/pdf' ? (
-        <PdfViewer pdfLocation={currentDocument?.location} />
+        <PdfViewer
+          currentDocument={currentDocument}
+          pdfLocation={currentDocument?.location}
+        />
       ) : (
         <ImageViewer imgLocation={currentDocument?.location} />
       )}

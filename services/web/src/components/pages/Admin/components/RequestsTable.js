@@ -70,7 +70,6 @@ import {
 import addCustomOperators from './components/Requests/addCustomOperators';
 
 export default function ManagedRequestsTable() {
-  const history = useHistory();
 
   const currentUser = useSelector(state => state.user.currentUser);
 
@@ -167,6 +166,8 @@ export default function ManagedRequestsTable() {
         request['identity'] = [];
 
         request['documents'].forEach(doc => {
+          console.log(doc);
+
           if (doc.category) {
             request[doc.category].unshift(doc);
           }
@@ -591,7 +592,6 @@ export default function ManagedRequestsTable() {
 
     setVisible(true);
   };
-
 
   useEffect(() => {
     addCustomOperators(setColumns);

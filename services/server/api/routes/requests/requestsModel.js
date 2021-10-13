@@ -119,6 +119,7 @@ const findForTable = (params, user) => {
       'd.location',
       'd.status',
       'd.type',
+      'd.pandaId',
       'o.organization',
       'r.notes'
     )
