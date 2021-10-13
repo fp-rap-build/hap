@@ -64,10 +64,10 @@ export default function Index({
         />
       </div>
 
-      {currentDocument?.type === 'application/pdf' ? (
-        <PdfViewer pdfLocation={currentDocument?.location} />
-      ) : (
+      {currentDocument?.type !== 'application/pdf' ? (
         <ImageViewer imgLocation={currentDocument?.location} />
+      ) : (
+        <PdfViewer pdfLocation={currentDocument?.location} />
       )}
     </Modal>
   );

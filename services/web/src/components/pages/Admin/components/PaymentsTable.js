@@ -53,6 +53,12 @@ export default function PaymentsTable() {
     },
 
     {
+      headerName: 'Manager',
+      field: 'manager',
+      width: 150,
+    },
+
+    {
       headerName: 'Type',
       field: 'type',
       width: 170,
@@ -241,6 +247,10 @@ export default function PaymentsTable() {
         } else if (payment['ami'] >= 51) {
           payment['AMI range'] = `Between 51% AMI and 80% AMI`;
         }
+
+        payment['manager'] = payment['managerFirstName']
+          ? payment['managerFirstName'] + ' ' + payment['managerLastName']
+          : 'Nobody';
 
         return payment;
       });
