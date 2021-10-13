@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Button, Modal, Pagination } from 'antd';
+import { Modal, Pagination } from 'antd';
 import PdfViewer from './components/PdfViewer';
 import ImageViewer from './components/ImageViewer';
 import Status from './components/Status';
 import SubmitDocument from './components/SubmitDocument';
-import { setDocuments } from '../../../../../../redux/requests/requestActions';
 import Category from './components/Category';
-import SelfDecViewer from './components/SelfDecViewer';
 
 export default function Index({
   visible,
