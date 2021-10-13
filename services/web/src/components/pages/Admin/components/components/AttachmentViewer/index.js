@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Button, Modal, Pagination } from 'antd';
+import { Modal, Pagination } from 'antd';
 import PdfViewer from './components/PdfViewer';
 import ImageViewer from './components/ImageViewer';
 import Status from './components/Status';
 import SubmitDocument from './components/SubmitDocument';
-import { setDocuments } from '../../../../../../redux/requests/requestActions';
 import Category from './components/Category';
 
 export default function Index({
@@ -56,6 +55,7 @@ export default function Index({
             />
           </>
         )}
+
         <SubmitDocument
           request={request}
           setRequests={setRequests}
@@ -65,7 +65,10 @@ export default function Index({
       </div>
 
       {currentDocument?.type === 'application/pdf' ? (
-        <PdfViewer pdfLocation={currentDocument?.location} />
+        <PdfViewer
+          currentDocument={currentDocument}
+          pdfLocation={currentDocument?.location}
+        />
       ) : (
         <ImageViewer imgLocation={currentDocument?.location} />
       )}

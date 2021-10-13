@@ -18,6 +18,7 @@ const formatRequestsTable = (requests) => {
       requests[currentIdx].status = undefined;
       requests[currentIdx].docId = undefined;
       requests[currentIdx].type = undefined;
+      requests[currentIdx].pandaId = undefined;
 
       currentIdx = idx;
     }
@@ -29,6 +30,7 @@ const formatRequestsTable = (requests) => {
     if (requests[currentIdx].category) {
       requests[currentIdx]['documents'].push({
         docId: request.docId,
+        pandaId: request.pandaId,
         requestId: request.id,
         category: request.category,
         status: request.status,

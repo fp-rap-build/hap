@@ -70,8 +70,6 @@ import {
 import addCustomOperators from './components/Requests/addCustomOperators';
 
 export default function ManagedRequestsTable() {
-  const history = useHistory();
-
   const currentUser = useSelector(state => state.user.currentUser);
 
   const subscriptions = formatSubscriptions(currentUser.subscriptions);
@@ -180,7 +178,6 @@ export default function ManagedRequestsTable() {
       setData(sortedRequests);
     } catch (error) {
       alert('error fetching requests');
-      console.log(error);
     } finally {
       setIsFetching(false);
     }
@@ -591,7 +588,6 @@ export default function ManagedRequestsTable() {
 
     setVisible(true);
   };
-
 
   useEffect(() => {
     addCustomOperators(setColumns);
