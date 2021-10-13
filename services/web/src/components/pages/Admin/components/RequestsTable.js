@@ -166,7 +166,6 @@ export default function ManagedRequestsTable() {
         request['identity'] = [];
 
         request['documents'].forEach(doc => {
-          console.log(doc);
 
           if (doc.category) {
             request[doc.category].unshift(doc);
@@ -181,7 +180,6 @@ export default function ManagedRequestsTable() {
       setData(sortedRequests);
     } catch (error) {
       alert('error fetching requests');
-      console.log(error);
     } finally {
       setIsFetching(false);
     }
