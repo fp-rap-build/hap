@@ -39,9 +39,13 @@ export default function Index({
     <Form layout="vertical" onFinish={handleFinish}>
       <Card>
         <h3>
-          EnterNumber and first 3 letters of street name to begin searching for
+          Enter Number and first 3 letters of street name to begin searching for
           your address.
         </h3>
+        {/* if the complaints about entering address are resolved by (beginning of 2022), delete the commented code below */}
+        {/* <h3>ENTER Number and first 3 letters of your street name</h3>
+        <h3>SEARCH for your address</h3>
+        <h3>SELECT your correct address from the list of options</h3> */}
         <Form.Item
           label="Address"
           name="address"
