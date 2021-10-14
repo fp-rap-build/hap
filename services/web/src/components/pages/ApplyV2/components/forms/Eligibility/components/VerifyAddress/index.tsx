@@ -42,6 +42,10 @@ export default function Index({
           Enter Number and first 3 letters of street name to begin searching for
           your address.
         </h3>
+        {/* if the complaints about entering address are resolved by (beginning of 2022), delete the commented code below */}
+        {/* <h3>ENTER Number and first 3 letters of your street name</h3>
+        <h3>SEARCH for your address</h3>
+        <h3>SELECT your correct address from the list of options</h3> */}
         <Form.Item
           label="Address"
           name="address"
@@ -51,7 +55,7 @@ export default function Index({
             showSearch
             style={{ width: '100%' }}
             size="large"
-            placeholder="Address"
+            placeholder="123 N Fake St"
             onChange={handleAddressChange}
             onSearch={handleSearch}
           >
@@ -69,7 +73,11 @@ export default function Index({
           label="Address Line Two"
           name="addressLine2"
         >
-          <Input onChange={handleChange} name="addressLine2" />
+          <Input
+            onChange={handleChange}
+            name="addressLine2"
+            placeholder="Apt 109"
+          />
         </Form.Item>
         <Button htmlType="submit">Next</Button>
       </Card>

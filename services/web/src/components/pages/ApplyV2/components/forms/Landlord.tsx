@@ -53,15 +53,16 @@ const Landlord = ({
     <Form
       layout="vertical"
       onChange={handleChange}
-      onFinish={() =>
+      onFinish={() => {
+        formValues.landlordEmail = formValues.landlordEmail.toLowerCase(); // landlord email capitalization fix
         updateLandlordInfo(
           formValues,
           setCurrentContent,
           request,
           currentUser,
           dispatch
-        )
-      }
+        );
+      }}
     >
       <Card headStyle={{ background: ' #472D5B' }}>
         <p>

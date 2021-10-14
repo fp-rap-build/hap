@@ -1,7 +1,7 @@
 import { UserOutlined } from '@ant-design/icons';
 import { Button, Dropdown, Menu, message, Space } from 'antd';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { axiosWithAuth } from '../../../../../../api/axiosWithAuth';
 
 export default function TopActions({
@@ -10,6 +10,8 @@ export default function TopActions({
   setRequest,
 }) {
   const history = useHistory();
+
+  const { id: requestId } = useParams();
 
   const returnToDash = e => {
     e.stopPropagation();
@@ -26,6 +28,10 @@ export default function TopActions({
         gap: '10px',
       }}
     >
+      <Button onClick={() => history.push(`/requests/${requestId}/profile`)}>
+        View Profile
+      </Button>
+
       <Button onClick={returnToDash}>Return To Dash</Button>
       <ChangeStatusDropdown request={request} setRequest={setRequest} />
       <JudgeDropdown handleReviewSubmit={handleReviewSubmit} />

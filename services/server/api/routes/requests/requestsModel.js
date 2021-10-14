@@ -119,6 +119,7 @@ const findForTable = (params, user) => {
       'd.location',
       'd.status',
       'd.type',
+      'd.pandaId',
       'o.organization',
       'r.notes'
     )
@@ -210,6 +211,10 @@ const findById = (id) => {
       'r.landlordNumber',
       'r.childrenAges',
       'r.incomplete',
+      'r.advocateName',
+      'r.advocateEmail',
+      'r.advocatePhone',
+      'r.advocateOrg',
       'a.address',
       'a.addressLine2',
       'a.zipCode',

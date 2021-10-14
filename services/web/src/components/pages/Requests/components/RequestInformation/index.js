@@ -24,6 +24,7 @@ import Address from './components/Address';
 import Household from './components/Household';
 import Demographics from './components/Demographics';
 import FinalReviewModal from './components/FinalReviewModal';
+import Advocate from './components/Advocate';
 
 const tabListNoTitle = [
   {
@@ -50,6 +51,12 @@ const tabListNoTitle = [
     key: 'documents',
     tab: 'Documents',
   },
+
+  {
+    key: 'advocate',
+    tab: 'Advocate',
+  },
+
   {
     key: 'checklist',
     tab: 'Checklist',
@@ -290,6 +297,10 @@ const renderContent = props => {
           setDocuments={props.setDocuments}
         />
       );
+
+    case 'advocate':
+      return <Advocate request={props.request} setRequest={props.setRequest} />;
+
     case 'comments':
       return <CommentsContainer request={props.request} />;
     default:

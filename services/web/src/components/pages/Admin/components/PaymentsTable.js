@@ -29,6 +29,7 @@ import {
   onFilterModelChange,
   updateFilters,
 } from './components/Requests/PersistTableSettings';
+import addCustomOperators from './components/Requests/addCustomOperators';
 
 export default function PaymentsTable() {
   const [isFetching, setIsFetching] = useState(false);
@@ -50,6 +51,12 @@ export default function PaymentsTable() {
       headerName: 'HAP ID',
       field: 'HAP ID',
       width: 170,
+    },
+
+    {
+      headerName: 'Manager',
+      field: 'manager',
+      width: 150,
     },
 
     {
@@ -242,6 +249,10 @@ export default function PaymentsTable() {
           payment['AMI range'] = `Between 51% AMI and 80% AMI`;
         }
 
+        payment['manager'] = payment['managerFirstName']
+          ? payment['managerFirstName'] + ' ' + payment['managerLastName']
+          : 'Nobody';
+
         return payment;
       });
 
@@ -263,6 +274,10 @@ export default function PaymentsTable() {
     updateTableWithConfig(setColumns, 'paymentsTable');
 
     updateFilters(setFilterModel, 'paymentsFilters');
+  }, []);
+
+  useEffect(() => {
+    addCustomOperators(setColumns);
   }, []);
 
   return (

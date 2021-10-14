@@ -132,16 +132,16 @@ const SelfDecModal = ({
     //If the category is children/pregnancy do not continue to panda doc signature
     if (selectedCategory === 'childrenOrPregnancy') {
       console.log(
-        'Sorry, we cannot accept a self declaration for this cateogry.'
+        'Sorry, we cannot accept a self declaration for this category.'
       );
 
       if (selectedCategory === 'identity') {
         console.log(
-          'Sorry, we cannot accept a self declaration for this cateogry.'
+          'Sorry, we cannot accept a self declaration for this category.'
         );
       }
     } else {
-      //builds doc and populates sessionID which opens embeded document view
+      //builds doc and populates sessionID which opens embedded document view
       handleDocCreation(text);
     }
   };
