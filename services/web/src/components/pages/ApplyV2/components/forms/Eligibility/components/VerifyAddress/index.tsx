@@ -39,7 +39,7 @@ export default function Index({
     <Form layout="vertical" onFinish={handleFinish}>
       <Card>
         <h3>
-          Enter Number and first 3 letters of street name to begin searching for
+          EnterNumber and first 3 letters of street name to begin searching for
           your address.
         </h3>
         <Form.Item
@@ -51,7 +51,7 @@ export default function Index({
             showSearch
             style={{ width: '100%' }}
             size="large"
-            placeholder="Address"
+            placeholder="123 N Fake St"
             onChange={handleAddressChange}
             onSearch={handleSearch}
           >
@@ -69,7 +69,11 @@ export default function Index({
           label="Address Line Two"
           name="addressLine2"
         >
-          <Input onChange={handleChange} name="addressLine2" />
+          <Input
+            onChange={handleChange}
+            name="addressLine2"
+            placeholder="Apt 109"
+          />
         </Form.Item>
         <Button htmlType="submit">Next</Button>
       </Card>
