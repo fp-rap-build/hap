@@ -15,9 +15,15 @@ export default function Index({
   category,
   request,
 }) {
-  const closeDocument = () => setVisible(false);
-
   const [currentDocument, setCurrentDocument] = useState(null);
+
+  const closeDocument = () => {
+    setCurrentDocument(null);
+
+    setDocuments([]);
+
+    setVisible(false);
+  };
 
   useEffect(() => {
     setCurrentDocument(documents[0]);
@@ -66,8 +72,8 @@ export default function Index({
 
       {currentDocument?.type === 'application/pdf' ? (
         <PdfViewer
+          setCurrentDocument={setCurrentDocument}
           currentDocument={currentDocument}
-          pdfLocation={currentDocument?.location}
         />
       ) : (
         <ImageViewer imgLocation={currentDocument?.location} />
