@@ -55,12 +55,32 @@ const Index = ({
         <Divider />
 
         <Form.Item
+          name="familySize"
+          initialValue={formValues.familySize}
+          label=" Residents"
+          required
+          hasFeedback
+          rules={[
+            {
+              required: true,
+              pattern: RegExp(/^([1-9][0-9]?)\s*$/),
+              message: 'Invalid number of residents',
+            },
+          ]}
+        >
+          <Input
+            style={{ width: '100%' }}
+            name="familySize"
+            value={formValues.familySize}
+          />
+        </Form.Item>
+
+        <Form.Item
           hasFeedback
           name="monthlyIncome"
           initialValue={formValues.monthlyIncome}
           label={
             formValues.role === 'landlord'
-
               ? "Tenant's Total Household Monthly Income"
               : 'Total Household Monthly Income'
           }
