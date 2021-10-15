@@ -7,7 +7,7 @@ import { axiosForPanda } from '../../../../../../../api/axiosForPanda';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-export default function PdfViewer({ currentDocument, pdfLocation }) {
+export default function PdfViewer({ currentDocument, setCurrentDocument }) {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -46,7 +46,7 @@ export default function PdfViewer({ currentDocument, pdfLocation }) {
       //Build a URL from the file
       const fileURL = URL.createObjectURL(file);
 
-      currentDocument.location = fileURL;
+      setCurrentDocument({ ...currentDocument, location: fileURL });
     } catch (error) {
       alert('Unable to download document from PandaDocs.');
     } finally {
@@ -62,7 +62,7 @@ export default function PdfViewer({ currentDocument, pdfLocation }) {
     <div>
       <div
         style={{ cursor: 'pointer' }}
-        onClick={() => window.open(pdfLocation, '_blank')}
+        onClick={() => window.open(currentDocument.location, '_blank')}
       >
         <Document
           file={currentDocument.location}
