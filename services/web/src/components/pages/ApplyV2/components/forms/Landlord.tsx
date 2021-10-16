@@ -112,7 +112,7 @@ const Landlord = ({
           <Select
             showSearch
             style={{ width: '100%' }}
-            placeholder="Address"
+            placeholder="321 S Fake St"
             defaultValue={formValues.landlordAddress}
             onChange={handleAddressChange}
             onSearch={handleSearch}
@@ -131,7 +131,7 @@ const Landlord = ({
           label="Address Line Two"
           name="landlordAddress2"
         >
-          <Input name="landlordAddress2" />
+          <Input name="landlordAddress2" placeholder="Unit 101" />
         </Form.Item>
 
         <Form.Item
