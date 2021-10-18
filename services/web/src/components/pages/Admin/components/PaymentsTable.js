@@ -23,6 +23,8 @@ import createHAPid from '../../../../utils/general/displayHAPid';
 // column that indicates if the head of household is a youth or not
 import YouthHOH from '../../../../utils/general/youthHOH';
 
+import ProcessedUtilityCheckbox from './components/Payments/ProcessedUtilityCheckbox';
+
 import {
   updateTableWithConfig,
   onColumnVisibilityChange,
@@ -39,13 +41,13 @@ export default function PaymentsTable() {
   const [filterModel, setFilterModel] = useState({ items: [] });
 
   const [columns, setColumns] = useState([
-    //  {
-    //    headerName: 'Delete',
+    //      {
+    //      headerName: 'Delete',
     //    field: 'delete',
-    //    renderCell: params => (
-    //      <DeletePayment row={params.row} setData={setData} />
-    //    ),
-    //  },
+    //  renderCell: params => (
+    //  <DeletePayment row={params.row} setData={setData} />
+    //        ),
+    //    },
 
     {
       headerName: 'HAP ID',
@@ -186,6 +188,19 @@ export default function PaymentsTable() {
       field: 'approveDate',
       type: 'date',
       width: 170,
+    },
+    {
+      headerName: 'Processed?',
+      field: 'processed',
+      width: 150,
+      renderCell: rowData => {
+        return (
+          <ProcessedUtilityCheckbox
+            processed={rowData.row.processed}
+            id={rowData.row.id}
+          />
+        );
+      },
     },
   ]);
 
