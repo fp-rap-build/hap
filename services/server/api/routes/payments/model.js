@@ -12,6 +12,7 @@ exports.findForTable = () =>
       'p.type',
       'p.accountNumber',
       'p.renterOrOwner',
+      'p.processed',
       'p.requestId',
       'u.firstName',
       'u.lastName',
