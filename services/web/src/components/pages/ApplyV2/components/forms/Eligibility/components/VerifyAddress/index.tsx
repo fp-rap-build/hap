@@ -6,8 +6,6 @@ import formatAddress from '../../../../../utils/formatAddress';
 
 // Custom hook used to interact with the SmartyStreets autosuggestions API
 import useAddressAutoSuggestions from '../../../../../../../../utils/hooks/useAddressAutoSuggestions';
-import { BoldOutlined, ItalicOutlined } from '@ant-design/icons';
-import { TextFormat } from '@material-ui/icons';
 
 const { Option } = Select;
 
@@ -39,15 +37,15 @@ export default function Index({
     <Form layout="vertical" onFinish={handleFinish}>
       <Card>
         <h3>
-          Enter Number and first 3 letters of street name to begin searching for
-          your address.
+          Please enter the name of your street below and select your address
         </h3>
         {/* if the complaints about entering address are resolved by (beginning of 2022), delete the commented code below */}
         {/* <h3>ENTER Number and first 3 letters of your street name</h3>
         <h3>SEARCH for your address</h3>
         <h3>SELECT your correct address from the list of options</h3> */}
+
         <Form.Item
-          label="Address"
+          label="Street name"
           name="address"
           rules={[{ required: true, message: 'Address is required' }]}
         >
@@ -67,17 +65,30 @@ export default function Index({
           </Select>
         </Form.Item>
 
+        <Form.Item hasFeedback label="State">
+          <Input value={formValues.state} disabled />
+        </Form.Item>
+
+        <Form.Item hasFeedback label="City">
+          <Input
+            value={formValues.cityName}
+            disabled
+            onChange={handleChange}
+            name="cityName"
+          />
+        </Form.Item>
+
+        <Form.Item hasFeedback label="Postal code">
+          <Input value={formValues.zipCode} disabled name="zipCode" />
+        </Form.Item>
+
         <Form.Item
           hasFeedback
           initialValue={formValues.addressLine2}
           label="Address Line Two"
           name="addressLine2"
         >
-          <Input
-            onChange={handleChange}
-            name="addressLine2"
-            placeholder="Apt 109"
-          />
+          <Input onChange={handleChange} name="addressLine2" />
         </Form.Item>
         <Button htmlType="submit">Next</Button>
       </Card>
