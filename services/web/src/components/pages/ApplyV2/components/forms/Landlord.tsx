@@ -105,15 +105,18 @@ const Landlord = ({
         </Form.Item>
 
         <Form.Item
-          label="Address"
-          rules={[{ required: true, message: 'Address is required' }]}
+          hasFeedback
+          initialValue={formValues.landlordAddress}
           name="landlordAddress"
+          label="Street"
+          rules={[{ required: true, message: 'Address is required' }]}
         >
           <Select
             showSearch
+            value={formValues.landlordAddress}
             style={{ width: '100%' }}
-            placeholder="321 S Fake St"
-            defaultValue={formValues.landlordAddress}
+            size="large"
+            placeholder="123 N Fake St"
             onChange={handleAddressChange}
             onSearch={handleSearch}
           >
@@ -123,6 +126,23 @@ const Landlord = ({
               </Option>
             ))}
           </Select>
+        </Form.Item>
+
+        <Form.Item hasFeedback label="State">
+          <Input value={formValues.landlordState} disabled />
+        </Form.Item>
+
+        <Form.Item hasFeedback label="City">
+          <Input
+            value={formValues.landlordCity}
+            disabled
+            onChange={handleChange}
+            name="cityName"
+          />
+        </Form.Item>
+
+        <Form.Item hasFeedback label="Postal code">
+          <Input value={formValues.landlordZip} disabled name="zipCode" />
         </Form.Item>
 
         <Form.Item

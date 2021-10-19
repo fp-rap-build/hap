@@ -30,14 +30,32 @@ export default function Index({
   };
 
   const handleFinish = () => {
+    const { address, cityName, state, zipCode } = formValues;
+
+    const addressInfo = {
+      address,
+      cityName,
+      state,
+      zipCode,
+    };
+
+    console.log(addressInfo);
+
     setEligibilityContent('eligibility');
   };
+
+  // const handleSearchWrapper = address => {
+  //   if (address.includes(',')) return;
+
+  //   handleSearch(address);
+  // };
 
   return (
     <Form layout="vertical" onFinish={handleFinish}>
       <Card>
         <h3>
           Please enter the name of your street below and select your address
+          from the dropdown
         </h3>
         {/* if the complaints about entering address are resolved by (beginning of 2022), delete the commented code below */}
         {/* <h3>ENTER Number and first 3 letters of your street name</h3>
@@ -45,12 +63,13 @@ export default function Index({
         <h3>SELECT your correct address from the list of options</h3> */}
 
         <Form.Item
-          label="Street name"
+          label="Street"
           name="address"
           rules={[{ required: true, message: 'Address is required' }]}
         >
           <Select
             showSearch
+            value={formValues.address}
             style={{ width: '100%' }}
             size="large"
             placeholder="123 N Fake St"
