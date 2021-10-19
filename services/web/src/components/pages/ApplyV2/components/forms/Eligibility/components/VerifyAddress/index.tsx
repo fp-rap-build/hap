@@ -33,12 +33,6 @@ export default function Index({
     setEligibilityContent('eligibility');
   };
 
-  // const handleSearchWrapper = address => {
-  //   if (address.includes(',')) return;
-
-  //   handleSearch(address);
-  // };
-
   return (
     <Form layout="vertical" onFinish={handleFinish}>
       <Card>
