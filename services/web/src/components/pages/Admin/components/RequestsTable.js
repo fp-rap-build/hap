@@ -637,9 +637,11 @@ export default function ManagedRequestsTable() {
 const formatSubscriptions = subscriptions => {
   let result = {};
 
-  subscriptions.forEach(sub => {
-    result[sub.requestId] = true;
-  });
+  if (subscriptions) {
+    subscriptions.forEach(sub => {
+      result[sub.requestId] = true;
+    });
+  }
 
   return result;
 };

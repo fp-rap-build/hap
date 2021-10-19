@@ -27,7 +27,6 @@ export default function Address({
   handleChange,
   onStateChange,
   setCurrentContent,
-  setErrorMessage,
   currentUser,
   dispatch,
 }) {
