@@ -1,11 +1,20 @@
 import TextField from '@material-ui/core/TextField';
 
-import { getGridStringOperators } from '@material-ui/x-grid';
+import {
+  getGridStringOperators,
+  getGridDateOperators,
+} from '@material-ui/x-grid';
 
 const addCustomOperators = setColumns => {
   setColumns(cols => {
     return cols.map(col => {
-      col['filterOperators'] = getGridStringOperators();
+      if (col?.type === 'date') {
+        col['filterOperators'] = getGridDateOperators();
+
+        return col;
+      } else {
+        col['filterOperators'] = getGridStringOperators();
+      }
 
       col['filterOperators'].push({
         label: 'is not',
