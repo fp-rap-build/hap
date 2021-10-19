@@ -30,17 +30,6 @@ export default function Index({
   };
 
   const handleFinish = () => {
-    const { address, cityName, state, zipCode } = formValues;
-
-    const addressInfo = {
-      address,
-      cityName,
-      state,
-      zipCode,
-    };
-
-    console.log(addressInfo);
-
     setEligibilityContent('eligibility');
   };
 
