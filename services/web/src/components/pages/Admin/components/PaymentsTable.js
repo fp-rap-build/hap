@@ -41,13 +41,13 @@ export default function PaymentsTable() {
   const [filterModel, setFilterModel] = useState({ items: [] });
 
   const [columns, setColumns] = useState([
-    {
-      headerName: 'Delete',
-      field: 'delete',
-      renderCell: params => (
-        <DeletePayment row={params.row} setData={setData} />
-      ),
-    },
+    //  {
+    //    headerName: 'Delete',
+    //    field: 'delete',
+    //   renderCell: params => (
+    //      <DeletePayment row={params.row} setData={setData} />
+    //    ),
+    //  },
 
     {
       headerName: 'HAP ID',
