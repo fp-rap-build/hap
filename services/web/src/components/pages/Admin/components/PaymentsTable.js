@@ -41,13 +41,13 @@ export default function PaymentsTable() {
   const [filterModel, setFilterModel] = useState({ items: [] });
 
   const [columns, setColumns] = useState([
-    //      {
-    //      headerName: 'Delete',
+    //  {
+    //    headerName: 'Delete',
     //    field: 'delete',
-    //  renderCell: params => (
-    //  <DeletePayment row={params.row} setData={setData} />
-    //        ),
-    //    },
+    //   renderCell: params => (
+    //      <DeletePayment row={params.row} setData={setData} />
+    //    ),
+    //  },
 
     {
       headerName: 'HAP ID',
@@ -109,6 +109,9 @@ export default function PaymentsTable() {
     { title: 'Email', field: 'email', type: 'string', editable: 'never' },
     { title: 'Gender', field: 'gender', editable: 'always' },
     { title: 'Race', field: 'race', editable: 'always' },
+    { title: 'Address', field: 'address', editable: 'never' },
+    { title: 'Address line 2', field: 'addressLine2' },
+    { title: 'City', field: 'cityName' },
     { title: 'Tenant Zip', field: 'zipCode', editable: 'never' },
     { title: 'Ethnicity', field: 'ethnicity', editable: 'always' },
     { title: 'Household Size', field: 'familySize', editable: 'always' },
