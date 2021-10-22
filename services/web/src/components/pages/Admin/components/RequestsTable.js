@@ -172,6 +172,8 @@ export default function ManagedRequestsTable() {
       setData(sortedRequests);
     } catch (error) {
       alert('error fetching requests');
+
+      console.log(error);
     } finally {
       setIsFetching(false);
     }
