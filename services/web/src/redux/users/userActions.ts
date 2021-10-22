@@ -36,7 +36,6 @@ export const fetchCurrentUser = () => async dispatch => {
 
     dispatch({ type: 'SET_CURRENT_USER', payload: currentUser });
   } catch (error) {
-    alert('error from user');
   } finally {
     dispatch(setLoading(false));
   }
