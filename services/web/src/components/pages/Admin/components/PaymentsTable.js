@@ -45,6 +45,7 @@ export default function PaymentsTable() {
     //    headerName: 'Delete',
     //    field: 'delete',
     //    renderCell: params => (
+    //   renderCell: params => (
     //      <DeletePayment row={params.row} setData={setData} />
     //    ),
     //  },
@@ -109,6 +110,9 @@ export default function PaymentsTable() {
     { title: 'Email', field: 'email', type: 'string', editable: 'never' },
     { title: 'Gender', field: 'gender', editable: 'always' },
     { title: 'Race', field: 'race', editable: 'always' },
+    { title: 'Address', field: 'address', editable: 'never' },
+    { title: 'Address line 2', field: 'addressLine2' },
+    { title: 'City', field: 'cityName' },
     { title: 'Tenant Zip', field: 'zipCode', editable: 'never' },
     { title: 'Ethnicity', field: 'ethnicity', editable: 'always' },
     { title: 'Household Size', field: 'familySize', editable: 'always' },

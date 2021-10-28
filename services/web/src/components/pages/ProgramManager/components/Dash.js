@@ -10,23 +10,31 @@ import Analytics from '../../Admin/components/Analytics';
 import PaymentsTable from '../../Admin/components/PaymentsTable';
 
 import styles from '../../../../styles/pages/admin.module.css';
+import { useHistory } from 'react-router';
 
 import { Typography, Layout } from 'antd';
+import { IdleTimer } from '../../../../utils/general/idleTimer';
+import ModalContainer from '../../../modals/ModalContainer';
 const { Title } = Typography;
 const { Content, Header, Footer } = Layout;
 
 const Dash = () => {
+  const history = useHistory();
   const currentUser = useSelector(state => state.user.currentUser);
 
   const [activeComponent, setActiveComponent] = useState({
     current: 'requests',
   });
 
+  const [timeLeft, setTimeLeft] = useState(300000);
+
   const handleClick = e => {
     localStorage.setItem('lastVisitedPage', e.key);
 
     setActiveComponent({ current: e.key });
   };
+
+  IdleTimer(history);
 
   useEffect(() => {
     const lastVisitiedPage = localStorage.getItem('lastVisitedPage');
@@ -44,6 +52,17 @@ const Dash = () => {
       setActiveComponent({ current: lastVisitiedPage });
     }
   }, []);
+
+  useEffect(() => {
+    IdleTimer(history, setTimeLeft(timeLeft - 1));
+    if (timeLeft === 5000) {
+      alert(
+        `You will be logged out in ${timeLeft} seconds if you are not active`
+      );
+    }
+
+    console.log('Countdown: ', timeLeft);
+  }, [history, timeLeft]);
 
   return (
     <Layout>
