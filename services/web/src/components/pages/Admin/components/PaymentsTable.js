@@ -44,6 +44,7 @@ export default function PaymentsTable() {
     //  {
     //    headerName: 'Delete',
     //    field: 'delete',
+    //    renderCell: params => (
     //   renderCell: params => (
     //      <DeletePayment row={params.row} setData={setData} />
     //    ),
@@ -188,9 +189,10 @@ export default function PaymentsTable() {
     },
     {
       headerName: 'Date Approved',
-      field: 'approveDate',
+      field: 'createdAt',
       type: 'date',
       width: 170,
+      editable: 'always',
     },
     {
       headerName: 'Processed?',

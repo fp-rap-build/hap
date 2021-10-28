@@ -31,7 +31,7 @@ exports.findForTable = () =>
       'p.monthsBack',
       'p.totalArrears',
       'p.monthsForward',
-      'p.createdAt as approveDate',
+      'p.createdAt',
       'r.requestDate as requestDate',
       'r.familySize',
       'r.totalChildren',
