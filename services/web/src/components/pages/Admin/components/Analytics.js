@@ -14,10 +14,6 @@ const Analytics = () => {
   const [peopleServed, setPeopleServed] = useState(0);
   const [familiesServed, setFamiliesServed] = useState(0);
   const [childrenServed, setChildrenServed] = useState(0);
-  const [totalEraApproved, setTotalEraApproved] = useState(0);
-  const [totalEraApprovedAmount, setTotalEraApprovedAmount] = useState(0);
-  const [eraChildrenServed, setEraChildrenServed] = useState(0);
-  const [eraPeopleServed, setEraPeopleServed] = useState(0);
 
   const [budget, setBudget] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -32,16 +28,6 @@ const Analytics = () => {
       })
       .catch(err => console.error(err));
   }
-
-  function getEraPeopleServed() {
-    axiosWithAuth()
-      .get('/analytics/total_era_served')
-      .then(res => {
-        setEraPeopleServed(res.data.sumEraPeopleServed[0].sum || 0);
-      })
-      .catch(err => console.error(err));
-  }
-
   function getFamiliesServed() {
     axiosWithAuth()
       .get('/analytics/families_served')
@@ -62,49 +48,6 @@ const Analytics = () => {
         // const numFamiliesServed = setFamiliesServed(familiesServed[0].count);
       })
       .catch(err => console.error(err));
-  }
-
-  function getEraChildrenServed() {
-    axiosWithAuth()
-      .get('/analytics/era_children_served')
-      .then(res => {
-        // const erafamiliesServed = res.data.sumEraFamiliesServed;
-        setEraChildrenServed(res.data.sumEraChildrenServed[0].sum || 0);
-        // const numFamiliesServed = setFamiliesServed(familiesServed[0].count);
-      })
-      .catch(err => console.error(err));
-  }
-
-  function getTotalEraApproved() {
-    axiosWithAuth()
-      .get('/analytics/total_era_approved')
-      .then(res => {
-        // const familiesServed = res.data.sumFamiliesServed;
-        setTotalEraApproved(res.data.totalEraApproved[0].count || 0);
-        // const numFamiliesServed = setFamiliesServed(familiesServed[0].count);
-      })
-      .catch(err => console.error(err));
-  }
-
-  function getTotalEraApprovedAmount() {
-    axiosWithAuth()
-      .get('/analytics/total_era_amount')
-      .then(res => {
-        // const familiesServed = res.data.sumFamiliesServed;
-        setTotalEraApprovedAmount(res.data.totalEraApprovedAmount[0].sum || 0);
-        // const numFamiliesServed = setFamiliesServed(familiesServed[0].count);
-      })
-      .catch(err => console.error(err));
-  }
-
-  // receive float and dollar sign and commas
-  function formatNumber(num) {
-    return (
-      '$' +
-      parseFloat(num)
-        .toFixed(2)
-        .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-    );
   }
 
   const getBudget = async () => {
@@ -140,10 +83,6 @@ const Analytics = () => {
     getPeopleServed();
     getChildrenServed();
     getBudget();
-    getTotalEraApproved();
-    getTotalEraApprovedAmount();
-    getEraChildrenServed();
-    getEraPeopleServed();
     //eslint-disable-next-line
   }, []);
 
@@ -157,21 +96,14 @@ const Analytics = () => {
       <Card value={familiesServed} title="Families served" color="#006ab3" />
       <Card value={childrenServed} title="Children served" color="#006ab3" />
       <Card
-        value={totalEraApproved}
-        title="Total ERA approved"
+        value={budget}
+        title="Budget"
         color="#006ab3"
+        icon="$"
+        editable={true}
+        onSubmit={handleNewBudgetSubmit}
+        onChange={handleBudgetChange}
       />
-      <Card
-        value={formatNumber(totalEraApprovedAmount)}
-        title="Total ERA approved amount"
-        color="#006ab3"
-      />
-      <Card
-        value={eraChildrenServed}
-        title="ERA children served"
-        color="#006ab3"
-      />
-      <Card value={eraPeopleServed} title="ERA people served" color="#006ab3" />
     </div>
   );
 };

@@ -54,6 +54,7 @@ const ChangeCategoryButton = ({ handleChange }) => {
       <Option value="housingInstability">Housing</Option>
       <Option value="covid">Covid</Option>
       <Option value="rpaf">RPAF</Option>
+      <Option value="upaf">UPAF</Option>
       <Option value="other">Other</Option>
       <Option value="identity">Identity</Option>
     </Select>

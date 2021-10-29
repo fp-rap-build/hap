@@ -13,7 +13,6 @@ import {
   Switch,
   useHistory,
 } from 'react-router-dom';
-
 import Layout from './components/Layout';
 import Admin from './components/pages/Admin';
 import Apply from './components/pages/Apply';

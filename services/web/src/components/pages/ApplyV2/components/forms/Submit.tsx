@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import { Button } from 'antd';
 
@@ -20,12 +20,8 @@ export default function Submit({
 
   const [isCheckboxSelected, setIsCheckboxSelected] = useState(false);
 
-  const [isAdvocate, setIsAdvocate] = useState(false);
-
   const handleAdvocateCheckboxChange = e => {
     setFormValues({ ...formValues, advocate: e.target.checked });
-
-    setIsAdvocate(!isAdvocate);
   };
 
   const onAdvocateInfoChange = e => {
@@ -89,7 +85,7 @@ export default function Submit({
               </Checkbox>
             </Form.Item>
 
-            {isAdvocate && (
+            {formValues.advocate && (
               <>
                 <Form.Item
                   hasFeedback
@@ -231,6 +227,7 @@ const submitApplication = async (
         dispatch(setCurrentUser(res.data.user));
         history.push('/');
       });
+      
   } catch (error) {
     alert('Unable to submit request, please report this');
   }

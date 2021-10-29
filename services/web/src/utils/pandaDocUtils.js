@@ -23,7 +23,8 @@ const wait = async s => {
 const sendDocument = async documentId => {
   try {
     //Need to wait 5s (the uppper limit of their processing time) for pandaDoc to process the doc before sending
-    await wait(5);
+    // changing this to 3 seconds, since reports showed all requests were being completed in 2 sec or less
+    await wait(3);
     await axiosForPanda().post(`/documents/${documentId}/send`, {
       message: 'Hello! This document was sent from the PandaDoc API.',
       subject: 'Please check this test API document from PandaDoc',
