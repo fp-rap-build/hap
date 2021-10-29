@@ -4,21 +4,6 @@ const restrictTo = require('../../middleware/restrictTo');
 
 const router = express.Router();
 
-// get total number of people served by era
-router.get(
-  '/total_era_served',
-  restrictTo('admin', 'programManager'),
-  async (req, res) => {
-    try {
-      const sumEraPeopleServed = await Analytics.getTotalEraPeople();
-      res.status(200).json({sumEraPeopleServed : sumEraPeopleServed});
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: err.message });
-    }
-  }
-);
-
 router.get(
   '/families_served',
   restrictTo('admin', 'programManager'),
@@ -60,47 +45,5 @@ router.get(
     }
   }
 );
-
-router.get(
-  '/era_children_served',
-  restrictTo('admin', 'programManager'),
-  async (req, res) => {
-    try {
-      const sumEraChildrenServed = await Analytics.getEraChildrenServed();
-      res.status(200).json({ sumEraChildrenServed: sumEraChildrenServed });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: err.message });
-    }
-  }
-);
-
-router.get(
-  '/total_era_approved',
-  restrictTo('admin', 'programManager'),
-  async (req, res) => {
-    try {
-      const totalEraApproved = await Analytics.getTotalEraApproved();
-      res.status(200).json({ totalEraApproved: totalEraApproved });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: err.message });
-    }
-  } 
-);
-
-router.get(
-  '/total_era_amount',
-  restrictTo('admin', 'programManager'),
-  async (req, res) => {
-    try {
-      const totalEraApprovedAmount = await Analytics.getTotalEraAmount();
-      res.status(200).json({ totalEraApprovedAmount: totalEraApprovedAmount });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: err.message });
-    }
-  }
-)
 
 module.exports = router;
