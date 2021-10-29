@@ -52,7 +52,7 @@ const DocumentUploader = ({ request, setDocuments }) => {
           <InboxOutlined />
         </p>
         <p className="ant-upload-text">
-          Click or drag file to this area to upload
+          Click this area to upload document or photo
         </p>
       </Dragger>
     </div>

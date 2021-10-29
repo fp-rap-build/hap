@@ -138,6 +138,8 @@ export default function ManagedRequestsTable() {
 
         request['rpaf'] = [];
 
+        request['upaf'] = [];
+
         request['identity'] = [];
 
         request['lease'] = [];
@@ -414,6 +416,23 @@ export default function ManagedRequestsTable() {
             docs={rowData.row.rpaf}
             openDocument={() =>
               openDocument(rowData.row.rpaf, 'rpaf', rowData.row)
+            }
+          />
+        );
+      },
+    },
+
+    {
+      headerName: 'UPAF',
+      field: 'upaf',
+      width: 150,
+      renderCell: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            category="upaf"
+            docs={rowData.row.upaf}
+            openDocument={() =>
+              openDocument(rowData.row.upaf, 'upaf', rowData.row)
             }
           />
         );
