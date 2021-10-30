@@ -3,6 +3,8 @@ const Documents = require('../documentModel');
 const getAllDocuments = async (req, res) => {
   const { id } = req.params;
 
+  console.log('hit');
+
   try {
     const documents = await Documents.findAllByRequestId(id);
 

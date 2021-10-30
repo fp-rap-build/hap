@@ -130,16 +130,11 @@ const SelfDecModal = ({
       `${selectedCategory.toUpperCase()} Self Declaration explanation: ${text}`
     );
     //If the category is children/pregnancy do not continue to panda doc signature
-    if (selectedCategory === 'childrenOrPregnancy') {
+
+    if (selectedCategory === 'identity') {
       console.log(
         'Sorry, we cannot accept a self declaration for this category.'
       );
-
-      if (selectedCategory === 'identity') {
-        console.log(
-          'Sorry, we cannot accept a self declaration for this category.'
-        );
-      }
     } else {
       //builds doc and populates sessionID which opens embedded document view
       handleDocCreation(text);
@@ -148,7 +143,7 @@ const SelfDecModal = ({
 
   const handleModalCloseButton = () => {
     //If selectedCategory is childrenOrPregnancy or sessionId is falsy  - just close the modal
-    if (selectedCategory === 'childrenOrPregnancy' || !sessionId) {
+    if (!sessionId) {
       handleCancel();
     } else {
       //Else the doc has been started/ completed so we need to post teh self dec placeholder, handel the accept and wipe session ID
