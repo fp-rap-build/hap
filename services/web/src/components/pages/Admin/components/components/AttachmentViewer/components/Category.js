@@ -72,6 +72,7 @@ export default function Category({ document, setRequests, setDocuments }) {
       <Menu.Item key="lease">Lease Documents</Menu.Item>
       <Menu.Item key="rpaf">RPAF</Menu.Item>
       <Menu.Item key="upaf">UPAF</Menu.Item>
+      <Menu.Item key="utilBills">Utility Bill</Menu.Item>
       <Menu.Item key="other">Other</Menu.Item>
     </Menu>
   );

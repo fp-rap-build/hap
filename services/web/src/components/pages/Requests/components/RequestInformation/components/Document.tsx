@@ -146,6 +146,7 @@ const RenderCategory = ({ category, editing, doc, handleCategoryChange }) => {
         <Option value="covid">Covid Financial Hardship</Option>
         <Option value="rpaf">RPAF</Option>
         <Option value="upaf">UPAF</Option>
+        <Option value="utilBills">Utility Bills</Option>
         <Option value="lease">Lease</Option>
         <Option value="landlordW9">Landlord W9</Option>
         <Option value="identity">Identity</Option>
