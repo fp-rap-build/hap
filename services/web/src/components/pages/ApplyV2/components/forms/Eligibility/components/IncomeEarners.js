@@ -1,6 +1,14 @@
 import { useState, useEffect } from 'react';
 
-import { Form, Input, Card, Typography, Divider, Button } from 'antd';
+import {
+  Form,
+  Input,
+  Card,
+  Typography,
+  Divider,
+  Button,
+  InputNumber,
+} from 'antd';
 
 const { Text } = Typography;
 
@@ -82,9 +90,10 @@ const TotalEarners = ({ setPage, handleChange, formValues }) => {
 const SetIncomes = ({ formValues }) => {
   const [incomeValues, setIncomeValues] = useState([]);
 
-  let handleChange = (i, e) => {
+  let handleChange = (i, income) => {
     let newFormValues = [...incomeValues];
-    newFormValues[i][e.target.name] = Number(e.target.value);
+
+    newFormValues[i]['income'] = income;
     setIncomeValues(newFormValues);
   };
 
@@ -113,18 +122,23 @@ const SetIncomes = ({ formValues }) => {
         <br />
         <p>Please fill in the income for each person inside the household</p>
 
-        <h1>Hello {formValues.incomeEarners}</h1>
-
         {incomeValues.map((element, index) => (
           <Form.Item
             label={`Person ${index + 1}`}
-            className="form-inline"
             key={index}
+            rules={[{ required: true, message: 'required' }]}
+            name={index}
           >
-            <Input
+            <InputNumber
+              style={{ width: '100%' }}
               name="income"
-              value={element.income || ''}
+              addonBefore={'$'}
+              parser={value => value.replace(/\$\s?|(,*)/g, '')}
+              formatter={value =>
+                `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+              }
               onChange={e => handleChange(index, e)}
+              precision={2}
             />
           </Form.Item>
         ))}
@@ -145,6 +159,9 @@ const RenderContent = ({ page, props }) => {
   }
 };
 
-const updateLandlordInfo = async () => {};
+var formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+});
 
 export default Index;
