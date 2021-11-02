@@ -84,7 +84,7 @@ const SetIncomes = ({ formValues }) => {
 
   let handleChange = (i, e) => {
     let newFormValues = [...incomeValues];
-    newFormValues[i][e.target.name] = e.target.value;
+    newFormValues[i][e.target.name] = Number(e.target.value);
     setIncomeValues(newFormValues);
   };
 
@@ -94,7 +94,7 @@ const SetIncomes = ({ formValues }) => {
     for (let i = 0; i < formValues.incomeEarners; i++) {
       let name = 'Person ' + (i + 1);
 
-      initialValues.push({ name });
+      initialValues.push({ name, income: null });
     }
 
     setIncomeValues(initialValues);
@@ -105,7 +105,7 @@ const SetIncomes = ({ formValues }) => {
   }, [incomeValues]);
 
   return (
-    <Form layout="vertical" onChange={handleChange} onFinish={console.log}>
+    <Form layout="vertical" onFinish={console.log}>
       <Card headStyle={{ background: ' #472D5B' }}>
         <p>
           Welcome to Family Promise of Spokane's Housing Assistance Application.
@@ -117,13 +117,13 @@ const SetIncomes = ({ formValues }) => {
 
         {incomeValues.map((element, index) => (
           <Form.Item
-            label={`Person + ${index + 1}`}
+            label={`Person ${index + 1}`}
             className="form-inline"
             key={index}
           >
             <Input
-              name="name"
-              value={element.name || ''}
+              name="income"
+              value={element.income || ''}
               onChange={e => handleChange(index, e)}
             />
           </Form.Item>
