@@ -1,22 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-import { states } from '../../../../../../../utils/data/states';
-
-import {
-  Form,
-  Input,
-  Card,
-  InputNumber,
-  Typography,
-  Select,
-  Divider,
-  Button,
-  Checkbox,
-} from 'antd';
-
-import { useSelector } from 'react-redux';
-
-const { Option } = Select;
+import { Form, Input, Card, Typography, Divider, Button } from 'antd';
 
 const { Text } = Typography;
 
@@ -27,7 +11,7 @@ const Index = ({
   onStateChange,
   handleCheckBoxChange,
 }) => {
-  const [page, setPage] = useState('getEarners');
+  const [page, setPage] = useState('totalEarners');
 
   let props = {
     formValues,
@@ -42,7 +26,7 @@ const Index = ({
   return <RenderContent page={page} props={props} />;
 };
 
-const TotalEarners = ({ setEligibilityContent, handleChange, formValues }) => {
+const TotalEarners = ({ setPage, handleChange, formValues }) => {
   return (
     <Form
       layout="vertical"
@@ -73,8 +57,8 @@ const TotalEarners = ({ setEligibilityContent, handleChange, formValues }) => {
         <Form.Item
           hasFeedback
           name="incomeEarners"
-          initialValue={formValues.monthlyIncome}
-          label={'How many people are earning income in your household?'}
+          initialValue={formValues.incomeEarners}
+          label={'How many people are receiving income in your household?'}
           rules={[
             {
               required: true,
@@ -86,8 +70,28 @@ const TotalEarners = ({ setEligibilityContent, handleChange, formValues }) => {
             },
           ]}
         >
-          <Input size="large" name="monthlyIncome" style={{ width: '100%' }} />
+          <Input size="large" name="incomeEarners" style={{ width: '100%' }} />
         </Form.Item>
+
+        <Button htmlType="submit">Submit</Button>
+      </Card>
+    </Form>
+  );
+};
+
+const SetIncomes = ({ formValues }) => {
+  const handleChange = console.log;
+
+  return (
+    <Form layout="vertical" onChange={handleChange} onFinish={console.log}>
+      <Card headStyle={{ background: ' #472D5B' }}>
+        <p>
+          Welcome to Family Promise of Spokane's Housing Assistance Application.
+        </p>
+        <br />
+        <p>Please fill in the income for each person inside the household</p>
+
+        <h1>Hello {formValues.incomeEarners}</h1>
 
         <Button htmlType="submit">Submit</Button>
       </Card>
@@ -97,8 +101,12 @@ const TotalEarners = ({ setEligibilityContent, handleChange, formValues }) => {
 
 const RenderContent = ({ page, props }) => {
   switch (page) {
-    case 'getEarners':
+    case 'totalEarners':
       return <TotalEarners {...props} />;
+    case 'setIncomes':
+      return <SetIncomes {...props} />;
+    default:
+      return <h1>Mistakes have been made</h1>;
   }
 };
 
