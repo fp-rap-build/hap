@@ -451,7 +451,7 @@ export default function ManagedRequestsTable() {
             category="utilBills"
             docs={rowData.row.utilBills}
             openDocument={() =>
-              openDocument(rowData.row.utilBills, 'utilBils', rowData.row)
+              openDocument(rowData.row.utilBills, 'utilBills', rowData.row)
             }
           />
         );
