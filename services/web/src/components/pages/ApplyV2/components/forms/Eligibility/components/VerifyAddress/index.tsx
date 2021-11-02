@@ -30,7 +30,7 @@ export default function Index({
   };
 
   const handleFinish = () => {
-    setEligibilityContent('eligibility');
+    setEligibilityContent('income');
   };
 
   return (

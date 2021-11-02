@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 import EligibilityForm from './components/EligibilityForm';
 
+import IncomeEarners from './components/IncomeEarners';
+
 import ProgramSelection from './components/ProgramSelection';
 
 import { VerifyAddress } from '..';
@@ -14,7 +16,7 @@ const Index = ({
   onStateChange,
   handleCheckBoxChange,
 }) => {
-  const [eligibilityContent, setEligibilityContent] = useState('verifyAddress');
+  const [eligibilityContent, setEligibilityContent] = useState('income');
 
   let props = {
     formValues,
@@ -33,6 +35,8 @@ const RenderContent = ({ content, props }) => {
   switch (content) {
     case 'verifyAddress':
       return <VerifyAddress {...props} />;
+    case 'income':
+      return <IncomeEarners {...props} />;
     case 'eligibility':
       return <EligibilityForm {...props} />;
     case 'programs':
