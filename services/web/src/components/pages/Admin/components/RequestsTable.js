@@ -260,7 +260,7 @@ export default function ManagedRequestsTable() {
     { headerName: 'First', field: 'firstName', width: 150 },
     { headerName: 'Last ', field: 'lastName', width: 150 },
     {
-      headerName: 'email',
+      headerName: 'Email Address',
       field: 'email',
       width: 150,
     },
@@ -511,7 +511,7 @@ export default function ManagedRequestsTable() {
       width: 150,
     },
     {
-      headerName: 'unEmp90',
+      headerName: 'Unemployed 90+ Days?',
       field: 'unEmp90',
       width: 150,
     },
@@ -553,8 +553,8 @@ export default function ManagedRequestsTable() {
       lookup: {
         received: 'Received',
         inReview: 'In Review',
-        documentsNeeded: 'documentsNeeded',
-        verifyingDocuments: 'verifyingDocuments',
+        documentsNeeded: 'Documents Needed',
+        verifyingDocuments: 'Verifying Documents',
         notResponding: 'Not Responding',
         readyForReview: 'Ready For Review',
         approved: 'Approved',
@@ -563,13 +563,13 @@ export default function ManagedRequestsTable() {
     },
 
     {
-      headerName: 'date',
+      headerName: 'Date of Request',
       field: 'requestDate',
       type: 'date',
       width: 150,
     },
     {
-      headerName: 'Date Approved',
+      headerName: 'Date of last approval',
       field: 'createdAt',
       type: 'date',
       width: 150,
