@@ -9,7 +9,7 @@ export default function builtTableData(statuses) {
       status: statuses.childrenOrPregnancy
         ? statuses.childrenOrPregnancy
         : 'missing',
-      selfDecDisabled: true,
+      selfDecDisabled: false,
     },
     {
       key: 'residency',
