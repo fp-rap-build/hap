@@ -80,7 +80,29 @@ const TotalEarners = ({ setPage, handleChange, formValues }) => {
 };
 
 const SetIncomes = ({ formValues }) => {
-  const handleChange = console.log;
+  const [incomeValues, setIncomeValues] = useState([]);
+
+  let handleChange = (i, e) => {
+    let newFormValues = [...incomeValues];
+    newFormValues[i][e.target.name] = e.target.value;
+    setIncomeValues(newFormValues);
+  };
+
+  useEffect(() => {
+    let initialValues = [];
+
+    for (let i = 0; i < formValues.incomeEarners; i++) {
+      let name = 'Person ' + (i + 1);
+
+      initialValues.push({ name });
+    }
+
+    setIncomeValues(initialValues);
+  }, []);
+
+  useEffect(() => {
+    console.log(incomeValues);
+  }, [incomeValues]);
 
   return (
     <Form layout="vertical" onChange={handleChange} onFinish={console.log}>
@@ -93,6 +115,19 @@ const SetIncomes = ({ formValues }) => {
 
         <h1>Hello {formValues.incomeEarners}</h1>
 
+        {incomeValues.map((element, index) => (
+          <Form.Item
+            label={`Person + ${index + 1}`}
+            className="form-inline"
+            key={index}
+          >
+            <Input
+              name="name"
+              value={element.name || ''}
+              onChange={e => handleChange(index, e)}
+            />
+          </Form.Item>
+        ))}
         <Button htmlType="submit">Submit</Button>
       </Card>
     </Form>
