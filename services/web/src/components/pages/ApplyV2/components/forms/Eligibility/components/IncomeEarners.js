@@ -111,7 +111,7 @@ const SetIncomes = ({ formValues, setFormValues, setEligibilityContent }) => {
 
     setFormValues({ ...formValues, monthlyIncome: totalMonthlyIncome });
 
-    setEligibilityContent('eligibility');
+    setEligibilityContent('verifyAddress');
   };
 
   useEffect(() => {
