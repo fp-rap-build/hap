@@ -38,20 +38,12 @@ const Index = ({
 };
 
 const TotalEarners = ({ setPage, handleChange, formValues, setFormValues }) => {
-  const handleTotalEarnersChange = e => {
-    let num = e.target.value;
-
-    if (num) {
-      if (isNaN(num)) return;
-
-      if (num <= 0 || (num > 20 && num)) return;
-    }
-
-    setFormValues({ ...formValues, incomeEarners: num });
-  };
-
   return (
-    <Form layout="vertical" onFinish={() => setPage('setIncomes')}>
+    <Form
+      layout="vertical"
+      onChange={handleChange}
+      onFinish={() => setPage('setIncomes')}
+    >
       <Card headStyle={{ background: ' #472D5B' }}>
         <p>
           Welcome to Family Promise of Spokane's Housing Assistance Application.
@@ -76,6 +68,7 @@ const TotalEarners = ({ setPage, handleChange, formValues, setFormValues }) => {
         <Form.Item
           hasFeedback
           initialValue={formValues.incomeEarners}
+          name="incomeEarners"
           label={'How many people are receiving income in your household?'}
           rules={[
             {
@@ -88,7 +81,6 @@ const TotalEarners = ({ setPage, handleChange, formValues, setFormValues }) => {
           <Input
             size="large"
             value={formValues.incomeEarners}
-            onChange={handleTotalEarnersChange}
             name="incomeEarners"
             style={{ width: '100%' }}
           />
@@ -137,14 +129,16 @@ const SetIncomes = ({ formValues }) => {
           Welcome to Family Promise of Spokane's Housing Assistance Application.
         </p>
         <br />
-        <h1>Please provide the income for each person inside the household</h1>
+        <h1>
+          Please provide the monthly income for each person inside the household
+        </h1>
         <br />
 
         {incomeValues.map((element, index) => (
           <Form.Item
             label={`Person ${index + 1}`}
             key={index}
-            rules={[{ required: true, message: 'required' }]}
+            rules={[{ required: true, message: 'invalid income' }]}
             name={index}
           >
             <InputNumber
