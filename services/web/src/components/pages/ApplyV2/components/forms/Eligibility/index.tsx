@@ -16,7 +16,7 @@ const Index = ({
   onStateChange,
   handleCheckBoxChange,
 }) => {
-  const [eligibilityContent, setEligibilityContent] = useState('income');
+  const [eligibilityContent, setEligibilityContent] = useState('verifyAddress');
 
   let props = {
     formValues,

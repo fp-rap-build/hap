@@ -1,12 +1,7 @@
-import { useState } from 'react';
-
-import { states } from '../../../../../../../utils/data/states';
-
 import {
   Form,
   Input,
   Card,
-  InputNumber,
   Typography,
   Select,
   Divider,
@@ -24,7 +19,6 @@ const Index = ({
   formValues,
   handleChange,
   setEligibilityContent,
-  onStateChange,
   handleCheckBoxChange,
 }) => {
   return (
