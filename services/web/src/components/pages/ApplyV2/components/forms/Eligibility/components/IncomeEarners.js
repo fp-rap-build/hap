@@ -92,7 +92,7 @@ const TotalEarners = ({ setPage, handleChange, formValues, setFormValues }) => {
   );
 };
 
-const SetIncomes = ({ formValues }) => {
+const SetIncomes = ({ formValues, setFormValues, setEligibilityContent }) => {
   const [incomeValues, setIncomeValues] = useState([]);
 
   let handleChange = (i, income) => {
@@ -103,7 +103,15 @@ const SetIncomes = ({ formValues }) => {
   };
 
   const onFinish = () => {
-    alert('finished');
+    let totalMonthlyIncome = 0;
+
+    incomeValues.forEach(person => {
+      totalMonthlyIncome += person.income;
+    });
+
+    setFormValues({ ...formValues, monthlyIncome: totalMonthlyIncome });
+
+    setEligibilityContent('eligibility');
   };
 
   useEffect(() => {
@@ -117,10 +125,6 @@ const SetIncomes = ({ formValues }) => {
 
     setIncomeValues(initialValues);
   }, []);
-
-  useEffect(() => {
-    console.log(incomeValues);
-  }, [incomeValues]);
 
   return (
     <Form layout="vertical" onFinish={onFinish}>
