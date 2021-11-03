@@ -15,6 +15,7 @@ const { Text } = Typography;
 const Index = ({
   formValues,
   handleChange,
+  setFormValues,
   setEligibilityContent,
   onStateChange,
   handleCheckBoxChange,
@@ -25,7 +26,9 @@ const Index = ({
     formValues,
     handleChange,
     setEligibilityContent,
+    handleChange,
     onStateChange,
+    setFormValues,
     handleCheckBoxChange,
     page,
     setPage,
@@ -34,13 +37,21 @@ const Index = ({
   return <RenderContent page={page} props={props} />;
 };
 
-const TotalEarners = ({ setPage, handleChange, formValues }) => {
+const TotalEarners = ({ setPage, handleChange, formValues, setFormValues }) => {
+  const handleTotalEarnersChange = e => {
+    let num = e.target.value;
+
+    if (num) {
+      if (isNaN(num)) return;
+
+      if (num <= 0 || (num > 20 && num)) return;
+    }
+
+    setFormValues({ ...formValues, incomeEarners: num });
+  };
+
   return (
-    <Form
-      layout="vertical"
-      onChange={handleChange}
-      onFinish={() => setPage('setIncomes')}
-    >
+    <Form layout="vertical" onFinish={() => setPage('setIncomes')}>
       <Card headStyle={{ background: ' #472D5B' }}>
         <p>
           Welcome to Family Promise of Spokane's Housing Assistance Application.
@@ -64,21 +75,23 @@ const TotalEarners = ({ setPage, handleChange, formValues }) => {
 
         <Form.Item
           hasFeedback
-          name="incomeEarners"
           initialValue={formValues.incomeEarners}
           label={'How many people are receiving income in your household?'}
           rules={[
             {
               required: true,
-              pattern: RegExp(
-                // looks for at least 1 digit with optional decimal point
-                /\d+(?:\.\d+)?/
-              ),
+              pattern: RegExp(/^([1-9][0-9]?)\s*$/),
               message: 'Invalid number',
             },
           ]}
         >
-          <Input size="large" name="incomeEarners" style={{ width: '100%' }} />
+          <Input
+            size="large"
+            value={formValues.incomeEarners}
+            onChange={handleTotalEarnersChange}
+            name="incomeEarners"
+            style={{ width: '100%' }}
+          />
         </Form.Item>
 
         <Button htmlType="submit">Submit</Button>
@@ -95,6 +108,10 @@ const SetIncomes = ({ formValues }) => {
 
     newFormValues[i]['income'] = income;
     setIncomeValues(newFormValues);
+  };
+
+  const onFinish = () => {
+    alert('finished');
   };
 
   useEffect(() => {
@@ -114,13 +131,14 @@ const SetIncomes = ({ formValues }) => {
   }, [incomeValues]);
 
   return (
-    <Form layout="vertical" onFinish={console.log}>
+    <Form layout="vertical" onFinish={onFinish}>
       <Card headStyle={{ background: ' #472D5B' }}>
         <p>
           Welcome to Family Promise of Spokane's Housing Assistance Application.
         </p>
         <br />
-        <p>Please fill in the income for each person inside the household</p>
+        <h1>Please provide the income for each person inside the household</h1>
+        <br />
 
         {incomeValues.map((element, index) => (
           <Form.Item
@@ -134,9 +152,9 @@ const SetIncomes = ({ formValues }) => {
               name="income"
               addonBefore={'$'}
               parser={value => value.replace(/\$\s?|(,*)/g, '')}
-              formatter={value =>
-                `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-              }
+              formatter={value => {
+                return `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+              }}
               onChange={e => handleChange(index, e)}
               precision={2}
             />
