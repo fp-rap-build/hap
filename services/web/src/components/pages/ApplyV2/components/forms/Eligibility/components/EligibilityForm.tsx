@@ -1,22 +1,4 @@
-import { useState } from 'react';
-
-import { states } from '../../../../../../../utils/data/states';
-
-import {
-  Form,
-  Input,
-  Card,
-  InputNumber,
-  Typography,
-  Select,
-  Divider,
-  Button,
-  Checkbox,
-} from 'antd';
-
-import { useSelector } from 'react-redux';
-
-const { Option } = Select;
+import { Form, Input, Card, Typography, Divider, Button, Checkbox } from 'antd';
 
 const { Text } = Typography;
 
@@ -24,7 +6,6 @@ const Index = ({
   formValues,
   handleChange,
   setEligibilityContent,
-  onStateChange,
   handleCheckBoxChange,
 }) => {
   return (
@@ -75,28 +56,6 @@ const Index = ({
           />
         </Form.Item>
 
-        <Form.Item
-          hasFeedback
-          name="monthlyIncome"
-          initialValue={formValues.monthlyIncome}
-          label={
-            formValues.role === 'landlord'
-              ? "Tenant's Total Household Monthly Income"
-              : 'Total Household Monthly Income'
-          }
-          rules={[
-            {
-              required: true,
-              pattern: RegExp(
-                // looks for at least 1 digit with optional decimal point
-                /\d+(?:\.\d+)?/
-              ),
-              message: 'Invalid income',
-            },
-          ]}
-        >
-          <Input name="monthlyIncome" style={{ width: '100%' }} />
-        </Form.Item>
         <Form.Item
           hasFeedback
           name="monthlyRent"
@@ -238,7 +197,5 @@ const Index = ({
     </Form>
   );
 };
-
-const updateLandlordInfo = async () => {};
 
 export default Index;
