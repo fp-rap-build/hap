@@ -571,11 +571,11 @@ export default function ManagedRequestsTable() {
 
       lookup: {
         received: 'Received',
-        inReview: 'In Review',
-        documentsNeeded: 'Documents Needed',
-        verifyingDocuments: 'Verifying Documents',
-        notResponding: 'Not Responding',
-        readyForReview: 'Ready For Review',
+        inReview: 'inReview',
+        documentsNeeded: 'documentsNeeded',
+        verifyingDocuments: 'verifyingDocuments',
+        notResponding: 'notResponding',
+        readyForReview: 'readyForReview',
         approved: 'Approved',
         denied: 'Denied',
       },
