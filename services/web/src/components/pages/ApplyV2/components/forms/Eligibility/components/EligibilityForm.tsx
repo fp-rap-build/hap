@@ -77,28 +77,6 @@ const Index = ({
 
         <Form.Item
           hasFeedback
-          name="monthlyIncome"
-          initialValue={formValues.monthlyIncome}
-          label={
-            formValues.role === 'landlord'
-              ? "Tenant's Total Household Monthly Income"
-              : 'Total Household Monthly Income'
-          }
-          rules={[
-            {
-              required: true,
-              pattern: RegExp(
-                // looks for at least 1 digit with optional decimal point
-                /\d+(?:\.\d+)?/
-              ),
-              message: 'Invalid income',
-            },
-          ]}
-        >
-          <Input name="monthlyIncome" style={{ width: '100%' }} />
-        </Form.Item>
-        <Form.Item
-          hasFeedback
           name="monthlyRent"
           initialValue={formValues.monthlyRent}
           label={
