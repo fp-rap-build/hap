@@ -1,22 +1,4 @@
-import { useState } from 'react';
-
-import { states } from '../../../../../../../utils/data/states';
-
-import {
-  Form,
-  Input,
-  Card,
-  InputNumber,
-  Typography,
-  Select,
-  Divider,
-  Button,
-  Checkbox,
-} from 'antd';
-
-import { useSelector } from 'react-redux';
-
-const { Option } = Select;
+import { Form, Input, Card, Typography, Divider, Button, Checkbox } from 'antd';
 
 const { Text } = Typography;
 
@@ -24,7 +6,6 @@ const Index = ({
   formValues,
   handleChange,
   setEligibilityContent,
-  onStateChange,
   handleCheckBoxChange,
 }) => {
   return (
@@ -216,7 +197,5 @@ const Index = ({
     </Form>
   );
 };
-
-const updateLandlordInfo = async () => {};
 
 export default Index;
