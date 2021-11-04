@@ -115,9 +115,20 @@ const SetIncomes = ({ formValues, setFormValues, setEligibilityContent }) => {
           Welcome to Family Promise of Spokane's Housing Assistance Application.
         </p>
         <br />
-        <h1>
-          Please provide the monthly income for each person inside the household
-        </h1>
+        <p>
+          Please begin by providing information about your household's MONTHLY
+          earned income over the last 60 days
+        </p>
+        <Text type="secondary">
+          This will help us determine your eligibility for assistance. We must
+          verify information with your landlord to approve any requests.
+          <br></br>
+          <br />
+        </Text>
+        <b>
+          Providing false or incorrect information here may greatly increase the
+          time and work needed to approve your request.
+        </b>
         <br />
 
         {incomeValues.map((element, index) => (
