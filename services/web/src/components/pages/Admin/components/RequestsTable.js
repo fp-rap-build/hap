@@ -598,6 +598,11 @@ export default function ManagedRequestsTable() {
       field: 'amountApproved',
       width: 150,
     },
+    {
+      headerName: 'Big Table Candidate?',
+      field: 'foodWrkr',
+      width: 150,
+    },
   ]);
 
   useEffect(() => {
