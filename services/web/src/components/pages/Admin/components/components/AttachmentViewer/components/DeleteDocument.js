@@ -20,7 +20,6 @@ export default function DeleteDocument({
             req[category] = req[category].filter(
               doc => doc.docId !== document.docId
             );
-            console.log(req[category]);
           }
 
           return req;
