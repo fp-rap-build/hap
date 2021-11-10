@@ -5,6 +5,7 @@ import ImageViewer from './components/ImageViewer';
 import Status from './components/Status';
 import SubmitDocument from './components/SubmitDocument';
 import Category from './components/Category';
+import DeleteDocument from './components/DeleteDocument';
 
 export default function Index({
   visible,
@@ -25,15 +26,15 @@ export default function Index({
     setVisible(false);
   };
 
+  const changeDocument = page => {
+    setCurrentDocument(documents[page - 1]);
+  };
+
   useEffect(() => {
     setCurrentDocument(documents[0]);
   }, [documents]);
 
   if (!visible) return <div />;
-
-  const changeDocument = page => {
-    setCurrentDocument(documents[page - 1]);
-  };
 
   return (
     <Modal
@@ -68,6 +69,16 @@ export default function Index({
           category={category}
           setDocuments={setDocuments}
         />
+
+        {currentDocument && (
+          <DeleteDocument
+            document={currentDocument}
+            setDocuments={setDocuments}
+            setRequests={setRequests}
+            request={request}
+            category={category}
+          />
+        )}
       </div>
 
       {currentDocument?.type === 'application/pdf' ? (
