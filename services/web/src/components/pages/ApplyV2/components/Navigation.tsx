@@ -49,7 +49,7 @@ export default function Index() {
   const [allDocumentsSubmitted, setAllDocumentsSubmitted] = useState(false);
 
   const [currentContent, setCurrentContent] = useState(
-    currentUser.applicationStep ? currentUser.applicationStep : 'eligibility'
+    currentUser.applicationStep ? currentUser.applicationStep : 'createAccount'
   );
 
   const request = useSelector(state => state.requests.request);

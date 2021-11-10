@@ -1,9 +1,13 @@
 import { Form, Input, Typography, Divider, DatePicker } from 'antd';
+import DateInput from '../../../../../common/DateInput';
+
+import moment from 'moment';
 
 const { Title, Paragraph } = Typography;
 
 const formatDate = date => {
-  if (!date) return 'YYYY / MM / DD';
+  alert(moment(date).format('MM/DD/YYYY'));
+  if (!date) return 'MM / DD / YYYY';
 
   const splitDate = date.split('T');
   return splitDate[0];
