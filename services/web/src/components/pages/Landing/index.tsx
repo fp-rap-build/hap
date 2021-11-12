@@ -24,16 +24,7 @@ export default function Index() {
         <div className={styles.contentContainer}>
           <h1>Are you in need of Housing Assistance?</h1>
 
-          <h4>
-            <strong> You CAN still apply now.</strong>
-          </h4>
-
-          <h4>
-            <em>
-              (Due to the volume of requests, it may take up to a month for us
-              to respond.)
-            </em>
-          </h4>
+          <h2>Check your eligibility by following the link below</h2>
 
           <Button onClick={() => history.push('/applyv2')}>
             Check Eligibility and Apply
