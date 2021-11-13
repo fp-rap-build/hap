@@ -53,6 +53,8 @@ import {
 import { XGrid, GridToolbar } from '@material-ui/x-grid';
 import addCustomOperators from './components/Requests/addCustomOperators';
 
+import { formatDate } from '../../../../utils/dates/date';
+
 export default function ManagedRequestsTable() {
   const currentUser = useSelector(state => state.user.currentUser);
 
@@ -470,7 +472,13 @@ export default function ManagedRequestsTable() {
       },
     },
 
-    { headerName: 'date', field: 'requestDate', type: 'date', width: 150 },
+    {
+      headerName: 'date',
+      field: 'requestDate',
+      type: 'date',
+      width: 150,
+      renderCell: rowData => <p>{formatDate(rowData.row.requestDate)}</p>,
+    },
   ]);
 
   useEffect(() => {
