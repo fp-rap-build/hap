@@ -14,9 +14,6 @@ const ApplicantProfileInfo = ({
     setApplicantData({ ...applicantData, dob: date });
   };
 
-  // useEffect(() => {
-  //   alert(applicantData.dob);
-  // }, [applicantData]);
 
   return (
     <div className="addressInformation userInfoContent">
