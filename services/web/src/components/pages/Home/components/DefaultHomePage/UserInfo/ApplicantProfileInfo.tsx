@@ -1,20 +1,23 @@
 import { Form, Input, Typography, Divider, DatePicker } from 'antd';
+import { useEffect } from 'react';
+import { formatDate } from '../../../../../../utils/dates/date';
 
 const { Title, Paragraph } = Typography;
 
-const formatDate = date => {
-  if (!date) return 'YYYY / MM / DD';
-
-  const splitDate = date.split('T');
-  return splitDate[0];
-};
-
 const ApplicantProfileInfo = ({
   applicantData,
+  setApplicantData,
   disabled,
   handleApplicantChange,
-  handleDateChange,
 }) => {
+  const onDateChange = date => {
+    setApplicantData({ ...applicantData, dob: date });
+  };
+
+  // useEffect(() => {
+  //   alert(applicantData.dob);
+  // }, [applicantData]);
+
   return (
     <div className="addressInformation userInfoContent">
       <div className="userContentHeading">
@@ -49,11 +52,17 @@ const ApplicantProfileInfo = ({
         </Form.Item>
 
         <Form.Item
-          label="Date Of Birth"
           name="dob"
-          initialValue={formatDate(applicantData.dob)}
+          label="Date of Birth ('MM/DD/YYYY)"
+          rules={[{ required: true, message: 'Date of Birth is required' }]}
         >
-          <Input disabled={disabled} name="dob" />
+          <DatePicker
+            placeholder={formatDate(applicantData.dob)}
+            onChange={onDateChange}
+            value={applicantData.dob}
+            format={'MM/DD/YYYY'}
+            disabled={disabled}
+          ></DatePicker>
         </Form.Item>
 
         <Form.Item
