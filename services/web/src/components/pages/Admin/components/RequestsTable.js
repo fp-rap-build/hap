@@ -595,6 +595,7 @@ export default function ManagedRequestsTable() {
       field: 'createdAt',
       type: 'date',
       width: 150,
+      renderCell: rowData => <p>{formatDate(rowData.row.createdAt)}</p>,
     },
     {
       headerName: 'Amount Approved',

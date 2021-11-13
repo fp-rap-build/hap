@@ -1,4 +1,6 @@
 export const formatDate = date => {
+  if (!date) return '';
+
   date = new Date(date);
 
   return (
