@@ -112,13 +112,14 @@ export default function CreateAccount({
 
         <Form.Item
           name="dob"
-          label="Date of Birth (YYYY-MM-DD)"
+          label="Date of Birth ('MM/DD/YYYY)"
           rules={[{ required: true, message: 'Date of Birth is required' }]}
         >
           <DatePicker
-            placeholder="1981-02-13"
+            placeholder="02/13/1981"
             onChange={onDateChange}
             value={formValues.dob}
+            format={'MM/DD/YYYY'}
           ></DatePicker>
         </Form.Item>
 
