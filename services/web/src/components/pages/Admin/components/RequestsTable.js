@@ -37,6 +37,8 @@ import EmailedLLCheckbox from './components/Requests/EmailedLLCheckbox';
 
 import { formatUTC } from '../../../../utils/dates';
 
+import { formatDate } from '../../../../utils/dates/date';
+
 import {
   Review,
   Archive,
@@ -586,6 +588,7 @@ export default function ManagedRequestsTable() {
       field: 'requestDate',
       type: 'date',
       width: 150,
+      renderCell: rowData => <p>{formatDate(rowData.row.requestDate)}</p>,
     },
     {
       headerName: 'Date of last approval',
