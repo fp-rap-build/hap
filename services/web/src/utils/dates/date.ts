@@ -1,8 +1,13 @@
 export const formatDate = date => {
-  date = new Date(date);
-  let year = date.getFullYear();
-  let month = date.getMonth();
-  let day = date.getDate();
+  if (!date) return '';
 
-  return `${year} / ${month} / ${day}`;
+  date = new Date(date);
+
+  return (
+    (date.getMonth() > 8 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1)) +
+    '/' +
+    (date.getDate() > 9 ? date.getDate() : '0' + date.getDate()) +
+    '/' +
+    date.getFullYear()
+  );
 };

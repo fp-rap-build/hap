@@ -33,6 +33,8 @@ import {
 } from './components/Requests/PersistTableSettings';
 import addCustomOperators from './components/Requests/addCustomOperators';
 
+import { formatDate } from '../../../../utils/dates/date';
+
 export default function PaymentsTable() {
   const [isFetching, setIsFetching] = useState(false);
 
@@ -182,12 +184,14 @@ export default function PaymentsTable() {
       field: 'requestDate',
       type: 'date',
       width: 170,
+      renderCell: rowData => <p>{formatDate(rowData.row.requestDate)}</p>,
     },
     {
       headerName: 'Date Approved',
       field: 'approveDate',
       type: 'date',
       width: 170,
+      renderCell: rowData => <p>{formatDate(rowData.row.approveDate)}</p>,
     },
     {
       headerName: 'Processed?',

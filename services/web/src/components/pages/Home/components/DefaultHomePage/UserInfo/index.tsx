@@ -116,6 +116,7 @@ const UserInfo = () => {
     requestData,
     addressData,
     applicantData,
+    setApplicantData,
     handleAddressChange,
     handleRequestChange,
     handleStateChange,
