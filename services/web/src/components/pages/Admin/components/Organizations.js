@@ -21,7 +21,10 @@ import Container from './components/Requests/Actions/Container';
 import AppsIcon from '@material-ui/icons/Apps';
 
 import { XGrid } from '@material-ui/x-grid';
+
 import ExportCsv from './components/ExportCsv';
+
+import { formatDate } from '../../../../utils/dates/date';
 
 export default function Organizations() {
   const history = useHistory();
@@ -37,7 +40,13 @@ export default function Organizations() {
         ),
       },
       { headerName: 'Organization', field: 'organization', flex: 1 },
-      { headerName: 'Date', field: 'createdAt', type: Date, flex: 0.7 },
+      {
+        headerName: 'Date',
+        field: 'createdAt',
+        type: Date,
+        flex: 0.7,
+        renderCell: rowData => <p>{formatDate(rowData.row.createdAt)}</p>,
+      },
     ],
     data: [],
   });

@@ -15,6 +15,7 @@ import { tableIcons } from '../../../../utils/tableIcons';
 import Container from '../../../pages/Admin/components/components/Requests/Actions/Container';
 
 import { FolderOpenOutlined } from '@ant-design/icons';
+import { formatDate } from '../../../../utils/dates/date';
 
 export default function ActiveRequestsTable() {
   const history = useHistory();
@@ -38,10 +39,7 @@ export default function ActiveRequestsTable() {
       title: 'Submission Date',
       field: 'requestDate',
       flex: 1,
-      renderCell: rowData => {
-        const date = rowData.row.requestDate.split('T')[0];
-        return <p>{date}</p>;
-      },
+      renderCell: rowData => <p>{formatDate(rowData.row.requestDate)}</p>,
     },
     { title: 'Status', field: 'requestStatus', flex: 1 },
   ];
