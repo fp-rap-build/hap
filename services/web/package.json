@@ -6,7 +6,7 @@
   "repository": "github:Lambda-School-Labs/labs-spa-starter",
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
-    "@craco/craco": "^6.0.0",
+    "@craco/craco": "^6.4.1",
     "@material-table/core": "^2.3.33",
     "@material-table/exporters": "^1.0.7",
     "@material-ui/core": "^4.12.3",
