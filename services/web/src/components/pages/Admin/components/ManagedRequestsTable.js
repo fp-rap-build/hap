@@ -80,7 +80,6 @@ export default function ManagedRequestsTable() {
       let requests = await axiosWithAuth()
         .get('/requests/table', {
           params: {
-            archived: false,
             managerId: currentUser.id,
           },
         })
