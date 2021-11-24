@@ -130,11 +130,11 @@ const processDocument = async (
   }
 };
 
+
+
 const processLLDoc = async docPayload => {
   try {
     let document = await createDocument(docPayload);
-
-    console.log(document);
 
     await sendDocument(document.id);
     //create document link
