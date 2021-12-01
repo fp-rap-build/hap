@@ -25,6 +25,7 @@ exports.findForTable = () =>
       'm.email as managerEmail',
       'pr.name as program',
       'r.landlordName',
+      'r.landlordEmail',
       'p.amountBack',
       'p.amountForward',
       'p.amount',
