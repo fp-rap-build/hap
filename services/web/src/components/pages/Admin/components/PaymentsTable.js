@@ -134,6 +134,13 @@ export default function PaymentsTable() {
       editable: 'always',
     },
     {
+      headerName: 'Landlord Email',
+      field: 'landlordEmail',
+      type: 'string',
+      width: 170,
+      editable: 'always',
+    },
+    {
       headerName: 'Total Outstanding Arrears',
       field: 'totalArrears',
       defaultValue: 'amountRequested',
