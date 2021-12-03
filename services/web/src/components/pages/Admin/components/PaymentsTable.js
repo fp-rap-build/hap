@@ -84,6 +84,11 @@ export default function PaymentsTable() {
     { headerName: 'HoH is 18-24', field: 'youth', width: 170 },
     { headerName: 'First', field: 'firstName', width: 170 },
     { headerName: 'Last ', field: 'lastName', width: 170 },
+    { headerName: 'Address', field: 'address', width: 170 },
+    { headerName: 'Address Line 2', field: 'addressLine2', width: 170 },
+    { headerName: 'City', field: 'cityName', width: 170 },
+    { headerName: 'State', field: 'state', width: 170 },
+    { headerName: 'Zip', field: 'zipCode', width: 170 },
     {
       headerName: 'Email',
       field: 'email',
