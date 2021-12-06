@@ -9,6 +9,7 @@ exports.findForTable = () =>
     .leftOuterJoin('users as m', 'r.managerId', '=', 'm.id')
     .select(
       'p.id',
+      'p.status',
       'p.type',
       'p.accountNumber',
       'p.renterOrOwner',
