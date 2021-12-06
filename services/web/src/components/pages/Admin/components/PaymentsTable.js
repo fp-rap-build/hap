@@ -12,6 +12,8 @@ import Container from './components/Requests/Actions/Container';
 
 import CheckIcon from '@material-ui/icons/Check';
 
+import CancelIcon from '@material-ui/icons/Cancel';
+
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import { XGrid, GridToolbar } from '@material-ui/x-grid';
@@ -51,6 +53,12 @@ export default function PaymentsTable() {
       renderCell: params => (
         <ApprovePayment row={params.row} setData={setData} />
       ),
+    },
+
+    {
+      headerName: 'deny',
+      field: 'deny',
+      renderCell: params => <DenyPayment row={params.row} setData={setData} />,
     },
 
     {
@@ -384,6 +392,45 @@ const ApprovePayment = ({ row, setData }) => {
   return (
     <Container onClick={Confirm}>
       <CheckIcon />
+    </Container>
+  );
+};
+
+const DenyPayment = ({ row, setData }) => {
+  const onPaymentDenied = (row, setData) => {
+    const deniedPaymentID = row.id;
+
+    axiosWithAuth()
+      .post(`/payments/${row.id}/deny`)
+      .then(() => {
+        setData(data =>
+          data.map(row => {
+            if (row.id === deniedPaymentID) {
+              row['status'] = 'denied';
+            }
+
+            return row;
+          })
+        );
+      })
+      .catch(err => message.error('Unable to deny payment'));
+  };
+
+  const Confirm = () => {
+    if (row.status === 'approved') {
+      return message.error('Payment has already been approved');
+    }
+
+    return Modal.confirm({
+      title: 'Deny payment',
+      content: 'Are you sure you want to deny this payment?',
+      onOk: () => onPaymentDenied(row, setData),
+    });
+  };
+
+  return (
+    <Container onClick={Confirm}>
+      <CancelIcon />
     </Container>
   );
 };
