@@ -45,9 +45,19 @@ function Navbar() {
 
   const menu = (
     <Menu>
-      <Menu.Item danger onClick={handleLogout}>
-        Logout
-      </Menu.Item>
+      {isLoggedIn ? (
+        <Menu.Item danger onClick={handleLogout}>
+          Logout
+        </Menu.Item>
+      ) : (
+        <>
+          <Menu.Item onClick={() => history.push('/login')}>Login</Menu.Item>
+
+          <Menu.Item onClick={() => history.push('/register/landlord')}>
+            Create Landlord account
+          </Menu.Item>
+        </>
+      )}
     </Menu>
   );
 
@@ -64,11 +74,11 @@ function Navbar() {
                   style={{ color: 'black', cursor: 'pointer' }}
                 />
               </Badge>
-              <Dropdown overlay={menu} trigger={['click', 'hover']}>
-                <Avatar size={35} icon={<UserOutlined />} />
-              </Dropdown>
             </>
           )}
+          <Dropdown overlay={menu} trigger={['click', 'hover']}>
+            <Avatar size={35} icon={<UserOutlined />} />
+          </Dropdown>
         </div>
       </nav>
     </div>
