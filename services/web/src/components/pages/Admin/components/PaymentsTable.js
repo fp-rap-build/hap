@@ -10,6 +10,10 @@ import calculateAmi from '../../../../utils/general/calculateAmi';
 
 import Container from './components/Requests/Actions/Container';
 
+import CheckIcon from '@material-ui/icons/Check';
+
+import CancelIcon from '@material-ui/icons/Cancel';
+
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import { XGrid, GridToolbar } from '@material-ui/x-grid';
@@ -43,17 +47,29 @@ export default function PaymentsTable() {
   const [filterModel, setFilterModel] = useState({ items: [] });
 
   const [columns, setColumns] = useState([
-    //      {
-    //      headerName: 'Delete',
-    //    field: 'delete',
-    //  renderCell: params => (
-    //  <DeletePayment row={params.row} setData={setData} />
-    //        ),
-    //    },
+    {
+      headerName: 'Approve',
+      field: 'approve',
+      renderCell: params => (
+        <ApprovePayment row={params.row} setData={setData} />
+      ),
+    },
+
+    {
+      headerName: 'deny',
+      field: 'deny',
+      renderCell: params => <DenyPayment row={params.row} setData={setData} />,
+    },
 
     {
       headerName: 'HAP ID',
       field: 'HAP ID',
+      width: 170,
+    },
+
+    {
+      headerName: 'Status',
+      field: 'status',
       width: 170,
     },
 
@@ -351,6 +367,84 @@ const editPayment = async row => {
       'Unable to update the payment, please wait a moment and then try again.'
     );
   }
+};
+
+const ApprovePayment = ({ row, setData }) => {
+  const onPaymentApprove = (row, setData) => {
+    const approvedPaymentId = row.id;
+
+    axiosWithAuth()
+      .post(`/payments/${row.id}/approve`)
+      .then(() => {
+        setData(data =>
+          data.map(row => {
+            if (row.id === approvedPaymentId) {
+              row['status'] = 'approved';
+            }
+
+            return row;
+          })
+        );
+      })
+      .catch(err => message.error('Unable to approve payment'));
+  };
+
+  const Confirm = () => {
+    if (row.status === 'approved') {
+      return message.error('Payment has already been approved');
+    }
+
+    return Modal.confirm({
+      title: 'Approve payment',
+      content: 'Are you sure you want to approve this payment',
+      onOk: () => onPaymentApprove(row, setData),
+    });
+  };
+
+  return (
+    <Container onClick={Confirm}>
+      <CheckIcon />
+    </Container>
+  );
+};
+
+const DenyPayment = ({ row, setData }) => {
+  const onPaymentDenied = (row, setData) => {
+    const deniedPaymentID = row.id;
+
+    axiosWithAuth()
+      .post(`/payments/${row.id}/deny`)
+      .then(() => {
+        setData(data =>
+          data.map(row => {
+            if (row.id === deniedPaymentID) {
+              row['status'] = 'denied';
+            }
+
+            return row;
+          })
+        );
+      })
+      .catch(err => message.error('Unable to deny payment'));
+  };
+
+  const Confirm = () => {
+    if (row.status === 'approved') {
+      return message.error('Payment has already been approved');
+    }
+
+    return Modal.confirm({
+      title: 'Deny payment',
+      content: 'Are you sure you want to deny this payment?',
+      onOk: () => onPaymentDenied(row, setData),
+    });
+  };
+
+  return (
+    <Container onClick={Confirm}>
+      <CancelIcon />
+    </Container>
+  );
 };
 
 const DeletePayment = ({ row, setData }) => {
