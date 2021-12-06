@@ -119,7 +119,6 @@ router.put('/:id', requestStatusChange, updateActivity, async (req, res) => {
 
     if (change['requestStatus'] === 'approved') {
       sendPromiseToPayEmail(request, request.landlordEmail);
-      sendConfirmationOfApproval(request);
     }
 
     const updatedRequest = await Requests.update(id, change);
