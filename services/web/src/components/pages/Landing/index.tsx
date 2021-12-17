@@ -29,7 +29,7 @@ export default function Index() {
           <Button onClick={() => history.push('/applyv2')}>
             Check Eligibility and Apply
           </Button>
-          <br />
+          {/* <br />
           <h5>If you're a landlord or tenant, log in to view your status.</h5>
           <Button>
             <Link style={{ color: '#FFFFFF' }} to="/login">
@@ -45,7 +45,7 @@ export default function Index() {
             <Link style={{ color: '#FFFFFF' }} to="/register/landlord">
               Create Landlord Account
             </Link>
-          </Button>
+          </Button> */}
         </div>
       </header>
     </div>

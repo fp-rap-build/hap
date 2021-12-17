@@ -9,6 +9,7 @@ exports.findForTable = () =>
     .leftOuterJoin('users as m', 'r.managerId', '=', 'm.id')
     .select(
       'p.id',
+      'p.status',
       'p.type',
       'p.accountNumber',
       'p.renterOrOwner',
@@ -16,6 +17,11 @@ exports.findForTable = () =>
       'p.requestId',
       'u.firstName',
       'u.lastName',
+      'a.address',
+      'a.addressLine2',
+      'a.cityName',
+      'a.state',
+      'a.zipCode',
       'u.email',
       'u.gender',
       'u.dob',
