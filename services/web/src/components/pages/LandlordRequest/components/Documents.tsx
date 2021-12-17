@@ -87,9 +87,10 @@ export default function Documents({ request, currentUser, requestDocuments }) {
       householdId: {
         value: request.id,
       },
-      date: {
+      date1: {
         value: date,
       },
+
       tenantName: {
         value: `${request.firstName} ${request.lastName}`,
       },

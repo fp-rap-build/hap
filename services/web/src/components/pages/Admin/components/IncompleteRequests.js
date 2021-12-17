@@ -186,13 +186,6 @@ export default function ManagedRequestsTable() {
       },
     },
 
-    //  {
-    //   field: 'Delete',
-    //   width: 50,
-    //    renderCell: params => {
-    //     return <Delete setRequests={setData} requestId={params.row.id} />;
-    //    },
-    //  },
     {
       field: 'Organization',
       width: 200,
@@ -207,7 +200,6 @@ export default function ManagedRequestsTable() {
         return <Organizations request={params.row} />;
       },
     },
-
     {
       headerName: 'HAP ID',
       field: 'HAP ID',
