@@ -41,7 +41,7 @@ export default function Index() {
 
   const dispatch = useDispatch();
 
-  //UI State
+  //UI State.
   const currentUser = useSelector(state => state.user.currentUser);
   const [formValues, setFormValues] = useState(INITIAL_VALUES());
   const [errorMessage, setErrorMessage] = useState(null);

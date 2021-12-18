@@ -33,7 +33,7 @@ const sendDocument = async documentId => {
     });
   } catch (error) {
     alert('Error sending document');
-    console.log(error);
+    console.log(error.response);
   }
 };
 
@@ -115,6 +115,7 @@ const processDocument = async (
   try {
     //create a draft document
     const document = await createDocument(docPayload);
+
     //set document to sent - aka ready to be edited
     await sendDocument(document.id);
     //create document link
