@@ -38,7 +38,7 @@ const requestStatusChange = (requestStatus, emailAddress) => {
 
     case 'notResponding':
       text =
-        'Our team has decided to put your HAP Application on hold until you respond - please log in at www.SpokaneHousingAssistance.org as soon as possible to continue your request';
+        'Your Rental or Utilities Assistance application is on hold until you respond - please log in at www.SpokaneHousingAssistance.org as soon as possible to continue your request';
       break;
 
     case 'denied':
@@ -48,7 +48,7 @@ const requestStatusChange = (requestStatus, emailAddress) => {
 
     case 'approved':
       text =
-        'Your Family Promise HAP Application has been approved! - please log in to your account at www.SpokaneHousingAssistance.org to see what the next steps are.';
+      'Your Rental or Utilities Assistance application has been approved! If you have any further questions please call 509-816-2101.';
       break;
 
     default:
@@ -97,8 +97,8 @@ const sendPromiseToPayEmail = (request, emailAddress) => {
     to: emailAddress,
     from: 'hap@familypromiseofspokane.org',
     subject: 'Approved for Rental Assistance',
-    text: `Your tenant ${request.firstName} ${request.lastName} at ${request.address} has been approved for rental assistance! We will contact you shortly to go over the details`,
-    html: `<p>Your tenant ${request.firstName} ${request.lastName} at ${request.address} has been approved for rental assistance!</p> <p> We will contact you shortly to go over the details </p>`,
+    text: `Your tenant ${request.firstName} ${request.lastName} at ${request.address} has been approved for rental assistance! If you have any further questions please call 509-816-2101.`,
+    html: `<p>Your tenant ${request.firstName} ${request.lastName} at ${request.address} has been approved for rental assistance!</p> <p>If you have any further questions please call 509-816-2101. </p>`,
   };
 
   sgMail
