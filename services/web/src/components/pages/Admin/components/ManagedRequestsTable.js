@@ -54,6 +54,8 @@ import { XGrid, GridToolbar } from '@material-ui/x-grid';
 import addCustomOperators from './components/Requests/addCustomOperators';
 
 import { formatDate } from '../../../../utils/dates/date';
+import ToolBarWithQuickSearch from './components/GridHelpers/ToolBarWithQuickSearch';
+import requestSearch from './components/GridHelpers/requestSearch';
 
 export default function ManagedRequestsTable() {
   const currentUser = useSelector(state => state.user.currentUser);
@@ -65,6 +67,8 @@ export default function ManagedRequestsTable() {
   const [rows, setRows] = useState([]);
 
   const [data, setData] = useState([]);
+
+  const [searchText, setSearchText] = useState('');
 
   const [visible, setVisible] = useState(false);
 
@@ -543,7 +547,16 @@ export default function ManagedRequestsTable() {
           columns={columns}
           loading={isFetching}
           components={{
-            Toolbar: GridToolbar,
+            Toolbar: ToolBarWithQuickSearch,
+          }}
+          componentsProps={{
+            toolbar: {
+              value: searchText,
+              onChange: event =>
+                requestSearch(event.target.value, setSearchText, data, setRows),
+              clearSearch: () =>
+                requestSearch('', setSearchText, data, setRows),
+            },
           }}
         />
       </div>

@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import {
   GridToolbarDensitySelector,
   GridToolbarFilterButton,
+  GridToolbarColumnsButton,
 } from '@material-ui/x-grid';
 import ExportCsv from '../ExportCsv';
 
@@ -45,9 +46,10 @@ export default function ToolBarWithQuickSearch(props) {
   return (
     <div className={classes.root}>
       <div style={{ display: 'flex' }}>
-        <ExportCsv />
         <GridToolbarFilterButton />
+        <GridToolbarColumnsButton />
         <GridToolbarDensitySelector />
+        <ExportCsv />
       </div>
       <TextField
         variant="standard"
@@ -79,4 +81,3 @@ ToolBarWithQuickSearch.propTypes = {
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
 };
-
