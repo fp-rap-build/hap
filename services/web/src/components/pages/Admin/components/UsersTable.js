@@ -11,12 +11,17 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { message, Modal } from 'antd';
 
 import { XGrid } from '@material-ui/x-grid';
-import ExportCsv from './components/ExportCsv';
+
+import ToolbarWithQuickSearch from './components/ToolbarWithQuickSearch';
+
+function escapeRegExp(value) {
+  return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+}
 
 export default function UsersTable() {
-  const currentUserRole = useSelector(state => state.user.currentUser.role);
-
   const [isFetching, setIsFetching] = useState(false);
+
+  const [rows, setRows] = useState([]);
 
   const [columns, setColumns] = useState([
     /// {
@@ -46,6 +51,22 @@ export default function UsersTable() {
 
   const [data, setData] = useState([]);
 
+  const [searchText, setSearchText] = useState('');
+
+  const requestSearch = searchValue => {
+    setSearchText(searchValue);
+    const searchRegex = new RegExp(escapeRegExp(searchValue), 'i');
+    const filteredRows = data.filter(row => {
+      return Object.keys(row).some(field => {
+        if (row[field]) return searchRegex.test(row[field].toString());
+
+        return false;
+      });
+    });
+
+    setRows(filteredRows);
+  };
+
   const fetchUsers = async () => {
     setIsFetching(true);
     try {
@@ -63,13 +84,17 @@ export default function UsersTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    setRows(data);
+  }, [data]);
+
   return (
     <>
       <h2>Users</h2>
 
       <XGrid
         style={{ height: 700 }}
-        rows={data}
+        rows={rows}
         onCellEditCommit={user => editUser(user)}
         columns={columns}
         isCellEditable={props => {
@@ -77,7 +102,14 @@ export default function UsersTable() {
         }}
         loading={isFetching}
         components={{
-          Toolbar: ExportCsv,
+          Toolbar: ToolbarWithQuickSearch,
+        }}
+        componentsProps={{
+          toolbar: {
+            value: searchText,
+            onChange: event => requestSearch(event.target.value),
+            clearSearch: () => requestSearch(''),
+          },
         }}
       />
     </>
