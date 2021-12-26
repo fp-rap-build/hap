@@ -62,6 +62,8 @@ export default function ManagedRequestsTable() {
 
   const [isFetching, setIsFetching] = useState(false);
 
+  const [rows, setRows] = useState([]);
+
   const [data, setData] = useState([]);
 
   const [visible, setVisible] = useState(false);
@@ -505,6 +507,10 @@ export default function ManagedRequestsTable() {
     addCustomOperators(setColumns);
   }, []);
 
+  useEffect(() => {
+    setRows(data);
+  }, [data]);
+
   return (
     <div>
       <div className={styles.container}>
@@ -533,7 +539,7 @@ export default function ManagedRequestsTable() {
             onFilterModelChange(e, setFilterModel, 'managedRequestFilters');
           }}
           style={{ height: 700 }}
-          rows={data}
+          rows={rows}
           columns={columns}
           loading={isFetching}
           components={{

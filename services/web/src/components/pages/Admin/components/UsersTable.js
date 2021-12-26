@@ -12,11 +12,9 @@ import { message, Modal } from 'antd';
 
 import { XGrid } from '@material-ui/x-grid';
 
-import ToolbarWithQuickSearch from './components/ToolbarWithQuickSearch';
+import ToolbarWithQuickSearch from './components/GridHelpers/ToolBarWithQuickSearch';
 
-function escapeRegExp(value) {
-  return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
-}
+import requestSearch from './components/GridHelpers/requestSearch';
 
 export default function UsersTable() {
   const [isFetching, setIsFetching] = useState(false);
@@ -52,20 +50,6 @@ export default function UsersTable() {
   const [data, setData] = useState([]);
 
   const [searchText, setSearchText] = useState('');
-
-  const requestSearch = searchValue => {
-    setSearchText(searchValue);
-    const searchRegex = new RegExp(escapeRegExp(searchValue), 'i');
-    const filteredRows = data.filter(row => {
-      return Object.keys(row).some(field => {
-        if (row[field]) return searchRegex.test(row[field].toString());
-
-        return false;
-      });
-    });
-
-    setRows(filteredRows);
-  };
 
   const fetchUsers = async () => {
     setIsFetching(true);
@@ -107,8 +91,9 @@ export default function UsersTable() {
         componentsProps={{
           toolbar: {
             value: searchText,
-            onChange: event => requestSearch(event.target.value),
-            clearSearch: () => requestSearch(''),
+            onChange: event =>
+              requestSearch(event.target.value, setSearchText, data, setRows),
+            clearSearch: () => requestSearch('', setSearchText, data, setRows),
           },
         }}
       />

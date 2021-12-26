@@ -42,6 +42,8 @@ import { formatDate } from '../../../../utils/dates/date';
 export default function PaymentsTable() {
   const [isFetching, setIsFetching] = useState(false);
 
+  const [rows, setRows] = useState([]);
+
   const [data, setData] = useState([]);
 
   const [filterModel, setFilterModel] = useState({ items: [] });
@@ -327,6 +329,10 @@ export default function PaymentsTable() {
     addCustomOperators(setColumns);
   }, []);
 
+  useEffect(() => {
+    setRows(data);
+  }, [data]);
+
   return (
     <>
       <h2>Payments</h2>
@@ -341,7 +347,7 @@ export default function PaymentsTable() {
         onFilterModelChange={e => {
           onFilterModelChange(e, setFilterModel, 'paymentsFilters');
         }}
-        rows={data}
+        rows={rows}
         columns={columns}
         loading={isFetching}
         onCellEditCommit={payment => editPayment(payment)}

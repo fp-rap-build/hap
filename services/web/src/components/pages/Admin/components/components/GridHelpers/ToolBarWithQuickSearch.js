@@ -6,7 +6,7 @@ import {
   GridToolbarDensitySelector,
   GridToolbarFilterButton,
 } from '@material-ui/x-grid';
-import ExportCsv from '../components/ExportCsv';
+import ExportCsv from '../ExportCsv';
 
 import ClearIcon from '@material-ui/icons/Clear';
 import SearchIcon from '@material-ui/icons/Search';
@@ -39,7 +39,7 @@ const useStyles = makeStyles(
   { defaultTheme }
 );
 
-function ToolbarWithQuickSearch(props) {
+export default function ToolBarWithQuickSearch(props) {
   const classes = useStyles();
 
   return (
@@ -74,10 +74,9 @@ function ToolbarWithQuickSearch(props) {
   );
 }
 
-ToolbarWithQuickSearch.propTypes = {
+ToolBarWithQuickSearch.propTypes = {
   clearSearch: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
 };
 
-export default ToolbarWithQuickSearch;
