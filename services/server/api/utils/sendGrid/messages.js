@@ -48,7 +48,7 @@ const requestStatusChange = (requestStatus, emailAddress) => {
 
     case 'approved':
       text =
-      'Your Rental or Utilities Assistance application has been approved! If you have any further questions please call 509-816-2101.';
+        'Your Rental or Utilities Assistance application has been approved! If you have any further questions please call 509-816-2101.';
       break;
 
     default:
@@ -115,7 +115,7 @@ const sendConfirmationOfApproval = (request) => {
   let mailingList;
   let msg;
 
-  if (process.env.NODE_ENV === 'production' && request.type !== 'utility') {
+  if (process.env.NODE_ENV === 'production') {
     mailingList = [
       'hap@familypromiseofspokane.org',
       'fpspokane@bill.com',

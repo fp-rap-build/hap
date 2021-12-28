@@ -69,17 +69,18 @@ exports.approvePayment = async (req, res) => {
         .json({ message: 'Payment has already been approved' });
     }
 
-    const request = await Requests.findById(payment.id);
-
     const approvedPayment = await Payments.findByIdAndUpdate(id, {
       status: 'approved',
     });
 
-    sendConfirmationOfApproval(request);
+    const request = await Requests.findById(payment.requestId);
+
+    sendConfirmationOfApproval(request[0]);
 
     res.status(200).json({
       payment: approvedPayment[0],
     });
+    
   } catch (error) {
     res.status(500).json({ message: 'Unable to approve payment' });
   }
