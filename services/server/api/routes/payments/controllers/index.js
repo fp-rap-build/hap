@@ -84,6 +84,9 @@ exports.approvePayment = async (req, res) => {
     approvedPayment = approvedPayment[0];
 
     let emailPayload = {
+      renterOrOwner: request.renterOrOwner,
+      accountNumber: request.accountNumber,
+      utilityProviderName: request.utilityProviderName,
       type: payment.type,
       budget: program.budget,
       landlordName: request.landlordName,

@@ -118,18 +118,19 @@ const sendConfirmationOfApproval = (request) => {
   let type = capitalizeFirstLetter(request.type) + ' Assistance';
 
   if (process.env.NODE_ENV === 'production') {
-    mailingList = ['isaiahjfowler7@gmail.com'];
+    mailingList = ['jwylie@iesouskurios.us'];
   } else {
-    mailingList = ['isaiahjfowler7@gmail.com'];
+    mailingList = ['j.wylie.81@gmail.com'];
   }
 
 
   mailingList.forEach((email) => {
-    msg = {
+    if (request.type === 'rental') {
+      msg = {
       to: email,
       from: 'hap@familypromiseofspokane.org',
-      subject: `${type}`,
-      text: `Subject: ${type},  Funding Source: ${
+      subject: `Rental Assistance`,
+      text: `Subject: Rental Assistance,  Funding Source: ${
         request.budget
       } , Payment Method: Check, Payee: Landlord, Payee Name: ${
         request.landlordName
@@ -157,7 +158,41 @@ const sendConfirmationOfApproval = (request) => {
       }</p>  <p> Check Memo: Rent,  ${request.firstName} ${request.lastName} ${
         request.address
       }   ${request.cityName}, ${request.state} ${request.zipCode} </p> `,
-    };
+    }
+    } else {
+      msg = {
+        to: email,
+        from: 'hap@familypromiseofspokane.org',
+        subject: `Utility Assistance`,
+        text: `Subject: Utility Assistance,  
+        Funding Source: ${
+          request.budget
+        } , 
+        Payment Method: Check, 
+        Payee: Utility Provider, 
+        Payee Name: ${
+          request.utilityProviderName
+        } , 
+        Payee Address: On File, 
+        Payment Amount: ${
+          request.amountApproved
+        } ,  
+        Check Memo: Utility Payment For: ${request.firstName} ${request.lastName} 
+        Residing at: ${
+          request.address
+        }   ${request.cityName}, ${request.state} ${request.zipCode} `,
+        html: `<p>Utility Assistance</p> <p> Funding Source: ${
+          request.budget
+        } </p> <p>Payment Method: Check </p>  <p>Payee: Utility Provider</p> <p>Payee Name: ${
+          request.utilityProviderName
+        }</p> <p>Payee Address: On File </p> <p> </p><p>Payment Amount: ${
+          request.amountApproved
+        }</p>  <p> Check Memo: Utility Payment for:  ${request.firstName} ${request.lastName} Residing at: ${
+          request.address
+        }   ${request.cityName}, ${request.state} ${request.zipCode} </p> `,
+      }
+    }
+    
 
     sgMail
       .send(msg)
