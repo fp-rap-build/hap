@@ -130,6 +130,7 @@ export default function PaymentsTable() {
     { title: 'First', field: 'firstName', editable: 'never' },
     { title: 'Last ', field: 'lastName', editable: 'never' },
     { title: 'Email', field: 'email', type: 'string', editable: 'never' },
+
     { title: 'Gender', field: 'gender', editable: 'always' },
     { title: 'Race', field: 'race', editable: 'always' },
     { title: 'Tenant Zip', field: 'zipCode', editable: 'never' },
@@ -302,6 +303,8 @@ export default function PaymentsTable() {
 
         return payment;
       });
+
+      console.log(res.data.payments);
 
       setData(res.data.payments);
     } catch (error) {

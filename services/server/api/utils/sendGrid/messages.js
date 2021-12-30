@@ -115,22 +115,21 @@ const sendConfirmationOfApproval = (request) => {
   let mailingList;
   let msg;
 
+  let type = capitalizeFirstLetter(request.type) + ' Assistance';
+
   if (process.env.NODE_ENV === 'production') {
-    mailingList = [
-      'hap@familypromiseofspokane.org',
-      'fpspokane@bill.com',
-      'dpeabody@familypromiseofspokane.org',
-    ];
+    mailingList = ['isaiahjfowler7@gmail.com'];
   } else {
-    mailingList = ['hap@familypromiseofspokane.org'];
+    mailingList = ['isaiahjfowler7@gmail.com'];
   }
+
 
   mailingList.forEach((email) => {
     msg = {
       to: email,
       from: 'hap@familypromiseofspokane.org',
-      subject: 'Rental Assistance',
-      text: `Subject: Rental Assistance,  Funding Source: ${
+      subject: `${type}`,
+      text: `Subject: ${type},  Funding Source: ${
         request.budget
       } , Payment Method: Check, Payee: Landlord, Payee Name: ${
         request.landlordName
@@ -143,7 +142,7 @@ const sendConfirmationOfApproval = (request) => {
       } ,  Check Memo: Rent,  ${request.firstName} ${request.lastName} ${
         request.address
       }   ${request.cityName}, ${request.state} ${request.zipCode} `,
-      html: `<p>Rental Assistance</p> <p> Funding Source: ${
+      html: `<p>${type}</p> <p> Funding Source: ${
         request.budget
       } </p> <p>Payment Method: Check </p>  <p>Payee: Landlord</p> <p>Payee Name: ${
         request.landlordName
@@ -170,6 +169,10 @@ const sendConfirmationOfApproval = (request) => {
       });
   });
 };
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 module.exports = {
   requestStatusChange,
