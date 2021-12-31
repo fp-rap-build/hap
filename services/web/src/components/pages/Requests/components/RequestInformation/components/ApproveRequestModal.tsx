@@ -34,6 +34,8 @@ export default function ApproveRequestModal({
     accountNumber: null,
     type: null,
     renterOrOwner: null,
+    utilityProviderName: null,
+    utilityProviderAddress: null,
   });
 
   const [amountToSend, setAmountToSend] = useState(null);
@@ -54,6 +56,8 @@ export default function ApproveRequestModal({
       accountNumber: paymentValues.accountNumber,
       type: paymentValues.type,
       renterOrOwner: paymentValues.renterOrOwner,
+      utilityProviderName: paymentValues.utilityProviderName,
+      utilityProviderAddress: paymentValues.utilityProviderAddress,
     };
 
     try {
@@ -247,6 +251,40 @@ const SubmitPayment = ({
                 name="accountNumber"
                 placeholder="Account number"
                 value={paymentValues.accountNumber}
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="utilityProviderName"
+              label="Utility Provider Name"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Input
+                onChange={onChange}
+                name="utilityProviderName"
+                placeholder="Provider Name"
+                value={paymentValues.utilityProviderName}
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="utilityProviderAddress"
+              label="Utility Provider Address"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Input
+                onChange={onChange}
+                name="utilityProviderAddress"
+                placeholder="Provider Address"
+                value={paymentValues.utilityProviderAddress}
               />
             </Form.Item>
           </>
