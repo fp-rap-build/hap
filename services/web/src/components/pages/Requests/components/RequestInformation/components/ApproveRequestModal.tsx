@@ -53,7 +53,6 @@ export default function ApproveRequestModal({
       amountForward: paymentValues.amountForward,
       totalArrears: paymentValues.totalArrears,
       accountNumber: paymentValues.accountNumber,
-      utilityProviderName: paymentValues.utilityProviderName,
       type: paymentValues.type,
       renterOrOwner: paymentValues.renterOrOwner,
     };
@@ -167,10 +166,6 @@ const SubmitPayment = ({
     setPaymentValues({ ...paymentValues, type });
   };
 
-  const onUtilProviderNameChange = utilityProviderName => {
-    setPaymentValues({ ...paymentValues, utilityProviderName });
-  };
-
   const onRenterOrOwnerChange = renterOrOwner => {
     setPaymentValues({ ...paymentValues, renterOrOwner });
   };
@@ -249,7 +244,7 @@ const SubmitPayment = ({
               ]}
             >
               <Input
-                onChange={onUtilProviderNameChange}
+                onChange={onChange}
                 name="utilityProviderName"
                 placeholder="Utility Provider Name"
                 value={paymentValues.utilityProviderName}
