@@ -92,6 +92,18 @@ export default function PaymentsTable() {
     },
 
     {
+      headerName: 'Utility Provider Name',
+      field: 'utilityProviderName',
+      width: 270,
+    },
+
+    {
+      headerName: 'Utility Provider Address',
+      field: 'utilityProviderAddress',
+      width: 270,
+    },
+
+    {
       headerName: 'Renter Or Owner',
       field: 'renterOrOwner',
       width: 170,
