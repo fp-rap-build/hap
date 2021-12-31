@@ -130,6 +130,13 @@ export default function PaymentsTable() {
     { title: 'First', field: 'firstName', editable: 'never' },
     { title: 'Last ', field: 'lastName', editable: 'never' },
     { title: 'Email', field: 'email', type: 'string', editable: 'never' },
+    {
+      title: 'Amount',
+      headerName: 'amount',
+      field: 'amount',
+      type: 'string',
+      editable: 'never',
+    },
 
     { title: 'Gender', field: 'gender', editable: 'always' },
     { title: 'Race', field: 'race', editable: 'always' },

@@ -119,8 +119,6 @@ const sendConfirmationOfApproval = (request) => {
   let mailingList;
   let msg;
 
-  let type = capitalizeFirstLetter(request.type) + ' Assistance';
-
   if (process.env.NODE_ENV === 'production') {
     mailingList = ['isaiahjfowler7@gmail.com'];
   } else {

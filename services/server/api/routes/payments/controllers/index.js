@@ -85,6 +85,7 @@ exports.approvePayment = async (req, res) => {
 
     let emailPayload = {
       type: payment.type,
+      accountNumber: payment.accountNumber,
       budget: program.budget,
       landlordName: request.landlordName,
       landlordAddress: request.landlordAddress,
@@ -109,7 +110,6 @@ exports.approvePayment = async (req, res) => {
     res.status(200).json({
       payment: approvedPayment[0],
     });
-    
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Unable to approve payment' });

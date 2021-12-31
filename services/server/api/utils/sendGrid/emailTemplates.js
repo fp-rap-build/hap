@@ -1,4 +1,4 @@
-export const rentalAssistanceTemplate = (request, email) => {
+const rentalAssistanceTemplate = (request, email) => {
   let message = {
     to: email,
     from: 'hap@familypromiseofspokane.org',
@@ -34,7 +34,7 @@ export const rentalAssistanceTemplate = (request, email) => {
   return message;
 };
 
-export const utilityAssistanceTemplate = (request, email) => {
+const utilityAssistanceTemplate = (request, email) => {
   let message = {
     to: email,
     from: 'hap@familypromiseofspokane.org',
@@ -54,7 +54,9 @@ export const utilityAssistanceTemplate = (request, email) => {
     }   ${request.cityName}, ${request.state} ${request.zipCode} `,
     html: `<p>Utility Assistance</p> <p>Account number: ${
       request.accountNumber
-    }</p> <p> Utility provider name: ${request.utilityProviderName}</p> <p> Funding Source: ${
+    }</p> <p> Utility provider name: ${
+      request.utilityProviderName
+    }</p> <p> Funding Source: ${
       request.budget
     } </p> <p>Payment Method: Check </p>  <p>Payee: Landlord</p> <p>Payee Name: ${
       request.landlordName
@@ -70,4 +72,9 @@ export const utilityAssistanceTemplate = (request, email) => {
   };
 
   return message;
+};
+
+module.exports = {
+  rentalAssistanceTemplate,
+  utilityAssistanceTemplate,
 };
