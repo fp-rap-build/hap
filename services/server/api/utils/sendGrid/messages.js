@@ -118,13 +118,14 @@ const sendConfirmationOfApproval = (request) => {
   let type = capitalizeFirstLetter(request.type) + ' Assistance';
 
   if (process.env.NODE_ENV === 'production') {
-    mailingList = ['isaiahjfowler7@gmail.com'];
+    mailingList = ['j.wylie.81@gmail.com'];
   } else {
-    mailingList = ['isaiahjfowler7@gmail.com'];
+    mailingList = ['j.wylie.81@gmail.com'];
   }
 
 
   mailingList.forEach((email) => {
+    if (request.type === 'rental') {
     msg = {
       to: email,
       from: 'hap@familypromiseofspokane.org',
@@ -157,7 +158,36 @@ const sendConfirmationOfApproval = (request) => {
       }</p>  <p> Check Memo: Rent,  ${request.firstName} ${request.lastName} ${
         request.address
       }   ${request.cityName}, ${request.state} ${request.zipCode} </p> `,
-    };
+    }
+  } else {
+    msg = {
+      to: email,
+      from: 'hap@familypromiseofspokane.org',
+      subject: `${type}`,
+      text: `Subject: ${type},  Funding Source: ${
+        request.budget
+      } , Payment Method: Check, Payee: Utility Company, Payee Name: ${
+        request.utilityCompanyName
+      } , Payee Address: On File,
+      } , Payment Amount: ${
+        request.amountApproved
+      } ,  Check Memo: Utility Payment for:  ${request.firstName} ${request.lastName} 
+      Residing at: ${
+        request.address
+      }   ${request.cityName}, ${request.state} ${request.zipCode} `,
+      html: `<p>${type}</p> <p> Funding Source: ${
+        request.budget
+      } </p> <p>Payment Method: Check </p>  <p>Payee: Utility Company</p> <p>Payee Name: ${
+        request.utilityCompanyName
+      }</p> <p>Payee Address: On File
+      } </p>
+      } </p><p>Payment Amount: ${
+        request.amountApproved
+      }</p>  <p> Check Memo: Utility payment for:  ${request.firstName} ${request.lastName} Residing at: ${
+        request.address
+      }   ${request.cityName}, ${request.state} ${request.zipCode} </p> `,
+    }
+  }
 
     sgMail
       .send(msg)
