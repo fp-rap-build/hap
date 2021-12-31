@@ -266,6 +266,22 @@ const SubmitPayment = ({
                 value={paymentValues.accountNumber}
               />
             </Form.Item>
+            <Form.Item
+              name="utilityProviderName"
+              label="Utility Provider Name"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Input
+                onChange={onChange}
+                name="utilityProviderName"
+                placeholder="Utility Provider Name"
+                value={paymentValues.utilityProviderName}
+              />
+            </Form.Item>
           </>
         )}
 

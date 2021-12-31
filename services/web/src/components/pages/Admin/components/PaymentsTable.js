@@ -103,7 +103,11 @@ export default function PaymentsTable() {
       field: 'accountNumber',
       width: 170,
     },
-
+    {
+      headerName: 'Utility Provider Name',
+      field: 'utilityProviderName',
+      width: 170,
+    },
     {
       headerName: 'Renter Or Owner',
       field: 'renterOrOwner',
