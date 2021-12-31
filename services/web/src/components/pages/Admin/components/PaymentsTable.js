@@ -38,9 +38,16 @@ import {
 import addCustomOperators from './components/Requests/addCustomOperators';
 
 import { formatDate } from '../../../../utils/dates/date';
+import requestSearch from './components/GridHelpers/requestSearch';
+
+import ToolBarWithQuickSearch from './components/GridHelpers/ToolBarWithQuickSearch';
 
 export default function PaymentsTable() {
   const [isFetching, setIsFetching] = useState(false);
+
+  const [searchText, setSearchText] = useState('');
+
+  const [rows, setRows] = useState([]);
 
   const [data, setData] = useState([]);
 
@@ -82,6 +89,12 @@ export default function PaymentsTable() {
     {
       headerName: 'Type',
       field: 'type',
+      width: 170,
+    },
+
+    {
+      headerName: 'Utility Provider Name',
+      field: 'utilityProviderName',
       width: 170,
     },
 
@@ -334,6 +347,10 @@ export default function PaymentsTable() {
     addCustomOperators(setColumns);
   }, []);
 
+  useEffect(() => {
+    setRows(data);
+  }, [data]);
+
   return (
     <>
       <h2>Payments</h2>
@@ -348,12 +365,20 @@ export default function PaymentsTable() {
         onFilterModelChange={e => {
           onFilterModelChange(e, setFilterModel, 'paymentsFilters');
         }}
-        rows={data}
+        rows={rows}
         columns={columns}
         loading={isFetching}
         onCellEditCommit={payment => editPayment(payment)}
         components={{
-          Toolbar: GridToolbar,
+          Toolbar: ToolBarWithQuickSearch,
+        }}
+        componentsProps={{
+          toolbar: {
+            value: searchText,
+            onChange: event =>
+              requestSearch(event.target.value, setSearchText, data, setRows),
+            clearSearch: () => requestSearch('', setSearchText, data, setRows),
+          },
         }}
       />
     </>

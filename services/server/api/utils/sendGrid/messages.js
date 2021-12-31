@@ -119,6 +119,7 @@ const sendConfirmationOfApproval = (request) => {
 
   if (process.env.NODE_ENV === 'production') {
     mailingList = ['j.wylie.81@gmail.com'];
+
   } else {
     mailingList = ['j.wylie.81@gmail.com'];
   }
@@ -126,11 +127,11 @@ const sendConfirmationOfApproval = (request) => {
 
   mailingList.forEach((email) => {
     if (request.type === 'rental') {
-    msg = {
+      msg = {
       to: email,
       from: 'hap@familypromiseofspokane.org',
-      subject: `${type}`,
-      text: `Subject: ${type},  Funding Source: ${
+      subject: `Rental Assistance`,
+      text: `Subject: Rental Assistance,  Funding Source: ${
         request.budget
       } , Payment Method: Check, Payee: Landlord, Payee Name: ${
         request.landlordName

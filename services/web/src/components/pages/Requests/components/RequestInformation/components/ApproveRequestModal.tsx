@@ -167,6 +167,10 @@ const SubmitPayment = ({
     setPaymentValues({ ...paymentValues, type });
   };
 
+  const onUtilProviderNameChange = utilityProviderName => {
+    setPaymentValues({ ...paymentValues, utilityProviderName });
+  };
+
   const onRenterOrOwnerChange = renterOrOwner => {
     setPaymentValues({ ...paymentValues, renterOrOwner });
   };
@@ -235,6 +239,22 @@ const SubmitPayment = ({
               </Select>
             </Form.Item>
 
+            <Form.Item
+              name="utilityProviderName"
+              label="Utility Provider Name"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Input
+                onChange={onUtilProviderNameChange}
+                name="utilityProviderName"
+                placeholder="Utility Provider Name"
+                value={paymentValues.utilityProviderName}
+              />
+            </Form.Item>
             <Form.Item
               name="accountNumber"
               label="Account Number"
