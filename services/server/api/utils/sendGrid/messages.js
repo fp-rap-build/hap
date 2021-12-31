@@ -122,9 +122,8 @@ const sendConfirmationOfApproval = (request) => {
   } else {
     mailingList = ['isaiahjfowler7@gmail.com'];
   }
-
-
-  mailingList.forEach((email) => {
+  
+  mailingList.forEach((email) => {  
     msg = {
       to: email,
       from: 'hap@familypromiseofspokane.org',
