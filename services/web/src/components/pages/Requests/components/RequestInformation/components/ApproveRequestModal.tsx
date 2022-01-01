@@ -34,8 +34,8 @@ export default function ApproveRequestModal({
     accountNumber: null,
     type: null,
     renterOrOwner: null,
-    utilityProviderName: null,
-    utilityProviderAddress: null,
+    providerName: null,
+    providerAddress: null,
   });
 
   const [amountToSend, setAmountToSend] = useState(null);
@@ -56,8 +56,8 @@ export default function ApproveRequestModal({
       accountNumber: paymentValues.accountNumber,
       type: paymentValues.type,
       renterOrOwner: paymentValues.renterOrOwner,
-      utilityProviderName: paymentValues.utilityProviderName,
-      utilityProviderAddress: paymentValues.utilityProviderAddress,
+      providerName: paymentValues.providerName,
+      providerAddress: paymentValues.providerAddress,
     };
 
     try {
@@ -255,7 +255,7 @@ const SubmitPayment = ({
             </Form.Item>
 
             <Form.Item
-              name="utilityProviderName"
+              name="providerName"
               label="Utility Provider Name"
               rules={[
                 {
@@ -265,14 +265,14 @@ const SubmitPayment = ({
             >
               <Input
                 onChange={onChange}
-                name="utilityProviderName"
+                name="providerName"
                 placeholder="Provider Name"
-                value={paymentValues.utilityProviderName}
+                value={paymentValues.providerName}
               />
             </Form.Item>
 
             <Form.Item
-              name="utilityProviderAddress"
+              name="providerAddress"
               label="Utility Provider Address"
               rules={[
                 {
@@ -282,9 +282,9 @@ const SubmitPayment = ({
             >
               <Input
                 onChange={onChange}
-                name="utilityProviderAddress"
+                name="providerAddress"
                 placeholder="Provider Address"
-                value={paymentValues.utilityProviderAddress}
+                value={paymentValues.providerAddress}
               />
             </Form.Item>
           </>

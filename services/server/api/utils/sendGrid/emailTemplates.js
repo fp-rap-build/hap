@@ -54,9 +54,12 @@ const utilityAssistanceTemplate = (request, email) => {
     }   ${request.cityName}, ${request.state} ${request.zipCode} `,
     html: `<p>Utility Assistance</p> <p>Account number: ${
       request.accountNumber
-    }</p> <p> Utility provider name: ${
-      request.utilityProviderName
-    }</p> <p> Funding Source: ${
+    }</p> <p> Utility provider name: ${request.utilityProviderName}</p>
+    
+    <p>
+        Utility Provider Address: ${request.utilityProviderAddress}
+    </p>
+    <p> Funding Source: ${
       request.budget
     } </p> <p>Payment Method: Check </p>  <p>Payee: Landlord</p> <p>Payee Name: ${
       request.landlordName
