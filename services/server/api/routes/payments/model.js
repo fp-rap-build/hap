@@ -15,6 +15,7 @@ exports.findForTable = () =>
       'p.utilityProviderName',
       'p.utilityProviderAddress',
       'p.renterOrOwner',
+      'p.utilityProviderName',
       'p.processed',
       'p.requestId',
       'u.firstName',
@@ -57,7 +58,6 @@ exports.findForTable = () =>
       'r.white',
       'r.native',
       'r.demoNotSay',
-
       'r.hispanicHOH',
       'r.asianHOH',
       'r.blackHOH',

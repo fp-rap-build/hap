@@ -11,12 +11,15 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { message, Modal } from 'antd';
 
 import { XGrid } from '@material-ui/x-grid';
-import ExportCsv from './components/ExportCsv';
+
+import ToolbarWithQuickSearch from './components/GridHelpers/ToolBarWithQuickSearch';
+
+import requestSearch from './components/GridHelpers/requestSearch';
 
 export default function UsersTable() {
-  const currentUserRole = useSelector(state => state.user.currentUser.role);
-
   const [isFetching, setIsFetching] = useState(false);
+
+  const [rows, setRows] = useState([]);
 
   const [columns, setColumns] = useState([
     /// {
@@ -46,6 +49,8 @@ export default function UsersTable() {
 
   const [data, setData] = useState([]);
 
+  const [searchText, setSearchText] = useState('');
+
   const fetchUsers = async () => {
     setIsFetching(true);
     try {
@@ -63,13 +68,17 @@ export default function UsersTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    setRows(data);
+  }, [data]);
+
   return (
     <>
       <h2>Users</h2>
 
       <XGrid
         style={{ height: 700 }}
-        rows={data}
+        rows={rows}
         onCellEditCommit={user => editUser(user)}
         columns={columns}
         isCellEditable={props => {
@@ -77,7 +86,15 @@ export default function UsersTable() {
         }}
         loading={isFetching}
         components={{
-          Toolbar: ExportCsv,
+          Toolbar: ToolbarWithQuickSearch,
+        }}
+        componentsProps={{
+          toolbar: {
+            value: searchText,
+            onChange: event =>
+              requestSearch(event.target.value, setSearchText, data, setRows),
+            clearSearch: () => requestSearch('', setSearchText, data, setRows),
+          },
         }}
       />
     </>

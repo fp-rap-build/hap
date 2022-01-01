@@ -120,9 +120,10 @@ const sendConfirmationOfApproval = (request) => {
   let msg;
 
   if (process.env.NODE_ENV === 'production') {
-    mailingList = ['isaiahjfowler7@gmail.com'];
+    mailingList = ['j.wylie.81@gmail.com'];
+
   } else {
-    mailingList = ['isaiahjfowler7@gmail.com'];
+    mailingList = ['j.wylie.81@gmail.com'];
   }
 
   mailingList.forEach((email) => {
@@ -135,6 +136,7 @@ const sendConfirmationOfApproval = (request) => {
     if (request.type == 'utility') {
       message = utilityAssistanceTemplate(request, email);
     }
+
 
     sgMail
       .send(message)
