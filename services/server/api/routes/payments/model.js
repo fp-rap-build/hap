@@ -15,7 +15,6 @@ exports.findForTable = () =>
       'p.providerName',
       'p.providerAddress',
       'p.renterOrOwner',
-      'p.utilityProviderName',
       'p.processed',
       'p.requestId',
       'u.firstName',

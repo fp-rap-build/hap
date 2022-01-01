@@ -54,10 +54,10 @@ const utilityAssistanceTemplate = (request, email) => {
     }   ${request.cityName}, ${request.state} ${request.zipCode} `,
     html: `<p>Utility Assistance</p> <p>Account number: ${
       request.accountNumber
-    }</p> <p> Utility provider name: ${request.utilityProviderName}</p>
+    }</p> <p> Utility Provider Name: ${request.providerName ? request.providerName : ''}</p>
     
     <p>
-        Utility Provider Address: ${request.utilityProviderAddress}
+        Utility Provider Address: ${request.providerAddress ? request.providerAddress : ''}
     </p>
     <p> Funding Source: ${
       request.budget
