@@ -32,6 +32,7 @@ export default function ApproveRequestModal({
     amountForward: null,
     totalArrears: null,
     accountNumber: null,
+    utilityProviderName: null,
     type: null,
     renterOrOwner: null,
     providerName: null,
@@ -54,6 +55,7 @@ export default function ApproveRequestModal({
       amountForward: paymentValues.amountForward,
       totalArrears: paymentValues.totalArrears,
       accountNumber: paymentValues.accountNumber,
+      utilityProviderName: paymentValues.utilityProviderName,
       type: paymentValues.type,
       renterOrOwner: paymentValues.renterOrOwner,
       providerName: paymentValues.providerName,
@@ -169,6 +171,10 @@ const SubmitPayment = ({
     setPaymentValues({ ...paymentValues, type });
   };
 
+  const onUtilProviderNameChange = utilityProviderName => {
+    setPaymentValues({ ...paymentValues, utilityProviderName });
+  };
+
   const onRenterOrOwnerChange = renterOrOwner => {
     setPaymentValues({ ...paymentValues, renterOrOwner });
   };
@@ -238,8 +244,8 @@ const SubmitPayment = ({
             </Form.Item>
 
             <Form.Item
-              name="accountNumber"
-              label="Account Number"
+              name="utilityProviderName"
+              label="Utility Provider Name"
               rules={[
                 {
                   required: true,
@@ -247,13 +253,12 @@ const SubmitPayment = ({
               ]}
             >
               <Input
-                onChange={onChange}
-                name="accountNumber"
-                placeholder="Account number"
-                value={paymentValues.accountNumber}
+                onChange={onUtilProviderNameChange}
+                name="utilityProviderName"
+                placeholder="Utility Provider Name"
+                value={paymentValues.utilityProviderName}
               />
             </Form.Item>
-
             <Form.Item
               name="providerName"
               label="Utility Provider Name"
@@ -287,6 +292,7 @@ const SubmitPayment = ({
                 value={paymentValues.providerAddress}
               />
             </Form.Item>
+
           </>
         )}
 
