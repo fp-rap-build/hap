@@ -32,8 +32,11 @@ export default function ApproveRequestModal({
     amountForward: null,
     totalArrears: null,
     accountNumber: null,
+    utilityProviderName: null,
     type: null,
     renterOrOwner: null,
+    providerName: null,
+    providerAddress: null,
   });
 
   const [amountToSend, setAmountToSend] = useState(null);
@@ -54,6 +57,8 @@ export default function ApproveRequestModal({
       accountNumber: paymentValues.accountNumber,
       type: paymentValues.type,
       renterOrOwner: paymentValues.renterOrOwner,
+      providerName: paymentValues.providerName,
+      providerAddress: paymentValues.providerAddress,
     };
 
     try {
@@ -234,6 +239,23 @@ const SubmitPayment = ({
             </Form.Item>
 
             <Form.Item
+              name="providerName"
+              label="Utility Provider Name"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Input
+                onChange={onChange}
+                name="providerName"
+                placeholder="Provider Name"
+                value={paymentValues.providerName}
+              />
+            </Form.Item>
+
+            <Form.Item
               name="accountNumber"
               label="Account Number"
               rules={[
@@ -245,8 +267,25 @@ const SubmitPayment = ({
               <Input
                 onChange={onChange}
                 name="accountNumber"
-                placeholder="Account number"
+                placeholder="Account Number"
                 value={paymentValues.accountNumber}
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="providerAddress"
+              label="Utility Provider Address"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Input
+                onChange={onChange}
+                name="providerAddress"
+                placeholder="Provider Address"
+                value={paymentValues.providerAddress}
               />
             </Form.Item>
           </>

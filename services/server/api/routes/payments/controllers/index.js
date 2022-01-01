@@ -1,6 +1,9 @@
 const Payments = require('../model');
 
 const Requests = require('../../requests/requestsModel');
+
+const Programs = require('../../programs/model');
+
 const {
   sendConfirmationOfApproval,
 } = require('../../../utils/sendGrid/messages');
@@ -27,6 +30,8 @@ exports.updatePayment = async (req, res, next) => {
     amountBack,
     amountForward,
     processed,
+    providerName,
+    providerAddress,
   } = req.body;
 
   try {
@@ -38,6 +43,8 @@ exports.updatePayment = async (req, res, next) => {
       totalArrears,
       amountForward,
       processed,
+      providerName,
+      providerAddress,
     });
     res.status(200).json({ payment: updatedPayment });
   } catch (error) {
@@ -61,7 +68,7 @@ exports.approvePayment = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const payment = await Payments.findById(id);
+    let payment = await Payments.findById(id);
 
     if (payment.status === 'approved') {
       return res
@@ -69,19 +76,50 @@ exports.approvePayment = async (req, res) => {
         .json({ message: 'Payment has already been approved' });
     }
 
-    const approvedPayment = await Payments.findByIdAndUpdate(id, {
+    let approvedPayment = await Payments.findByIdAndUpdate(id, {
       status: 'approved',
     });
 
-    const request = await Requests.findById(payment.requestId);
+    let request = await Requests.findById(payment.requestId);
 
-    sendConfirmationOfApproval(request[0]);
+    let program = await Programs.findById(payment.programId);
+
+    request = request[0];
+    approvedPayment = approvedPayment[0];
+
+    let emailPayload = {
+      renterOrOwner: request.renterOrOwner,
+      accountNumber: request.accountNumber,
+      type: payment.type,
+      accountNumber: payment.accountNumber,
+      providerName: payment.providerName,
+      providerAddress: payment.providerAddress,
+      budget: program.budget,
+      landlordName: request.landlordName,
+      landlordAddress: request.landlordAddress,
+      landlordAddress2: request.landlordAddress2,
+      landlordCity: request.landlordCity,
+      landlordState: request.landlordState,
+      landlordZip: request.landlordZip,
+      landlordEmail: request.landlordEmail,
+      firstName: request.firstName,
+      lastName: request.lastName,
+      cityName: request.cityName,
+      state: request.state,
+      address: request.address,
+      zipCode: request.zipCode,
+      email: request.email,
+      budget: program.name,
+      amountApproved: payment.amount,
+    };
+
+    sendConfirmationOfApproval(emailPayload);
 
     res.status(200).json({
       payment: approvedPayment[0],
     });
-    
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: 'Unable to approve payment' });
   }
 };
@@ -99,3 +137,5 @@ exports.denyPayment = async (req, res) => {
     res.status(500).json({ message: 'Unable to deny payment' });
   }
 };
+
+

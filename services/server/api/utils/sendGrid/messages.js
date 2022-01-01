@@ -1,4 +1,8 @@
 const sgMail = require('@sendgrid/mail');
+const {
+  rentalAssistanceTemplate,
+  utilityAssistanceTemplate,
+} = require('./emailTemplates');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const sendDocumentsDenied = (emailAddress) => {
@@ -113,55 +117,31 @@ const sendPromiseToPayEmail = (request, emailAddress) => {
 
 const sendConfirmationOfApproval = (request) => {
   let mailingList;
-  let msg;
 
   if (process.env.NODE_ENV === 'production') {
     mailingList = [
       'hap@familypromiseofspokane.org',
-      'fpspokane@bill.com',
-      'dpeabody@familypromiseofspokane.org',
-    ];
+      'fpspokane@bill.com'
+    ];  // production mailing list
+
   } else {
-    mailingList = ['hap@familypromiseofspokane.org'];
+    mailingList = ['j.wylie.81@gmail.com'];
+     
   }
 
   mailingList.forEach((email) => {
-    msg = {
-      to: email,
-      from: 'hap@familypromiseofspokane.org',
-      subject: 'Rental Assistance',
-      text: `Subject: Rental Assistance,  Funding Source: ${
-        request.budget
-      } , Payment Method: Check, Payee: Landlord, Payee Name: ${
-        request.landlordName
-      } , Payee Address: ${request.landlordAddress}  ${
-        request.landlordAddress2 ? request.landlordAddress2 : ''
-      }  ${request.landlordCity}  ${request.landlordState}  ${
-        request.landlordZip
-      } ,  Payee Email:  ${request.landlordEmail} Payment Amount: ${
-        request.amountApproved
-      } ,  Check Memo: Rent,  ${request.firstName} ${request.lastName} ${
-        request.address
-      }   ${request.cityName}, ${request.state} ${request.zipCode} `,
-      html: `<p>Rental Assistance</p> <p> Funding Source: ${
-        request.budget
-      } </p> <p>Payment Method: Check </p>  <p>Payee: Landlord</p> <p>Payee Name: ${
-        request.landlordName
-      }</p> <p>Payee Address: ${request.landlordAddress}  ${
-        request.landlordAddress2 ? request.landlordAddress2 : ''
-      }  ${request.landlordCity}  ${request.landlordState}  ${
-        request.landlordZip
-      } </p> <p> Payee Email:  ${
-        request.landlordEmail
-      } </p><p>Payment Amount: ${
-        request.amountApproved
-      }</p>  <p> Check Memo: Rent,  ${request.firstName} ${request.lastName} ${
-        request.address
-      }   ${request.cityName}, ${request.state} ${request.zipCode} </p> `,
-    };
+    let message;
+
+    if (request.type == 'rental') {
+      message = rentalAssistanceTemplate(request, email);
+    }
+
+    if (request.type == 'utility') {
+      message = utilityAssistanceTemplate(request, email);
+    }
 
     sgMail
-      .send(msg)
+      .send(message)
       .then(() => {
         console.log('Email sent');
       })
@@ -170,6 +150,10 @@ const sendConfirmationOfApproval = (request) => {
       });
   });
 };
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 module.exports = {
   requestStatusChange,
