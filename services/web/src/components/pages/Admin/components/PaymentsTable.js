@@ -93,31 +93,21 @@ export default function PaymentsTable() {
     },
 
     {
-      headerName: 'Utility Provider Name',
-      field: 'utilityProviderName',
-      width: 170,
-    },
-
-    {
       headerName: 'Account',
       field: 'accountNumber',
       width: 170,
     },
+
     {
       headerName: 'Utility Provider Name',
-      field: 'utilityProviderName',
-      width: 170,
-    },
-    {
-      headerName: 'Utility Provider Name',
-      field: 'utilityProviderName',
+      field: 'providerName',
       width: 270,
       editable: 'always',
     },
 
     {
       headerName: 'Utility Provider Address',
-      field: 'utilityProviderAddress',
+      field: 'providerAddress',
       width: 270,
       editable: 'always',
     },

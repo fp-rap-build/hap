@@ -35,8 +35,8 @@ export default function ApproveRequestModal({
     utilityProviderName: null,
     type: null,
     renterOrOwner: null,
-    utilityProviderName: null,
-    utilityProviderAddress: null,
+    providerName: null,
+    providerAddress: null,
   });
 
   const [amountToSend, setAmountToSend] = useState(null);
@@ -58,8 +58,8 @@ export default function ApproveRequestModal({
       utilityProviderName: paymentValues.utilityProviderName,
       type: paymentValues.type,
       renterOrOwner: paymentValues.renterOrOwner,
-      utilityProviderName: paymentValues.utilityProviderName,
-      utilityProviderAddress: paymentValues.utilityProviderAddress,
+      providerName: paymentValues.providerName,
+      providerAddress: paymentValues.providerAddress,
     };
 
     try {
@@ -260,8 +260,8 @@ const SubmitPayment = ({
               />
             </Form.Item>
             <Form.Item
-              name="accountNumber"
-              label="Account Number"
+              name="providerName"
+              label="Utility Provider Name"
               rules={[
                 {
                   required: true,
@@ -270,20 +270,14 @@ const SubmitPayment = ({
             >
               <Input
                 onChange={onChange}
-                name="accountNumber"
-                placeholder="Account number"
-                value={paymentValues.accountNumber}
-              />
-            </Form.Item>
-
-
+                name="providerName"
                 placeholder="Provider Name"
-                value={paymentValues.utilityProviderName}
+                value={paymentValues.providerName}
               />
             </Form.Item>
 
             <Form.Item
-              name="utilityProviderAddress"
+              name="providerAddress"
               label="Utility Provider Address"
               rules={[
                 {
@@ -293,9 +287,9 @@ const SubmitPayment = ({
             >
               <Input
                 onChange={onChange}
-                name="utilityProviderAddress"
+                name="providerAddress"
                 placeholder="Provider Address"
-                value={paymentValues.utilityProviderAddress}
+                value={paymentValues.providerAddress}
               />
             </Form.Item>
 

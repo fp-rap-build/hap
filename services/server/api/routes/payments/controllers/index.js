@@ -30,8 +30,8 @@ exports.updatePayment = async (req, res, next) => {
     amountBack,
     amountForward,
     processed,
-    utilityProviderName,
-    utilityProviderAddress,
+    providerName,
+    providerAddress,
   } = req.body;
 
   try {
@@ -43,8 +43,8 @@ exports.updatePayment = async (req, res, next) => {
       totalArrears,
       amountForward,
       processed,
-      utilityProviderName,
-      utilityProviderAddress,
+      providerName,
+      providerAddress,
     });
     res.status(200).json({ payment: updatedPayment });
   } catch (error) {
@@ -88,11 +88,12 @@ exports.approvePayment = async (req, res) => {
     approvedPayment = approvedPayment[0];
 
     let emailPayload = {
-      renterOrOwner: request.renterOrOwner,
-      accountNumber: request.accountNumber,
-      utilityProviderName: approvedPayment.utilityProviderName,
+      renterOrOwner: payment.renterOrOwner,
+      accountNumber: payment.accountNumber,
       type: payment.type,
       accountNumber: payment.accountNumber,
+      providerName: payment.providerName,
+      providerAddress: payment.providerAddress,
       budget: program.budget,
       landlordName: request.landlordName,
       landlordAddress: request.landlordAddress,
