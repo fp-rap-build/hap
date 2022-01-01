@@ -88,8 +88,8 @@ exports.approvePayment = async (req, res) => {
     approvedPayment = approvedPayment[0];
 
     let emailPayload = {
-      renterOrOwner: payment.renterOrOwner,
-      accountNumber: payment.accountNumber,
+      renterOrOwner: request.renterOrOwner,
+      accountNumber: request.accountNumber,
       type: payment.type,
       accountNumber: payment.accountNumber,
       providerName: payment.providerName,
@@ -137,3 +137,5 @@ exports.denyPayment = async (req, res) => {
     res.status(500).json({ message: 'Unable to deny payment' });
   }
 };
+
+

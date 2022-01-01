@@ -13,7 +13,7 @@ const rentalAssistanceTemplate = (request, email) => {
       request.landlordZip
     } ,  Payee Email:  ${request.landlordEmail} Payment Amount: ${
       request.amountApproved
-    } ,  Check Memo: Rent,  ${request.firstName} ${request.lastName} ${
+    } ,  Check Memo: Rent for tenant  ${request.firstName} ${request.lastName} residing at:${
       request.address
     }   ${request.cityName}, ${request.state} ${request.zipCode} `,
     html: `<p>Rental Assistance</p> <p> Funding Source: ${
@@ -26,7 +26,7 @@ const rentalAssistanceTemplate = (request, email) => {
       request.landlordZip
     } </p> <p> Payee Email:  ${request.landlordEmail} </p><p>Payment Amount: ${
       request.amountApproved
-    }</p>  <p> Check Memo: Rent,  ${request.firstName} ${request.lastName} ${
+    }</p>  <p> Check Memo: Rent for tenant: ${request.firstName} ${request.lastName} residing at: ${
       request.address
     }   ${request.cityName}, ${request.state} ${request.zipCode} </p> `,
   };
@@ -41,15 +41,12 @@ const utilityAssistanceTemplate = (request, email) => {
     subject: `Utility Assistance`,
     text: `Subject: Utility Assistance,  Funding Source: ${
       request.budget
-    } , Payment Method: Check, Payee: Landlord, Payee Name: ${
-      request.landlordName
-    } , Payee Address: ${request.landlordAddress}  ${
-      request.landlordAddress2 ? request.landlordAddress2 : ''
-    }  ${request.landlordCity}  ${request.landlordState}  ${
-      request.landlordZip
-    } ,  Payee Email:  ${request.landlordEmail} Payment Amount: ${
+    } , Payment Method: Check, Payee: ${request.providerName},
+    } , Payee Address: ${request.providerAddress}  Payment Amount: ${
       request.amountApproved
-    } ,  Check Memo: Rent,  ${request.firstName} ${request.lastName} ${
+    } ,  Check Memo: Utility Assistance for  ${request.firstName} ${request.lastName} with account number ${
+      request.accountNumber
+    } residing at:${
       request.address
     }   ${request.cityName}, ${request.state} ${request.zipCode} `,
     html: `<p>Utility Assistance</p> <p>Account number: ${
@@ -61,15 +58,9 @@ const utilityAssistanceTemplate = (request, email) => {
     </p>
     <p> Funding Source: ${
       request.budget
-    } </p> <p>Payment Method: Check </p>  <p>Payee: Landlord</p> <p>Payee Name: ${
-      request.landlordName
-    }</p> <p>Payee Address: ${request.landlordAddress}  ${
-      request.landlordAddress2 ? request.landlordAddress2 : ''
-    }  ${request.landlordCity}  ${request.landlordState}  ${
-      request.landlordZip
-    } </p> <p> Payee Email:  ${request.landlordEmail} </p><p>Payment Amount: ${
+    } </p> <p>Payment Method: Check </p> <p>Payee Name: ${request.providerName}</p> <p>Payee Address: ${request.providerAddress}  </p> <p></p><p>Payment Amount: ${
       request.amountApproved
-    }</p>  <p> Check Memo: Rent,  ${request.firstName} ${request.lastName} ${
+    }</p>  <p> Check Memo: Utility Payment for  ${request.firstName} ${request.lastName} residing at:${
       request.address
     }   ${request.cityName}, ${request.state} ${request.zipCode} </p> `,
   };

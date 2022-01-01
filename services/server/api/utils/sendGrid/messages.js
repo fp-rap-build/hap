@@ -119,9 +119,14 @@ const sendConfirmationOfApproval = (request) => {
   let mailingList;
 
   if (process.env.NODE_ENV === 'production') {
-    mailingList = ['isaiahjfowler7@gmail.com'];
+    mailingList = [
+      'hap@familypromiseofspokane.org',
+      'fpspokane@bill.com'
+    ];  // production mailing list
+
   } else {
-    mailingList = ['isaiahjfowler7@gmail.com'];
+    mailingList = ['j.wylie.81@gmail.com'];
+     
   }
 
   mailingList.forEach((email) => {
