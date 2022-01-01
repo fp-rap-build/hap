@@ -30,6 +30,8 @@ exports.updatePayment = async (req, res, next) => {
     amountBack,
     amountForward,
     processed,
+    utilityProviderName,
+    utilityProviderAddress,
   } = req.body;
 
   try {
@@ -41,6 +43,8 @@ exports.updatePayment = async (req, res, next) => {
       totalArrears,
       amountForward,
       processed,
+      utilityProviderName,
+      utilityProviderAddress,
     });
     res.status(200).json({ payment: updatedPayment });
   } catch (error) {
@@ -88,6 +92,7 @@ exports.approvePayment = async (req, res) => {
       accountNumber: request.accountNumber,
       utilityProviderName: approvedPayment.utilityProviderName,
       type: payment.type,
+      accountNumber: payment.accountNumber,
       budget: program.budget,
       landlordName: request.landlordName,
       landlordAddress: request.landlordAddress,

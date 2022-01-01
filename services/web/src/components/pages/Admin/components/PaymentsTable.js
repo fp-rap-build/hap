@@ -109,6 +109,20 @@ export default function PaymentsTable() {
       width: 170,
     },
     {
+      headerName: 'Utility Provider Name',
+      field: 'utilityProviderName',
+      width: 270,
+      editable: 'always',
+    },
+
+    {
+      headerName: 'Utility Provider Address',
+      field: 'utilityProviderAddress',
+      width: 270,
+      editable: 'always',
+    },
+
+    {
       headerName: 'Renter Or Owner',
       field: 'renterOrOwner',
       width: 170,
@@ -147,6 +161,13 @@ export default function PaymentsTable() {
     { title: 'First', field: 'firstName', editable: 'never' },
     { title: 'Last ', field: 'lastName', editable: 'never' },
     { title: 'Email', field: 'email', type: 'string', editable: 'never' },
+    {
+      title: 'Amount',
+      headerName: 'amount',
+      field: 'amount',
+      type: 'string',
+      editable: 'never',
+    },
 
     { title: 'Gender', field: 'gender', editable: 'always' },
     { title: 'Race', field: 'race', editable: 'always' },

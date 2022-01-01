@@ -1,4 +1,8 @@
 const sgMail = require('@sendgrid/mail');
+const {
+  rentalAssistanceTemplate,
+  utilityAssistanceTemplate,
+} = require('./emailTemplates');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const sendDocumentsDenied = (emailAddress) => {
@@ -115,8 +119,6 @@ const sendConfirmationOfApproval = (request) => {
   let mailingList;
   let msg;
 
-  let type = capitalizeFirstLetter(request.type) + ' Assistance';
-
   if (process.env.NODE_ENV === 'production') {
     mailingList = ['j.wylie.81@gmail.com'];
 
@@ -124,74 +126,20 @@ const sendConfirmationOfApproval = (request) => {
     mailingList = ['j.wylie.81@gmail.com'];
   }
 
-
   mailingList.forEach((email) => {
-    if (request.type === 'rental') {
-      msg = {
-      to: email,
-      from: 'hap@familypromiseofspokane.org',
-      subject: `Rental Assistance`,
-      text: `Subject: Rental Assistance,  Funding Source: ${
-        request.budget
-      } , Payment Method: Check, Payee: Landlord, Payee Name: ${
-        request.landlordName
-      } , Payee Address: ${request.landlordAddress}  ${
-        request.landlordAddress2 ? request.landlordAddress2 : ''
-      }  ${request.landlordCity}  ${request.landlordState}  ${
-        request.landlordZip
-      } ,  Payee Email:  ${request.landlordEmail} Payment Amount: ${
-        request.amountApproved
-      } ,  Check Memo: Rent,  ${request.firstName} ${request.lastName} ${
-        request.address
-      }   ${request.cityName}, ${request.state} ${request.zipCode} `,
-      html: `<p>${type}</p> <p> Funding Source: ${
-        request.budget
-      } </p> <p>Payment Method: Check </p>  <p>Payee: Landlord</p> <p>Payee Name: ${
-        request.landlordName
-      }</p> <p>Payee Address: ${request.landlordAddress}  ${
-        request.landlordAddress2 ? request.landlordAddress2 : ''
-      }  ${request.landlordCity}  ${request.landlordState}  ${
-        request.landlordZip
-      } </p> <p> Payee Email:  ${
-        request.landlordEmail
-      } </p><p>Payment Amount: ${
-        request.amountApproved
-      }</p>  <p> Check Memo: Rent,  ${request.firstName} ${request.lastName} ${
-        request.address
-      }   ${request.cityName}, ${request.state} ${request.zipCode} </p> `,
+    let message;
+
+    if (request.type == 'rental') {
+      message = rentalAssistanceTemplate(request, email);
     }
-  } else {
-    msg = {
-      to: email,
-      from: 'hap@familypromiseofspokane.org',
-      subject: `${type}`,
-      text: `Subject: ${type},  Funding Source: ${
-        request.budget
-      } , Payment Method: Check, Payee: Utility Company, Payee Name: ${
-        request.utilityCompanyName
-      } , Payee Address: On File,
-      } , Payment Amount: ${
-        request.amountApproved
-      } ,  Check Memo: Utility Payment for:  ${request.firstName} ${request.lastName} 
-      Residing at: ${
-        request.address
-      }   ${request.cityName}, ${request.state} ${request.zipCode} `,
-      html: `<p>${type}</p> <p> Funding Source: ${
-        request.budget
-      } </p> <p>Payment Method: Check </p>  <p>Payee: Utility Company</p> <p>Payee Name: ${
-        request.utilityCompanyName
-      }</p> <p>Payee Address: On File
-      } </p>
-      } </p><p>Payment Amount: ${
-        request.amountApproved
-      }</p>  <p> Check Memo: Utility payment for:  ${request.firstName} ${request.lastName} Residing at: ${
-        request.address
-      }   ${request.cityName}, ${request.state} ${request.zipCode} </p> `,
+
+    if (request.type == 'utility') {
+      message = utilityAssistanceTemplate(request, email);
     }
-  }
+
 
     sgMail
-      .send(msg)
+      .send(message)
       .then(() => {
         console.log('Email sent');
       })
