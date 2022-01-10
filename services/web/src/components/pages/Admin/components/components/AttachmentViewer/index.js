@@ -6,6 +6,7 @@ import Status from './components/Status';
 import SubmitDocument from './components/SubmitDocument';
 import Category from './components/Category';
 import DeleteDocument from './components/DeleteDocument';
+import UpafUpload from './components/UpafUpload';
 
 export default function Index({
   visible,
@@ -79,6 +80,8 @@ export default function Index({
             category={category}
           />
         )}
+
+        {category === 'upaf' && <UpafUpload />}
       </div>
 
       {currentDocument?.type === 'application/pdf' ? (
