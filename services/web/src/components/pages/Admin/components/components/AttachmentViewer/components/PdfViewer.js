@@ -17,7 +17,7 @@ export default function PdfViewer({ currentDocument, setCurrentDocument }) {
     if (currentDocument.pandaId) {
       pandaDocDownload();
     }
-  }, []);
+  }, [currentDocument]);
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
@@ -49,7 +49,11 @@ export default function PdfViewer({ currentDocument, setCurrentDocument }) {
       //Build a URL from the file
       const fileURL = URL.createObjectURL(file);
 
-      setCurrentDocument({ ...currentDocument, location: fileURL });
+      setCurrentDocument({
+        ...currentDocument,
+        location: fileURL,
+        pandaId: null,
+      });
     } catch (error) {
       alert('Unable to download document from PandaDocs.');
     } finally {
