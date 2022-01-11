@@ -41,7 +41,7 @@ export default function Index({
   return (
     <Modal
       title={'Review Document'}
-      width={640}
+      width={740}
       style={{ minHeight: 900 }}
       visible={visible}
       onCancel={closeDocument}
