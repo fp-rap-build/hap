@@ -81,7 +81,9 @@ export default function Index({
           />
         )}
 
-        {category === 'upaf' && <UpafUpload request={request} />}
+        {category === 'upaf' && (
+          <UpafUpload request={request} setDocuments={setDocuments} />
+        )}
       </div>
 
       {currentDocument?.type === 'application/pdf' ? (

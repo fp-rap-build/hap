@@ -12,7 +12,7 @@ import { axiosWithAuth } from '../../../../../../../api/axiosWithAuth';
 // #TODO CHANGE TO ENV VARIABLE
 const upafTemplateId = '43rnQNvMj4B8bG6pGQC8P3';
 
-export default function UpafUpload({ request }) {
+export default function UpafUpload({ request, setDocuments }) {
   const currentUser = useSelector(state => state.user.currentUser);
 
   const today = new Date();
@@ -71,12 +71,12 @@ export default function UpafUpload({ request }) {
       pandaId: documentInfo.docId,
     };
 
-    console.log(document);
-
     try {
       await axiosWithAuth()
         .post('/documents', document)
-        .then(res => res.data);
+        .then(res => {
+          setDocuments(prevState => [...prevState, document]);
+        });
     } catch (error) {
       alert('Error saving document');
     }

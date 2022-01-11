@@ -11,6 +11,7 @@ export default function PdfViewer({ currentDocument, setCurrentDocument }) {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [pandaDocUrl, setPandaDocUrl] = useState(null);
 
   useEffect(() => {
     if (currentDocument.pandaId) {
