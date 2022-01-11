@@ -166,6 +166,7 @@ const processUpafDoc = async (currentUser, docPayload) => {
       docName: document.name,
     };
   } catch (error) {
+    alert('upaf error');
     console.log('Error processing UPAF', error);
   }
 };
