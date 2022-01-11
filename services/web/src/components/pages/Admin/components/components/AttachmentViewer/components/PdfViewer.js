@@ -41,8 +41,10 @@ export default function PdfViewer({ currentDocument, setCurrentDocument }) {
         `/documents/${currentDocument.pandaId}/download`,
         { responseType: 'blob' }
       );
+
       //Create a blob from the PDF Stream
       const file = new Blob([dlDoc.data], { type: 'application/pdf' });
+
       //Build a URL from the file
       const fileURL = URL.createObjectURL(file);
 

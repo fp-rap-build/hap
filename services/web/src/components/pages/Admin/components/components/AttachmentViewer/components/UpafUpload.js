@@ -7,6 +7,7 @@ import { Button, Modal, Spin } from 'antd';
 import { processUpafDoc } from '../../../../../../../utils/pandaDocUtils';
 
 import styles from '../../../../../../../styles/pages/landlord.module.css';
+import { axiosWithAuth } from '../../../../../../../api/axiosWithAuth';
 
 // #TODO CHANGE TO ENV VARIABLE
 const upafTemplateId = '43rnQNvMj4B8bG6pGQC8P3';
@@ -58,6 +59,34 @@ export default function UpafUpload({ request }) {
 
   const [loadingDoc, setLoadingDoc] = useState(false);
 
+  const postDocumentToDB = async () => {
+    const document = {
+      requestId: request.id,
+      name: documentInfo.docName,
+      type: 'application/pdf',
+      location: process.env.REACT_APP_PLACEHOLDER_LOCATION,
+      key: process.env.REACT_APP_PLACEHOLDER_KEY,
+      category: 'upaf',
+      status: 'received',
+      pandaId: documentInfo.docId,
+    };
+
+    console.log(document);
+
+    try {
+      await axiosWithAuth()
+        .post('/documents', document)
+        .then(res => res.data);
+    } catch (error) {
+      alert('Error saving document');
+    }
+  };
+
+  const handleModalClose = () => {
+    postDocumentToDB();
+    setDocumentInfo({ sessionId: null, docId: null, docName: null });
+  };
+
   const createPandaDoc = async docPayload => {
     setLoadingDoc(true);
     try {
@@ -91,7 +120,7 @@ export default function UpafUpload({ request }) {
         visible={documentInfo.sessionId}
         bodyStyle={{ height: '85vh', paddingTop: '6%', zIndex: 1000 }}
         width={'80vw'}
-        onCancel={() => alert('todo')}
+        onCancel={handleModalClose}
       >
         {loadingDoc ? (
           <div className={styles.spinContainer}>
