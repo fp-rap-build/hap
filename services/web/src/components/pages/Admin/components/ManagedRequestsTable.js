@@ -134,9 +134,13 @@ export default function ManagedRequestsTable() {
 
         request['covid'] = [];
 
+        request['upaf'] = [];
+
         request['childrenOrPregnancy'] = [];
 
         request['identity'] = [];
+
+        console.log(request['documents']);
 
         request['documents'].forEach(doc => {
           if (doc.category) {

@@ -32,6 +32,7 @@ export default function Index({
   };
 
   useEffect(() => {
+    console.log(documents);
     setCurrentDocument(documents[0]);
   }, [documents]);
 

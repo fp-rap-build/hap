@@ -597,18 +597,6 @@ export default function ManagedRequestsTable() {
       renderCell: rowData => <p>{formatDate(rowData.row.requestDate)}</p>,
     },
     {
-      headerName: 'Date of last approval',
-      field: 'createdAt',
-      type: 'date',
-      width: 150,
-      renderCell: rowData => <p>{formatDate(rowData.row.createdAt)}</p>,
-    },
-    {
-      headerName: 'Amount Approved',
-      field: 'amountApproved',
-      width: 150,
-    },
-    {
       headerName: 'Big Table Candidate?',
       field: 'foodWrkr',
       width: 150,
