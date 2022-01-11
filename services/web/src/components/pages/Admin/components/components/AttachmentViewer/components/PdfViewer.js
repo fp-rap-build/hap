@@ -11,12 +11,13 @@ export default function PdfViewer({ currentDocument, setCurrentDocument }) {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [pandaDocUrl, setPandaDocUrl] = useState(null);
 
   useEffect(() => {
     if (currentDocument.pandaId) {
       pandaDocDownload();
     }
-  }, []);
+  }, [currentDocument]);
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
@@ -41,12 +42,18 @@ export default function PdfViewer({ currentDocument, setCurrentDocument }) {
         `/documents/${currentDocument.pandaId}/download`,
         { responseType: 'blob' }
       );
+
       //Create a blob from the PDF Stream
       const file = new Blob([dlDoc.data], { type: 'application/pdf' });
+
       //Build a URL from the file
       const fileURL = URL.createObjectURL(file);
 
-      setCurrentDocument({ ...currentDocument, location: fileURL });
+      setCurrentDocument({
+        ...currentDocument,
+        location: fileURL,
+        pandaId: null,
+      });
     } catch (error) {
       alert('Unable to download document from PandaDocs.');
     } finally {

@@ -135,8 +135,6 @@ const processLLDoc = async docPayload => {
   try {
     let document = await createDocument(docPayload);
 
-    console.log(document);
-
     await sendDocument(document.id);
     //create document link
     let sessionId = await createDocumentLink(
@@ -150,8 +148,27 @@ const processLLDoc = async docPayload => {
       docName: document.name,
     };
   } catch (error) {
-    console.log('Error processing PD w9', error);
+    console.log('Error processing PD', error);
   }
 };
 
-export { processDocument, processLLDoc };
+const processUpafDoc = async (currentUser, docPayload) => {
+  try {
+    let document = await createDocument(docPayload);
+
+    await sendDocument(document.id);
+    //create document link
+    let sessionId = await createDocumentLink(document.id, currentUser.email);
+
+    return {
+      sessionId: sessionId,
+      docId: document.id,
+      docName: document.name,
+    };
+  } catch (error) {
+    alert('upaf error');
+    console.log('Error processing UPAF', error);
+  }
+};
+
+export { processDocument, processLLDoc, processUpafDoc };

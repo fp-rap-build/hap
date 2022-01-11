@@ -46,6 +46,7 @@ const formatRequestsTable = (requests) => {
     idx += 1;
   }
 
+
   return formattedRequests;
 };
 

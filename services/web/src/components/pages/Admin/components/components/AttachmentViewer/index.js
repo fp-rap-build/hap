@@ -6,6 +6,7 @@ import Status from './components/Status';
 import SubmitDocument from './components/SubmitDocument';
 import Category from './components/Category';
 import DeleteDocument from './components/DeleteDocument';
+import UpafUpload from './components/UpafUpload';
 
 export default function Index({
   visible,
@@ -31,6 +32,7 @@ export default function Index({
   };
 
   useEffect(() => {
+    console.log(documents);
     setCurrentDocument(documents[0]);
   }, [documents]);
 
@@ -39,7 +41,7 @@ export default function Index({
   return (
     <Modal
       title={'Review Document'}
-      width={640}
+      width={740}
       style={{ minHeight: 900 }}
       visible={visible}
       onCancel={closeDocument}
@@ -78,6 +80,10 @@ export default function Index({
             request={request}
             category={category}
           />
+        )}
+
+        {category === 'upaf' && (
+          <UpafUpload request={request} setDocuments={setDocuments} />
         )}
       </div>
 
