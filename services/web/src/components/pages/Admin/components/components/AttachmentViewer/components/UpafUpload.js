@@ -9,8 +9,7 @@ import { processUpafDoc } from '../../../../../../../utils/pandaDocUtils';
 import styles from '../../../../../../../styles/pages/landlord.module.css';
 import { axiosWithAuth } from '../../../../../../../api/axiosWithAuth';
 
-// #TODO CHANGE TO ENV VARIABLE
-const upafTemplateId = '43rnQNvMj4B8bG6pGQC8P3';
+const upafTemplateId = process.env.REACT_APP_UPAF_TEMPLATE_ID;
 
 export default function UpafUpload({ request, setDocuments }) {
   const currentUser = useSelector(state => state.user.currentUser);

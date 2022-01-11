@@ -388,6 +388,23 @@ export default function ManagedRequestsTable() {
     },
 
     {
+      headerName: 'UPAF',
+      field: 'upaf',
+      width: 150,
+      renderCell: rowData => {
+        return (
+          <RenderDocumentStatusCell
+            category="upaf"
+            docs={rowData.row.upaf}
+            openDocument={() =>
+              openDocument(rowData.row.upaf, 'upaf', rowData.row)
+            }
+          />
+        );
+      },
+    },
+
+    {
       headerName: 'HI',
       field: 'housingInstability',
       width: 150,
