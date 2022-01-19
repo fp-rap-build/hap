@@ -89,6 +89,7 @@ exports.approvePayment = async (req, res) => {
 
     let emailPayload = {
       renterOrOwner: request.renterOrOwner,
+      requestId: `HAP${request.id}`,
       accountNumber: request.accountNumber,
       type: payment.type,
       accountNumber: payment.accountNumber,

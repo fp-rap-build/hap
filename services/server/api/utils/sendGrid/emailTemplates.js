@@ -2,8 +2,8 @@ const rentalAssistanceTemplate = (request, email) => {
   let message = {
     to: email,
     from: 'hap@familypromiseofspokane.org',
-    subject: `Rental Assistance`,
-    text: `Subject: Rental Assistance,  Funding Source: ${
+    subject: `Rental Assistance for ${request.requestId}`,
+    text: `Subject: Rental Assistance for ${request.requestId},  Funding Source: ${
       request.budget
     } , Payment Method: Check, Payee: Landlord, Payee Name: ${
       request.landlordName
@@ -16,7 +16,7 @@ const rentalAssistanceTemplate = (request, email) => {
     } ,  Check Memo: Rent for tenant  ${request.firstName} ${request.lastName} residing at:${
       request.address
     }   ${request.cityName}, ${request.state} ${request.zipCode} `,
-    html: `<p>Rental Assistance</p> <p> Funding Source: ${
+    html: `<p>Rental Assistance for ${request.requestId}</p> <p> Funding Source: ${
       request.budget
     } </p> <p>Payment Method: Check </p>  <p>Payee: Landlord</p> <p>Payee Name: ${
       request.landlordName
@@ -38,8 +38,8 @@ const utilityAssistanceTemplate = (request, email) => {
   let message = {
     to: email,
     from: 'hap@familypromiseofspokane.org',
-    subject: `Utility Assistance`,
-    text: `Subject: Utility Assistance,  Funding Source: ${
+    subject: `Utility Assistance for ${request.requestId}`,
+    text: `Subject: Utility Assistance for ${request.requestId},  Funding Source: ${
       request.budget
     } , Payment Method: Check, Payee: ${request.providerName},
     } , Payee Address: ${request.providerAddress}  Payment Amount: ${
@@ -49,7 +49,7 @@ const utilityAssistanceTemplate = (request, email) => {
     } residing at:${
       request.address
     }   ${request.cityName}, ${request.state} ${request.zipCode} `,
-    html: `<p>Utility Assistance</p> <p>Account number: ${
+    html: `<p>Utility Assistance for ${request.requestId}</p> <p>Account number: ${
       request.accountNumber
     }</p> <p> Utility Provider Name: ${request.providerName ? request.providerName : ''}</p>
     
