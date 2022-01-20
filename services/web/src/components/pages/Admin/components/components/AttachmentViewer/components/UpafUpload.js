@@ -33,7 +33,7 @@ export default function UpafUpload({ request, setDocuments }) {
     ],
     fields: {
       householdId: {
-        value: `HAP ${request.id}`,
+        value: `HAP${request.id}`,
       },
       name: {
         value: `${request.firstName} ${request.lastName}`,
