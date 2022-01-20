@@ -212,6 +212,7 @@ const W9DocumentCard = ({
   setSelectedCategory,
   status,
 }) => {
+  
   const handleClick = () => {
     createPandaDoc(w9DocumentPayload);
     setSelectedCategory('landlordW9');
