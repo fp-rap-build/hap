@@ -32,6 +32,10 @@
   color: #004477;
 }
 
+.warning {
+  color: #c23d09;
+}
+
 .header p {
   width: 60%;
 }
