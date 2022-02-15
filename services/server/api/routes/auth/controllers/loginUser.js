@@ -29,7 +29,6 @@ const loginUser = async (req, res, next) => {
       user,
     });
   } catch (error) {
-    console.log(error)
     res.status(500).send({ error });
   }
 };
