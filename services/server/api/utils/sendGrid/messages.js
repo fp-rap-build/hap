@@ -116,6 +116,8 @@ const sendPromiseToPayEmail = (request, emailAddress) => {
 };
 
 const sendConfirmationOfApproval = (request) => {
+  if(request.budget === 'Live Stories') return;
+
   let mailingList;
 
   if (process.env.NODE_ENV === 'production') {
@@ -126,7 +128,6 @@ const sendConfirmationOfApproval = (request) => {
 
   } else {
     mailingList = ['j.wylie.81@gmail.com'];
-     
   }
 
   mailingList.forEach((email) => {

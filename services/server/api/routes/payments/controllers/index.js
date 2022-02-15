@@ -14,7 +14,6 @@ exports.findForTable = async (req, res, next) => {
 
     res.status(200).json({ payments: tableData });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
@@ -119,6 +118,7 @@ exports.approvePayment = async (req, res) => {
     res.status(200).json({
       payment: approvedPayment[0],
     });
+
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Unable to approve payment' });
