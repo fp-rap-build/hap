@@ -116,10 +116,7 @@ const sendPromiseToPayEmail = (request, emailAddress) => {
 };
 
 const sendConfirmationOfApproval = (request) => {
-  if(request.budget === 'Live Stories') {
-
-    return
-  };
+  if(request.budget === 'Live Stories') return;
 
   let mailingList;
 
