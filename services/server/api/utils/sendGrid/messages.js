@@ -116,17 +116,22 @@ const sendPromiseToPayEmail = (request, emailAddress) => {
 };
 
 const sendConfirmationOfApproval = (request) => {
+  if(request.budget === 'Live Stories') {
+
+    return
+  };
+
   let mailingList;
 
   if (process.env.NODE_ENV === 'production') {
     mailingList = [
-      'hap@familypromiseofspokane.org',
-      'fpspokane@bill.com'
+      'isaiahjfowler7@gmail.com'
+      // 'hap@familypromiseofspokane.org',
+      // 'fpspokane@bill.com'
     ];  // production mailing list
 
   } else {
-    mailingList = ['j.wylie.81@gmail.com'];
-     
+    mailingList = ['isaiahjfowler7@gmail.com'];
   }
 
   mailingList.forEach((email) => {
