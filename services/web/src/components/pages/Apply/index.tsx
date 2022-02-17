@@ -306,7 +306,7 @@ const FormNavigation = ({ step, goBackwards, loading, formConsent }) => {
           htmlType="submit"
           disabled={manageFormButton(step, formConsent)}
         >
-          Next
+          Next (not used anymore)
         </Button>
       )}
     </div>
