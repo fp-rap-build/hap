@@ -20,7 +20,7 @@ export default function CreateAccount({ formValues, setFormValues }) {
         <br />
         <p>
           Creating a Housing Assistance Portal account does not submit a request
-          for assistance.
+          for assistance. Not used anymore
         </p>
 
         <br />
