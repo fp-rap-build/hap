@@ -53,19 +53,14 @@ export default function RequestsTable() {
     //  },
 
     {
-      field: 'Organization',
+      headerName: 'Organization',
+      field: 'organization',
       width: 200,
       renderCell: params => {
         return <Organizations request={params.row} />;
       },
     },
-    {
-      field: 'Organization',
-      width: 200,
-      renderCell: params => {
-        return <Organizations request={params.row} />;
-      },
-    },
+
     {
       headerName: 'HAP ID',
       field: 'HAP ID',

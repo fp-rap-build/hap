@@ -204,8 +204,11 @@ export default function ManagedRequestsTable() {
     //      return <Delete setRequests={setData} requestId={params.row.id} />;
     //   },
     //  },
+
     {
-      field: 'Organization',
+      headerName: 'Organization',
+      field: 'organization',
+
       width: 200,
       renderCell: params => {
         return <Organizations request={params.row} />;
