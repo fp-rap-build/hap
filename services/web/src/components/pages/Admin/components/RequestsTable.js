@@ -35,6 +35,8 @@ import styles from '../../../../styles/pages/admin.module.css';
 
 import EmailedLLCheckbox from './components/Requests/EmailedLLCheckbox';
 
+import StillHoused3MonthsCheckbox from './components/Requests/stillHoused3Months';
+
 import { formatUTC } from '../../../../utils/dates';
 
 import { formatDate } from '../../../../utils/dates/date';
@@ -512,6 +514,19 @@ export default function ManagedRequestsTable() {
         return (
           <EmailedLLCheckbox
             emailedLandlord={rowData.row.emailedLandlord}
+            requestId={rowData.row.id}
+          />
+        );
+      },
+    },
+    {
+      headerName: 'threeMonths?',
+      field: 'threeMonths',
+      width: 150,
+      renderCell: rowData => {
+        return (
+          <StillHoused3MonthsCheckbox
+            stillHoused3Months={rowData.row.stillHoused3Months}
             requestId={rowData.row.id}
           />
         );
