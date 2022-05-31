@@ -37,6 +37,8 @@ import EmailedLLCheckbox from './components/Requests/EmailedLLCheckbox';
 
 import StillHoused3MonthsCheckbox from './components/Requests/stillHoused3Months';
 
+import StillHoused6MonthsCheckbox from './components/Requests/stillHoused6Months';
+
 import { formatUTC } from '../../../../utils/dates';
 
 import { formatDate } from '../../../../utils/dates/date';
@@ -527,6 +529,19 @@ export default function ManagedRequestsTable() {
         return (
           <StillHoused3MonthsCheckbox
             threeMonths={rowData.row.threeMonths}
+            requestId={rowData.row.id}
+          />
+        );
+      },
+    },
+    {
+      headerName: 'sixMonths?',
+      field: 'sixMonths',
+      width: 150,
+      renderCell: rowData => {
+        return (
+          <StillHoused6MonthsCheckbox
+            sixMonths={rowData.row.sixMonths}
             requestId={rowData.row.id}
           />
         );

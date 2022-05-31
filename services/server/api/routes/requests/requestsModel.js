@@ -104,6 +104,7 @@ const findForTable = (params, user) => {
       'r.landlordZip',
       'r.emailedLandlord',
       'r.threeMonths',
+      'r.sixMonths',
       'r.childrenAges',
       'r.incomplete',
       'r.archived',
