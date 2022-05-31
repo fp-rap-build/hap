@@ -526,7 +526,7 @@ export default function ManagedRequestsTable() {
       renderCell: rowData => {
         return (
           <StillHoused3MonthsCheckbox
-            stillHoused3Months={rowData.row.stillHoused3Months}
+            threeMonths={rowData.row.threeMonths}
             requestId={rowData.row.id}
           />
         );
