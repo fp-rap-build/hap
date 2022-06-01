@@ -35,6 +35,12 @@ import styles from '../../../../styles/pages/admin.module.css';
 
 import EmailedLLCheckbox from './components/Requests/EmailedLLCheckbox';
 
+import StillHoused3MonthsCheckbox from './components/Requests/stillHoused3Months';
+
+import StillHoused6MonthsCheckbox from './components/Requests/stillHoused6Months';
+
+import StillHoused9MonthsCheckbox from './components/Requests/stillHoused9Months';
+
 import { formatUTC } from '../../../../utils/dates';
 
 import { formatDate } from '../../../../utils/dates/date';
@@ -512,6 +518,45 @@ export default function ManagedRequestsTable() {
         return (
           <EmailedLLCheckbox
             emailedLandlord={rowData.row.emailedLandlord}
+            requestId={rowData.row.id}
+          />
+        );
+      },
+    },
+    {
+      headerName: 'threeMonths?',
+      field: 'threeMonths',
+      width: 150,
+      renderCell: rowData => {
+        return (
+          <StillHoused3MonthsCheckbox
+            threeMonths={rowData.row.threeMonths}
+            requestId={rowData.row.id}
+          />
+        );
+      },
+    },
+    {
+      headerName: 'sixMonths?',
+      field: 'sixMonths',
+      width: 150,
+      renderCell: rowData => {
+        return (
+          <StillHoused6MonthsCheckbox
+            sixMonths={rowData.row.sixMonths}
+            requestId={rowData.row.id}
+          />
+        );
+      },
+    },
+    {
+      headerName: 'nineMonths?',
+      field: 'nineMonths',
+      width: 150,
+      renderCell: rowData => {
+        return (
+          <StillHoused9MonthsCheckbox
+            nineMonths={rowData.row.nineMonths}
             requestId={rowData.row.id}
           />
         );

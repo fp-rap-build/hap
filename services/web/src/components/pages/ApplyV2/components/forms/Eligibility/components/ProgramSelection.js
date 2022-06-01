@@ -11,6 +11,7 @@ import {
   SNAP_ERAP,
   VLP_EDP,
   LS,
+  FP,
   OTHER,
 } from '../../../../../../../utils/data/urls';
 
@@ -76,11 +77,15 @@ const ProgramSelection = ({ formValues, setCurrentContent }) => {
           <Col span={1} />
           <Col span={8}>
             <Button
+              // type="primary"
+              // disabled={!availablePrograms.FP}
+              // onClick={() => setCurrentContent('createAccount')}
+              href={LS}
+              target="_blank"
               type="primary"
-              disabled={!availablePrograms.FP}
-              onClick={() => setCurrentContent('createAccount')}
+              disabled={!availablePrograms.LS}
             >
-              {availablePrograms.FP ? 'Apply Now' : 'Not Available'}
+              {availablePrograms.FP ? 'More Info' : 'Not Available'}
             </Button>
           </Col>
         </Row>
