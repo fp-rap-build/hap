@@ -17,7 +17,7 @@
     "@okta/okta-signin-widget": "^5.8.3",
     "@types/jest": "^26.0.24",
     "@types/node": "^14.17.5",
-    "@types/react": "^17.0.14",
+    "@types/react": "^17.0.45",
     "@types/react-dom": "^17.0.9",
     "antd": "^4.16.7",
     "axios": "^0.21.3",
