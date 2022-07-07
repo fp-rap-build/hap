@@ -247,7 +247,8 @@ export default function ManagedRequestsTable() {
     //    },
     //  },
     {
-      field: 'Organization',
+      headerName: 'Organization',
+      field: 'organization',
       width: 200,
       renderCell: params => {
         return <Organizations request={params.row} />;
