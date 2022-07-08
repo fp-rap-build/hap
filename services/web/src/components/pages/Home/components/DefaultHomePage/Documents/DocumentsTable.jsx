@@ -8,7 +8,7 @@ import UploadDocModal from './modals/UploadDocModal';
 import SelfDecModal from './modals/SelfDecModal';
 
 import { InfoCircleOutlined, MinusOutlined } from '@ant-design/icons';
-import { Tag, Table, Button, Typography } from 'antd';
+import { Tag, Table, Button, Typography, Tooltip } from 'antd';
 import checkIfAllDocumentsInCategoryAreDenied from './utils/checkIfAllDocumentsInCategoryAreDenied';
 
 const { Text } = Typography;
@@ -159,26 +159,33 @@ const DocumentsTable = ({ request }) => {
         columns={columns}
         dataSource={tableData}
         pagination={false}
+        defaultExpandAllRows
         expandable={{
           expandedRowRender: record => (
-            <Text type="secondary">{record.blurb}</Text>
+            <RenderDocsByCategory docs={documents} category={record.category} />
           ),
-          expandIcon: ({ expanded, onExpand, record }) =>
-            expanded ? (
-              <MinusOutlined
-                onClick={e => onExpand(record, e)}
-                style={{ color: '#1890FF' }}
-              />
-            ) : (
-              <InfoCircleOutlined
-                onClick={e => onExpand(record, e)}
-                style={{ color: '#1890FF' }}
-              />
-            ),
+
+          expandIcon: ({ expanded, onExpand, record }) => (
+            <Tooltip color={'blue'} title={record.blurb}>
+              <InfoCircleOutlined style={{ color: '#1890FF' }} />
+            </Tooltip>
+          ),
         }}
       />
       <UploadDocModal {...props} />
       <SelfDecModal {...props} />
+    </div>
+  );
+};
+
+const RenderDocsByCategory = ({ docs, category }) => {
+  return (
+    <div style={{ margin: 0, padding: 0 }}>
+      {docs.map(doc => {
+        if (doc.category == category) {
+          return <p>{doc.name}</p>;
+        }
+      })}
     </div>
   );
 };
