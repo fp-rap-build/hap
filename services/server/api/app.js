@@ -41,11 +41,6 @@ const paymentsRouter = require('./routes/payments');
 
 const app = express();
 
-app.get('/cors', (req, res) => {
-  res.set('Access-Control-Allow-Origin', '*');
-  res.send({ "msg": "This has CORS enabled 🎈" })
-  })
-
 process.on('unhandledRejection', (reason, p) => {
   console.error('Unhandled Rejection at: Promise', p, 'reason:', reason);
   // application specific logging, throwing an error, or other logic here
@@ -64,7 +59,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: 'localhost:3000',
+    origin: '*',
   })
 );
 app.use(logger('dev'));
