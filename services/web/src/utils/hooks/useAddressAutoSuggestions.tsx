@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 
+console.log('load smartystreetsdk');
 const SmartyStreetsSDK = require('smartystreets-javascript-sdk');
+console.log('loaded smartystreetsdk, now loading smartyscreetcore');
 const SmartyStreetsCore = SmartyStreetsSDK.core;
+console.log('loaded smartyscreetcore, now making lookup');
 const Lookup = SmartyStreetsSDK.usAutocompletePro.Lookup;
-
-let key = process.env.REACT_APP_SMARTY_KEY;
+console.log('lookup made, now creating smarty key from .env');
+const key = process.env.REACT_APP_SMARTY_KEY;
 
 const credentials = new SmartyStreetsCore.SharedCredentials(key);
 
