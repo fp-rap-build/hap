@@ -26,11 +26,6 @@ export default function Index() {
 
           <h2>Check your eligibility by following the link below</h2>
 
-          <p className={styles.warning}>
-            Rental Assistance Funds for City of Spokane Residents have been
-            exhausted.
-          </p>
-
           <Button onClick={() => history.push('/applyv2')}>
             Check Eligibility and Apply
           </Button>
