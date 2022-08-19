@@ -10,6 +10,9 @@ import Button from '../../common/Button';
 
 export default function Index() {
   const history = useHistory();
+  const openInNewTab = url => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
 
   const redirectToRentalAssistanceForm = () => {
     history.push('/apply');
@@ -24,11 +27,23 @@ export default function Index() {
         <div className={styles.contentContainer}>
           <h1>Are you in need of Housing Assistance?</h1>
 
-          <h2>Check your eligibility by following the link below</h2>
+          <h2 style={{ color: 'red' }}>
+            Rental Assistance Funds Have been Exhausted
+          </h2>
 
-          <Button onClick={() => history.push('/applyv2')}>
-            Check Eligibility and Apply
-          </Button>
+          <button
+            onClick={() =>
+              openInNewTab(
+                'https://my.spokanecity.org/covid19/resident-assistance/'
+              )
+            }
+          >
+            Check Rental Assistance Funds Status
+          </button>
+          {/*<Button onClick={() => history.push('/applyv2')}>*/}
+          {/*  Click here for status updates from Spokane City*/}
+          {/*</Button>*/}
+
           {/* <br />
           <h5>If you're a landlord or tenant, log in to view your status.</h5>
           <Button>
