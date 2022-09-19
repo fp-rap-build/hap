@@ -632,6 +632,7 @@ export default function ManagedRequestsTable() {
         readyForReview: 'readyForReview',
         approved: 'Approved',
         denied: 'Denied',
+        landlorddenied: 'Landlord Denied',
       },
     },
 
