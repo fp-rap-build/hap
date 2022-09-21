@@ -17,7 +17,7 @@ const getFirstName = () => faker.name.firstName();
 const getLastName = () => faker.name.lastName();
 const getAssistanceReq = () => faker.random.boolean();
 const getRequestStatus = () =>
-  faker.random.arrayElement(['recieved', 'inReview', 'approved', 'denied', 'landlorddenied']);
+  faker.random.arrayElement(['recieved', 'inReview', 'approved', 'denied', 'landlordDenied']);
 const getRole = () =>
   faker.random.arrayElement([
     'pending',
