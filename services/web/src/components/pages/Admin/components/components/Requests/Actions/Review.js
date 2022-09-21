@@ -1,4 +1,4 @@
-import GavelIcon from '@material-ui/icons/Gavel';
+import EditIcon from '@material-ui/icons/Edit';
 
 import Container from './Container';
 
@@ -11,7 +11,7 @@ export default function Review({ requestId }) {
 
   return (
     <Container onClick={redirectToRequest}>
-      <GavelIcon />
+      <EditIcon />
     </Container>
   );
 }

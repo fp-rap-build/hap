@@ -55,6 +55,11 @@ const requestStatusChange = (requestStatus, emailAddress) => {
         'Your Rental or Utilities Assistance application has been approved! If you have any further questions please call 509-816-2101.';
       break;
 
+      case 'landlorddenied':
+      text =
+        'Your Family Promise HAP Application has been denied by landlord - please log in at www.SpokaneHousingAssistance.org to view why and/or to reapply';
+      break;
+
     default:
       text = `Your Family Promise HAP Application status has been changed to ${requestStatus} - please log in at www.SpokaneHousingAssistance.org to check for messages from us and/or document requests`;
       break;

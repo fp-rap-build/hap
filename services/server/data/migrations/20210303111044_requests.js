@@ -10,6 +10,7 @@ exports.up = function (knex) {
         'pending',
         'approved',
         'denied',
+        'landlorddenied',
       ])
       .notNullable()
       .defaultsTo('received');
