@@ -207,6 +207,7 @@ export default function ManagedRequestsTable() {
 
     {
       field: 'Subscribe',
+      description: 'Subscribe',
       width: 50,
       renderCell: params => {
         return <Subscribe setRequests={setData} currentRequest={params.row} />;
@@ -215,6 +216,7 @@ export default function ManagedRequestsTable() {
 
     {
       field: 'Archive',
+      description: 'Archive',
       width: 50,
       renderCell: params => {
         return <Archive setRequests={setData} requestId={params.row.id} />;
@@ -223,6 +225,7 @@ export default function ManagedRequestsTable() {
 
     {
       field: 'Un-Archive',
+      description: 'Un-Archive',
       width: 50,
       renderCell: params => {
         return <UnArchive setRequests={setData} requestId={params.row.id} />;
@@ -230,7 +233,9 @@ export default function ManagedRequestsTable() {
     },
 
     {
+      headerName: 'Mark Incomplete',
       field: 'MarkIncomplete',
+      description: 'Mark Incomplete',
       width: 50,
       renderCell: params => {
         return (
@@ -249,6 +254,7 @@ export default function ManagedRequestsTable() {
     {
       headerName: 'Organization',
       field: 'organization',
+      description: 'Organization',
       width: 200,
       renderCell: params => {
         return <Organizations request={params.row} />;
@@ -257,33 +263,39 @@ export default function ManagedRequestsTable() {
     {
       headerName: 'Archived',
       field: 'archived',
+      description: 'Archived',
       width: 150,
     },
     {
       headerName: 'Complete',
       field: 'incomplete',
+      description: 'Complete',
       width: 150,
     },
     {
       headerName: 'HAP ID',
       field: 'HAP ID',
+      description: 'HAP ID',
       width: 150,
     },
     {
       headerName: 'Manager',
       field: 'manager',
+      description: 'Manager',
       width: 150,
     },
     { headerName: 'First', field: 'firstName', width: 150 },
-    { headerName: 'Last ', field: 'lastName', width: 150 },
+    { headerName: 'Last', field: 'lastName', width: 150 },
     {
       headerName: 'Email Address',
       field: 'email',
+      description: 'Email Address',
       width: 150,
     },
     {
       headerName: 'Applicant Activity',
       field: 'tenantDifference',
+      description: 'Applicant Activity',
       width: 200,
       renderCell: rowData => {
         return (
@@ -294,6 +306,7 @@ export default function ManagedRequestsTable() {
     {
       headerName: 'FP Activity',
       field: 'staffDifference',
+      description: 'FP Activity',
       width: 200,
       renderCell: rowData => {
         return (
@@ -304,6 +317,7 @@ export default function ManagedRequestsTable() {
     {
       headerName: 'RES',
       field: 'residency',
+      description: 'Residency',
       width: 150,
       renderCell: rowData => {
         return (
@@ -319,6 +333,7 @@ export default function ManagedRequestsTable() {
     {
       headerName: 'INC',
       field: 'income',
+      description: 'Income',
       width: 150,
       renderCell: rowData => {
         return (
@@ -336,6 +351,7 @@ export default function ManagedRequestsTable() {
     {
       headerName: 'COV',
       field: 'covid',
+      description: 'COVID',
       width: 150,
       renderCell: rowData => {
         return (
@@ -353,6 +369,7 @@ export default function ManagedRequestsTable() {
     {
       headerName: 'ID',
       field: 'identity',
+      description: 'Identity Document',
       width: 150,
       renderCell: rowData => {
         return (
@@ -370,6 +387,7 @@ export default function ManagedRequestsTable() {
     {
       headerName: 'CHI',
       field: 'childrenOrPregnancy',
+      description: 'Children Or Pregnancy',
       width: 150,
       renderCell: rowData => {
         return (
@@ -391,6 +409,7 @@ export default function ManagedRequestsTable() {
     {
       headerName: 'LEASE',
       field: 'lease',
+      description: 'Lease',
       width: 150,
       renderCell: rowData => {
         return (
@@ -408,6 +427,7 @@ export default function ManagedRequestsTable() {
     {
       headerName: 'LLW9',
       field: 'landlordW9',
+      description: 'Landlord W9',
       width: 150,
       renderCell: rowData => {
         return (
@@ -425,6 +445,7 @@ export default function ManagedRequestsTable() {
     {
       headerName: 'RPAF',
       field: 'rpaf',
+      description: 'Rental Payment Agreement Form',
       width: 150,
       renderCell: rowData => {
         return (
@@ -442,6 +463,7 @@ export default function ManagedRequestsTable() {
     {
       headerName: 'UPAF',
       field: 'upaf',
+      description: 'Utility Payment Agreement Form',
       width: 150,
       renderCell: rowData => {
         return (
@@ -459,6 +481,7 @@ export default function ManagedRequestsTable() {
     {
       headerName: 'Utility Bills',
       field: 'utilBills',
+      description: 'Utility Bills',
       width: 150,
       renderCell: rowData => {
         return (
@@ -476,6 +499,7 @@ export default function ManagedRequestsTable() {
     {
       headerName: 'HI',
       field: 'housingInstability',
+      description: 'Housing Instability',
       width: 150,
       renderCell: rowData => {
         return (
@@ -497,6 +521,7 @@ export default function ManagedRequestsTable() {
     {
       headerName: 'Other',
       field: 'other',
+      description: 'Other',
       width: 150,
       renderCell: rowData => {
         return (
@@ -514,6 +539,7 @@ export default function ManagedRequestsTable() {
     {
       headerName: 'EMLL',
       field: 'emailedLandlord',
+      description: 'Emailed Landlord',
       width: 150,
       renderCell: rowData => {
         return (
@@ -525,8 +551,9 @@ export default function ManagedRequestsTable() {
       },
     },
     {
-      headerName: 'threeMonths?',
+      headerName: 'Three Months',
       field: 'threeMonths',
+      description: 'Three Months',
       width: 150,
       renderCell: rowData => {
         return (
@@ -538,8 +565,9 @@ export default function ManagedRequestsTable() {
       },
     },
     {
-      headerName: 'sixMonths?',
+      headerName: 'Six Months',
       field: 'sixMonths',
+      description: 'Six Months',
       width: 150,
       renderCell: rowData => {
         return (
@@ -551,8 +579,9 @@ export default function ManagedRequestsTable() {
       },
     },
     {
-      headerName: 'nineMonths?',
+      headerName: 'Nine Months',
       field: 'nineMonths',
+      description: 'Nine Months',
       width: 150,
       renderCell: rowData => {
         return (
@@ -567,6 +596,7 @@ export default function ManagedRequestsTable() {
     {
       headerName: 'Notes',
       field: 'notes',
+      description: 'Notes',
       width: 150,
       editable: true,
       textEditor: true,
@@ -575,22 +605,26 @@ export default function ManagedRequestsTable() {
     {
       headerName: 'Last Action',
       field: 'lastAction',
+      description: 'Last Action',
       width: 150,
     },
 
     {
       headerName: 'AMI',
       field: 'ami',
+      description: 'Average Monthly Income',
       width: 150,
     },
     {
-      headerName: 'Unemployed 90+ Days?',
+      headerName: 'Unemployed 90+ Days',
       field: 'unEmp90',
+      description: 'Unemployed 90+ Days',
       width: 150,
     },
     {
       headerName: 'BIPOC',
       field: 'poc',
+      description: 'Black, Indigenous, and Persons Of Color',
       width: 150,
     },
     {
@@ -614,22 +648,23 @@ export default function ManagedRequestsTable() {
 
     {
       headerName: 'LN',
-      description: 'LN',
+      description: 'Landlord Name',
       field: 'landlordName',
       width: 200,
     },
     {
       headerName: 'Request Status',
+      description: 'Request Status',
       field: 'requestStatus',
       width: 200,
 
       lookup: {
         received: 'Received',
-        inReview: 'inReview',
-        documentsNeeded: 'documentsNeeded',
-        verifyingDocuments: 'verifyingDocuments',
-        notResponding: 'notResponding',
-        readyForReview: 'readyForReview',
+        inReview: 'In Review',
+        documentsNeeded: 'Documents Needed',
+        verifyingDocuments: 'Verifying Documents',
+        notResponding: 'Not Responding',
+        readyForReview: 'Ready For Review',
         approved: 'Approved',
         denied: 'Denied',
         landlorddenied: 'Landlord Denied',
@@ -638,13 +673,15 @@ export default function ManagedRequestsTable() {
 
     {
       headerName: 'Date of Request',
+      description: 'Date of Request',
       field: 'requestDate',
       type: 'date',
       width: 150,
       renderCell: rowData => <p>{formatDate(rowData.row.requestDate)}</p>,
     },
     {
-      headerName: 'Big Table Candidate?',
+      headerName: 'Big Table Candidate',
+      description: 'Big Table Candidate',
       field: 'foodWrkr',
       width: 150,
     },
