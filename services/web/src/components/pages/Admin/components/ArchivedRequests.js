@@ -93,7 +93,7 @@ export default function RequestsTable() {
         readyForReview: 'Ready For Review',
         approved: 'Approved',
         denied: 'Denied',
-        landlordDenied: 'Landlord Denied',
+        landlorddenied: 'Landlord Denied',
       },
     },
 

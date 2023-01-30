@@ -106,9 +106,6 @@ const ChangeStatusDropdown = ({ request, setRequest }) => {
       <Menu.Item key="readyForReview" icon={<UserOutlined />}>
         Ready for Review
       </Menu.Item>
-      <Menu.Item key="landlordDenied" icon={<UserOutlined />}>
-        Landlord Denied
-      </Menu.Item>
     </Menu>
   );
 
