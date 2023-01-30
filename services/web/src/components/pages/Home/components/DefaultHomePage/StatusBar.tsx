@@ -33,8 +33,6 @@ const StatusBar = ({ request }) => {
         return 2;
       case 'denied':
         return 2;
-      case 'landlordDenied':
-        return 2;
       default:
         return null;
     }

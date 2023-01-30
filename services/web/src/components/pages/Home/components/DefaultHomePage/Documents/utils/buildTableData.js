@@ -52,7 +52,7 @@ export default function builtTableData(statuses) {
     {
       key: 'housingInstability',
       category: 'housingInstability',
-      title: 'Proof of Rent and Utilities Owed',
+      title: 'Proof of Rent Owed',
       blurb:
         'One or more individuals in the household must demonstrate a risk of experiencing homelessness or currently experiencing housing instability. This must be documented and may include: A past due utility notice or eviction notice, or Statement from the landlord that verifies the household’s housing instability (currently late on rent and/or has rental arrears).',
       status: statuses.housingInstability
