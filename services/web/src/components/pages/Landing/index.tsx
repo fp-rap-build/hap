@@ -27,19 +27,11 @@ export default function Index() {
         <div className={styles.contentContainer}>
           <h1>Are you in need of Housing Assistance?</h1>
 
-          <h2 style={{ color: 'red' }}>
-            Rental Assistance Funds Have been Exhausted
-          </h2>
+          <h2>Check your eligibility by following the link below</h2>
 
-          <button
-            onClick={() =>
-              openInNewTab(
-                'https://my.spokanecity.org/covid19/resident-assistance/'
-              )
-            }
-          >
-            Check Rental Assistance Funds Status
-          </button>
+          <Button onClick={() => history.push('/applyv2')}>
+            Check Eligibility and Apply
+          </Button>
           {/*<Button onClick={() => history.push('/applyv2')}>*/}
           {/*  Click here for status updates from Spokane City*/}
           {/*</Button>*/}
