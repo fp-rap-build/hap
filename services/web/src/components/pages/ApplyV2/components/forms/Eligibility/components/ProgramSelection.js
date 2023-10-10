@@ -76,11 +76,7 @@ const ProgramSelection = ({ formValues, setCurrentContent }) => {
           </Col>
           <Col span={1} />
           <Col span={8}>
-            <Button
-              type="primary"
-              disabled={!availablePrograms.FP}
-              onClick={() => setCurrentContent('createAccount')}
-            >
+            <Button href={OTHER} target="_blank" type="primary">
               {availablePrograms.FP ? 'Apply Now' : 'Not Available'}
             </Button>
           </Col>
