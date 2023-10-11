@@ -77,7 +77,7 @@ const ProgramSelection = ({ formValues, setCurrentContent }) => {
           <Col span={1} />
           <Col span={8}>
             <Button href={OTHER} target="_blank" type="primary">
-              {availablePrograms.FP ? 'Apply Now' : 'Not Available'}
+              {availablePrograms.FP ? 'More Info' : 'Not Available'}
             </Button>
           </Col>
         </Row>
