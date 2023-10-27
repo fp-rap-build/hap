@@ -31,7 +31,7 @@
     "@okta/okta-sdk-nodejs": "^4.4.0",
     "@sendgrid/mail": "^7.4.2",
     "aws-sdk": "^2.858.0",
-    "axios": "^0.21.1",
+    "axios": "^1.6.0",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
